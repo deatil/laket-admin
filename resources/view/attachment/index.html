@@ -1,4 +1,4 @@
-{extend name="layout"/}
+{extend name="$laket_admin_layout"/}
 
 {block name="main"}
 <div class="layui-card">
@@ -16,7 +16,7 @@
                     <a class="layui-btn search_btn" data-type="reload">搜索</a>
                 </div>
                 <div class="layui-inline">
-                    <a class="layui-btn" href="{:url('index')}">查看全部</a>
+                    <a class="layui-btn" href="{:laket_route('admin.attachment.index')}">查看全部</a>
                 </div>
             </form>
         </blockquote>
@@ -29,16 +29,16 @@
 {block name="script"}
 <script type="text/html" id="toolbarTop">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm confirm layui-batch-all" data-href='{:url("delete")}'>批量删除</button>
+        <button class="layui-btn layui-btn-sm confirm layui-batch-all" data-href='{:laket_route("admin.attachment.delete")}'>批量删除</button>
     </div>
 </script>
 
 <script type="text/html" id="barTool">
-    <a href='{:url("delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    <a href='{:laket_route("admin.attachment.delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
 </script>
 
 <script type="text/html" id="pathTpl">
-    <div><a class="layui-btn layui-btn layui-btn-xs layui-iframe" href="{:url('attachments/view')}?id={{ d.id }}" title="附件详情">{{d.name}}</a></div>
+    <div><a class="layui-btn layui-btn layui-btn-xs layui-iframe" href="{:laket_route('admin.attachment.view')}?id={{ d.id }}" title="附件详情">{{d.name}}</a></div>
 </script>
 
 <script type="text/html" id="createTimeTpl">
@@ -69,7 +69,8 @@ layui.use(['table', 'laydate'], function() {
     table.render({
         elem: '#dataTable',
         toolbar: '#toolbarTop',
-        url: '{:url("attachments/index")}',
+        url: '{:laket_route("admin.attachment.index")}',
+        method: 'post',
         cols: [
             [
                 { type: 'checkbox', fixed: 'left' },

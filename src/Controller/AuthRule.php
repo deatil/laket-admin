@@ -5,7 +5,6 @@ declare (strict_types = 1);
 namespace Laket\Admin\Controller;
 
 use Laket\Admin\Support\Tree;
-use Laket\Admin\Facade\Module as ModuleFacade;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
 
 /**
@@ -14,18 +13,14 @@ use Laket\Admin\Model\AuthRule as AuthRuleModel;
  * @create 2021-3-18
  * @author deatil
  */
-class Menu extends Base
+class AuthRule extends Base
 {
-    
     /**
-     * 后台菜单首页
-     *
-     * @create 2019-7-30
-     * @author deatil
+     * 首页
      */
     public function index()
     {
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
 
             $result = AuthRuleModel::order([
                     'listorder' => 'ASC', 
@@ -45,17 +40,13 @@ class Menu extends Base
                 "data" => $menus
             ];
             return $this->json($result);
+        } else {
+            return $this->fetch('laket-admin::auth-rule.index');
         }
-        
-        return $this->fetch();
-
     }
 
     /**
      * 全部
-     *
-     * @create 2019-7-30
-     * @author deatil
      */
     public function all()
     {
@@ -73,7 +64,7 @@ class Menu extends Base
             
             $data = AuthRuleModel::where($map)
                 ->page($page, $limit)
-                ->order('module ASC, name ASC, title ASC, id ASC')
+                ->order('url ASC, title ASC, id ASC')
                 ->select()
                 ->toArray();
             $total = AuthRuleModel::where($map)->count();
@@ -85,31 +76,22 @@ class Menu extends Base
             ];
             return $this->json($result);
         } else {
-            return $this->fetch();
+            return $this->fetch('laket-admin::auth-rule.all');
         }
     }
 
     /**
      * 添加
-     *
-     * @create 2019-7-30
-     * @author deatil
      */
     public function add()
     {
         if ($this->request->isPost()) {
             $data = $this->request->param();
             
-            if (!isset($data['is_menu'])) {
-                $data['is_menu'] = 0;
+            if (!isset($data['menu_show'])) {
+                $data['menu_show'] = 0;
             } else {
-                $data['is_menu'] = 1;
-            }
-            
-            if (!isset($data['is_need_auth'])) {
-                $data['is_need_auth'] = 0;
-            } else {
-                $data['is_need_auth'] = 1;
+                $data['menu_show'] = 1;
             }
             
             if (!isset($data['status'])) {
@@ -118,25 +100,18 @@ class Menu extends Base
                 $data['status'] = 1;
             }
 
-            $result = $this->validate($data, 'Lake\\Admin\\Validate\\AuthRule.insert');
+            $result = $this->validate($data, 'Laket\\Admin\\Validate\\AuthRule.insert');
             if (true !== $result) {
                 return $this->error($result);
-            }
-            
-            if (!empty($data['name'])) {
-                $names = explode('/', $data['name']);
-                if (count($names) < 3) {
-                    $this->error(__('后台菜单格式错误！'));
-                }
             }
             
             $res = AuthRuleModel::create($data);
             
             if ($res === false) {
-                $this->error(__('添加失败！'));
+                $this->error('添加失败！');
             }
             
-            $this->success(__("添加成功！"));
+            $this->success("添加成功！");
         } else {
             $parentid = $this->request->param('parentid/s', '');
             
@@ -152,19 +127,12 @@ class Menu extends Base
             $this->assign("parentid", $parentid);
             $this->assign("menus", $menus);
             
-            // 模块列表
-            $modules = ModuleFacade::getAll();
-            $this->assign("modules", $modules);
-            
-            return $this->fetch();
+            return $this->fetch('laket-admin::auth-rule.add');
         }
     }
 
     /**
      * 编辑后台菜单
-     *
-     * @create 2019-7-30
-     * @author deatil
      */
     public function edit()
     {
@@ -175,23 +143,13 @@ class Menu extends Base
                 "id" => $data['id'],
             ])->find();
             if (empty($rs)) {
-                $this->error(__('权限菜单不存在！'));
+                $this->error('权限菜单不存在！');
             }
             
-            if ($rs['is_system'] == 1) {
-                $this->error(__('系统权限菜单不能进行编辑！'));
-            }
-            
-            if (!isset($data['is_menu'])) {
-                $data['is_menu'] = 0;
+            if (!isset($data['menu_show'])) {
+                $data['menu_show'] = 0;
             } else {
-                $data['is_menu'] = 1;
-            }
-            
-            if (!isset($data['is_need_auth'])) {
-                $data['is_need_auth'] = 0;
-            } else {
-                $data['is_need_auth'] = 1;
+                $data['menu_show'] = 1;
             }
             
             if (!isset($data['status'])) {
@@ -200,35 +158,23 @@ class Menu extends Base
                 $data['status'] = 1;
             }
             
-            $result = $this->validate($data, 'Lake\\Admin\\Validate\\AuthRule.update');
+            $result = $this->validate($data, 'Laket\\Admin\\Validate\\AuthRule.update');
             if (true !== $result) {
                 return $this->error($result);
             }
             
-            if (!empty($data['name'])) {
-                $names = explode('/', $data['name']);
-                if (count($names) < 3) {
-                    $this->error(__('后台菜单格式错误！'));
-                }
-            }
-            
-            $res = AuthRuleModel::update($data);
-            
+            $res = AuthRuleModel::where(['id' => $data['id']])->update($data);
             if ($res === false) {
-                $this->error(__('编辑失败！'));
+                $this->error('编辑失败！');
             }
             
-            $this->success(__("编辑成功！"));
+            $this->success("编辑成功！");
         } else {
             $id = $this->request->param('id/s', '');
             
             $data = AuthRuleModel::where(["id" => $id])->find();
             if (empty($data)) {
-                $this->error(__('菜单不存在！'));
-            }
-            
-            if ($data['is_system'] == 1) {
-                $this->error(__('系统权限菜单不能进行编辑！'));
+                $this->error('菜单不存在！');
             }
             
             $ruleList = AuthRuleModel::order([
@@ -257,177 +203,109 @@ class Menu extends Base
             $this->assign("parentid", $data['parentid']);
             $this->assign("menus", $menus);
             
-            // 模块列表
-            $modules = ModuleFacade::getAll();
-            $this->assign("modules", $modules);
-            
-            return $this->fetch();
+            return $this->fetch('laket-admin::auth-rule.edit');
         }
 
     }
 
     /**
      * 菜单删除
-     *
-     * @create 2019-7-30
-     * @author deatil
      */
     public function delete()
     {
-        if (!$this->request->isPost()) {
-            $this->error(__('请求错误！'));
-        }
-        
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error(__('ID错误！'));
+            $this->error('ID错误！');
         }
         
         $rs = AuthRuleModel::where(["id" => $id])->find();
         if (empty($rs)) {
-            $this->error(__('权限菜单不存在！'));
-        }
-        
-        if ($rs['is_system'] == 1) {
-            $this->error(__('系统权限菜单不能删除！'));
+            $this->error('权限菜单不存在！');
         }
         
         $result = AuthRuleModel::where(["parentid" => $id])->find();
         if (!empty($result)) {
-            $this->error(__("含有子菜单，无法删除！"));
+            $this->error("含有子菜单，无法删除！");
         }
         
-        $res = AuthRuleModel::destroy($id);
-        
+        $res = AuthRuleModel::where(["id" => $id])->delete();
         if ($res === false) {
-            $this->error(__("删除失败！"));
+            $this->error("删除失败！");
         }
         
-        $this->success(__("删除成功！"));
+        $this->success("删除成功！");
     }
 
     /**
      * 菜单排序
-     *
-     * @create 2019-7-30
-     * @author deatil
      */
     public function listorder()
     {
-        if (!$this->request->isPost()) {
-            $this->error(__('请求错误！'));
-        }
-        
         $id = $this->request->param('id/s', 0);
         if (empty($id)) {
-            $this->error(__('参数不能为空！'));
+            $this->error('参数不能为空！');
         }
         
         $listorder = $this->request->param('value/d', 100);
         
-        $rs = AuthRuleModel::update([
+        $rs = AuthRuleModel::where([
+            'id' => $id,
+        ])->update([
             'listorder' => $listorder,
-        ], [
-            'id' => $id,
         ]);
         if ($rs === false) {
-            $this->error(__("菜单排序失败！"));
+            $this->error("菜单排序失败！");
         }
         
-        $this->success(__("菜单排序成功！"));
-    }
-
-    /**
-     * 菜单权限验证状态
-     *
-     * @create 2019-7-30
-     * @author deatil
-     */
-    public function setauth()
-    {
-        if (!$this->request->isPost()) {
-            $this->error(__('请求错误！'));
-        }
-        
-        $id = $this->request->param('id/s');
-        if (empty($id)) {
-            $this->error(__('参数不能为空！'));
-        }
-        
-        $status = $this->request->param('status/d', 0);
-        
-        $rs = AuthRuleModel::update([
-            'is_need_auth' => $status,
-        ], [
-            'id' => $id,
-        ]);
-        if ($rs === false) {
-            $this->error(__('操作失败！'));
-        }
-        
-        $this->success(__('操作成功！'));
+        $this->success("菜单排序成功！");
     }
 
     /**
      * 菜单显示状态
-     *
-     * @create 2019-7-30
-     * @author deatil
      */
     public function setmenu()
     {
-        if (!$this->request->isPost()) {
-            $this->error(__('请求错误！'));
-        }
-        
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error(__('参数不能为空！'));
+            $this->error('参数不能为空！');
         }
         
         $status = $this->request->param('status/d', 0);
         
-        $rs = AuthRuleModel::update([
-            'is_menu' => $status,
-        ], [
+        $rs = AuthRuleModel::where([
             'id' => $id,
+        ])->update([
+            'menu_show' => $status,
         ]);
         if ($rs === false) {
-            $this->error(__('操作失败！'));
+            $this->error('操作失败！');
         }
         
-        $this->success(__('操作成功！'));
+        $this->success('操作成功！');
     }
 
     /**
      * 菜单状态
-     *
-     * @create 2019-7-30
-     * @author deatil
      */
     public function setstate()
     {
-        if (!$this->request->isPost()) {
-            $this->error(__('请求错误！'));
-        }
-        
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error(__('参数不能为空！'));
+            $this->error('参数不能为空！');
         }
         
         $status = $this->request->param('status/d', 0);
         
-        $rs = AuthRuleModel::update([
-            'status' => $status,
-        ], [
+        $rs = AuthRuleModel::where([
             'id' => $id,
+        ])->update([
+            'status' => $status,
         ]);
         if ($rs === false) {
-            $this->error(__('操作失败！'));
+            $this->error('操作失败！');
         }
         
-        $this->success(__('操作成功！'));
+        $this->success('操作成功！');
     }
 
 }

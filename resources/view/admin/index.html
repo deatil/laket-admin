@@ -1,4 +1,4 @@
-{extend name="layout"/}
+{extend name="$laket_admin_layout"/}
 
 {block name="main"}
 <div class="layui-card">
@@ -21,7 +21,7 @@
                     <a class="layui-btn lake-admin-search-btn" data-type="search">搜索</a>
                 </div>
                 <div class="layui-inline">
-                    <a class="layui-btn" href="{:url('index')}">查看全部</a>
+                    <a class="layui-btn" href="{:laket_route('admin.admin.index')}">查看全部</a>
                 </div>
             </form>
         </blockquote>
@@ -36,12 +36,12 @@
 {block name="script"}
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <a class="layui-btn layui-btn-sm layui-iframe" title="添加管理员" href="{:url('add')}">添加管理员</a>
+        <a class="layui-btn layui-btn-sm layui-iframe" title="添加管理员" href="{:laket_route('admin.admin.add')}">添加管理员</a>
     </div>
 </script>
 
 <script type="text/html" id="usernameTpl">
-    <a class="text-green layui-iframe" title="管理员详情" href="{:url('view')}?id={{ d.id }}">{{ d.username }}</a>
+    <a class="text-green layui-iframe" title="管理员详情" href="{:laket_route('admin.admin.view')}?id={{ d.id }}">{{ d.name }}</a>
 </script>
 
 <script type="text/html" id="groupsTpl">
@@ -61,13 +61,14 @@
 </script>
 
 <script type="text/html" id="barTool">
-    {{#  if(d.id == 1){ }}
-        <a href='{:url("password")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员密码">密码</a>
-        <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员编辑">编辑</a>
+    {{#  if(d.id == "{:config('laket.password.super_id')}"){ }}
+        <a href='{:laket_route("admin.admin.password")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员密码">密码</a>
+        <a href='{:laket_route("admin.admin.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员编辑">编辑</a>
     {{#  } else { }}
-        <a href='{:url("password")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员密码">密码</a>
-        <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员编辑">编辑</a>
-        <a href='{:url("del")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+        <a href='{:laket_route("admin.admin.password")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员密码">密码</a>
+        <a href='{:laket_route("admin.admin.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员编辑">编辑</a>
+        <a href='{:laket_route("admin.admin.access")}?id={{ d.id }}' class="layui-btn layui-btn-normal layui-btn-xs layui-iframe" title="管理员授权">授权</a>
+        <a href='{:laket_route("admin.admin.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
     {{#  } }}
 </script>
 
@@ -78,17 +79,17 @@ layui.use('table', function() {
     table.render({
         elem: '#table',
         toolbar: '#toolbarDemo',
-        url: '{:url("index")}',
+        url: '{:laket_route("admin.admin.index")}',
+        method: 'post',
         cols: [
             [
-                { field: 'id', align: 'center', width: 80, title: '#'},
-                { field: 'username', width: 120, title: '登录名', templet: '#usernameTpl' },
+                { field: 'name', width: 120, title: '登录名', templet: '#usernameTpl' },
                 { field: 'email',width: 200, title: 'E-mail' },
                 { field: 'nickname', title: '昵称' },
                 { field: 'groups', width: 150, title: '所属角色', templet: '#groupsTpl'},
                 { field: 'last_login_time', width: 170, title: '最后登录时间' },
                 { field: 'status', title: '状态', width: 80, templet: '#statusTpl' },
-                { title: '操作', width: 160, toolbar: '#barTool' },
+                { title: '操作', width: 220, toolbar: '#barTool' },
             ]
         ],
         page: {},

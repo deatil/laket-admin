@@ -1,16 +1,17 @@
-{extend name="layout"/}
+{extend name="$laket_admin_layout"/}
 
 {block name="main"}
 <div class="layui-card">
-    <div class="layui-card-header layui-bg-cyan">添加角色</div>
+    <div class="layui-card-header layui-bg-cyan">编辑角色</div>
     <div class="layui-card-body">
-        <form class="layui-form" action="{:url('write')}" method="post">
+        <form class="layui-form" action="{:laket_route('admin.auth-group.update')}" method="post">
+            <input type="hidden" name="id" value="{$auth_group.id}" />
             <div class="layui-form-item">
                 <label class="layui-form-label">父级</label>
                 <div class="layui-input-block w300">
                     <select name="parentid">
                         {volist name="group_data" id="vo"}
-                            <option value="{$vo.id}">{:htmlspecialchars_decode($vo['spacer'])} {$vo.title}</option>
+                            <option value="{$vo.id}" {if $vo['id'] == $auth_group['parentid']}selected="selected"{/if}>{:htmlspecialchars_decode($vo['spacer'])} {$vo.title}</option>
                         {/volist}
                     </select>
                 </div>

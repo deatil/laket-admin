@@ -69,7 +69,7 @@ class Service extends BaseService
     }
     
     /**
-     * 局配置
+     * 全局配置
      */
     protected function registerGlobalConfig() 
     {
@@ -171,6 +171,9 @@ class Service extends BaseService
      */
     public function bootEvent()
     {
-        Event::listen(AdminEvent\MainUrl::class, AdminListener\MainUrl::class);
+        Event::listen(
+            AdminEvent\MainUrl::class, 
+            AdminListener\MainUrl::class
+        );
     }
 }

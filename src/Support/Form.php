@@ -130,7 +130,7 @@ class Form
         }
         $string .= "<div id='file_list_{$name}' class='uploader-list'>";
         if (!empty($value)) {
-            $path = lake_get_file_path($value) ? lake_get_file_path($value) : $static_url . "/admin/img/none.png";
+            $path = laket_attachment_url($value) ? laket_attachment_url($value) : $static_url . "/admin/img/none.png";
             $string .= "<div class='file-item thumbnail'><img data-original='{$path}' src='{$path}' width='100' style='max-height: 100px;'><i class='iconfont icon-delete_fill remove-picture' data-id='{$value}'></i></div>";
         }
         $string .= "</div><input type='hidden' name='{$name}' data-multiple='{$multiple}' data-watermark='{$watermark}' data-thumb='' data-size='{$size}' data-ext='{$ext}' id='{$id}' value='{$value}'><div class='layui-clear'></div><div id='picker_{$name}'>上传单张图片</div>";

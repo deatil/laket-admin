@@ -18,7 +18,7 @@ class File
     public static function byteFormat($bytes)
     {
         $sizeText = [" B", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB"];
-        return round($bytes / pow(1024, ($i = floor(log($bytes, 1024)))), 2) . $sizeText[$i];
+        return round($bytes / pow(1024, ($i = floor(log(floatval($bytes), 1024)))), 2) . $sizeText[$i];
     }
 
     /**

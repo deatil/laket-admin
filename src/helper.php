@@ -54,13 +54,13 @@ if (!function_exists('laket_runhook')) {
     }
 }
 
-if (!function_exists('lake_get_file_name')) {
+if (!function_exists('laket_file_name')) {
     /**
      * 根据附件id获取文件名
      * @param string $id 附件id
      * @return string
      */
-    function lake_get_file_name($id = '')
+    function laket_file_name($id = '')
     {
         $data = Attachment::where([
                 'id' => $id
@@ -71,56 +71,39 @@ if (!function_exists('lake_get_file_name')) {
     }
 }
 
-if (!function_exists('lake_get_file_path')) {
+if (!function_exists('laket_attachment_url')) {
     /**
      * 获取附件路径
      * @param int $id 附件id
      * @return string
      */
-    function lake_get_file_path($id)
+    function laket_attachment_url($id, $domain = false)
     {
         $data = Attachment::where([
                 'id' => $id
             ])
             ->find();
-        $path = $data['path'];
-        return ($path !== false) ? $path : "";
-    }
-}
-
-if (!function_exists('lake_get_attachment_path')) {
-    /**
-     * 获取附件路径
-     * @param int $id 附件id
-     * @return string
-     */
-    function lake_get_attachment_path($id, $domain = false)
-    {
-        $data = Attachment::where([
-                'id' => $id
-            ])
-            ->find();
-        $path = $data['realpath'];
+        $path = $data['uri'];
         return ($path !== false) ? 
             ($domain ? request()->domain() . $path : $path)
             : "";
     }
 }
 
-if (!function_exists('lake_get_attachment_list')) {
+if (!function_exists('laket_attachment_url_list')) {
     /**
      * 获取多附件地址
      * @param string $ids 附件id列表
      * @return 返回附件列表
      */
-    function lake_get_attachment_list($ids, $domain = false) {
+    function laket_attachment_url_list($ids, $domain = false) {
         if ($ids == '') {
             return false;
         }
         
         $id_list = explode(',', $ids);
         foreach ($id_list as $id) {
-            $list[] = lake_get_attachment_path($id, $domain);
+            $list[] = laket_attachment_url($id, $domain);
         }
         return $list;
     }

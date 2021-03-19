@@ -1,4 +1,4 @@
-{extend name="layout"/}
+{extend name="$laket_admin_layout"/}
 
 {block name="main"}
 <div class="layui-card">
@@ -19,7 +19,7 @@
                     <a class="layui-btn lake-admin-search-btn" data-type="search">搜索</a>
                 </div>
                 <div class="layui-inline">
-                    <a class="layui-btn" href="{:url('index')}">查看全部</a>
+                    <a class="layui-btn" href="{:laket_route('admin.auth-group.index')}">查看全部</a>
                 </div>
             </form>
         </blockquote>
@@ -34,7 +34,7 @@
 {block name="script"}
 <script type="text/html" id="toolbarTop">
     <div class="layui-btn-container">
-        <a class="layui-btn layui-btn-sm layui-iframe" href="{:url('create')}" title="添加角色">添加角色</a>
+        <a class="layui-btn layui-btn-sm layui-iframe" href="{:laket_route('admin.auth-group.create')}" title="添加角色">添加角色</a>
     </div>
 </script>
 
@@ -42,8 +42,8 @@
     {{#  if(d.id == 1){ }}
         <a class='layui-btn layui-btn-xs layui-btn-danger layui-btn-disabled'>不可操作</a>
     {{#  } else { }}
-        <a href='{:url("edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑角色">编辑</a>
-        <a href='{:url("delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+        <a href='{:laket_route("admin.auth-group.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑角色">编辑</a>
+        <a href='{:laket_route("admin.auth-group.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
     {{#  } }}
 </script>
 
@@ -55,7 +55,7 @@
     {{#  if(d.id == 1){ }}
         <a class='layui-btn layui-btn-xs layui-btn-danger layui-btn-disabled'>不可操作</a>
     {{#  } else { }}
-        <a class="layui-btn layui-btn-xs layui-iframe" href="{:url('access')}?group_id={{d.id}}" title="访问授权">访问授权</a>
+        <a class="layui-btn layui-btn-xs layui-iframe" href="{:laket_route('admin.auth-group.access')}?group_id={{d.id}}" title="访问授权">访问授权</a>
     {{#  } }}
 </script>
 
@@ -76,7 +76,8 @@ layui.use('table', function() {
     table.render({
         elem: '#table',
         toolbar: '#toolbarTop',
-        url: '{:url("index")}',
+        url: '{:laket_route("admin.auth-group.index")}',
+        method: 'post',
         cols: [
             [
                 { field: 'listorder', align: 'center', width: 70, title: '排序', edit: 'text' },
@@ -87,8 +88,6 @@ layui.use('table', function() {
                 { title: '操作', width: 160, toolbar: '#barTool' }
             ]
         ],
-        page: {},
-        limit: 10,
     });
     
     // 监听单元格编辑
@@ -98,7 +97,7 @@ layui.use('table', function() {
             data = obj.data;
         
         if (field == 'listorder') {
-            $.post('{:url("listorder")}', { 
+            $.post('{:laket_route("admin.auth-group.listorder")}', { 
                 'id': data.id, 
                 'value': value 
             }, function(data) {

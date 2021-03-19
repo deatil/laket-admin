@@ -1,4 +1,4 @@
-{extend name="layout"/}
+{extend name="$laket_admin_layout"/}
 
 {block name="main"}
 <div class="layui-card">
@@ -18,7 +18,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {if in_array($data['ext'], ['png', 'jpg', 'jpeg', 'gif', 'bmp'])}
+                    {if in_array($data['ext'], ['png', 'jpg', 'jpeg', 'gif', 'bmp', 'webp'])}
                     <tr>
                         <td>预览</td>
                         <td>
@@ -37,10 +37,6 @@
                         <td class="break-all">{$data.name}</td>
                     </tr>
                     <tr>
-                        <td>所属模块名</td>
-                        <td class="break-all">{$data.module}</td>
-                    </tr>
-                    <tr>
                         <td>附件关联类型</td>
                         <td>{$data.type}</td>
                     </tr>
@@ -51,16 +47,6 @@
                     <tr>
                         <td>文件路径</td>
                         <td class="break-all">{$data.path}</td>
-                    </tr>
-                    {if in_array($data['ext'], ['png', 'jpg', 'jpeg', 'gif', 'bmp'])}
-                    <tr>
-                        <td>缩略图路径</td>
-                        <td>{$data.thumb}</td>
-                    </tr>
-                    {/if}
-                    <tr>
-                        <td>文件链接</td>
-                        <td>{$data.url}</td>
                     </tr>
                     <tr>
                         <td>文件mime类型</td>

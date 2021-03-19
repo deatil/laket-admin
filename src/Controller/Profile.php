@@ -123,15 +123,15 @@ class Profile extends Base
             $this->error('请确保新密码与旧密码不同');
         }
         
-        if (! AdminFacade::checkPassword($adminInfo['username'], $post['password'])) {
+        if (! AdminFacade::checkPassword($adminInfo['name'], $post['password'])) {
             $this->error('旧密码错误！');
         }
 
         $passwordinfo = AdminFacade::encryptPassword($post['password2']); //对密码进行处理
         
         $data = [];
-        $data['encrypt'] = $passwordinfo['encrypt'];
         $data['password'] = $passwordinfo['password'];
+        $data['password_salt'] = $passwordinfo['encrypt'];
 
         $status = AdminModel::where([
             'id' => $adminInfo['id'],

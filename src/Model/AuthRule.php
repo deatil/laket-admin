@@ -88,11 +88,12 @@ class AuthRule extends ModelBase
             foreach ($data as $a) {
                 $id = $a['id'];
                 $url = $a['url'];
+                $slug = $a['slug'];
                 
                 if (strpos($url, '://') || 0 === strpos($url, '/')) {
                     $url = $url;
                 } else {
-                    $url = (string) url("{$url}");
+                    $url = laket_route($slug);
                 }
                 
                 $array = [

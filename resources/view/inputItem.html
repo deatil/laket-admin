@@ -321,7 +321,7 @@
                     <div id="file_list_{$vo.name}" class="uploader-list">
                         {notempty name="$vo.value"}
                         <div class="file-item thumbnail">
-                            <img data-original="{$vo.value|lake_get_file_path|default='admin/admin/img/none.png'}" src="{$vo.value|lake_get_file_path|default='admin/admin/img/none.png'}" width="100" style="max-height: 100px;">
+                            <img data-original="{$vo.value|laket_attachment_url|default='admin/admin/img/none.png'}" src="{$vo.value|laket_attachment_url|default='admin/admin/img/none.png'}" width="100" style="max-height: 100px;">
                             <i class="iconfont icon-delete_fill remove-picture" data-id="{$vo.value}"></i>
                         </div>
                         {/notempty}
@@ -353,7 +353,7 @@
                         {notempty name="$vo.value"}
                         {volist name="$vo.value|explode=',',###" id="v"}
                         <div class="file-item thumbnail">
-                            <img data-original="{$v|lake_get_file_path}" src="{$v|lake_get_file_path|default='admin/admin/img/none.png'}" width="100" style="max-height: 100px;">
+                            <img data-original="{$v|laket_attachment_url}" src="{$v|laket_attachment_url|default='admin/admin/img/none.png'}" width="100" style="max-height: 100px;">
                             <i class="iconfont icon-delete_fill remove-picture" data-id="{$v}"></i>
                             <i class="iconfont icon-yidong move-picture"></i>
                         </div>
@@ -448,10 +448,10 @@
                           <tbody class="file-box">
                             {notempty name="$vo.value"}
                             <tr class="file-item">
-                              <td>{$vo.value|lake_get_file_name}</td>
+                              <td>{$vo.value|laket_file_name}</td>
                               <td>/</td>
                               <td>/</td>
-                              <td><a href="{$vo.value|lake_get_file_path}" class="layui-btn download-file layui-btn layui-btn-xs">下载</a> <a href="javascript:void(0);" class="layui-btn remove-file layui-btn layui-btn-xs layui-btn-danger">删除</a></td>
+                              <td><a href="{$vo.value|laket_attachment_url}" class="layui-btn download-file layui-btn layui-btn-xs">下载</a> <a href="javascript:void(0);" class="layui-btn remove-file layui-btn layui-btn-xs layui-btn-danger">删除</a></td>
                             </tr>
                             {/notempty}
                           </tbody>
@@ -499,10 +499,10 @@
                             {notempty name="$vo.value"}
                             {volist name="$vo.value|explode=',',###" id="v"}
                             <tr class="file-item">
-                              <td>{$v|lake_get_file_name}</td>
+                              <td>{$v|laket_file_name}</td>
                               <td>/</td>
                               <td>/</td>
-                              <td><a href="{$v|lake_get_file_path}" class="layui-btn download-file layui-btn layui-btn-xs">下载</a> <a href="javascript:void(0);" class="layui-btn remove-file layui-btn layui-btn-xs layui-btn-danger" data-id="{$v}">删除</a></td>
+                              <td><a href="{$v|laket_attachment_url}" class="layui-btn download-file layui-btn layui-btn-xs">下载</a> <a href="javascript:void(0);" class="layui-btn remove-file layui-btn layui-btn-xs layui-btn-danger" data-id="{$v}">删除</a></td>
                             </tr>
                             {/volist}
                             {/notempty}

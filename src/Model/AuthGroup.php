@@ -32,9 +32,6 @@ class AuthGroup extends ModelBase
     
     /**
      * 组的规则授权
-     *
-     * @create 2020-8-19
-     * @author deatil
      */
     public function ruleAccess()
     {
@@ -43,9 +40,6 @@ class AuthGroup extends ModelBase
     
     /**
      * 组的权限列表
-     *
-     * @create 2020-8-19
-     * @author deatil
      */
     public function rules()
     {
@@ -54,9 +48,6 @@ class AuthGroup extends ModelBase
     
     /**
      * 组的分组授权
-     *
-     * @create 2020-8-19
-     * @author deatil
      */
     public function groupAccess()
     {
@@ -65,9 +56,6 @@ class AuthGroup extends ModelBase
     
     /**
      * 组的管理员列表
-     *
-     * @create 2020-8-19
-     * @author deatil
      */
     public function admins()
     {

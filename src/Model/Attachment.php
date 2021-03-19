@@ -6,6 +6,8 @@ namespace Laket\Admin\Model;
 
 use think\facade\Filesystem;
 
+use Laket\Admin\Support\File;
+
 /**
  * 附件模型
  *
@@ -37,7 +39,7 @@ class Attachment extends ModelBase
 
     public function getSizeAttr($value)
     {
-        return lake_format_bytes($value);
+        return File::byteFormat($value);
     }
 
     public function getUriAttr()
@@ -50,9 +52,14 @@ class Attachment extends ModelBase
         return static::objectPath($this->path, $this->driver);
     }
     
+    public static function deleteFile($path, $disk = '')
+    {
+        return static::filesystem($disk)->delete($path);
+    }
+    
     public static function getFilesystemDefaultDisk()
     {
-        return config('app.upload_disk');
+        return config('laket.upload.disk');
     }
     
     public static function filesystem($disk = '')

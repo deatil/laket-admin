@@ -13,6 +13,10 @@ return [
         'super_id' => env('laket.admin_super_id', 'e92ba0a3f86f4a5693d8487eb8c632b5'),
     ],
     
+    'upload' => [
+        'disk' => env('laket.upload_disk', 'public'),
+    ],
+    
     // 异常页面的模板文件
     'exception_tmpl'   => dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tpl' . DIRECTORY_SEPARATOR . 'exception.tpl',
     
