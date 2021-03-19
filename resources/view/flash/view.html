@@ -1,0 +1,63 @@
+{extend name="$laket_admin_layout"/}
+
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header layui-bg-cyan">闪存详情</div>
+    <div class="layui-card-body">
+        <div class="table-responsive">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="200">
+                    <col>
+                </colgroup>
+          
+                <thead>
+                    <tr>
+                        <td>名称</td>
+                        <td>内容</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>ID</td>
+                        <td>{$data.module}</td>
+                    </tr>
+                    <tr>
+                        <td>名称</td>
+                        <td>{$data.name}</td>
+                    </tr>
+                    <tr>
+                        <td>模块简介</td>
+                        <td>{$data.introduce}</td>
+                    </tr>
+                    <tr>
+                        <td>作者</td>
+                        <td>{:joson_encode($data['author'])}</td>
+                    </tr>
+                    <tr>
+                        <td>版本</td>
+                        <td>{$data.version}</td>
+                    </tr>
+                    <tr>
+                        <td>排序</td>
+                        <td>{$data.listorder}</td>
+                    </tr>
+                    <tr>
+                        <td>安装时间</td>
+                        <td>{:date('Y-m-d H:i:s', $data['install_time'])}</td>
+                    </tr>
+                    <tr>
+                        <td>更新时间</td>
+                        <td>{:date('Y-m-d H:i:s', $data['upgrade_time'])}</td>
+                    </tr>
+                    <tr>
+                        <td>状态</td>
+                        <td>{$data.status == 1 ? '<span class="layui-btn layui-btn-xs">启用</span>' : '<span class="layui-btn layui-btn-grey layui-btn-xs">禁用</span>'}</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{/block}

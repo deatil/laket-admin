@@ -4,7 +4,9 @@ namespace Laket\Admin;
 
 use think\facade\Event;
 
+use Laket\Admin\Flash\Manager;
 use Laket\Admin\Support\Form;
+use Laket\Admin\Support\Loader;
 use Laket\Admin\Support\Password;
 use Laket\Admin\Support\ViewFinder;
 use Laket\Admin\Support\Service as BaseService;
@@ -30,6 +32,18 @@ class Service extends BaseService
      */
     protected $alias = [
         'HtmlForm' => Form::class,
+    ];
+
+    /**
+     * 路由中间件
+     *
+     * @var array
+     */
+    protected $routeMiddleware = [
+        'laket-admin' => [
+            'laket-admin.auth' => Middleware\AuthCheck::class,
+            'laket-admin.screen-lock' => Middleware\ScreenLockCheck::class,
+        ]
     ];
     
     /**
@@ -113,6 +127,9 @@ class Service extends BaseService
             return $viewFinder;
         });
         
+        // 导入器
+        $this->app->bind('laket-admin.loader', Loader::class);
+        
         // 密码
         $this->app->bind('laket-admin.password', Password::class);
         
@@ -129,6 +146,9 @@ class Service extends BaseService
             
             return $authAdmin;
         });
+        
+        // 闪存
+        $this->app->bind('laket-admin.flash', Manager::class);
     }
     
     /**
@@ -138,9 +158,7 @@ class Service extends BaseService
      */
     public function bootView()
     {
-        $viewPath = __DIR__ . '/../resources/view';
-        
-        app('laket-admin.view-finder')->addNamespace('laket-admin', $viewPath);
+        $this->loadViewsFrom(__DIR__ . '/../resources/view', 'laket-admin');
     }
     
     /**
@@ -162,6 +180,16 @@ class Service extends BaseService
     public function bootMiddleware()
     {
         $this->app->middleware->add(Middleware\ExceptionHandler::class);
+    
+        // 配置路由中间件
+        $middleware = config('laket.middleware', []);
+        foreach ($this->routeMiddleware as $key => $routeMiddleware) {
+            $middleware['alias'][$key] = $routeMiddleware;
+        }
+        
+        config([
+            'middleware' => $middleware,
+        ], 'laket');
     }
     
     /**

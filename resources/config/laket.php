@@ -13,6 +13,20 @@ return [
         'super_id' => env('laket.admin_super_id', 'e92ba0a3f86f4a5693d8487eb8c632b5'),
     ],
     
+    'route' => [
+        'group' => env('laket.route_group', 'admin'),
+        'middleware' => env('laket.route_middleware', 'larke-admin'),
+    ],
+    
+    'auth' => [
+        'authenticate_excepts' => ($authenticateExceptsEnv = env('laket.auth_authenticate_excepts', '')) ? explode(',', $authenticateExceptsEnv) : [],
+        'permission_excepts' => ($permissionExceptsEnv = env('laket.auth_permission_excepts', 'public')) ? explode(',', $permissionExceptsEnv) : [],
+    ],
+    
+    'flash' => [
+        'directory' => env('laket.flash_directory', 'flash'),
+    ],
+    
     'upload' => [
         'disk' => env('laket.upload_disk', 'public'),
     ],

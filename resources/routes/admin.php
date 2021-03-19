@@ -3,10 +3,8 @@
 use think\facade\Route;
 
 use Laket\Admin\Controller;
-use Laket\Admin\Middleware\AuthCheck as AuthCheckMiddleware;
-use Laket\Admin\Middleware\ScreenLockCheck as ScreenLockCheckMiddleware;
 
-Route::group('admin', function() {
+Route::group(config('laket.route.group'), function() {
     // 登陆
     Route::get('passport/captcha', Controller\Passport::class . '@captcha')->name('admin.passport.captcha');
     Route::get('passport/login', Controller\Passport::class . '@getLogin')->name('admin.passport.login');
@@ -72,7 +70,18 @@ Route::group('admin', function() {
     Route::post('auth-rule/listorder', Controller\AuthRule::class . '@listorder')->name('admin.auth-rule.listorder');
     Route::post('auth-rule/setmenu', Controller\AuthRule::class . '@setmenu')->name('admin.auth-rule.setmenu');
     Route::post('auth-rule/setstate', Controller\AuthRule::class . '@setstate')->name('admin.auth-rule.setstate');
-})->middleware([
-    AuthCheckMiddleware::class,
-    ScreenLockCheckMiddleware::class,
-]);
+
+    // 闪存
+    Route::get('flash/index', Controller\Flash::class . '@index')->name('admin.flash.index');
+    Route::post('flash/index', Controller\Flash::class . '@index')->name('admin.flash.index-post');
+    Route::get('flash/local', Controller\Flash::class . '@local')->name('admin.flash.local');
+    Route::post('flash/refresh', Controller\Flash::class . '@refreshLocal')->name('admin.flash.refresh');
+    Route::post('flash/install', Controller\Flash::class . '@install')->name('admin.flash.install');
+    Route::post('flash/uninstall', Controller\Flash::class . '@uninstall')->name('admin.flash.uninstall');
+    Route::post('flash/upgrade', Controller\Flash::class . '@upgrade')->name('admin.flash.upgrade');
+    Route::get('flash/view', Controller\Flash::class . '@view')->name('admin.flash.view');
+    Route::post('flash/enable', Controller\Flash::class . '@enable')->name('admin.flash.enable');
+    Route::post('flash/disable', Controller\Flash::class . '@disable')->name('admin.flash.disable');
+    Route::post('flash/listorder', Controller\Flash::class . '@listorder')->name('admin.flash.listorder');
+})
+->middleware(config('laket.middleware.alias.laket-admin', []));

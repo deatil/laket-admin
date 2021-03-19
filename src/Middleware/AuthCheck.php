@@ -68,12 +68,12 @@ class AuthCheck
     protected function checkAdminRuleAuth()
     {
         // 过滤不需要登陆的行为
-        $allowUrl = [
+        $allowUrl = array_merge([
             'get:admin.passport.captcha',
             'get:admin.passport.login',
             'post:admin.passport.login-save',
             'delete:admin.passport.logout',
-        ];
+        ], config('larket.auth.permission_excepts', []));
         
         $requestMethod = request()->rule()->getMethod();
         $requestName = request()->rule()->getName();
@@ -99,7 +99,7 @@ class AuthCheck
             }
             
             // 检测访问权限
-            if (! $this->checkRule($rule)) {
+            if (! $this->checkPermission($rule)) {
                 $this->error('未授权访问!');
             }
         }
@@ -151,9 +151,15 @@ class AuthCheck
      */
     final private function checkPermission($rule)
     {
-        if (!Admin::checkPermission($rule)) {
+        $allowUrl = array_merge([], config('larket.auth.permission_excepts', []));
+        if (in_array($rule, $allowUrl)) {
+            return true;
+        }
+        
+        if (! Admin::checkPermission($rule)) {
             return false;
         }
+        
         return true;
     }
 }

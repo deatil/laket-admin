@@ -23,8 +23,6 @@ class ExceptionHandler
     /** @var App */
     protected $app;
     
-    protected $loginUrl = '';
-    
     public function __construct(App $app)
     {
         $this->app  = $app;
