@@ -2,7 +2,7 @@
 
 namespace Laket\Admin\Model;
 
-use Laket\Admin\Facade\Admin;
+use Laket\Admin\Facade\Admin as AuthAdmin;
 
 /**
  * 权限规则模型
@@ -30,6 +30,12 @@ class AuthRule extends ModelBase
         $model->setAttr('add_ip', request()->ip());
     }
     
+    public static function onBeforeUpdate($model)
+    {
+        $model->setAttr('update_time', time());
+        $model->setAttr('update_ip', request()->ip());
+    }
+
     /**
      * 规则的分组列表
      */
@@ -141,7 +147,7 @@ class AuthRule extends ModelBase
         }
         
         // 是否超级管理员
-        if (Admin::isSuperAdmin()) {
+        if (AuthAdmin::isSuperAdmin()) {
             return $result;
         }
         

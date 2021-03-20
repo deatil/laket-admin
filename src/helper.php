@@ -1,7 +1,10 @@
 <?php
 
 use think\facade\Event;
-use Laket\Admin\Model\Attachment;
+use think\helper\Arr;
+
+use Laket\Admin\Model\Flash as FlashModel;
+use Laket\Admin\Model\Attachment as AttachmentModel;
 
 if (! function_exists('laket_url')) {
     /**
@@ -62,7 +65,7 @@ if (!function_exists('laket_file_name')) {
      */
     function laket_file_name($id = '')
     {
-        $data = Attachment::where([
+        $data = AttachmentModel::where([
                 'id' => $id
             ])
             ->find();
@@ -79,7 +82,7 @@ if (!function_exists('laket_attachment_url')) {
      */
     function laket_attachment_url($id, $domain = false)
     {
-        $data = Attachment::where([
+        $data = AttachmentModel::where([
                 'id' => $id
             ])
             ->find();
@@ -106,5 +109,25 @@ if (!function_exists('laket_attachment_url_list')) {
             $list[] = laket_attachment_url($id, $domain);
         }
         return $list;
+    }
+}
+
+if (! function_exists('laket_flash_setting')) {
+    /**
+     * 闪存插件配置信息
+     */
+    function laket_flash_setting($name, $key = null, $default = null) {
+        $data = FlashModel::where([
+                'name' => $name,
+            ])
+            ->find();
+        
+        $setting = $data['setting_datalist'];
+        
+        if (! empty($key)) {
+            return Arr::get($setting, $key, $default);
+        }
+        
+        return $setting;
     }
 }

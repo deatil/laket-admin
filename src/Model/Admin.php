@@ -32,6 +32,12 @@ class Admin extends ModelBase
         $model->setAttr('add_ip', request()->ip());
     }
     
+    public static function onBeforeUpdate($model)
+    {
+        $model->setAttr('update_time', time());
+        $model->setAttr('update_ip', request()->ip());
+    }
+
     /**
      * 管理员的分组列表
      */

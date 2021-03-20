@@ -25,14 +25,12 @@ class Flash extends ModelBase
     // 时间字段取出后的默认时间格式
     protected $dateFormat = false;
     
-    public static function onBeforeInsert($model)
-    {
-        $id = md5(mt_rand(10000, 99999) . microtime());
-        $model->setAttr('id', $id);
-        
-        $model->setAttr('add_time', time());
-        $model->setAttr('add_ip', request()->ip());
-    }
+    protected $append = [
+        'keywordlist',
+        'authorlist',
+        'settinglist',
+        'setting_datalist',
+    ];
     
     public function getKeywordlistAttr() 
     {
@@ -44,7 +42,7 @@ class Flash extends ModelBase
         return json_decode($value, true);
     }
     
-    public function getAuthorlistAtt() 
+    public function getAuthorlistAttr() 
     {
         $value = $this->authors;
         if (empty($value)) {
@@ -54,14 +52,41 @@ class Flash extends ModelBase
         return json_decode($value, true);
     }
     
-    public function getConfigsAttr() 
+    public function getSettinglistAttr() 
     {
-        $value = $this->config;
+        $value = $this->setting;
         if (empty($value)) {
             return [];
         }
         
         return json_decode($value, true);
+    }
+    
+    public function getSettingDatalistAttr() 
+    {
+        $value = $this->setting_data;
+        if (empty($value)) {
+            return [];
+        }
+        
+        return json_decode($value, true);
+    }
+    
+    public static function onBeforeInsert($model)
+    {
+        $id = md5(mt_rand(10000, 99999) . microtime());
+        $model->setAttr('id', $id);
+        
+        $model->setAttr('install_time', time());
+        
+        $model->setAttr('add_time', time());
+        $model->setAttr('add_ip', request()->ip());
+    }
+    
+    public static function onBeforeUpdate($model)
+    {
+        $model->setAttr('update_time', time());
+        $model->setAttr('update_ip', request()->ip());
     }
     
     /**
@@ -85,23 +110,28 @@ class Flash extends ModelBase
     }
     
     /**
-     * 缓存扩展
+     * 缓存闪存
      *
      * @return void
      */
     public static function getFlashs()
     {
-        $data = self::order('listorder', 'ASC')
-            ->order('install_time', 'ASC')
-            ->select()
-            ->toArray();
-        
-        $newData = [];
-        foreach ($data as $item) {
-            $newData[$item['name']] = $item;
+        $data = Cache::get(md5('larket.model.flashs'));
+        if (! $data) {
+            $installData = self::order('listorder', 'ASC')
+                ->order('install_time', 'ASC')
+                ->select()
+                ->toArray();
+            
+            $data = [];
+            foreach ($installData as $item) {
+                $data[$item['name']] = $item;
+            }
+            
+            Cache::set(md5('larket.model.flashs'), $data, 0);
         }
         
-        return Cache::set(md5('larket.model.flashs'), $newData, 0);
+        return $data;
     }
     
     /**
@@ -109,7 +139,7 @@ class Flash extends ModelBase
      *
      * @return void
      */
-    public function clearCahce()
+    public static function clearCahce()
     {
         Cache::delete(md5('larket.model.flashs'));
     }

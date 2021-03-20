@@ -38,6 +38,24 @@ class Flash extends Base
                 ])
                 ->toArray();
             
+            // 添加icon图标
+            $list['data'] = collect($list['data'])
+                ->each(function($data, $key) {
+                    $icon = '';
+                    if (class_exists($data['bind_service'])) {
+                        app()->register($data['bind_service']);
+                        $newClass = app()->getService($data['bind_service']);
+                        if (isset($newClass->composer)) {
+                            $icon = dirname($newClass->composer) . '/icon.png';
+                        }
+                    }
+                    
+                    $data['icon'] = Flasher::getIcon($icon);
+                    
+                    return $data;
+                })
+                ->toArray();
+            
             return $this->json([
                 "code" => 0, 
                 'msg' => '获取成功！',
@@ -55,15 +73,35 @@ class Flash extends Base
     public function local()
     {
         Flasher::loadFlash();
-        $list = Flasher::getFlashs();
+        $flashs = Flasher::getFlashs();
         
-        $this->assign('list', $list);
+        $installFlashs = FlashModel::getFlashs();
+        $flashs = collect($flashs)->each(function($data, $key) use($installFlashs) {
+            if (isset($installFlashs[$data['name']])) {
+                $data['install'] = $installInfo = $installFlashs[$data['name']];
+                
+                $infoVersion = Arr::get($data, 'version', 0);
+                $installVersion = Arr::get($installInfo, 'version', 0);
+                if (Comparator::greaterThan($infoVersion, $installVersion)) {
+                    $data['upgrade'] = 1;
+                } else {
+                    $data['upgrade'] = 0;
+                }
+            } else {
+                $data['install'] = [];
+                $data['upgrade'] = 0;
+            }
+            
+            return $data;
+        });
+        
+        $this->assign('list', $flashs);
         
         return $this->fetch('laket-admin::flash.local');
     }
     
     /**
-     * 刷新本地扩展
+     * 刷新本地闪存
      */
     public function refreshLocal()
     {
@@ -121,12 +159,13 @@ class Flash extends Base
             'name' => Arr::get($info, 'name'),
             'title' => Arr::get($info, 'title'),
             'description' => Arr::get($info, 'description'),
-            'keywords' => Arr::get($info, 'keywords'),
+            'keywords' => json_encode(Arr::get($info, 'keywords')),
             'homepage' => Arr::get($info, 'homepage'),
             'authors' => json_encode(Arr::get($info, 'authors', [])),
             'version' => Arr::get($info, 'version'),
             'adaptation' => Arr::get($info, 'adaptation'),
             'bind_service' => Arr::get($info, 'bind_service'),
+            'setting' => json_encode(Arr::get($info, 'setting', [])),
         ]);
         if ($flash === false) {
             $this->error('安装失败！');
@@ -223,16 +262,19 @@ class Flash extends Base
             return $this->error('闪存不需要更新！');
         }
         
-        $status = FlashModel::where(['name' => $name])
-            ->upgrade([
+        $status = FlashModel::update([
                 'title' => Arr::get($info, 'title'),
                 'description' => Arr::get($info, 'description'),
-                'keywords' => Arr::get($info, 'keywords'),
+                'keywords' => json_encode(Arr::get($info, 'keywords')),
                 'homepage' => Arr::get($info, 'homepage'),
                 'authors' => json_encode(Arr::get($info, 'authors', [])),
                 'version' => Arr::get($info, 'version'),
                 'adaptation' => Arr::get($info, 'adaptation'),
                 'bind_service' => Arr::get($info, 'bind_service'),
+                'setting' => json_encode(Arr::get($info, 'setting', [])),
+                'upgrade_time' => time(),
+            ], [
+                'name' => $name
             ]);
         if ($status === false) {
             $this->error('更新失败！');
@@ -257,15 +299,120 @@ class Flash extends Base
         }
         
         $data = FlashModel::where([
-                "module" => $name,
+                "name" => $name,
             ])->find();
         if (empty($data)) {
             $this->error('信息不存在！');
         }
         
+        $icon = '';
+        if (class_exists($data['bind_service'])) {
+            app()->register($data['bind_service']);
+            $newClass = app()->getService($data['bind_service']);
+            if (isset($newClass->composer)) {
+                $icon = dirname($newClass->composer) . '/icon.png';
+            }
+        }
+        
+        $data['icon'] = Flasher::getIcon($icon);
+        
         $this->assign("data", $data);
         
         return $this->fetch('laket-admin::flash.view');
+    }
+    
+    /**
+     * 设置
+     */
+    public function setting()
+    {
+        $name = $this->request->param('name/s');
+        if (empty($name)) {
+            $this->error('请选择需要的闪存！');
+        }
+        
+        $info = FlashModel::where([
+                "name" => $name,
+            ])->find();
+        if (empty($info)) {
+            $this->error('信息不存在！');
+        }
+        
+        if ($this->request->isPost()) {
+            $data = $this->request->post('item/a');
+            
+            $settinglist = $info['settinglist'];
+            
+            foreach ($settinglist as $setting) {
+                $name = $setting['name'];
+                $type = $setting['type'];
+                $title = $setting['title'];
+                
+                // 查看是否赋值
+                if (! isset($data[$name])) {
+                    switch ($type) {
+                        // 开关
+                        case 'switch':
+                            $data[$name] = 0;
+                            break;
+                        case 'checkbox':
+                            $data[$name] = '';
+                            break;
+                    }
+                } else {
+                    if (is_array($data[$name])) {
+                        $data[$name] = implode(',', $data[$name]);
+                    }
+                    switch ($type) {
+                        case 'switch':
+                            $data[$name] = 1;
+                            break;
+                    }
+                }
+            }
+            
+            $status = FlashModel::where([
+                'id' => $info['id'],
+            ])->update([
+                'setting_data' => json_encode($data),
+            ]);
+            
+            if ($status === false) {
+                $this->error('设置失败！');
+            }
+            
+            $this->success('设置成功！');
+        } else {
+            $settinglist = $info['settinglist'];
+            $setting_datalist = $info['setting_datalist'];
+            
+            foreach ($settinglist as &$value) {
+                if (isset($setting_datalist[$value['name']])) {
+                    $value['value'] = $setting_datalist[$value['name']];
+                }
+                
+                if (isset($value['type'])) {
+                    if ($value['type'] == 'checkbox') {
+                        $value['value'] = empty($value['value']) ? [] : explode(',', $value['value']);
+                    }
+                    
+                    if ($value['type'] == 'date') {
+                        $value['value'] = empty($value['value']) ? date('Y-m-d') : $value['value'];
+                    }
+                    
+                    if ($value['type'] == 'datetime') {
+                        $value['value'] = empty($value['value']) ? date('Y-m-d H:i:s') : $value['value'];
+                    }
+                }
+            }
+            
+            $this->assign("info", $info);
+            
+            // 通用设置
+            $this->assign("fields", $settinglist);
+            
+            return $this->fetch('laket-admin::flash.setting');
+        }
     }
     
     /**
@@ -279,13 +426,13 @@ class Flash extends Base
         }
         
         $installInfo = FlashModel::where([
-                "module" => $name,
+                "name" => $name,
             ])->find();
         if (empty($installInfo)) {
             $this->error('闪存还没有安装！');
         }
         
-        $name = FlashModel::where([
+        $status = FlashModel::where([
             'name' => $name,
         ])->update([
             'status' => 1,
@@ -314,7 +461,7 @@ class Flash extends Base
         }
         
         $installInfo = FlashModel::where([
-                "module" => $name,
+                "name" => $name,
             ])->find();
         if (empty($installInfo)) {
             $this->error('闪存还没有安装！');

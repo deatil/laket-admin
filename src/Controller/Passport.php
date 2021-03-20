@@ -51,11 +51,11 @@ class Passport extends Base
         
         // 验证数据
         $rule = [
-            'username|用户名' => 'require|alphaDash|length:3,20',
+            'name|用户名' => 'require|alphaDash|length:3,20',
             'password|密码' => 'require|length:32',
         ];
         $message = [
-            'username.require' => '用户名不能为空',
+            'name.require' => '用户名不能为空',
             'password.require' => '密码不能为空',
             'password.length' => '密码错误',
         ];
@@ -64,7 +64,7 @@ class Passport extends Base
             return $this->error($result);
         }
         
-        if (! Admin::login($data['username'], $data['password'])) {
+        if (! Admin::login($data['name'], $data['password'])) {
             $this->error("用户名或者密码错误", laket_route("admin.passport.login"));
         }
         
@@ -105,7 +105,7 @@ class Passport extends Base
         $adminInfo = env('admin_info');
         $password = request()->post('password');
         
-        if (!Admin::checkPassword($adminInfo['username'], $password)) {
+        if (!Admin::checkPassword($adminInfo['name'], $password)) {
             $this->error("密码错误，解除锁定失败");
         }
         

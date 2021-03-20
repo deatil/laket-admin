@@ -48,7 +48,7 @@ class AuthGroup extends Base
     }
 
     /**
-     * 添加管理员角色
+     * 添加管理员用户
      */
     public function create()
     {
@@ -66,7 +66,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 管理员角色数据写入
+     * 管理员用户数据写入
      */
     public function write()
     {
@@ -90,13 +90,13 @@ class AuthGroup extends Base
     }
     
     /**
-     * 编辑管理员角色
+     * 编辑管理员用户
      */
     public function edit()
     {
         $id = $this->request->param('id');
         if (empty($id)) {
-            $this->error('角色组不存在！');
+            $this->error('用户组不存在！');
         }
         
         $authGroup = AuthGroupModel::where([
@@ -104,7 +104,7 @@ class AuthGroup extends Base
             ])
             ->find();
         if (empty($authGroup)) {
-            $this->error('角色组不存在！');
+            $this->error('用户组不存在！');
         }
         
         $Tree = new Tree();
@@ -146,7 +146,7 @@ class AuthGroup extends Base
         }
         
         if (!isset($data['id']) || empty($data['id'])) {
-            $this->error(__('角色组ID不存在！'));
+            $this->error(__('用户组ID不存在！'));
         }
         
         $authGroup = AuthGroupModel::where([
@@ -154,14 +154,13 @@ class AuthGroup extends Base
             ])
             ->find();
         if (empty($authGroup)) {
-            $this->error('角色组不存在！');
+            $this->error('用户组不存在！');
         }
         
         // 更新
-        $r = AuthGroupModel::where([
+        $r = AuthGroupModel::update($data, [
                 'id' => $data['id'],
-            ])
-            ->update($data);
+            ]);
         
         if ($r === false) {
             $this->error('更新失败！');
@@ -171,13 +170,13 @@ class AuthGroup extends Base
     }
     
     /**
-     * 删除管理员角色
+     * 删除管理员用户
      */
     public function delete()
     {
         $groupId = $this->request->param('id');
         if (empty($groupId)) {
-            $this->error('角色组不存在！');
+            $this->error('用户组不存在！');
         }
         
         $authGroup = AuthGroupModel::where([
@@ -185,16 +184,16 @@ class AuthGroup extends Base
             ])
             ->find();
         if (empty($authGroup)) {
-            $this->error('角色组不存在！');
+            $this->error('用户组不存在！');
         }
         
-        // 子角色检测
+        // 子用户检测
         $childGroupCount = AuthGroupModel::where([
                 ['parentid', '=', $groupId],
             ])
             ->count();
         if ($childGroupCount > 0) {
-            $this->error('删除失败，请删除子角色后再删除！');
+            $this->error('删除失败，请删除子用户后再删除！');
         }
         
         $rs = AuthGroupModel::where(['id' => $groupId])->delete();
@@ -218,7 +217,7 @@ class AuthGroup extends Base
         if ($this->request->isPost()) {
             $groupId = $this->request->post('id');
             if (empty($groupId)) {
-                $this->error('角色组不存在！');
+                $this->error('用户组不存在！');
             }
         
             $authGroup = AuthGroupModel::where([
@@ -226,7 +225,7 @@ class AuthGroup extends Base
                 ])
                 ->find();
             if (empty($authGroup)) {
-                $this->error('角色组不存在！');
+                $this->error('用户组不存在！');
             }
             
             $newRules = $this->request->post('rules');
@@ -255,7 +254,7 @@ class AuthGroup extends Base
         } else {
             $groupId = $this->request->param('group_id');
             if (empty($groupId)) {
-                $this->error('角色组ID不能为空！');
+                $this->error('用户组ID不能为空！');
             }
             
             $rules = AuthGroupModel::withJoin(['ruleAccess'])

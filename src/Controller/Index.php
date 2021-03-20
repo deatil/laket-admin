@@ -11,6 +11,7 @@ use think\captcha\Captcha;
 use Laket\Admin\Support\File;
 use Laket\Admin\Event as AdminEvent;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
+use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 /**
@@ -59,8 +60,8 @@ class Index extends Base
         $this->assign('user_info', env('admin_info'));
         
         // 模型数量
-        $moduleCount = 0;
-        $this->assign('module_count', $moduleCount);
+        $flashCount = FlashModel::count();
+        $this->assign('flash_count', $flashCount);
         
         // 附件数量
         $attachmentCount = AttachmentModel::count();

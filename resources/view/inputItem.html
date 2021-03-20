@@ -4,7 +4,7 @@
 
         {case value="hidden"}
             {if $vo.value}
-                <input type="hidden" class="form-control" name="{$vo.fieldArr}[{$vo.name}]"  value="{$vo.value}">
+                <input type="hidden" class="form-control" name="item[{$vo.name}]"  value="{$vo.value}">
             {/if}
         {/case}
 
@@ -17,7 +17,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <input type="password" name="{$vo.fieldArr}[{$vo.name}]" placeholder="请输入{$vo.title}" autocomplete="off" class="layui-input" value="{$vo.value}">
+                <input type="password" name="item[{$vo.name}]" placeholder="请输入{$vo.title}" autocomplete="off" class="layui-input" value="{$vo.value}">
             </div>
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">
@@ -36,7 +36,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <input type="text" name="{$vo.fieldArr}[{$vo.name}]" placeholder="请输入{$vo.title}" autocomplete="off" class="layui-input" value="{$vo.value}">
+                <input type="text" name="item[{$vo.name}]" placeholder="请输入{$vo.title}" autocomplete="off" class="layui-input" value="{$vo.value}">
             </div>
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">
@@ -55,7 +55,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <input type="number" name="{$vo.fieldArr}[{$vo.name}]" placeholder="请输入{$vo.title}" autocomplete="off" class="layui-input" value="{$vo.value}">
+                <input type="number" name="item[{$vo.name}]" placeholder="请输入{$vo.title}" autocomplete="off" class="layui-input" value="{$vo.value}">
             </div>
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">
@@ -74,7 +74,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <input type="checkbox" name="{$vo.fieldArr}[{$vo.name}]" lay-skin="switch" lay-text="ON|OFF" value="{$vo['value']}" {if 1==$vo[ 'value' ]}checked='' {/if}> 
+                <input type="checkbox" name="item[{$vo.name}]" lay-skin="switch" lay-text="ON|OFF" value="{$vo['value']}" {if 1==$vo[ 'value' ]}checked='' {/if}> 
             </div> 
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">
@@ -116,7 +116,7 @@
                         <span class="layui-btn layui-btn-sm layui-btn-primary btn-dragsort"><i class="iconfont icon-yidong"></i></span>
                     </dd>
                 </script>
-                <textarea name="{$vo.fieldArr}[{$vo.name}]" 
+                <textarea name="item[{$vo.name}]" 
                     data-el="#{$vo.name}_con" 
                     data-main="#{$vo.name}_main" 
                     data-template="#{$vo.name}_tpl" 
@@ -140,7 +140,7 @@
             </label>
             <div class="layui-form-field-label">
                 {volist name="vo.options" id="v"}
-                    <input type="checkbox" name="{$vo.fieldArr}[{$vo.name}][]" lay-skin="primary" title="{$v}" value="{$key}" {if in_array($key,$vo[ 'value' ])}checked{/if}>
+                    <input type="checkbox" name="item[{$vo.name}][]" lay-skin="primary" title="{$v}" value="{$key}" {if in_array($key,$vo[ 'value' ])}checked{/if}>
                 {/volist}
             </div>
             {if $vo.remark}
@@ -161,7 +161,7 @@
             </label>
             <div class="layui-form-field-label">
                 {volist name="vo.options" id="v"}
-                    <input type="radio" name="{$vo.fieldArr}[{$vo.name}]" value="{$key}" title="{$v}" {if $key==$vo [ 'value' ]}checked='' {/if}> 
+                    <input type="radio" name="item[{$vo.name}]" value="{$key}" title="{$v}" {if $key==$vo [ 'value' ]}checked='' {/if}> 
                 {/volist} 
             </div> 
             {if $vo.remark}
@@ -181,7 +181,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <select name="{$vo.fieldArr}[{$vo.name}]">
+                <select name="item[{$vo.name}]">
                     <option value=""></option>
                     {volist name="vo.options" id="v"}
                         <option value="{$key}" {if $key==$vo['value']}selected="" {/if}>{$v}</option>
@@ -206,7 +206,7 @@
             </label>
             <div class="layui-form-field-label">
                 <div class="layui-input-inline" style="width: 120px;">
-                    <input type="text" name="{$vo.fieldArr}[{$vo.name}]" value="{$vo.value}" placeholder="请选择颜色" class="layui-input test-form-input-{$vo.name}">
+                    <input type="text" name="item[{$vo.name}]" value="{$vo.value}" placeholder="请选择颜色" class="layui-input test-form-input-{$vo.name}">
                 </div>
                 <div class="layui-inline" style="left: -11px;">
                     <div class="layui-color-box-{$vo.name}"></div>
@@ -241,7 +241,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <input type="text" class="layui-input date-item date-item-{$vo.name}" name="{$vo.fieldArr}[{$vo.name}]" placeholder="请输入{$vo.title}" value="{$vo.value}">
+                <input type="text" class="layui-input date-item date-item-{$vo.name}" name="item[{$vo.name}]" placeholder="请输入{$vo.title}" value="{$vo.value}">
             </div>
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">
@@ -269,7 +269,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <input type="text" class="layui-input datetime-item datetime-item-{$vo.name}" name="{$vo.fieldArr}[{$vo.name}]" placeholder="请输入{$vo.title}" value="{$vo.value}">
+                <input type="text" class="layui-input datetime-item datetime-item-{$vo.name}" name="item[{$vo.name}]" placeholder="请输入{$vo.title}" value="{$vo.value}">
             </div>
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">
@@ -298,7 +298,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <textarea placeholder="请输入{$vo.title}" class="layui-textarea" name="{$vo.fieldArr}[{$vo.name}]">{$vo.value}</textarea>
+                <textarea placeholder="请输入{$vo.title}" class="layui-textarea" name="item[{$vo.name}]">{$vo.value}</textarea>
             </div>
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">
@@ -326,7 +326,7 @@
                         </div>
                         {/notempty}
                     </div>
-                    <input type="hidden" name="{$vo.fieldArr}[{$vo.name}]" data-multiple="false" data-watermark='' data-thumb='' data-size="{:config('app.upload_image_size')}" data-ext="{:config('app.upload_image_ext')}" id="{$vo.name}" value="{$vo.value|default=''}">
+                    <input type="hidden" name="item[{$vo.name}]" data-multiple="false" data-watermark='' data-thumb='' data-size="{:config('app.upload_image_size')}" data-ext="{:config('app.upload_image_ext')}" id="{$vo.name}" value="{$vo.value|default=''}">
                     <div class="layui-clear"></div>
                     <div id="picker_{$vo.name}"><i class="layui-icon layui-icon-upload"></i> 上传单张图片</div>
                 </div>
@@ -360,7 +360,7 @@
                         {/volist}
                         {/notempty}
                     </div>
-                    <input type="hidden" name="{$vo.fieldArr}[{$vo.name}]" data-multiple="true" data-watermark='' data-thumb='' data-size="{:config('app.upload_image_size')}" data-ext="{:config('app.upload_image_ext')}" id="{$vo.name}" value="{$vo.value|default=''}">
+                    <input type="hidden" name="item[{$vo.name}]" data-multiple="true" data-watermark='' data-thumb='' data-size="{:config('app.upload_image_size')}" data-ext="{:config('app.upload_image_ext')}" id="{$vo.name}" value="{$vo.value|default=''}">
                     <div class="layui-clear"></div>
                     <div id="picker_{$vo.name}"><i class="layui-icon layui-icon-upload"></i> 上传多张图片</div>
                 </div>
@@ -382,7 +382,7 @@
                 {/if}
             </label>
             <div class="layui-form-field-label">
-                <input type="text" name="{$vo.fieldArr}[{$vo.name}]" placeholder="请输入{$vo.title}" autocomplete="off" class="layui-input tags-item-{$vo.name}" value="{$vo.value}">
+                <input type="text" name="item[{$vo.name}]" placeholder="请输入{$vo.title}" autocomplete="off" class="layui-input tags-item-{$vo.name}" value="{$vo.value}">
             </div>
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">
@@ -457,7 +457,7 @@
                           </tbody>
                         </table>
                     </div>
-                    <input type="hidden" name="{$vo.fieldArr}[{$vo.name}]" data-multiple="false" data-size="{:config('app.upload_file_size')}" data-ext="{:config('app.upload_file_ext')}" id="{$vo.name}" value="{$vo.value|default=''}">
+                    <input type="hidden" name="item[{$vo.name}]" data-multiple="false" data-size="{:config('app.upload_file_size')}" data-ext="{:config('app.upload_file_ext')}" id="{$vo.name}" value="{$vo.value|default=''}">
                     <div id="picker_{$vo.name}"><i class="layui-icon layui-icon-upload"></i> 上传单个文件</div>
                 </div>
             </div>
@@ -509,31 +509,9 @@
                           </tbody>
                         </table>
                     </div>
-                    <input type="hidden" name="{$vo.fieldArr}[{$vo.name}]" data-multiple="true" data-size="{:config('app.upload_file_size')}" data-ext="{:config('app.upload_file_ext')}" id="{$vo.name}" value="{$vo.value|default=''}">
+                    <input type="hidden" name="item[{$vo.name}]" data-multiple="true" data-size="{:config('app.upload_file_size')}" data-ext="{:config('app.upload_file_ext')}" id="{$vo.name}" value="{$vo.value|default=''}">
                     <div id="picker_{$vo.name}"><i class="layui-icon layui-icon-upload"></i> 上传多个文件</div>
                 </div>
-            </div>
-            {if $vo.remark}
-                <div class="layui-form-mid layui-word-aux">
-                    {$vo.remark|raw}
-                </div>
-            {/if}
-        </div>
-        {/case}
-        
-        {case value="Ueditor"}
-        <div class="layui-form-item layui-form-text">
-            <label class="">
-                {$vo.title} 
-                {if condition="isset($vo.ifrequire) AND $vo.ifrequire"}
-                    &nbsp;<font color="red">*</font>
-                {/if}
-            </label>
-            <div class="layui-form-field-label">
-                <script type="text/plain" class="js-ueditor" id="{$vo.name}" name="{$vo.fieldArr}[{$vo.name}]">{$vo.value|raw}</script>
-            </div>
-            <div style="margin-top: 5px;">
-                <a class="layui-btn layui-btn-sm" id="{$vo.name}grabimg">图片本地化</a>
             </div>
             {if $vo.remark}
                 <div class="layui-form-mid layui-word-aux">

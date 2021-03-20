@@ -30,6 +30,12 @@ class AuthGroup extends ModelBase
         $model->setAttr('add_ip', request()->ip());
     }
     
+    public static function onBeforeUpdate($model)
+    {
+        $model->setAttr('update_time', time());
+        $model->setAttr('update_ip', request()->ip());
+    }
+
     /**
      * 组的规则授权
      */
@@ -81,9 +87,9 @@ class AuthGroup extends ModelBase
     }
 
     /**
-     * 根据角色Id获取角色名
-     * @param int $id 角色id
-     * @return string 返回角色名
+     * 根据用户组Id获取用户组名
+     * @param int $id 用户组id
+     * @return string 返回用户组名
      */
     public static function getGroupName($id)
     {
@@ -93,8 +99,8 @@ class AuthGroup extends ModelBase
     }
 
     /**
-     * 删除角色
-     * @param string $id 角色ID
+     * 删除用户组
+     * @param string $id 用户组ID
      * @return boolean
      */
     public static function deleteGroup($id)
@@ -103,7 +109,7 @@ class AuthGroup extends ModelBase
             return false;
         }
         
-        // 角色信息
+        // 用户组信息
         $info = self::where([
             'id' => $id,
         ])->find();

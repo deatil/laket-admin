@@ -8,6 +8,7 @@ use ReflectionClass;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
+use think\facade\Db;
 use think\facade\Route;
 use think\facade\Cache;
 use think\helper\Arr;
@@ -29,12 +30,12 @@ class Manager
     public $flashs = [];
     
     /**
-     * @var string 本地扩展缓存id
+     * @var string 本地闪存缓存id
      */
     public $flashsCacheId = 'laket-admin-local-flashs';
 
     /**
-     * 添加扩展
+     * 添加闪存
      *
      * @param string $name
      * @param string $class
@@ -53,7 +54,7 @@ class Manager
     }
     
     /**
-     * 获取添加的扩展
+     * 获取添加的闪存
      *
      * @param string $name
      *
@@ -69,7 +70,7 @@ class Manager
     }
     
     /**
-     * 移除添加的扩展
+     * 移除添加的闪存
      *
      * @param string $name
      *
@@ -87,9 +88,9 @@ class Manager
     }
     
     /**
-     * 检测非compoer扩展是否存在
+     * 检测非compoer闪存是否存在
      *
-     * @param string $name 扩展包名
+     * @param string $name 闪存包名
      *
      * @return bool
      */
@@ -105,7 +106,7 @@ class Manager
     }
     
     /**
-     * 设置扩展路由
+     * 设置闪存路由
      *
      * @param $callback
      * 
@@ -114,8 +115,7 @@ class Manager
     public function routes($callback)
     {
         Route::group(config('laket.route.group'), $callback)
-            ->middleware(config('laket.route.middleware'))
-            ->prefix(config('laket.route.prefix'));
+            ->middleware(Arr::get(config('laket.middleware.alias', []), config('laket.route.middleware')));
         
         return $this;
     }
@@ -184,15 +184,28 @@ class Manager
     }
     
     /**
-     * 加载扩展
+     * 加载闪存
      *
      * @return void
      */
     public function bootFlash()
     {
+        // 检测
+        try {
+            Db::query("show databases");
+        } catch(\Exception $e) {
+            return ;
+        }
+        
+        $dbConfig = app()->db->connect()->getConfig();
+        $modelName = $dbConfig['prefix'].'laket_flash';
+        if (! Db::execute("SHOW TABLES LIKE '%{$modelName}%'")) {
+            return ;
+        }
+
         $list = FlashModel::getFlashs();
         $flashDirectory = $this->getFlashPath();
-        
+
         $services = collect($list)->map(function($data) use($flashDirectory) {
             if ($data['status'] != 1) {
                 return null;
@@ -202,7 +215,7 @@ class Manager
                 return null;
             }
             
-            // 扩展绑定类
+            // 闪存绑定类
             if (empty($data['bind_service'])) {
                 return null;
             }
@@ -213,7 +226,7 @@ class Manager
             if (! class_exists($data['bind_service']) 
                 && file_exists($directory)
             ) {
-                // 绑定非composer扩展
+                // 绑定非composer闪存
                 $cacheId = md5(str_replace('\\', '/', $data['name']));
                 
                 $composerData = Cache::get($cacheId);
@@ -250,14 +263,14 @@ class Manager
         })->filter(function($data) {
             return !empty($data);
         })->toArray();
-        
+
         array_walk($services, function ($s) {
             $this->startService($s);
         });
     }
     
     /**
-     * 启动扩展服务
+     * 启动闪存服务
      *
      * @return void
      */
@@ -333,7 +346,7 @@ class Manager
     }
     
     /**
-     * 加载本地扩展
+     * 加载本地闪存
      *
      * @return self
      */
@@ -371,7 +384,7 @@ class Manager
     }
     
     /**
-     * 刷新本地加载扩展
+     * 刷新本地加载闪存
      *
      * @return self
      */
@@ -383,7 +396,7 @@ class Manager
     }
     
     /**
-     * 移除扩展信息缓存
+     * 移除闪存信息缓存
      *
      * @param string $name
      *
@@ -395,11 +408,14 @@ class Manager
         $cacheId = md5(str_replace('\\', '/', $name));
         Cache::delete($cacheId);
         
+        // 清空安装缓存
+        FlashModel::clearCahce();
+        
         return $this;
     }
     
     /**
-     * 扩展存放文件夹
+     * 闪存存放文件夹
      *
      * @param string $path
      *
@@ -411,7 +427,7 @@ class Manager
     }
     
     /**
-     * 扩展存放目录
+     * 闪存存放目录
      *
      * @param string $path
      *
@@ -424,7 +440,7 @@ class Manager
     }
     
     /**
-     * 扩展绑定类
+     * 闪存绑定类
      *
      * @param string|null $name
      *
@@ -493,7 +509,7 @@ class Manager
     }
     
     /**
-     * 扩展的实例化类
+     * 闪存的实例化类
      *
      * @param string|null $name
      *
@@ -507,7 +523,7 @@ class Manager
     }
     
     /**
-     * 扩展信息
+     * 闪存信息
      *
      * @param string|null $name
      *
@@ -530,9 +546,17 @@ class Manager
             $info = [];
         }
         
-        // 扩展icon
+        // 图标
         $iconPath = dirname($newClass->composer) . '/icon.png';
         $icon = $this->getIcon($iconPath);
+        
+        // 设置
+        $settingPath = dirname($newClass->composer) . '/setting.php';
+        if (file_exists($settingPath)) {
+            $setting = include $settingPath;
+        } else {
+            $setting = [];
+        }
         
         return [
             'icon' => $icon,
@@ -545,11 +569,12 @@ class Manager
             'version' => Arr::get($info, 'laket.version'),
             'adaptation' => Arr::get($info, 'laket.adaptation'),
             'bind_service' => Arr::get($this->flashs, $name, ''),
+            'setting' => (array) $setting,
         ];
     }
     
     /**
-     * 全部添加的扩展
+     * 全部添加的闪存
      *
      * @return array
      */
@@ -572,7 +597,7 @@ class Manager
     }
     
     /**
-     * 扩展标识图片
+     * 闪存标识图片
      *
      * @param string|null $icon
      *
@@ -593,7 +618,7 @@ class Manager
     }
     
     /**
-     * 验证扩展信息
+     * 验证闪存信息
      *
      * @param array $info
      *
@@ -623,7 +648,7 @@ class Manager
     }
     
     /**
-     * 获取满足条件的扩展文件夹
+     * 获取满足条件的闪存文件夹
      *
      * @param string|null $dirPath
      *

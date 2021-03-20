@@ -15,7 +15,7 @@ return [
     
     'route' => [
         'group' => env('laket.route_group', 'admin'),
-        'middleware' => env('laket.route_middleware', 'larke-admin'),
+        'middleware' => env('laket.route_middleware', 'laket-admin'),
     ],
     
     'auth' => [
@@ -29,6 +29,18 @@ return [
     
     'upload' => [
         'disk' => env('laket.upload_disk', 'public'),
+    ],
+    
+    'response' => [
+        'json' => [
+            'is_allow_origin' => env('laket.response_json_is_allow_origin', 1),
+            'allow_origin' => env('laket.response_json_allow_origin', '*'),
+            'allow_credentials' => env('laket.response_json_allow_credentials', 0),
+            'allow_methods' => env('laket.response_json_allow_methods', 'GET,POST,PATCH,PUT,DELETE,OPTIONS'),
+            'allow_headers' => env('laket.response_json_allow_headers', 'X-Requested-With,X_Requested_With,Content-Type,Authorization'),
+            'expose_headers' => env('laket.response_json_expose_headers', 'Larke-Admin-Captcha-Id'),
+            'max_age' => env('laket.response_json_max_age', ''),
+        ],
     ],
     
     // 异常页面的模板文件

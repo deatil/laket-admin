@@ -44,6 +44,48 @@ abstract class ModelBase extends Model
     // 数据表废弃字段（数组）
     // protected $disuse = [];
     
+    /**
+     * 数据输出显示的属性
+     * @var array
+     */
+    protected $visible = [];
+
+    /**
+     * 数据输出隐藏的属性
+     * @var array
+     */
+    protected $hidden = [];
+
+    /**
+     * 数据输出需要追加的属性
+     * @var array
+     */
+    protected $append = [];
+
+    /**
+     * 场景
+     * @var array
+     */
+    protected $scene = [];
+
+    /**
+     * 数据输出字段映射
+     * @var array
+     */
+    protected $mapping = [];
+
+    /**
+     * 数据集对象名
+     * @var string
+     */
+    protected $resultSetType;
+
+    /**
+     * 数据命名是否自动转为驼峰
+     * @var bool
+     */
+    protected $convertNameToCamel;
+    
     // 模型初始化
     protected static function init()
     {

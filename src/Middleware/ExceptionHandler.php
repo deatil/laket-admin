@@ -29,7 +29,7 @@ class ExceptionHandler
     }
     
     /**
-     * 行为扩展的执行入口必须是run
+     * 行为闪存的执行入口必须是run
      */
     public function handle($request, Closure $next)
     {

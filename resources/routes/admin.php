@@ -1,14 +1,20 @@
 <?php
 
+use think\helper\Arr;
 use think\facade\Route;
 
 use Laket\Admin\Controller;
 
 Route::group(config('laket.route.group'), function() {
+    // 首页
+    Route::get('index', Controller\Index::class . '@index')->name('admin.index.index');
+    Route::get('main', Controller\Index::class . '@main')->name('admin.index.main');
+    Route::post('clear', Controller\Index::class . '@clear')->name('admin.index.clear');
+    
     // 登陆
     Route::get('passport/captcha', Controller\Passport::class . '@captcha')->name('admin.passport.captcha');
     Route::get('passport/login', Controller\Passport::class . '@getLogin')->name('admin.passport.login');
-    Route::post('passport/login', Controller\Passport::class . '@postLogin')->name('admin.passport.login-save');
+    Route::post('passport/login', Controller\Passport::class . '@postLogin')->name('admin.passport.login-post');
     Route::get('passport/logout', Controller\Passport::class . '@logout')->name('admin.passport.logout');
     Route::post('passport/lockscreen', Controller\Passport::class . '@lockscreen')->name('admin.passport.lockscreen');
     Route::post('passport/unlockscreen', Controller\Passport::class . '@postLogin')->name('admin.passport.unlockscreen');
@@ -18,11 +24,6 @@ Route::group(config('laket.route.group'), function() {
     Route::post('profile/index', Controller\Profile::class . '@postIndex')->name('admin.profile.index-post');
     Route::get('profile/password', Controller\Profile::class . '@getPassword')->name('admin.profile.password');
     Route::post('profile/password', Controller\Profile::class . '@postPassword')->name('admin.profile.password-post');
-
-    // 首页
-    Route::get('index', Controller\Index::class . '@index')->name('admin.index.index');
-    Route::get('main', Controller\Index::class . '@main')->name('admin.index.main');
-    Route::post('clear', Controller\Index::class . '@clear')->name('admin.index.clear');
 
     // 附件
     Route::get('attachment/index', Controller\Attachment::class . '@index')->name('admin.attachment.index');
@@ -83,5 +84,7 @@ Route::group(config('laket.route.group'), function() {
     Route::post('flash/enable', Controller\Flash::class . '@enable')->name('admin.flash.enable');
     Route::post('flash/disable', Controller\Flash::class . '@disable')->name('admin.flash.disable');
     Route::post('flash/listorder', Controller\Flash::class . '@listorder')->name('admin.flash.listorder');
+    Route::get('flash/setting', Controller\Flash::class . '@setting')->name('admin.flash.setting');
+    Route::post('flash/setting', Controller\Flash::class . '@setting')->name('admin.flash.setting-post');
 })
-->middleware(config('laket.middleware.alias.laket-admin', []));
+->middleware(Arr::get(config('laket.middleware.alias', []), config('laket.route.middleware'), []));

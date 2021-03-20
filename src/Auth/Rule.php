@@ -57,7 +57,7 @@ class Rule
         $ids = $this->getGroupRuleidList($gids); //保存用户所属用户组设置的所有权限规则id
         $ids = array_unique($ids);
         if (empty($ids)) {
-            $authCacheList[$uid . $t] = [];
+            $authCacheList[$uid] = [];
             return [];
         }
         

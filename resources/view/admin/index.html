@@ -9,7 +9,7 @@
                 <div class="layui-inline">
                     <select name="field" class="lake-admin-search-field">
                         <option value="">全部类型</option>
-                        <option value="username">登录名</option>
+                        <option value="name">登录名</option>
                         <option value="email">邮箱</option>
                         <option value="nickname">昵称</option>
                     </select>
@@ -40,7 +40,7 @@
     </div>
 </script>
 
-<script type="text/html" id="usernameTpl">
+<script type="text/html" id="nameTpl">
     <a class="text-green layui-iframe" title="管理员详情" href="{:laket_route('admin.admin.view')}?id={{ d.id }}">{{ d.name }}</a>
 </script>
 
@@ -83,10 +83,10 @@ layui.use('table', function() {
         method: 'post',
         cols: [
             [
-                { field: 'name', width: 120, title: '登录名', templet: '#usernameTpl' },
+                { field: 'name', width: 120, title: '登录名', templet: '#nameTpl' },
                 { field: 'email',width: 200, title: 'E-mail' },
                 { field: 'nickname', title: '昵称' },
-                { field: 'groups', width: 150, title: '所属角色', templet: '#groupsTpl'},
+                { field: 'groups', width: 150, title: '所属用户组', templet: '#groupsTpl'},
                 { field: 'last_login_time', width: 170, title: '最后登录时间' },
                 { field: 'status', title: '状态', width: 80, templet: '#statusTpl' },
                 { title: '操作', width: 220, toolbar: '#barTool' },

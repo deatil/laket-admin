@@ -128,10 +128,9 @@ class Admin extends Base
                 $data['status'] = 0;
             }
             
-            $status = AdminModel::where([
+            $status = AdminModel::update($data, [
                     'id' => $data['id'],
-                ])
-                ->update($data);
+                ]);
             if ($status === false) {
                 $this->error('修改失败！');
             }

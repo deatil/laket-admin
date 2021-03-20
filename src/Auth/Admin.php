@@ -4,6 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Auth;
 
+use think\facade\Env;
 use think\facade\Session;
 use think\facade\Config;
 

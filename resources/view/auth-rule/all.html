@@ -12,9 +12,8 @@
                                 <select name="field" class="lake-admin-search-field">
                                     <option value="">全部类型</option>
                                     <option value="id">ID</option>
-                                    <option value="module">模块</option>
                                     <option value="title">中文描述</option>
-                                    <option value="name">英文标识</option>
+                                    <option value="url">访问地址</option>
                                 </select>
                         </div>
                         <div class="layui-inline">
@@ -68,10 +67,10 @@ layui.use('table', function() {
         elem: '#dataTable',
         toolbar: '#toolbar',
         url: '{:laket_route("admin.auth-rule.all")}',
+        method: 'post',
         cols: [
             [
                 { field: 'listorder', align: 'center', width: 60, title: '排序', edit: 'text' },
-                { field: 'module', width: 100, hide: 'true', title: '模块' },
                 { width: 80,title: '图标',align: 'center',templet:"<div><i class='iconfont {{d.icon}}'></i></div>" },
                 { field: 'title', minWidth: 120, title: '菜单名称', templet: '#titleTpl' },
                 { width: 200, title: '链接',templet:"<div>{{d.url}}</div>"},

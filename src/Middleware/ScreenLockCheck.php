@@ -56,7 +56,7 @@ class ScreenLockCheck
         $allowUrl = [
             'get:admin.passport.captcha',
             'get:admin.passport.login',
-            'post:admin.passport.login-save',
+            'post:admin.passport.login-post',
             'delete:admin.passport.logout',
             'post:admin.passport.lockscreen',
             'post:admin.passport.unlockscreen',

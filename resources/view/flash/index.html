@@ -26,16 +26,25 @@
 <script type="text/html" id="toolbar">
 </script>
 
-<script type="text/html" id="iconTpl">
+<script type="text/html" id="nameTpl">
+    {{ d.name }}
+</script>
+
+<script type="text/html" id="titleTpl">
     <a href="javascript:void(0);" title="{{ d.name }}">
-        <img src="{{ d.icon }}" class="module-icon js-module-icon" style="height: 100%;" />
+        <img src="{{ d.icon }}" class="name-icon js-name-icon" style="height: 100%;" />
+    </a>
+    <a class="layui-iframe" href="{:laket_route('admin.flash.view')}?name={{ d.name }}" title="查看详情">
+        {{ d.title }}
     </a>
 </script>
 
-<script type="text/html" id="idTpl">
-    <a class="layui-iframe" href="{:laket_route('admin.flash.view')}?name={{ d.name }}" title="模块详情">
-        {{ d.module }}
-    </a>
+<script type="text/html" id="authorTpl">
+    {{#  if (d.authorlist.length > 0) { }} 
+        <span>
+            {{ d.authorlist[0].name}}
+        </span>
+    {{#  } }}
 </script>
 
 <script type="text/html" id="versionTpl">
@@ -51,8 +60,8 @@
 
 <script type="text/html" id="installtimeTpl">
     <div>
-        {{# if(d.installtime){ }} 
-            {{ layui.util.toDateString(d.installtime * 1000) }}
+        {{# if(d.install_time){ }} 
+            {{ layui.util.toDateString(d.install_time * 1000) }}
         {{#  } else { }} 
             --
         {{#  } }}
@@ -60,29 +69,32 @@
 </script>
 
 <script type="text/html" id="actionTpl">
-    {{#  if(d.installtime == "" || d.installtime == null || d.installtime == undefined){ }}
-        <a class="layui-btn layui-btn-xs" href="{:laket_route('admin.flash.install')}?name={{ d.name }}">安装</a>
-    {{#  } else { }}
-        {{# if(d.upgrade){ }} 
-            <a class="layui-btn layui-btn-xs" href="{:laket_route('admin.flash.upgrade')}?name={{ d.name }}">更新</a>
-        {{#  } }}
-        
-        {{#  if(d.status == 0){ }}
-            <a class="layui-btn layui-btn-xs layui-btn-normal js-module-action-btn" 
-                data-url='{:laket_route("admin.flash.enable")}'
-                data-module='{{ d.module }}'
-                data-confirm='你确认要启用该模块吗？'
-                >启用</a>
-        {{#  } else { }}
-            <a class="layui-btn layui-btn-xs layui-btn-warm js-module-action-btn" 
-                data-url='{:laket_route("admin.flash.disable")}'
-                data-module='{{ d.module }}'
-                data-confirm='你确认要禁用该模块吗？'
-                >禁用</a>
-        {{#  } }}
-        
-        <a class="layui-btn layui-btn-xs layui-btn-danger" href="{:laket_route('admin.flash.uninstall')}?name={{ d.name }}">卸载</a>
+    {{#  if (d.setting) { }}
+        <a class="layui-btn layui-btn-xs layui-iframe" 
+            href='{:laket_route("admin.flash.setting")}?name={{ d.name }}'
+            title="设置"
+            >设置</a>
     {{#  } }}
+    
+    {{#  if(d.status == 0){ }}
+        <a class="layui-btn layui-btn-xs layui-btn-normal js-name-action-btn" 
+            data-url='{:laket_route("admin.flash.enable")}'
+            data-name='{{ d.name }}'
+            data-confirm='你确认要启用该闪存吗？'
+            >启用</a>
+    {{#  } else { }}
+        <a class="layui-btn layui-btn-xs layui-btn-warm js-name-action-btn" 
+            data-url='{:laket_route("admin.flash.disable")}'
+            data-name='{{ d.name }}'
+            data-confirm='你确认要禁用该闪存吗？'
+            >禁用</a>
+    {{#  } }}
+    
+    <a class="layui-btn layui-btn-xs layui-btn-danger js-name-action-btn" 
+        data-url='{:laket_route("admin.flash.uninstall")}'
+        data-name='{{ d.name }}'
+        data-confirm='你确认要卸载该闪存吗？'
+        >卸载</a>
 </script>
 
 
@@ -100,14 +112,13 @@ layui.use(['table', 'upload'], function() {
         page: 10,
         cols: [
             [
-                { field: 'icon', width: 90, style: 'height: 100%;max-width:100%;', align: 'center', title: '模块标识', templet: '#iconTpl' },
-                { field: 'name', width: 150, title: '包名', templet: '#idTpl' },
-                { field: 'title', width: 150, title: '名称' },
+                { field: 'name', width: 150, title: '包名', templet: '#nameTpl' },
+                { field: 'title', width: 150, title: '名称', templet: '#titleTpl'  },
                 { field: 'version', width: 100, title: '版本', templet: '#versionTpl' },
-                { field: 'author', width: 100, title: '作者' },
-                { field: 'introduce', title: '简介' },
-                { field: 'installtime', width: 160, title: '安装时间', templet: '#installtimeTpl' },
-                { width: 200, title: '操作', templet: '#actionTpl' }
+                { field: 'author', width: 100, title: '作者', templet: '#authorTpl' },
+                { field: 'description', title: '简介' },
+                { field: 'install_time', width: 160, title: '安装时间', templet: '#installtimeTpl' },
+                { width: 160, title: '操作', templet: '#actionTpl' }
             ]
         ],
         done: function() {
@@ -123,7 +134,7 @@ layui.use(['table', 'upload'], function() {
      * @create 2019-11-23
      * @author deatil
      */
-    $("body").on('click', ".js-module-icon", function() {
+    $("body").on('click', ".js-name-icon", function() {
         var icon = $(this).attr('src');
         layer.open({
             type: 1,
@@ -138,14 +149,14 @@ layui.use(['table', 'upload'], function() {
         });
     });
     
-    $("body").on('click', ".js-module-action-btn", function() {
+    $("body").on('click', ".js-name-action-btn", function() {
         var url = $(this).attr("data-url");
-        var module = $(this).attr("data-module");
+        var name = $(this).attr("data-name");
         var confirm = $(this).attr("data-confirm");
         
         layer.confirm(confirm, function(index){
             var loading = layer.load(1, {shade: [0.1, '#fff']});
-            $.post(url, {module: module},function(res){
+            $.post(url, {name: name},function(res){
                 layer.close(loading);
                 if (res.code === 1) {
                     layer.msg(res.msg, {time:1000, icon:1}, function() {

@@ -1,5 +1,7 @@
 <?php
 
+declare (strict_types = 1);
+
 namespace Laket\Admin;
 
 use think\facade\Event;
@@ -10,6 +12,7 @@ use Laket\Admin\Support\Loader;
 use Laket\Admin\Support\Password;
 use Laket\Admin\Support\ViewFinder;
 use Laket\Admin\Support\Service as BaseService;
+use Laket\Admin\Http\JsonResponse as HttpJsonResponse;
 use Laket\Admin\Auth\Admin as AuthAdmin;
 use Laket\Admin\Auth\Permission as AuthPermission;
 
@@ -33,6 +36,16 @@ class Service extends BaseService
     protected $alias = [
         'HtmlForm' => Form::class,
     ];
+    
+    /**
+     * 脚本
+     *
+     * @var array
+     */
+    protected $commands = [
+        Command\Install::class,
+        Command\ResetPassword::class,
+    ];
 
     /**
      * 路由中间件
@@ -41,7 +54,8 @@ class Service extends BaseService
      */
     protected $routeMiddleware = [
         'laket-admin' => [
-            'laket-admin.auth' => Middleware\AuthCheck::class,
+            'laket-admin.auth' => Middleware\Auth::class,
+            'laket-admin.permission' => Middleware\Permission::class,
             'laket-admin.screen-lock' => Middleware\ScreenLockCheck::class,
         ]
     ];
@@ -63,6 +77,8 @@ class Service extends BaseService
      */
     public function boot()
     {
+        $this->bootCommand();
+        
         $this->bootView();
         
         $this->bootRouter();
@@ -70,6 +86,8 @@ class Service extends BaseService
         $this->bootMiddleware();
         
         $this->bootEvent();
+        
+        $this->bootFlash();
     }
     
     /**
@@ -130,6 +148,23 @@ class Service extends BaseService
         // 导入器
         $this->app->bind('laket-admin.loader', Loader::class);
         
+        // json响应
+        $this->app->bind('laket-admin.response', function() {
+            $httpJsonResponse = new HttpJsonResponse();
+            
+            $config = config('laket.response.json');
+            $httpJsonResponse
+                ->withIsAllowOrigin($config['is_allow_origin'])
+                ->withAllowOrigin($config['allow_origin'])
+                ->withAllowCredentials($config['allow_credentials'])
+                ->withMaxAge($config['max_age'])
+                ->withAllowMethods($config['allow_methods'])
+                ->withAllowHeaders($config['allow_headers'])
+                ->withExposeHeaders($config['expose_headers']);
+            
+            return $httpJsonResponse;
+        });
+
         // 密码
         $this->app->bind('laket-admin.password', Password::class);
         
@@ -151,6 +186,14 @@ class Service extends BaseService
         $this->app->bind('laket-admin.flash', Manager::class);
     }
     
+    /**
+     * 脚本
+     */
+    public function bootCommand()
+    {
+        $this->commands($this->commands);
+    }
+
     /**
      * 视图
      *
@@ -204,4 +247,15 @@ class Service extends BaseService
             AdminListener\MainUrl::class
         );
     }
+    
+    /**
+     * 闪存插件
+     *
+     * @return void
+     */
+    protected function bootFlash()
+    {
+        app('laket-admin.flash')->bootFlash();
+    }
+
 }

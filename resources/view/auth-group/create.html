@@ -2,7 +2,7 @@
 
 {block name="main"}
 <div class="layui-card">
-    <div class="layui-card-header layui-bg-cyan">添加角色</div>
+    <div class="layui-card-header layui-bg-cyan">添加用户组</div>
     <div class="layui-card-body">
         <form class="layui-form" action="{:laket_route('admin.auth-group.write')}" method="post">
             <div class="layui-form-item">
@@ -16,9 +16,9 @@
                 </div>
             </div>
             <div class="layui-form-item">
-                <label class="layui-form-label">角色名称</label>
+                <label class="layui-form-label">用户组名称</label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="角色名称" class="layui-input" value="">
+                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="用户组名称" class="layui-input" value="">
                 </div>
             </div>
             <div class="layui-form-item">

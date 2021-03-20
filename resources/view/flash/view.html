@@ -18,25 +18,83 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {if !empty($data['authorlist'])}
+                    <tr>
+                        <td>图标</td>
+                        <td>
+                            <img src="{$data.icon}" class="name-icon js-name-icon" style="height: 50px;" />
+                        </td>
+                    </tr>
+                    {/if}
+                    
                     <tr>
                         <td>ID</td>
-                        <td>{$data.module}</td>
+                        <td>{$data.id}</td>
                     </tr>
                     <tr>
                         <td>名称</td>
+                        <td>{$data.title}</td>
+                    </tr>
+                    <tr>
+                        <td>包名</td>
                         <td>{$data.name}</td>
                     </tr>
                     <tr>
-                        <td>模块简介</td>
-                        <td>{$data.introduce}</td>
+                        <td>描述</td>
+                        <td>{$data.description}</td>
+                    </tr>
+                    <tr>
+                        <td>关键字</td>
+                        <td>
+                            {foreach $data['keywordlist'] as $key => $vo}
+                                <span class="layui-badge layui-bg-green">
+                                    {$vo}
+                                </span>
+                            {/foreach}
+                        </td>
                     </tr>
                     <tr>
                         <td>作者</td>
-                        <td>{:joson_encode($data['author'])}</td>
+                        <td>
+                            {if !empty($data['authorlist'])}
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="200">
+                                    <col>
+                                    <col width="200">
+                                </colgroup>
+                          
+                                <thead>
+                                    <tr>
+                                        <td>作者</td>
+                                        <td>邮箱</td>
+                                        <td>用户组</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $data['authorlist'] as $key => $vo}
+                                    <tr>
+                                        <td>
+                                            <a href="{$vo['homepage']}" target="_blank">
+                                                {$vo['name']|default="--"}
+                                            </a>
+                                        </td>
+                                        <td>{$vo['email']|default="--"}</td>
+                                        <td>{$vo['role']|default="--"}</td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                            {/if}
+                        </td>
                     </tr>
                     <tr>
                         <td>版本</td>
                         <td>{$data.version}</td>
+                    </tr>
+                    <tr>
+                        <td>适配版本</td>
+                        <td>{$data.adaptation}</td>
                     </tr>
                     <tr>
                         <td>排序</td>
@@ -52,7 +110,7 @@
                     </tr>
                     <tr>
                         <td>状态</td>
-                        <td>{$data.status == 1 ? '<span class="layui-btn layui-btn-xs">启用</span>' : '<span class="layui-btn layui-btn-grey layui-btn-xs">禁用</span>'}</td>
+                        <td>{$data.status == 1 ? '<span class="layui-btn layui-btn-xs">启用</span>' : '<span class="layui-btn layui-btn-danger layui-btn-xs">禁用</span>'}</td>
                     </tr>
 
                 </tbody>

@@ -50,7 +50,7 @@ class AuthRule extends Base
      */
     public function all()
     {
-        if ($this->request->isAjax()) {
+        if ($this->request->isPost()) {
             $limit = $this->request->param('limit/d', 20);
             $page = $this->request->param('page/d', 1);
             
@@ -163,7 +163,9 @@ class AuthRule extends Base
                 return $this->error($result);
             }
             
-            $res = AuthRuleModel::where(['id' => $data['id']])->update($data);
+            $res = AuthRuleModel::update($data, [
+                'id' => $data['id']
+            ]);
             if ($res === false) {
                 $this->error('编辑失败！');
             }
