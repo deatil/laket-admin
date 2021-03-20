@@ -71,12 +71,12 @@ layui.use('table', function() {
         cols: [
             [
                 { field: 'listorder', align: 'center', width: 60, title: '排序', edit: 'text' },
-                { field: 'id', align: 'center', width: 60, title: 'ID' },
                 { field: 'module', width: 100, hide: 'true', title: '模块' },
                 { width: 80,title: '图标',align: 'center',templet:"<div><i class='iconfont {{d.icon}}'></i></div>" },
                 { field: 'title', minWidth: 120, title: '菜单名称', templet: '#titleTpl' },
                 { width: 200, title: '链接',templet:"<div>{{d.url}}</div>"},
-                { field: 'method', align: 'center', width: 90, title: '请求方式' },
+                { minWidth: 180, field: 'slug', title: '标识' },
+                { field: 'method', align: 'center', width: 100, title: '请求方式' },
                 { field: 'is_need_auth', align: 'center', hide: 'true', width: 100, title: '权限验证', templet: '#authTpl', unresize: true },
                 { field: 'menu_show', align: 'center', width: 95, title: '菜单', templet: '#menuTpl', unresize: true },
                 { field: 'status', align: 'center', width: 95, title: '状态', templet: '#switchTpl', unresize: true },

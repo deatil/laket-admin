@@ -52,7 +52,7 @@ trait FlashService
     public function callStartingCallbacks()
     {
         foreach ($this->startingCallbacks as $callback) {
-            $this->app->call($callback);
+            $this->app->invokeFunction($callback);
         }
     }
 
@@ -64,7 +64,7 @@ trait FlashService
     public function callStartedCallbacks()
     {
         foreach ($this->startedCallbacks as $callback) {
-            $this->app->call($callback);
+            $this->app->invokeFunction($callback);
         }
     }
     

@@ -5,7 +5,7 @@ declare (strict_types = 1);
 namespace Laket\Admin\Flash;
 
 use Laket\Admin\Support\Service as BaseService;
-use Larke\Admin\Traits\FlashService as FlashServiceTrait;
+use Laket\Admin\Traits\FlashService as FlashServiceTrait;
 
 /**
  * 闪存服务
@@ -18,7 +18,7 @@ class Service extends BaseService
     use FlashServiceTrait;
     
     /**
-     * 闪存composer文件
+     * 闪存composer.json文件
      */
     public $composer = '';
     

@@ -1,8 +1,22 @@
 {extend name="$laket_admin_layout"/}
 
 {block name="main"}
+<style>
+.flash-title {
+    position: relative;
+}
+.flash-title .flash-icon {
+    width: 60px;
+}
+.flash-title .flash-name {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 60px;
+}
+</style>
 <div class="layui-card">
-    <div class="layui-card-header layui-bg-cyan">模块管理</div>
+    <div class="layui-card-header layui-bg-cyan">闪存管理</div>
     <div class="layui-card-body">
         <div class="layui-tab layui-tab-card">
             <ul class="layui-tab-title">
@@ -14,9 +28,142 @@
                 </li>
             </ul>
             <div class="layui-tab-content">
+            
+                <table class="layui-table" lay-skin="line">
+                    <colgroup>
+                        <col width="230">
+                        <col>
+                        <col width="200">
+                        <col width="200">
+                        <col width="160">
+                    </colgroup>
+                    
+                    <thead>
+                        <tr>
+                            <th>闪存</th>
+                            <th>描述</th>
+                            <th>作者</th>
+                            <th>安装时间</th>
+                            <th>操作</th>
+                        </tr> 
+                    </thead>
+                
+                    <tbody>
+                        {volist name="list" id="vo"}
+                            <tr>
+                                <td>
+                                    <div class="flash-title">
+                                        {if $vo['icon']}
+                                        <div class="flash-icon">
+                                            <img src="{$vo.icon}" width="55" class="js-flash-icon" />
+                                        </div>
+                                        {/if}
+                                        
+                                        <div class="flash-name">
+                                            {if $vo['title']}
+                                                <div>
+                                                    <b>{$vo.title}</b>
+                                                </div>
+                                                <div style="margin-top: 5px;">
+                                                    {$vo.name}
+                                                </div>
+                                            {else /}
+                                                {$vo.name}
+                                            {/if}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div>
+                                        {$vo.description}
+                                    </div>
+                                    <div style="margin-top: 5px;">
+                                        <span class="layui-badge layui-bg-green" title="适配系统版本">
+                                            {$vo.adaptation}
+                                        </span>
+                                        <span class="layui-badge layui-bg-blue" title="闪存版本">
+                                            {$vo.version}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td>
+                                    {volist name="vo.authors" id="author"}
+                                        <div>
+                                            <a href="{$author.homepage}" target="_blank">
+                                                <b>{$author.name}</b>
+                                            </a>
+                                        </div>
+                                        <div style="margin-top: 5px;">
+                                            {$author.email}
+                                        </div>
+                                    {/volist}
+                                </td>
+                                <td>--</td>
+                                <td>
+                                    <a href="javascript:;"
+                                        class="layui-btn layui-btn-xs js-flash-action-btn" 
+                                        data-url="{:laket_route('admin.flash.install')}"
+                                        data-name='{$vo.name}'
+                                        data-confirm='你确认要安装该闪存吗？'
+                                        >安装</a>
+                                    
+                                    <a href="javascript:;"
+                                        class="layui-btn layui-btn-xs layui-btn-normal js-flash-action-btn" 
+                                        data-url="{:laket_route('admin.flash.upgrade')}"
+                                        data-name='{$vo.name}'
+                                        data-confirm='你确认要更新该闪存吗？'
+                                        >更新</a>
+                                </td>
+                            </tr>
+                        {/volist}
+                    </tbody>
+                
+                </table>
         
             </div>
         </div>
     </div>
 </div>
+{/block}
+
+{block name="script"}
+<script>
+layui.use(['table'], function() {
+    $("body").on('click', ".js-flash-icon", function() {
+        var icon = $(this).attr('src');
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim',
+            area: ['auto'],
+            title: false,
+            shadeClose: true,
+            end: function(index, layero) {
+                return false;
+            },
+            content: '<div style="display: flex;align-items: center;justify-content: center;text-align: justify;height: 100%;"><img src="' + icon + '" /></div>',
+        });
+    });
+    
+    $("body").on('click', ".js-flash-action-btn", function() {
+        var url = $(this).attr("data-url");
+        var name = $(this).attr("data-name");
+        var confirm = $(this).attr("data-confirm");
+        
+        layer.confirm(confirm, function(index){
+            var loading = layer.load(1, {shade: [0.1, '#fff']});
+            $.post(url, {name: name},function(res){
+                layer.close(loading);
+                if (res.code === 1) {
+                    layer.msg(res.msg, {time:1000, icon:1}, function() {
+                        location.reload();
+                    });
+                }else{
+                    layer.msg(res.msg, {time:1000, icon:2});
+                }
+            });
+            layer.close(index);
+        });
+    });
+});
+</script>
 {/block}

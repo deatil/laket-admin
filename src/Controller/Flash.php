@@ -82,6 +82,12 @@ class Flash extends Base
             $this->error('请选择需要安装的闪存！');
         }
         
+        $installInfo = FlashModel::where(['name' => $name])
+            ->find();
+        if (! empty($installInfo)) {
+            $this->error('闪存已经安装过了！');
+        }
+        
         Flasher::loadFlash();
         $info = Flasher::getFlash($name);
         if (empty($info)) {

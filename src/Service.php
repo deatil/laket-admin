@@ -193,7 +193,7 @@ class Service extends BaseService
     }
     
     /**
-     * 时间
+     * 事件
      *
      * @return void
      */

@@ -289,8 +289,14 @@ class Manager
             return [];
         }
         
+        $psr4 = Arr::get($composerData, 'autoload.psr-4', []);
+        $newPsr4 = [];
+        foreach ($psr4 as $key => $value) {
+            $newPsr4[$key] = realpath(dirname($composer) . '/' . $value);
+        }
+        
         $newData = [
-            'psr-4' => Arr::get($composerData, 'autoload.psr-4', []),
+            'psr-4' => $newPsr4,
             'services' => Arr::get($composerData, 'extra.think.services', []),
         ];
         
@@ -371,7 +377,7 @@ class Manager
      */
     public function refresh()
     {
-        Cache::forget($this->flashsCacheId);
+        Cache::delete($this->flashsCacheId);
         
         return $this;
     }
@@ -387,7 +393,7 @@ class Manager
     {
         // 清除缓存
         $cacheId = md5(str_replace('\\', '/', $name));
-        Cache::forget($cacheId);
+        Cache::delete($cacheId);
         
         return $this;
     }
@@ -413,7 +419,7 @@ class Manager
      */
     public function getFlashPath(string $path = '')
     {
-        $flashPath = base_path($this->getFlashDirectory());
+        $flashPath = root_path($this->getFlashDirectory());
         return $flashPath.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
     
@@ -518,7 +524,11 @@ class Manager
             return [];
         }
         
-        $info = $this->parseComposer($newClass->composer);
+        try {
+            $info = (array) json_decode(file_get_contents($newClass->composer), true);
+        } catch (\Throwable $e) {
+            $info = [];
+        }
         
         // 扩展icon
         $iconPath = dirname($newClass->composer) . '/icon.png';
@@ -527,13 +537,13 @@ class Manager
         return [
             'icon' => $icon,
             'name' => $name,
-            'title' => Arr::get($info, 'title'),
+            'title' => Arr::get($info, 'laket.title'),
             'description' => Arr::get($info, 'description'),
             'keywords' => Arr::get($info, 'keywords'),
             'homepage' => Arr::get($info, 'homepage'),
             'authors' => Arr::get($info, 'authors', []), 
-            'version' => Arr::get($info, 'version'),
-            'adaptation' => Arr::get($info, 'adaptation'),
+            'version' => Arr::get($info, 'laket.version'),
+            'adaptation' => Arr::get($info, 'laket.adaptation'),
             'bind_service' => Arr::get($this->flashs, $name, ''),
         ];
     }
@@ -549,7 +559,7 @@ class Manager
         
         $thiz = $this;
         
-        $list = collect($flashs)->map(function($className, $name) use($thiz) {
+        $list = collect($flashs)->each(function($className, $name) use($thiz) {
             $info = $thiz->getFlash($name);
             if (!empty($info)) {
                 return $info;
@@ -571,7 +581,7 @@ class Manager
     public function getIcon($icon = '')
     {
         if (! file_exists($icon) || ! is_file($icon)) {
-            $icon = __DIR__ . '/../resources/icon/laket.png';
+            return '';
         }
         
         $data = file_get_contents($icon);
@@ -603,10 +613,13 @@ class Manager
             return false;
         }
         
-        return !collect($mustInfo)
-            ->contains(function ($key) use ($info) {
-                return (!isset($info[$key]) || empty($info[$key]));
-            });
+        foreach ($mustInfo as $item) {
+            if (!isset($info[$item]) || empty($info[$item])) {
+                return false;
+            }
+        }
+        
+        return true;
     }
     
     /**
