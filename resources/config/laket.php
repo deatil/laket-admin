@@ -5,7 +5,7 @@ return [
         "name" => "LaketAdmin",
         "name_mini" => "Laket",
         "version" => "1.0.0",
-        "release" => "1.0.0.20210318",
+        "release" => "1.0.0.20210321",
     ],
     
     'password' => [
@@ -24,7 +24,7 @@ return [
     ],
     
     'flash' => [
-        'directory' => env('laket.flash_directory', 'flash'),
+        'directory' => env('laket.flash_directory', 'flashs'),
     ],
     
     'upload' => [

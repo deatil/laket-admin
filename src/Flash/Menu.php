@@ -10,12 +10,12 @@ use Laket\Admin\Support\Tree;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
 
 /*
- * 规则
+ * 菜单
  *
  * @create 2021-3-21
  * @author deatil
  */
-class Rule
+class Menu
 {
     /**
      * 创建
@@ -31,16 +31,29 @@ class Rule
             return false;
         }
         
-        $lastOrder = AuthRuleModel::max('listorder');
+        $title = Arr::get($data, 'title');
+        $url = Arr::get($data, 'url');
+        $method = Arr::get($data, 'method');
+        $slug = Arr::get($data, 'slug');
+        
+        if (empty($title)
+            || empty($url)
+            || empty($method)
+            || empty($slug)
+        ) {
+            return false;
+        }
         
         $rule = AuthRuleModel::create([
             'parentid' => $parentId,
-            'listorder' => $lastOrder + 1,
-            'title' => Arr::get($data, 'title'),
-            'url' => Arr::get($data, 'url'),
-            'method' => Arr::get($data, 'method'),
-            'slug' => Arr::get($data, 'slug'),
+            'title' => $title,
+            'url' => $url,
+            'method' => $method,
+            'slug' => $slug,
+            'icon' => Arr::get($data, 'icon', ''),
             'remark' => Arr::get($data, 'remark', ''),
+            'listorder' => Arr::get($data, 'listorder', 100),
+            'menu_show' => Arr::get($data, 'menu_show', 0),
         ]);
         
         $children = Arr::get($data, 'children', []);
@@ -157,7 +170,7 @@ class Rule
             $ruleList = Tree::create()
                 ->withConfig('buildChildKey', 'children')
                 ->withData($ruleList)
-                ->build($rule['id']);
+                ->buildArray($rule['id']);
         }
         
         return $ruleList;
@@ -176,20 +189,22 @@ class Rule
         $rules = AuthRuleModel::where([
                 ['slug', '=', $slug]
             ])
-            ->get()
+            ->select()
             ->toArray();
         
-       $ids = [];
-       foreach ($rules as $rule) {
+        $ids = [];
+        foreach ($rules as $rule) {
             if ($rule) {
                 $ruleList = AuthRuleModel::order('listorder', 'ASC')
-                    ->select(['id', 'parentid', 'slug'])
+                    ->select()
                     ->toArray();
+                
                 $ids = Tree::create()
-                    ->getListChildrenId($ruleList, $rule['id']);
+                    ->getListChildsId($ruleList, $rule['id']);
                 $ids[] = $rule['id'];
             }
-        });
+        };
+        
         $ids = array_unique($ids);
         
         return $ids;

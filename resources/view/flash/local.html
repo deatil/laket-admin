@@ -142,8 +142,15 @@
                                 </td>
                             </tr>
                         {/volist}
+                        
+                        {if $list->isEmpty()}
+                            <tr>
+                                <td colspan="5" align="center">
+                                    <div class="layui-none" style="padding: 10px 15px;color: #999;">无数据</div>
+                                </td>
+                            </tr>
+                        {/if}
                     </tbody>
-                
                 </table>
         
             </div>
