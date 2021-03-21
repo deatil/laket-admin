@@ -13,6 +13,8 @@ use think\facade\Route;
 use think\facade\Cache;
 use think\helper\Arr;
 
+use Laket\Admin\Support\File;
+use Laket\Admin\Support\Sql;
 use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Flash\Service as FlashService;
 
@@ -37,8 +39,8 @@ class Manager
     /**
      * 添加闪存
      *
-     * @param string $name
-     * @param string $class
+     * @param string $name 包名
+     * @param string $class 绑定服务类
      *
      * @return self
      */
@@ -130,7 +132,8 @@ class Manager
      */
     public function namespaces($prefix, $paths = [])
     {
-        app('laket-admin.loader')
+        app()
+            ->make('laket-admin.loader', [], true)
             ->setPsr4($prefix, $paths)
             ->register();
         
@@ -181,6 +184,39 @@ class Manager
         config([
             'auth' => $auth,
         ], 'laket');
+    }
+    
+    /**
+     * 导入数据表
+     *
+     * @param string $sqlFile
+     * 
+     * @return boolen
+     */
+    public function importSql(string $sqlFile)
+    {
+        if (! file_exists($sqlFile)) {
+            return false;
+        }
+        
+        $sqlStatement = Sql::getSqlFromFile($sqlFile);
+        if (empty($sqlStatement)) {
+            return false;
+        }
+        
+        $dbConfig = app()->db->connect()->getConfig();
+        
+        $dbPrefix = $dbConfig['prefix'];
+        foreach ($sqlStatement as $value) {
+            $value = str_replace([
+                'pre__',
+            ], [
+                $dbPrefix,
+            ], trim($value));
+            Db::execute($value);
+        }
+        
+        return true;
     }
     
     /**

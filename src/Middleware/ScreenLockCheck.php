@@ -57,7 +57,7 @@ class ScreenLockCheck
             'get:admin.passport.captcha',
             'get:admin.passport.login',
             'post:admin.passport.login-post',
-            'delete:admin.passport.logout',
+            'get:admin.passport.logout',
             'post:admin.passport.lockscreen',
             'post:admin.passport.unlockscreen',
             'get:admin.index',
