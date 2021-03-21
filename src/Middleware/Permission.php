@@ -49,7 +49,7 @@ class Permission
             'get:admin.passport.captcha',
             'get:admin.passport.login',
             'post:admin.passport.login-post',
-        ], (array) config('larket.auth.permission_excepts', []));
+        ], (array) config('laket.auth.permission_excepts', []));
         
         $requestMethod = $request->rule()->getMethod();
         $requestName = $request->rule()->getName();

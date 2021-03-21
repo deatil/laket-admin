@@ -29,12 +29,12 @@ class ExceptionHandler
     }
     
     /**
-     * 行为闪存的执行入口必须是run
+     * @var
      */
     public function handle($request, Closure $next)
     {
         $pathinfo = $request->pathinfo();
-        $routeGroup = config('larket.route.group');
+        $routeGroup = config('laket.route.group');
         if (Str::startsWith($pathinfo, $routeGroup.'/')) {
             $this->app->bind(Handle::class, Handler::class);
         }

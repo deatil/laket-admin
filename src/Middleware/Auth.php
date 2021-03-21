@@ -89,7 +89,7 @@ class Auth
             'get:admin.passport.captcha',
             'get:admin.passport.login',
             'post:admin.passport.login-post',
-        ], (array) config('larket.auth.authenticate_excepts', []));
+        ], (array) config('laket.auth.authenticate_excepts', []));
         
         $requestMethod = $request->rule()->getMethod();
         $requestName = $request->rule()->getName();
