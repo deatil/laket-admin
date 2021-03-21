@@ -114,14 +114,16 @@ layui.define([
                 // 父级高亮
                 $("#side_menus_bar .layui-nav-item")
                     .removeClass("layui-nav-item-active");
-                    
-                var allParentNavs = $(this).parents(".layui-nav-child");
-                allParentNavs.each(function(index, parentNav) {
-                    $(parentNav).parent().addClass('layui-nav-item-active');
-                    if (! $(parentNav).parent().hasClass('layui-nav-itemed')) {
-                        $(parentNav).parent().addClass('layui-nav-itemed');
-                    }
-                })
+                
+                if (!$(this).parent().hasClass('js-menu-nav')) {
+                    var allParentNavs = $(this).parents(".layui-nav-child");
+                    allParentNavs.each(function(index, parentNav) {
+                        $(parentNav).parent().addClass('layui-nav-item-active');
+                        if (! $(parentNav).parent().hasClass('layui-nav-itemed')) {
+                            $(parentNav).parent().addClass('layui-nav-itemed');
+                        }
+                    });
+                }
                 
                 $("#side_menus_bar").hover(function() {
                     $(this).addClass("layui-nav-item-bar-hide");
