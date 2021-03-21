@@ -174,6 +174,10 @@ class Install extends Command
         $staticPath = root_path() . 'public/static/admin/';
         File::copyDir($adminStaticPath, $staticPath);
         
+        $adminConfigPath = __DIR__ . '/../../resources/config/laket.php';
+        $configPath = root_path() . 'config/laket.php';
+        copy($adminConfigPath, $configPath);
+        
         // 添加安装锁定文件
         file_put_contents($installLockFile, '');
         

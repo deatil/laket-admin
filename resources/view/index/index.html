@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{:config('lake.name')}</title>
-    <meta name="author" content="lake">
+    <title>{:config('laket.admin.name')}</title>
+    <meta name="author" content="deatil">
     <base href="/static/" />
     <link rel="stylesheet" href="admin/libs/layui/css/layui.css">
     <link rel="stylesheet" href="admin/libs/iconfont/iconfont.css">
@@ -25,13 +25,6 @@
             </div>
             <div class="lake-admin-left">
                 <a href="javascript:;" class="admin-menu-toggle icon iconfont icon-other lake-admin-winner-hide" title="隐藏侧边"></a>
-                <div class="lake-admin-top-level">
-                    <div class="lake-admin-top-level-scroll">
-                        <ul class="layui-nav lake-admin-menus-winner lake-admin-top-level-menus" id="top_nav_menus">
-                            <!--AJAX数据-->
-                        </ul>
-                    </div>
-                </div>
             </div>
             <ul class="layui-nav layui-layout-right lake-admin-right">
                 {:laket_runhook('lake_admin_top_left_nav_start')}

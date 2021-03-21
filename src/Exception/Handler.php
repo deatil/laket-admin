@@ -71,7 +71,7 @@ class Handler extends Handle
         $data = $this->convertExceptionToArray($exception);
         extract($data);
         
-        $exceptionTmpl = $this->app->config->get('laket.exception_tmpl');
+        $exceptionTmpl = $this->app->config->get('laket_exception.exception_tmpl');
         include $exceptionTmpl;
 
         return ob_get_clean();

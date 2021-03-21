@@ -17,7 +17,7 @@ Route::group(config('laket.route.group'), function() {
     Route::post('passport/login', Controller\Passport::class . '@postLogin')->name('admin.passport.login-post');
     Route::get('passport/logout', Controller\Passport::class . '@logout')->name('admin.passport.logout');
     Route::post('passport/lockscreen', Controller\Passport::class . '@lockscreen')->name('admin.passport.lockscreen');
-    Route::post('passport/unlockscreen', Controller\Passport::class . '@postLogin')->name('admin.passport.unlockscreen');
+    Route::post('passport/unlockscreen', Controller\Passport::class . '@unlockscreen')->name('admin.passport.unlockscreen');
 
     // 个人信息
     Route::get('profile/index', Controller\Profile::class . '@getIndex')->name('admin.profile.index');

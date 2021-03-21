@@ -59,7 +59,7 @@ trait Jump
 
         $type = $this->getResponseType();
         if ($type == 'html'){
-            $response = view(app('config')->get('laket.dispatch_success_tmpl'), $result);
+            $response = view(app('config')->get('laket_exception.dispatch_success_tmpl'), $result);
         } else if ($type == 'json') {
             $response = json($result);
         }
@@ -101,7 +101,7 @@ trait Jump
 
         $type = $this->getResponseType();
         if ($type == 'html'){
-            $response = view(app('config')->get('laket.dispatch_error_tmpl'), $result);
+            $response = view(app('config')->get('laket_exception.dispatch_error_tmpl'), $result);
         } else if ($type == 'json') {
             $response = json($result);
         }

@@ -37,13 +37,10 @@ layui.define([
         openTabNum: 10, // 最大可打开窗口数量
         
         renderHtml: function() {
-            $('#top_nav_menus').html(lakeAdminMenu.buildTop(lakeAdmin.menus));
+            // 显示左侧菜单
+            var html = lakeAdminMenu.buildLeft(lakeAdmin.menus);
+            $('#side_menus_bar').html(html);
             element.render(); //重新渲染
-            
-            lakeAdminTool.topMenuScroll();
-            $(window).on('resize', function() {
-                lakeAdminTool.topMenuScroll();
-            })
             
             // iframe 加载事件
             var iframeDefault = document.getElementById('iframe_default');
@@ -52,9 +49,6 @@ layui.define([
             });
             
             this.listen();
-            
-            // 后台位在第一个导航
-            $('#top_nav_menus li:first > a').trigger("click");
             
             // 监听主题
             lakeAdminSkin.listen();
@@ -70,9 +64,6 @@ layui.define([
             // 刷新打开当前页面
             if ($.cookie('lake-admin-menuid') != undefined) {
                 var lake_admin_menuid = $.cookie('lake-admin-menuid');
-                
-                // 选择顶部菜单
-                lakeAdminTool.topMenuClick(lake_admin_menuid, lakeAdmin.menus);
                 
                 // 点击左侧菜单
                 $("#side_menus_bar a[lay-id="+lake_admin_menuid+"], .js-menu-nav a[lay-id="+lake_admin_menuid+"]").trigger('click');
@@ -90,54 +81,6 @@ layui.define([
         },
         
         listen: function() {
-            
-            // 顶部导航点击
-            $('#top_nav_menus').on('click', 'a', function(e) {
-                // 取消事件的默认动作
-                e.preventDefault();
-                // 终止事件 不再派发事件
-                e.stopPropagation();
-                
-                var data_id = $(this).attr('lay-id'),
-                    menu_data_id = $(this).attr('data-id'),
-                    data_list = lakeAdmin.menus[menu_data_id],
-                    sideMenusBar = $('#side_menus_bar');
-
-                if (sideMenusBar.attr('lay-id') == data_id) {
-                    return false;
-                };
-                
-                var index = $(this).parent().index();
-                if (index > 0) {
-                    sideMenusBar.addClass("lake-admin-module");
-                } else {
-                    sideMenusBar.removeClass("lake-admin-module");
-                }
-
-                // 显示左侧菜单
-                var html = lakeAdminMenu.buildLeft(data_list['items']);
-                sideMenusBar.html(html).attr('lay-id', data_id);
-                element.render(); //重新渲染
-                
-                $(".lake-admin-module > li").removeClass("layui-nav-itemed");
-                $('.lake-admin-module > li:first').addClass("layui-nav-itemed");
-                
-                // 左侧选择高亮
-                var topmenu = lakeAdminMenu.getTopMenuByID(lakeAdmin.nowTabMenuid, lakeAdmin.menus);
-                if (topmenu && topmenu.menuid == data_id) {
-                    lakeAdminTool.selectLeftMenu(lakeAdmin.nowTabMenuid);
-                }
-            });
-
-            // 模型左侧点击
-            /*
-            $(document).on('click', '.lake-admin-module > li > a', function() {
-                $(this).parent()
-                    .siblings('li')
-                    .removeClass('layui-nav-itemed');
-            });
-            */
-
             // 左边菜单点击
             $(document).on('click', '#side_menus_bar a, .js-menu-nav a', function(e) {
                 e.preventDefault();
@@ -162,11 +105,17 @@ layui.define([
                 }
 
                 // 父级高亮
-                $("#side_menus_bar .layui-nav-item").removeClass("layui-nav-item-active");
-                $(this).parents(".layui-nav-child")
-                    .parent()
-                    .addClass('layui-nav-item-active');
+                $("#side_menus_bar .layui-nav-item")
+                    .removeClass("layui-nav-item-active");
                     
+                var allParentNavs = $(this).parents(".layui-nav-child");
+                allParentNavs.each(function(index, parentNav) {
+                    $(parentNav).parent().addClass('layui-nav-item-active');
+                    if (! $(parentNav).parent().hasClass('layui-nav-itemed')) {
+                        $(parentNav).parent().addClass('layui-nav-itemed');
+                    }
+                })
+                
                 $("#side_menus_bar").hover(function() {
                     $(this).addClass("layui-nav-item-bar-hide");
                 }, function() {
@@ -197,9 +146,6 @@ layui.define([
                 
                 var data_id = $(this).attr('lay-id');
                 if (data_id) {
-                    // 选择顶部菜单
-                    lakeAdminTool.topMenuClick(data_id, lakeAdmin.menus);
-                    
                     // 选择左边菜单
                     lakeAdminTool.selectLeftMenu(data_id);
                     

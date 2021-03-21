@@ -125,6 +125,7 @@ class Service extends BaseService
         
         // 配置
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/laket.php', 'laket');
+        $this->mergeConfigFrom(__DIR__ . '/../resources/config/laket_exception.php', 'laket_exception');
         
         // 验证码配置
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/captcha.php', 'captcha');

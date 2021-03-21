@@ -42,12 +42,14 @@ class Passport extends Base
      */
     public function postLogin()
     {
-        $data = request()->post();
+        $verify = request()->post('verify');
         
         // 验证码
-        if (! captcha_check($data['verify'])) {
+        if (! captcha_check($verify)) {
             return $this->error('验证码输入错误！');
         }
+        
+        $data = request()->post();
         
         // 验证数据
         $rule = [

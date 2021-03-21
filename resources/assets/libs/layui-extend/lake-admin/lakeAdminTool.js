@@ -4,35 +4,11 @@
  * 
  * Apache License 2.0 © Deatil
  */
-layui.define(['jquery', 'jqueryCookie', 'lakeAdminMenu', 'IScroll'], function (exports) {
+layui.define(['jquery', 'jqueryCookie', 'lakeAdminMenu'], function (exports) {
     var lakeAdminMenu = layui.lakeAdminMenu,
-        $ = layui.$,
-        IScroll = layui.IScroll;
+        $ = layui.$;
     
     var lakeAdminTool = {
-        topMenuScroll: function() {
-            if ($('body').width() > 768) {
-                var topMenuUlWidth = 0;
-                $(".lake-admin-top-level-scroll ul").find("li").each(function() {
-                    topMenuUlWidth += $(this).width();
-                });
-                $(".lake-admin-top-level-scroll ul").width(topMenuUlWidth);
-            } else {
-                $(".lake-admin-top-level-scroll ul").width('');
-            }
-            
-            var topMenuScroll = new IScroll(".lake-admin-top-level-scroll", {
-                mouseWheel: true, // 开启鼠标滚轮支持
-                scrollbars: false, // 开启滚动条支持
-                fadeScrollbars: true,
-                click:true,
-                scrollY:true,
-                scrollX:true,
-                interactiveScrollbars:true,
-                preventDefault: false,
-            });
-        },
-        
         // 选择左边菜单
         selectLeftMenu: function(data_id) {
             // 选择左边菜单
@@ -74,26 +50,6 @@ layui.define(['jquery', 'jqueryCookie', 'lakeAdminMenu', 'IScroll'], function (e
                 $(navChildItems).each(function() {
                     $(this).addClass('layui-nav-itemed');
                 });
-            }
-        },
-        
-        topMenuClick: function(curid, menus) {
-            if (curid == "default") {
-                var objtopmenu = $('#top_nav_menus li:first-child').find("a");
-            } else {
-                var topmenu = lakeAdminMenu.getTopMenuByID(curid, menus);
-                if (!topmenu) {
-                    return ;
-                }
-                
-                var objtopmenu = $('#top_nav_menus').find("a[lay-id=" + topmenu.menuid + "]");
-            }
-            
-            if (objtopmenu.parent().attr("class") != "layui-this") {
-                //选中当前顶部菜单
-                objtopmenu.parent().addClass('layui-this').siblings().removeClass('layui-this');
-                //触发事件
-                objtopmenu.click();
             }
         },
         
