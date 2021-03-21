@@ -36,7 +36,7 @@ php think laket-admin:install
 
 运行完命令后，你可以找到 `config/larket.php` 配置文件
 
-3. 后台登录账号：`admin` 及密码 `123456`
+3. 后台地址 `http://yourdomain.com/admin/index`, 登录账号：`admin` 及密码 `123456`
 
 
 ### 特别鸣谢
