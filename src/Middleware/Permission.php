@@ -49,7 +49,6 @@ class Permission
             'get:admin.passport.captcha',
             'get:admin.passport.login',
             'post:admin.passport.login-post',
-            'delete:admin.passport.logout',
         ], (array) config('larket.auth.permission_excepts', []));
         
         $requestMethod = $request->rule()->getMethod();
@@ -61,7 +60,7 @@ class Permission
         }
         
         // 超级管理员
-        $isSuperAdmin = $this->app->env->get('admin_is_root');
+        $isSuperAdmin = Admin::isSuperAdmin();
         if ($isSuperAdmin) {
             return ;
         }

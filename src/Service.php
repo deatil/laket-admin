@@ -192,7 +192,9 @@ class Service extends BaseService
      */
     public function bootCommand()
     {
-        $this->commands($this->commands);
+        if ($this->app->runningInConsole()) {
+            $this->commands($this->commands);
+        }
     }
 
     /**

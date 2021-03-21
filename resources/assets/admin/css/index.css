@@ -33,6 +33,11 @@
 .lake-admin .lake-admin-top-level-menus .layui-nav-item.layui-this {background-color: rgba(0,0,0,0.5); }
 .lake-admin .lake-admin-top-level-menus.layui-nav .layui-nav-item{height: 60px;}
 
+.lake-admin .lake-admin-nav-item .lake-admin-badge {
+    position: absolute;
+    right: 0;
+}
+
 .lake-admin .lake-admin-top-tabs-box {
     padding-right: 138px;
     height: 40px;
@@ -403,7 +408,7 @@
         display: none !important;
     }
     .lake-admin.lake-admin-site-mobile .layui-side{ 
-        left: 132px; 
+        left: 0; 
         z-index: 1100; 
     }
     .lake-admin.lake-admin-site-mobile .lake-admin-site-mobile-shade{

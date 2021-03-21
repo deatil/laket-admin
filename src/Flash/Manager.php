@@ -547,15 +547,28 @@ class Manager
         }
         
         // 图标
-        $iconPath = dirname($newClass->composer) . '/icon.png';
-        $icon = $this->getIcon($iconPath);
-        
-        // 设置
-        $settingPath = dirname($newClass->composer) . '/setting.php';
-        if (file_exists($settingPath)) {
-            $setting = include $settingPath;
+        if (! empty($newClass->icon)) {
+            $iconPath = $newClass->icon;
         } else {
-            $setting = [];
+            $iconPath = dirname($newClass->composer) . '/icon.png';
+        }
+        $icon = $this->getIcon($iconPath);
+
+        // 设置
+        $setting = [];
+        if (! empty($newClass->setting)) {
+            if (is_array($newClass->setting)) {
+                $setting = $newClass->setting;
+            } elseif (is_string($newClass->setting) 
+                && file_exists($newClass->setting)
+            ) {
+                $setting = include $newClass->setting;
+            }
+        } else {
+            $settingPath = dirname($newClass->composer) . '/setting.php';
+            if (file_exists($settingPath)) {
+                $setting = include $settingPath;
+            }
         }
         
         return [

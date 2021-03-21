@@ -37,9 +37,16 @@ layui.define([
         openTabNum: 10, // 最大可打开窗口数量
         
         renderHtml: function() {
-            // 显示左侧菜单
+            // 左侧菜单
+            var homepage = lakeAdminMenu.buildLeftOne({
+                "menuid":"default",
+                "id":"default",
+                "title":"控制台",
+                "icon": "icon-homepage",
+                "badge": "首页"
+            });
             var html = lakeAdminMenu.buildLeft(lakeAdmin.menus);
-            $('#side_menus_bar').html(html);
+            $('#side_menus_bar').html(homepage + html);
             element.render(); //重新渲染
             
             // iframe 加载事件

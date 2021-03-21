@@ -18,9 +18,19 @@ class Service extends BaseService
     use FlashServiceTrait;
     
     /**
-     * 闪存composer.json文件
+     * composer.json文件地址
      */
     public $composer = '';
+    
+    /**
+     * 图标
+     */
+    public $icon = '';
+    
+    /**
+     * 设置，设置文件或者数组
+     */
+    public $setting = '';
     
     /**
      * 启动，只有启用后加载

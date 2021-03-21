@@ -19,6 +19,8 @@ return [
     ],
     
     'auth' => [
+        // 认证方式，1为实时认证；2为登录认证。
+        'type' => env('laket.auth_type', 1),
         'authenticate_excepts' => ($authenticateExceptsEnv = env('laket.auth_authenticate_excepts', '')) ? explode(',', $authenticateExceptsEnv) : [],
         'permission_excepts' => ($permissionExceptsEnv = env('laket.auth_permission_excepts', 'public')) ? explode(',', $permissionExceptsEnv) : [],
     ],

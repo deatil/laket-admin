@@ -60,10 +60,6 @@ class Auth
         
         // 获取当前登录用户信息
         $adminInfo = Admin::getData();
-        if (empty($adminInfo)) {
-            Admin::logout();
-            return false;
-        }
         
         // 是否锁定
         if (! $adminInfo['status']) {
@@ -93,7 +89,6 @@ class Auth
             'get:admin.passport.captcha',
             'get:admin.passport.login',
             'post:admin.passport.login-post',
-            'delete:admin.passport.logout',
         ], (array) config('larket.auth.authenticate_excepts', []));
         
         $requestMethod = $request->rule()->getMethod();

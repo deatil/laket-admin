@@ -4,7 +4,6 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Auth;
 
-use think\facade\Env;
 use think\facade\Session;
 use think\facade\Config;
 
@@ -210,11 +209,15 @@ class Admin
     public function checkPermission(
         $rule, 
         $mode = 'slug', 
-        $type = 1, 
+        $type = null, 
         $relation = 'or'
     ) {
-        $Auth = app('laket-admin.auth-permission');
-        $checkStatus = $Auth->check($rule, Env::get('admin_id'), $relation, $type, $mode);
+        if (empty($type)) {
+            $type = config('laket.auth.type');
+        }
+        
+        $auth = app('laket-admin.auth-permission');
+        $checkStatus = $auth->check($rule, $this->getId(), $relation, $type, $mode);
         if (false === $checkStatus) {
             return false;
         }
