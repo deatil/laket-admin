@@ -34,7 +34,8 @@ class ExceptionHandler
     public function handle($request, Closure $next)
     {
         $pathinfo = $request->pathinfo();
-        if (Str::startsWith($pathinfo, 'admin/')) {
+        $routeGroup = config('larket.route.group');
+        if (Str::startsWith($pathinfo, $routeGroup.'/')) {
             $this->app->bind(Handle::class, Handler::class);
         }
         
