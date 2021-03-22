@@ -39,6 +39,24 @@ php think laket-admin:install
 3. 后台地址 `http://yourdomain.com/admin/index`, 登录账号：`admin` 及密码 `123456`
 
 
+### 闪存推荐
+
+| 名称 | 描述 |
+| --- | --- |
+| [系统设置](https://github.com/deatil/laket-settings) | 添加系统的设置功能 |
+| [操作日志](https://github.com/deatil/laket-operation-log) | 记录管理员在后台的操作日志 |
+| [数据库管理](https://github.com/deatil/laket-admin-database) | 数据库备份、优化、修复及还原 |
+
+注：闪存插件目录默认为 `/flashs` 目录
+
+
+## 问题反馈
+
+在使用中有任何问题，请使用以下联系方式联系我们
+
+Github: https://github.com/deatil/laket-admin
+
+
 ### 特别鸣谢
 
 感谢以下的项目,排名不分先后
