@@ -506,6 +506,9 @@ class Flash extends Base
             $this->error("排序失败！");
         }
         
+        // 清除缓存
+        Flasher::forgetFlashCache($name);
+        
         $this->success("排序成功！");
     }
 

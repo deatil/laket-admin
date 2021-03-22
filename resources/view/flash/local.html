@@ -2,6 +2,16 @@
 
 {block name="main"}
 <style>
+.flash-icon img {
+    height: 90%;
+    padding: 1px;
+    background-color: #eff1f7;
+    border: 1px solid #dae1e7;
+    border-radius: 3px;
+}
+.flash-icon img:hover {
+    cursor: pointer;
+}
 .flash-title {
     position: relative;
     min-height: 54px;
@@ -13,7 +23,7 @@
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 60px;
+    left: 65px;
 }
 </style>
 <div class="layui-card">
@@ -63,6 +73,12 @@
                                         <div class="flash-name">
                                             {if $vo['title']}
                                                 <div>
+                                                    {if $vo['homepage']}
+                                                    <a href="{$vo.homepage}" target="_blank" title="点击查看主页">
+                                                        <i class="iconfont icon-lianjie"></i>
+                                                    </a>
+                                                    {/if}
+                                                    
                                                     <b>{$vo.title}</b>
                                                 </div>
                                                 <div style="margin-top: 5px;">
@@ -168,13 +184,13 @@ layui.use(['table'], function() {
         layer.open({
             type: 1,
             skin: 'layui-layer-rim',
-            area: ['auto'],
+            area: ['auto', '85%'],
             title: false,
             shadeClose: true,
             end: function(index, layero) {
                 return false;
             },
-            content: '<div style="display: flex;align-items: center;justify-content: center;text-align: justify;height: 100%;"><img src="' + icon + '" /></div>',
+            content: '<div style="display: flex;align-items: center;justify-content: center;text-align: justify;height: 100%;"><img src="' + icon + '" style="height: 100%;" /></div>',
         });
     });
     

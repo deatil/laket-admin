@@ -1,6 +1,16 @@
 {extend name="$laket_admin_layout"/}
 
 {block name="main"}
+<style>
+.name-icon {
+    height: 90%;
+    padding: 1px;
+    background-color: #eff1f7;
+    border: 1px solid #dae1e7;
+    border-radius: 3px;
+}
+</style>
+
 <div class="layui-card">
     <div class="layui-card-header layui-bg-cyan">闪存管理</div>
     <div class="layui-card-body">
@@ -32,16 +42,27 @@
 </script>
 
 <script type="text/html" id="nameTpl">
+    {{# if(d.homepage){ }} 
+    <a href="{{ d.homepage }}" target="_blank" title="点击查看主页">
+        <i class="iconfont icon-lianjie"></i>
+    </a>
+    {{#  } }}
+
     {{ d.name }}
 </script>
 
 <script type="text/html" id="titleTpl">
-    <a href="javascript:void(0);" title="{{ d.name }}">
-        <img src="{{ d.icon }}" class="name-icon js-name-icon" style="height: 100%;" />
-    </a>
-    <a class="layui-iframe" href="{:laket_route('admin.flash.view')}?name={{ d.name }}" title="查看详情">
-        {{ d.title }}
-    </a>
+    <span class="flash-icon">
+        <a href="javascript:void(0);" title="{{ d.name }}">
+            <img src="{{ d.icon }}" class="name-icon js-name-icon" />
+        </a>
+    </span>
+    
+    <span class="flash-title">
+        <a class="layui-iframe" href="{:laket_route('admin.flash.view')}?name={{ d.name }}" title="查看详情">
+            {{ d.title }}
+        </a>
+    </span>
 </script>
 
 <script type="text/html" id="authorTpl">
@@ -117,11 +138,11 @@ layui.use(['table', 'upload'], function() {
         page: 10,
         cols: [
             [
-                { field: 'name', width: 150, title: '包名', templet: '#nameTpl' },
-                { field: 'title', width: 150, title: '名称', templet: '#titleTpl'  },
+                { field: 'listorder', align: 'center', width: 60, title: '排序', edit: 'text' },
+                { field: 'name', width: 200, title: '包名', templet: '#nameTpl' },
+                { field: 'title', title: '名称', templet: '#titleTpl'  },
                 { field: 'version', width: 100, title: '版本', templet: '#versionTpl' },
                 { field: 'author', width: 100, title: '作者', templet: '#authorTpl' },
-                { field: 'description', title: '简介' },
                 { field: 'install_time', width: 160, title: '安装时间', templet: '#installtimeTpl' },
                 { width: 160, title: '操作', templet: '#actionTpl' }
             ]
@@ -133,24 +154,18 @@ layui.use(['table', 'upload'], function() {
         },
     });
 
-    /**
-     * 显示icon
-     *
-     * @create 2019-11-23
-     * @author deatil
-     */
     $("body").on('click', ".js-name-icon", function() {
         var icon = $(this).attr('src');
         layer.open({
             type: 1,
             skin: 'layui-layer-rim',
-            area: ['auto'],
+            area: ['auto', '85%'],
             title: false,
             shadeClose: true,
             end: function(index, layero) {
                 return false;
             },
-            content: '<div style="display: flex;align-items: center;justify-content: center;text-align: justify;height: 100%;"><img src="' + icon + '" /></div>',
+            content: '<div style="display: flex;align-items: center;justify-content: center;text-align: justify;height: 100%;"><img src="' + icon + '" style="height: 100%;" /></div>',
         });
     });
     
@@ -173,6 +188,24 @@ layui.use(['table', 'upload'], function() {
             });
             layer.close(index);
         });
+    });
+    
+    // 监听单元格编辑
+    table.on('edit(table)', function(obj) {
+        var value = obj.value,
+            data = obj.data;
+        
+        $.post('{:laket_route("admin.flash.listorder")}', {
+            'name': data.name,
+            'value': value 
+        }, function(data) {
+            if (data.code == 1) {
+                layer.msg(data.msg);
+            }else{
+                layer.msg(data.msg, { icon: 5 });
+            }
+
+        })
     });
 });
 </script>

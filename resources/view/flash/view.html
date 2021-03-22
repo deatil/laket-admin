@@ -40,6 +40,18 @@
                         <td>{$data.name}</td>
                     </tr>
                     <tr>
+                        <td>主页</td>
+                        <td>
+                            {if $data['homepage']}
+                            <a href="{$data.homepage}" target="_blank" title="点击查看主页">
+                                <i class="iconfont icon-lianjie"></i>
+                            </a>
+                            {/if}
+
+                            {$data.homepage|default='--'}
+                        </td>
+                    </tr>
+                    <tr>
                         <td>描述</td>
                         <td>{$data.description}</td>
                     </tr>
