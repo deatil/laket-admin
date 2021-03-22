@@ -228,14 +228,12 @@ class Service extends BaseService
         $this->app->middleware->add(Middleware\ExceptionHandler::class);
     
         // 配置路由中间件
-        $middleware = config('laket.middleware', []);
+        $middleware = config('middleware', []);
         foreach ($this->routeMiddleware as $key => $routeMiddleware) {
             $middleware['alias'][$key] = $routeMiddleware;
         }
         
-        config([
-            'middleware' => $middleware,
-        ], 'laket');
+        config($middleware, 'middleware');
     }
     
     /**

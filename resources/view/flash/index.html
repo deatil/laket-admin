@@ -52,11 +52,13 @@
 </script>
 
 <script type="text/html" id="titleTpl">
+    {{# if (d.icon) { }} 
     <span class="flash-icon">
         <a href="javascript:void(0);" title="{{ d.name }}">
             <img src="{{ d.icon }}" class="name-icon js-name-icon" />
         </a>
     </span>
+    {{#  } }}
     
     <span class="flash-title">
         <a class="layui-iframe" href="{:laket_route('admin.flash.view')}?name={{ d.name }}" title="查看详情">
@@ -95,7 +97,7 @@
 </script>
 
 <script type="text/html" id="actionTpl">
-    {{#  if (d.setting) { }}
+    {{#  if (d.settinglist.length > 0) { }}
         <a class="layui-btn layui-btn-xs layui-iframe" 
             href='{:laket_route("admin.flash.setting")}?name={{ d.name }}'
             title="设置"

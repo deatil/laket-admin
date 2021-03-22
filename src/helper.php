@@ -5,6 +5,8 @@ use think\helper\Arr;
 
 use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
+use Laket\Admin\Facade\Flash as Flasher;
+use Laket\Admin\Facade\Admin as AuthAdmin;
 
 if (! function_exists('laket_url')) {
     /**
@@ -33,6 +35,17 @@ if (! function_exists('laket_route')) {
     function laket_route(string $name = '', array $vars = [], $suffix = true, $domain = false) {
         $newUrl = url($name, $vars, $suffix, $domain);
         return (string) $newUrl;
+    }
+}
+
+if (! function_exists('laket_check_permission')) {
+    /**
+     * 权限检测
+     * @param string $rule slug名称
+     * @return bool
+     */
+    function laket_check_permission($rule = '', $relation = 'or', $mode = 'slug', $type = null) {
+        return AuthAdmin::checkPermission($rule, $mode, $type, $relation);
     }
 }
 
@@ -78,6 +91,7 @@ if (!function_exists('laket_attachment_url')) {
     /**
      * 获取附件路径
      * @param int $id 附件id
+     * @param bool $domain 是否添加域名
      * @return string
      */
     function laket_attachment_url($id, $domain = false)
@@ -97,6 +111,7 @@ if (!function_exists('laket_attachment_url_list')) {
     /**
      * 获取多附件地址
      * @param string $ids 附件id列表
+     * @param bool $domain 是否添加域名
      * @return 返回附件列表
      */
     function laket_attachment_url_list($ids, $domain = false) {
@@ -115,6 +130,10 @@ if (!function_exists('laket_attachment_url_list')) {
 if (! function_exists('laket_flash_setting')) {
     /**
      * 闪存插件配置信息
+     * @param string $name 闪存插件包名
+     * @param string|null $key 取值
+     * @param mix|null $default 默认值
+     * @return 闪存插件设置值
      */
     function laket_flash_setting($name, $key = null, $default = null) {
         $data = FlashModel::where([
@@ -129,5 +148,25 @@ if (! function_exists('laket_flash_setting')) {
         }
         
         return $setting;
+    }
+}
+
+if (! function_exists('laket_admin_authenticate_excepts')) {
+    /**
+     * 登陆验证过滤
+     */
+    function laket_admin_authenticate_excepts(array $excepts)
+    {
+        return Flasher::authenticateExcepts($excepts);
+    }
+}
+
+if (! function_exists('laket_admin_permission_excepts')) {
+    /**
+     * 权限过滤
+     */
+    function laket_admin_permission_excepts(array $excepts)
+    {
+        return Flasher::permissionExcepts($excepts);
     }
 }

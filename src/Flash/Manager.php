@@ -117,7 +117,7 @@ class Manager
     public function routes($callback)
     {
         Route::group(config('laket.route.group'), $callback)
-            ->middleware(Arr::get(config('laket.middleware.alias', []), config('laket.route.middleware')));
+            ->middleware(config('laket.route.middleware'));
         
         return $this;
     }
@@ -132,8 +132,7 @@ class Manager
      */
     public function namespaces($prefix, $paths = [])
     {
-        app()
-            ->make('laket-admin.loader', [], true)
+        app('laket-admin.loader', [], true)
             ->setPsr4($prefix, $paths)
             ->register();
         

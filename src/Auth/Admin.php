@@ -212,6 +212,10 @@ class Admin
         $type = null, 
         $relation = 'or'
     ) {
+        if ($this->isSuperAdmin()) {
+            return true;
+        }
+        
         if (empty($type)) {
             $type = config('laket.auth.type');
         }

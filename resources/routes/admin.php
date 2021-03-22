@@ -1,8 +1,6 @@
 <?php
 
-use think\helper\Arr;
 use think\facade\Route;
-
 use Laket\Admin\Controller;
 
 Route::group(config('laket.route.group'), function() {
@@ -87,4 +85,4 @@ Route::group(config('laket.route.group'), function() {
     Route::get('flash/setting', Controller\Flash::class . '@setting')->name('admin.flash.setting');
     Route::post('flash/setting', Controller\Flash::class . '@setting')->name('admin.flash.setting-post');
 })
-->middleware(Arr::get(config('laket.middleware.alias', []), config('laket.route.middleware'), []));
+->middleware(config('laket.route.middleware'));
