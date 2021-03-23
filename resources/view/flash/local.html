@@ -141,7 +141,7 @@
                                 <td>
                                     {if empty($vo['install'])}
                                     <a href="javascript:;"
-                                        class="layui-btn layui-btn-xs js-flash-action-btn" 
+                                        class="layui-btn layui-btn-sm js-flash-action-btn" 
                                         data-url="{:laket_route('admin.flash.install')}"
                                         data-name='{$vo.name}'
                                         data-confirm='你确认要安装该闪存吗？'
@@ -150,7 +150,7 @@
                                     
                                     {if $vo['upgrade'] == 1}
                                     <a href="javascript:;"
-                                        class="layui-btn layui-btn-xs layui-btn-danger js-flash-action-btn" 
+                                        class="layui-btn layui-btn-sm layui-btn-danger js-flash-action-btn" 
                                         data-url="{:laket_route('admin.flash.upgrade')}"
                                         data-name='{$vo.name}'
                                         data-confirm='你确认要更新该闪存吗？'

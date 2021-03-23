@@ -39,7 +39,7 @@
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         <a class="layui-btn layui-btn-sm layui-iframe" href="{:laket_route('admin.auth-rule.add')}" title="新增菜单">新增菜单</a>
-        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-rule.index')}">权限菜单</a>
+        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-rule.index')}">菜单结构</a>
     </div>
 </script>
 <script type="text/html" id="barTool">
@@ -70,10 +70,9 @@ layui.use('table', function() {
         method: 'post',
         cols: [
             [
-                { field: 'listorder', align: 'center', width: 60, title: '排序', edit: 'text' },
+                { field: 'listorder', align: 'center', width: 80, title: '排序', edit: 'text' },
                 { width: 80,title: '图标',align: 'center',templet:"<div><i class='iconfont {{d.icon}}'></i></div>" },
                 { field: 'title', minWidth: 120, title: '菜单名称', templet: '#titleTpl' },
-                { width: 200, title: '链接',templet:"<div>{{d.url}}</div>"},
                 { minWidth: 180, field: 'slug', title: '标识' },
                 { field: 'method', align: 'center', width: 100, title: '请求方式' },
                 { field: 'is_need_auth', align: 'center', hide: 'true', width: 100, title: '权限验证', templet: '#authTpl', unresize: true },

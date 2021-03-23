@@ -64,7 +64,7 @@ class AuthRule extends Base
             
             $data = AuthRuleModel::where($map)
                 ->page($page, $limit)
-                ->order('url ASC, title ASC, id ASC')
+                ->order('slug ASC, url ASC, id ASC')
                 ->select()
                 ->toArray();
             $total = AuthRuleModel::where($map)->count();
