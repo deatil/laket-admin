@@ -233,6 +233,10 @@ class Flash extends Base
             $this->error('闪存还没有安装！');
         }
         
+        if ($installInfo['status'] == 1) {
+            $this->error('请禁用闪存插件后再更新！');
+        }
+
         Flasher::loadFlash();
         $info = Flasher::getFlash($name);
         if (empty($info)) {
