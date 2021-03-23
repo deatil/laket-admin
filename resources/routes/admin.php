@@ -84,5 +84,6 @@ Route::group(config('laket.route.group'), function() {
     Route::post('flash/listorder', Controller\Flash::class . '@listorder')->name('admin.flash.listorder');
     Route::get('flash/setting', Controller\Flash::class . '@setting')->name('admin.flash.setting');
     Route::post('flash/setting', Controller\Flash::class . '@setting')->name('admin.flash.setting-post');
+    Route::post('flash/upload', Controller\Flash::class . '@upload')->name('admin.flash.upload-post');
 })
 ->middleware(config('laket.route.middleware'));

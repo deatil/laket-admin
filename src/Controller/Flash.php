@@ -10,9 +10,11 @@ use Composer\Semver\VersionParser;
 
 use think\facade\Db;
 use think\helper\Arr;
+use think\helper\Str;
 
 use Laket\Admin\Facade\Flash as Flasher;
 use Laket\Admin\Model\Flash as FlashModel;
+use Laket\Admin\Support\PclZip;
 
 /**
  * 闪存
@@ -510,6 +512,109 @@ class Flash extends Base
         Flasher::forgetFlashCache($name);
         
         $this->success("排序成功！");
+    }
+    
+    /**
+     * 上传
+     */
+    public function upload()
+    {
+        $requestFile = $this->request->file('file');
+        if (empty($requestFile)) {
+            return $this->error('上传扩展文件不能为空');
+        }
+        
+        // 扩展名
+        $extension = $requestFile->extension();
+        if ($extension != 'zip') {
+            return $this->error('上传的扩展文件格式只支持zip格式');
+        }
+        
+        // 缓存目录
+        if (! defined('PCLZIP_TEMPORARY_DIR')) {
+            define('PCLZIP_TEMPORARY_DIR', runtime_path('cache'));
+        }
+        
+        // 解析composer.json
+        $filename = $requestFile->getPathname();
+        $zip = new PclZip($filename);
+        
+        $list = $zip->listContent();
+        if ($list == 0) {
+            return $this->error('上传的扩展文件错误');
+        }
+        
+        $composer = collect($list)
+            ->map(function($item) {
+                if (strpos($item['filename'], 'composer.json') !== false) {
+                    return $item;
+                }
+            })
+            ->filter(function($data) {
+                return !empty($data);
+            })
+            ->sort(function($item) {
+                $item['filename'] = str_replace('\\', '/', $item['filename']);
+                return count(explode('/', $item['filename']));
+            })
+            ->values()
+            ->toArray();
+        
+        if (empty($composer)) {
+            return $this->error('扩展composer.json不存在');
+        }
+        
+        $data = $zip->extractByIndex($composer[0]['index'], PCLZIP_OPT_EXTRACT_AS_STRING);
+        if ($data == 0) {
+            return $this->error('上传的扩展文件错误');
+        }
+        
+        try {
+            $composerInfo = json_decode($data[0]['content'], true);
+        } catch(\Exception $e) {
+            return $this->error('扩展composer.json格式错误');
+        }
+        
+        if (! isset($composerInfo['name']) 
+            || empty($composerInfo['name'])
+        ) {
+            return $this->error('扩展composer.json格式错误');
+        }
+        
+        if (! preg_match('/^[a-zA-Z][a-zA-Z0-9\_\-\/]+$/', $composerInfo['name'])) {
+            return $this->error('扩展包名格式错误');
+        }
+        
+        $extensionDirectory = Flasher::getFlashPath('');
+        $extensionPath = Flasher::getFlashPath($composerInfo['name']);
+        
+        $force = $request->input('force');
+        
+        // 检查扩展目录是否存在
+        if (file_exists($extensionPath) && !$force) {
+            return $this->error('扩展('.$composerInfo['name'].')已经存在');
+        }
+        
+        $extensionRemovePath = str_replace('composer.json', '', $composer[0]['filename']);
+        $extensionPregPath = '/^'.str_replace(['\\', '/'], ['\\\\', '\\/'], $extensionRemovePath).'.*?/';
+        
+        // 解压文件
+        $list = $zip->extract(
+            PCLZIP_OPT_PATH, $extensionPath,
+            PCLZIP_OPT_REMOVE_PATH, $extensionRemovePath,
+            PCLZIP_OPT_EXTRACT_DIR_RESTRICTION, $extensionDirectory,
+            PCLZIP_OPT_BY_PREG, $extensionPregPath,
+            PCLZIP_OPT_REPLACE_NEWER,
+        );
+        
+        if ($list == 0) {
+            return $this->error('扩展('.$composerInfo['name'].')解压失败');
+        }
+        
+        // 上传后刷新本地缓存
+        Flasher::refresh();
+        
+        return $this->success('扩展('.$composerInfo['name'].')上传成功');
     }
 
 }

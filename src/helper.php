@@ -1,12 +1,14 @@
 <?php
 
 use think\facade\Event;
+use think\facade\View;
 use think\helper\Arr;
 
 use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 use Laket\Admin\Facade\Flash as Flasher;
 use Laket\Admin\Facade\Admin as AuthAdmin;
+use Laket\Admin\Http\Traits\View as ViewTrait;
 
 if (! function_exists('laket_url')) {
     /**
@@ -35,6 +37,24 @@ if (! function_exists('laket_route')) {
     function laket_route(string $name = '', array $vars = [], $suffix = true, $domain = false) {
         $newUrl = url($name, $vars, $suffix, $domain);
         return (string) $newUrl;
+    }
+}
+
+if (! function_exists('laket_view')) {
+    /**
+     * 解析和获取模板内容 用于输出
+     *
+     * @access protected
+     * @param string $template 模板文件名或者内容
+     * @param array  $vars     模板变量
+     *
+     * @return string
+     * @throws \Exception
+     */
+    function laket_view($template, $vars = []) {
+        return (new class {
+            use ViewTrait;
+        })->fetch($template, $vars);
     }
 }
 

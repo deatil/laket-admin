@@ -7,7 +7,7 @@
         <div class="layui-tab layui-tab-card">
             <div class="layui-tab-content lake-admin-tab-content">
                 <form class="layui-form" action="{:laket_route('admin.flash.setting-post')}?name={$info['name']}" method="post">
-                    {include file="$laket_admin_input_item"  /}
+                    {template file="laket-admin::inputItem" /}
                     
                     <div class="layui-form-item">
                         <div>

@@ -78,9 +78,23 @@ trait View
      */
     protected function fetch($template, $vars = [])
     {
-        $path = app('laket-admin.view-finder')->find($template);
+        if (! file_exists($template)) {
+            $template = app('laket-admin.view-finder')->find($template);
+        }
         
-        return ThinkView::fetch($path, $vars);
+        // 配置视图标签
+        $viewTaglib = ThinkView::getConfig('taglib_build_in');
+        $taglib = config('laket.view.taglib_build_in', '');
+
+        $viewTaglibs = explode(',', $viewTaglib);
+        $taglibs = explode(',', $taglib);
+        
+        $newTaglibs = array_filter(array_merge($viewTaglibs, $taglibs));
+        ThinkView::config([
+            'taglib_build_in' => implode(',', $newTaglibs),
+        ]);
+        
+        return ThinkView::fetch($template, $vars);
     }
 
     /**

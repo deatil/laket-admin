@@ -33,6 +33,11 @@ return [
         'disk' => env('laket.upload_disk', 'public'),
     ],
     
+    // 视图
+    'view' => [
+        'taglib_build_in' => env('laket.view_taglib_build_in', "\\Laket\\Admin\\Template\\Taglib\\Laket"),
+    ],
+    
     'response' => [
         'json' => [
             'is_allow_origin' => env('laket.response_json_is_allow_origin', 1),

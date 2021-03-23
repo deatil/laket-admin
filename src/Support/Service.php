@@ -38,4 +38,19 @@ class Service extends BaseService
             $config->get($key, [])
         ), $key);
     }
+    
+    /**
+     * 导入文件
+     *
+     * @param string|array $path
+     * @return void
+     */
+    protected function loadFilesFrom($path)
+    {
+        foreach ((array) $path as $file) {
+            if (file_exists($file)) {
+                include_once $file;
+            }
+        }
+    }
 }
