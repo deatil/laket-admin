@@ -14,7 +14,7 @@ use Laket\Admin\Http\BaseController;
  * @create 2021-3-18
  * @author deatil
  */
-class Base extends BaseController
+abstract class Base extends BaseController
 {
     use JumpTrait;
     use ViewTrait;

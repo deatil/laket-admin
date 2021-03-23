@@ -154,6 +154,18 @@ class Flash extends ModelBase
         return static::where('name', $name)
             ->find();
     }
+    
+    /**
+     * 检测是否安装并启用
+     *
+     * @return void
+     */
+    public static function isActive(string $name)
+    {
+        return static::where('name', $name)
+            ->where('status', 1)
+            ->find();
+    }
 
     /**
      * 判断是否启用

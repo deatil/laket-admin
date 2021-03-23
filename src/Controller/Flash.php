@@ -197,6 +197,10 @@ class Flash extends Base
             $this->error('闪存还没有安装！');
         }
         
+        if ($installInfo['status'] == 1) {
+            $this->error('请禁用闪存插件后再卸载！');
+        }
+
         $status = FlashModel::where(['name' => $name])->delete();
         if ($status === false) {
             $this->error("卸载失败！");
@@ -588,7 +592,7 @@ class Flash extends Base
         $extensionDirectory = Flasher::getFlashPath('');
         $extensionPath = Flasher::getFlashPath($composerInfo['name']);
         
-        $force = $request->input('force');
+        $force = $this->request->param('force');
         
         // 检查扩展目录是否存在
         if (file_exists($extensionPath) && !$force) {
