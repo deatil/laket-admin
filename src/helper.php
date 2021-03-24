@@ -156,12 +156,10 @@ if (! function_exists('laket_flash_setting')) {
      * @return 闪存插件设置值
      */
     function laket_flash_setting($name, $key = null, $default = null) {
-        $data = FlashModel::where([
-                'name' => $name,
-            ])
-            ->find();
+        $flashs = FlashModel::getFlashs();
         
-        $setting = $data['setting_datalist'];
+        $data = Arr::get($flashs, $name, []);
+        $setting = Arr::get($data, 'setting_datalist', []);
         
         if (! empty($key)) {
             return Arr::get($setting, $key, $default);

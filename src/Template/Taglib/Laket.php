@@ -29,7 +29,7 @@ class Laket extends Taglib
         ],
         
         'execute' => [
-            'attr' => 'sql', 
+            'attr' => 'sql,return', 
             'close' => 0,
         ],
     ];

@@ -391,6 +391,9 @@ class Flash extends Base
                 $this->error('设置失败！');
             }
             
+            // 清除缓存
+            Flasher::forgetFlashCache($name);
+            
             $this->success('设置成功！');
         } else {
             $settinglist = $info['settinglist'];
