@@ -186,26 +186,25 @@ class Manager
     }
     
     /**
-     * 导入数据表
+     * 执行sql
      *
-     * @param string $sqlFile
+     * @param string $sql sql字符或者文件
      * 
      * @return boolen
      */
-    public function importSql(string $sqlFile)
+    public function executeSql(string $sql)
     {
-        if (! file_exists($sqlFile)) {
-            return false;
+        if (file_exists($sql)) {
+            $sqlStatement = Sql::getSqlFromFile($sql);
+        } else {
+            $sqlStatement = $sql;
         }
         
-        $sqlStatement = Sql::getSqlFromFile($sqlFile);
         if (empty($sqlStatement)) {
             return false;
         }
         
-        $dbConfig = app()->db->connect()->getConfig();
-        
-        $dbPrefix = $dbConfig['prefix'];
+        $dbPrefix = app()->db->connect()->getConfig('prefix');
         foreach ($sqlStatement as $value) {
             $value = str_replace([
                 'pre__',
@@ -232,8 +231,8 @@ class Manager
             return ;
         }
         
-        $dbConfig = app()->db->connect()->getConfig();
-        $modelName = $dbConfig['prefix'].'laket_flash';
+        $dbPrefix = app()->db->connect()->getConfig('prefix');
+        $modelName = $dbPrefix.'laket_flash';
         if (! Db::execute("SHOW TABLES LIKE '%{$modelName}%'")) {
             return ;
         }

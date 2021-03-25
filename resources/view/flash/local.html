@@ -95,18 +95,32 @@
                                         {$vo.description}
                                     </div>
                                     <div style="margin-top: 5px;">
-                                        {if !empty($vo['install'])}
-                                            <span class="layui-badge layui-bg-danger" title="已安装版本">
-                                                {$vo['install']['version']}
-                                            </span>
-                                        {/if}
-                                        
                                         <span class="layui-badge layui-bg-green" title="适配系统版本">
+                                            <i class="iconfont icon-label" style="font-size: 12px;"></i>
                                             {$vo.adaptation}
                                         </span>
-                                        <span class="layui-badge layui-bg-blue" title="闪存版本">
-                                            {$vo.version}
-                                        </span>
+                                        
+                                        {if !empty($vo['install'])}
+                                            {if $vo['upgrade'] == 1}
+                                                <span class="layui-badge layui-bg-blue" title="已安装版本">
+                                                    <i class="iconfont icon-flag" style="font-size: 12px;"></i>
+                                                    {$vo['install']['version']}
+                                                </span>
+                                                <span class="layui-badge layui-bg-danger" title="可更新版本">
+                                                    <i class="iconfont icon-hotfill" style="font-size: 12px;"></i> 
+                                                    {$vo.version}
+                                                </span>
+                                            {else /}
+                                                <span class="layui-badge layui-bg-blue" title="已安装版本">
+                                                    <i class="iconfont icon-flag" style="font-size: 12px;"></i> 
+                                                    {$vo['install']['version']}
+                                                </span>
+                                            {/if}
+                                        {else /}
+                                            <span class="layui-badge layui-bg-cyan" title="闪存版本">
+                                                v {$vo.version}
+                                            </span>
+                                        {/if}
                                     </div>
                                 </td>
                                 <td>
