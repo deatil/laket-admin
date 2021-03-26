@@ -5,7 +5,6 @@ declare (strict_types = 1);
 namespace Laket\Admin\Command;
 
 use think\facade\Db;
-
 use think\console\Command;
 use think\console\Input;
 use think\console\input\Argument;

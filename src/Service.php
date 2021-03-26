@@ -11,6 +11,7 @@ use Laket\Admin\Support\Form;
 use Laket\Admin\Support\Loader;
 use Laket\Admin\Support\Password;
 use Laket\Admin\Support\ViewFinder;
+use Laket\Admin\Support\Publish;
 use Laket\Admin\Support\Service as BaseService;
 use Laket\Admin\Http\JsonResponse as HttpJsonResponse;
 use Laket\Admin\Auth\Admin as AuthAdmin;
@@ -43,6 +44,7 @@ class Service extends BaseService
      * @var array
      */
     protected $commands = [
+        Command\Publish::class,
         Command\Install::class,
         Command\ResetPassword::class,
     ];
@@ -88,6 +90,8 @@ class Service extends BaseService
         $this->bootEvent();
         
         $this->bootFlash();
+        
+        $this->bootPublishes();
     }
     
     /**
@@ -148,6 +152,9 @@ class Service extends BaseService
         
         // 导入器
         $this->app->bind('laket-admin.loader', Loader::class);
+        
+        // 推送
+        $this->app->bind('laket-admin.publish', Publish::class);
         
         // json响应
         $this->app->bind('laket-admin.response', function() {
@@ -218,6 +225,26 @@ class Service extends BaseService
         $this->loadRoutesFrom(__DIR__ . '/../resources/routes/admin.php');
     }
     
+    /**
+     * 推送
+     *
+     * @return void
+     */
+    protected function bootPublishes()
+    {
+        // 静态文件 
+        // php think laket-admin:publish --tag=laket-admin-assets
+        $this->publishes([
+            __DIR__ . '/../resources/assets/' => root_path() . 'public/static/admin/',
+        ], 'laket-admin-assets');
+        
+        // 配置文件 
+        // php think laket-admin:publish --tag=laket-admin-config
+        $this->publishes([
+            __DIR__ . '/../resources/config/laket.php' => root_path() . 'config/laket.php',
+        ], 'laket-admin-config');
+    }
+
     /**
      * 中间件
      *

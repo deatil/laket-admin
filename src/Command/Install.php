@@ -170,14 +170,19 @@ class Install extends Command
         }
         
         // 复制静态文件
-        $adminStaticPath = __DIR__ . '/../../resources/assets/';
-        $staticPath = root_path() . 'public/static/admin/';
-        File::copyDir($adminStaticPath, $staticPath);
+        Console::call('laket-admin:publish', [
+            '--tag',
+            'laket-admin-assets',
+            '--force',
+        ]);
         
-        $adminConfigPath = __DIR__ . '/../../resources/config/laket.php';
-        $configPath = root_path() . 'config/laket.php';
-        copy($adminConfigPath, $configPath);
-        
+        // 复制配置文件
+        Console::call('laket-admin:publish', [
+            '--tag',
+            'laket-admin-config',
+            '--force',
+        ]);
+
         // 添加安装锁定文件
         file_put_contents($installLockFile, '');
         

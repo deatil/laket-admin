@@ -47,10 +47,25 @@ class Service extends BaseService
      */
     protected function loadFilesFrom($path)
     {
+        $path = is_array($path) ? $path : func_get_args();
+        
         foreach ((array) $path as $file) {
             if (file_exists($file)) {
                 include_once $file;
             }
         }
     }
+    
+    /**
+     * 设置推送
+     *
+     * @param  array  $paths
+     * @param  mixed  $groups
+     * @return void
+     */
+    protected function publishes(array $paths, $groups = null)
+    {
+        app('laket-admin.publish')->publishes(__CLASS__, $paths, $groups);
+    }
+
 }
