@@ -50,7 +50,7 @@ php think laket-admin:install
 注：闪存插件目录默认为 `/flashs` 目录
 
 
-## 问题反馈
+### 问题反馈
 
 在使用中有任何问题，请使用以下联系方式联系我们
 
