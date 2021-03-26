@@ -24,7 +24,30 @@
                 </li>
             </ul>
             <div class="layui-tab-content">
-        
+                <blockquote class="layui-elem-quote">
+                    <form class="layui-form lake-admin-search-form" method="get" lay-filter="laket-admin-search-from">
+                        <div class="layui-inline">
+                            <select name="field" class="laket-admin-search-field">
+                                <option value="">请选择搜索类型</option>
+                                <option value="id">ID</option>
+                                <option value="name">包名</option>
+                                <option value="title">名称</option>
+                                <option value="authors">开发者</option>
+                                <option value="keywords">关键字</option>
+                            </select>
+                        </div>
+                        <div class="layui-inline">
+                            <input type="text" name="keyword" class="layui-input laket-admin-search-val" placeholder="请输入关键字">
+                        </div>
+                        <div class="layui-inline">
+                            <a class="layui-btn laket-admin-search-btn" data-type="search">搜索</a>
+                        </div>
+                        <div class="layui-inline">
+                            <a href="javascript:;" class="layui-btn laket-admin-search-all-btn">查看全部</a>
+                        </div>
+                    </form>
+                </blockquote>
+            
                 <table class="layui-hide" id="table" lay-filter="table"></table>
             </div>
         </div>    
@@ -196,6 +219,36 @@ layui.use(['table', 'upload'], function() {
         });
     });
     
+    // 搜索
+    $(".laket-admin-search-btn").on("click", function() {
+        table.reload("table", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: $(".laket-admin-search-field").val(),
+                keyword: $(".laket-admin-search-val").val(),
+            }
+        })
+    });
+    
+    // 搜索
+    $(".laket-admin-search-all-btn").on("click", function() {
+        $(".laket-admin-search-field").val('');
+        $(".laket-admin-search-val").val('');
+        layui.form.render('select');
+        
+        table.reload("table", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: '',
+                keyword: '',
+            }
+        })
+    });
+    
     // 监听单元格编辑
     table.on('edit(table)', function(obj) {
         var value = obj.value,
@@ -244,6 +297,7 @@ layui.use(['table', 'upload'], function() {
         },
         error: function() {
             // 请求异常回调
+            layer.msg('上传请求异常');
         }
     });
 });

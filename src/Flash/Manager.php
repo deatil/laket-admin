@@ -207,10 +207,12 @@ class Manager
         $dbPrefix = app()->db->connect()->getConfig('prefix');
         foreach ($sqlStatement as $value) {
             $value = str_replace([
+                'laket__',
                 'pre__',
-            ], [
-                $dbPrefix,
-            ], trim($value));
+                'prefix__',
+                '__PRE__',
+                '__PREFIX__',
+            ], $dbPrefix, trim($value));
             Db::execute($value);
         }
         
