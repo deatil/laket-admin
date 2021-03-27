@@ -171,15 +171,13 @@ class Install extends Command
         
         // 复制静态文件
         Console::call('laket-admin:publish', [
-            '--tag',
-            'laket-admin-assets',
+            '--tag=laket-admin-assets',
             '--force',
         ]);
         
         // 复制配置文件
         Console::call('laket-admin:publish', [
-            '--tag',
-            'laket-admin-config',
+            '--tag=laket-admin-config',
             '--force',
         ]);
 

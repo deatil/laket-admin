@@ -80,7 +80,8 @@ class Publish extends Command
         }
 
         [$this->provider, $this->tags] = [
-            $this->input->getOption('provider'), (array) $this->input->getOption('tag'),
+            $this->input->getOption('provider'), 
+            (array) $this->input->getOption('tag'),
         ];
 
         if (! $this->provider && ! $this->tags) {
@@ -95,7 +96,8 @@ class Publish extends Command
      */
     protected function promptForProviderOrTag()
     {
-        $choice = $this->input->choice(
+        $choice = $this->output->choice(
+            $this->input,
             "Which provider or tag's files would you like to publish?",
             $choices = $this->publishableChoices()
         );

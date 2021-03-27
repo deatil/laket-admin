@@ -65,7 +65,7 @@ class Service extends BaseService
      */
     protected function publishes(array $paths, $groups = null)
     {
-        app('laket-admin.publish')->publishes(__CLASS__, $paths, $groups);
+        app('laket-admin.publish')->publishes(static::class, $paths, $groups);
     }
 
 }

@@ -224,26 +224,6 @@ class Service extends BaseService
         // 路由
         $this->loadRoutesFrom(__DIR__ . '/../resources/routes/admin.php');
     }
-    
-    /**
-     * 推送
-     *
-     * @return void
-     */
-    protected function bootPublishes()
-    {
-        // 静态文件 
-        // php think laket-admin:publish --tag=laket-admin-assets
-        $this->publishes([
-            __DIR__ . '/../resources/assets/' => root_path() . 'public/static/admin/',
-        ], 'laket-admin-assets');
-        
-        // 配置文件 
-        // php think laket-admin:publish --tag=laket-admin-config
-        $this->publishes([
-            __DIR__ . '/../resources/config/laket.php' => root_path() . 'config/laket.php',
-        ], 'laket-admin-config');
-    }
 
     /**
      * 中间件
@@ -284,6 +264,28 @@ class Service extends BaseService
     protected function bootFlash()
     {
         app('laket-admin.flash')->bootFlash();
+    }
+    
+    /**
+     * 推送
+     *
+     * @return void
+     */
+    protected function bootPublishes()
+    {
+        if ($this->app->runningInConsole()) {
+            // 静态文件 
+            // php think laket-admin:publish --tag=laket-admin-assets
+            $this->publishes([
+                __DIR__ . '/../resources/assets/' => root_path() . 'public/static/admin/',
+            ], 'laket-admin-assets');
+            
+            // 配置文件 
+            // php think laket-admin:publish --tag=laket-admin-config
+            $this->publishes([
+                __DIR__ . '/../resources/config/laket.php' => root_path() . 'config/laket.php',
+            ], 'laket-admin-config');
+        }
     }
 
 }
