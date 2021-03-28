@@ -186,11 +186,13 @@ class Attachment extends Base
             ]);
         }
         
+        $filePath = AttachmentModel::objectUrl($fileInfo['path']);
+        
         return json([
             'code' => 0,
             'info' => $fileInfo['name'] . '上传成功',
             'id' => $fileAdd['id'],
-            'path' => $fileInfo['path'],
+            'path' => $filePath,
         ]);
 
     }
