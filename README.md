@@ -6,6 +6,7 @@
 *  `laket-admin` 是基于 `thinkphp6` 版本的通用PHP后台开源管理系统
 *  使用 `layui` 搭建的后台管理页面
 *  通过系统构建的闪存插件系统完成对项目的开发
+*  闪存插件说明文档 `docs/wiki/flash.md`
 
 
 ### 环境要求

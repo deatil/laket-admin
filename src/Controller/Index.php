@@ -35,19 +35,13 @@ class Index extends Base
         $this->assign("menus", $menus);
         
         // 后台首页数据
-        $data = new class {
-            public $url;
-            
-            public function __construct()
-            {
-                $this->url = laket_route('admin.index.main');
-            }
-        };
+        $mainUrl = laket_route('admin.index.main');
+        $mainUrlData = new AdminEvent\Data\MainUrl($mainUrl);
         
         // 自定义后台首页
-        event(new AdminEvent\MainUrl($data));
+        event(new AdminEvent\MainUrl($mainUrlData));
         
-        $this->assign("main_url", $data->url);
+        $this->assign("main_url", $mainUrlData->url);
         
         return $this->fetch('laket-admin::index.index');
     }
