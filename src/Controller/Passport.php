@@ -94,7 +94,7 @@ class Passport extends Base
     {
         $url = request()->url();
         
-        (new Screen())->lock($url);
+        make(Screen::class)->lock($url);
         
         $this->success('屏幕锁定成功');
     }
@@ -111,7 +111,7 @@ class Passport extends Base
             $this->error("密码错误，解除锁定失败");
         }
         
-        (new Screen())->unlock();
+        make(Screen::class)->unlock();
         
         $this->success('屏幕解除锁定成功');
     }

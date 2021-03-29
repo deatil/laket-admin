@@ -29,7 +29,7 @@ class AuthRule extends Base
                 ->select()
                 ->toArray();
 
-            $Tree = new Tree();
+            $Tree = make(Tree::class);
             $menuTree = $Tree->withData($result)->buildArray(0);
             $menus = $Tree->buildFormatList($menuTree, 'title');
             $total = count($menus);
@@ -120,7 +120,7 @@ class AuthRule extends Base
                 'id' => 'DESC',
             ])->select()->toArray();
             
-            $Tree = new Tree();
+            $Tree = make(Tree::class);
             $menuTree = $Tree->withData($menus)->buildArray(0);
             $menus = $Tree->buildFormatList($menuTree, 'title');
             
@@ -184,7 +184,7 @@ class AuthRule extends Base
                 'id' => 'DESC',
             ])->select()->toArray();
             
-            $Tree = new Tree();
+            $Tree = make(Tree::class);
             $childsId = $Tree->getListChildsId($ruleList, $data['id']);
             $childsId[] = $data['id'];
             

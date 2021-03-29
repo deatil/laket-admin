@@ -102,7 +102,7 @@ class Admin extends ModelBase
         // 当前用户组ID列表
         $userGroupIds = $this->getGroupIdList($uid);
         
-        $Tree = new Tree();
+        $Tree = make(Tree::class);
         
         $userChildGroupIds = [];
         if (!empty($userGroupIds)) {

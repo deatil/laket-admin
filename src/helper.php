@@ -10,6 +10,19 @@ use Laket\Admin\Facade\Flash as Flasher;
 use Laket\Admin\Facade\Admin as AuthAdmin;
 use Laket\Admin\Http\Traits\View as ViewTrait;
 
+if (! function_exists('make')) {
+    /**
+     * 实例化一个类
+     * @param string $name 类名或标识 默认获取当前应用实例
+     * @param array  $args 参数
+     * @return object
+     */
+    function make(string $name, array $args = []) 
+    {
+        return app($name, $args, true);
+    }
+}
+
 if (! function_exists('laket_url')) {
     /**
      * Url生成
@@ -19,7 +32,12 @@ if (! function_exists('laket_url')) {
      * @param bool|string $domain 域名
      * @return UrlBuild
      */
-    function laket_url(string $url = '', array $vars = [], $suffix = true, $domain = false) {
+    function laket_url(
+        string $url = '', 
+        array $vars = [], 
+        $suffix = true, 
+        $domain = false
+    ) {
         $newUrl = url($url, $vars, $suffix, $domain);
         return (string) $newUrl;
     }
@@ -34,7 +52,12 @@ if (! function_exists('laket_route')) {
      * @param bool|string $domain 域名
      * @return UrlBuild
      */
-    function laket_route(string $name = '', array $vars = [], $suffix = true, $domain = false) {
+    function laket_route(
+        string $name = '', 
+        array $vars = [], 
+        $suffix = true, 
+        $domain = false
+    ) {
         $newUrl = url($name, $vars, $suffix, $domain);
         return (string) $newUrl;
     }
@@ -51,10 +74,16 @@ if (! function_exists('laket_view')) {
      * @return string
      * @throws \Exception
      */
-    function laket_view($template, $vars = []) {
+    function laket_view($template, $vars = []) 
+    {
         return (new class {
             use ViewTrait;
-        })->fetch($template, $vars);
+            
+            public function view($template, $vars)
+            {
+                return $this->fetch($template, $vars);
+            }
+        })->view($template, $vars);
     }
 }
 
@@ -62,9 +91,17 @@ if (! function_exists('laket_check_permission')) {
     /**
      * 权限检测
      * @param string $rule slug名称
+     * @param string $relation
+     * @param string $mode
+     * @param string|null $type
      * @return bool
      */
-    function laket_check_permission($rule = '', $relation = 'or', $mode = 'slug', $type = null) {
+    function laket_check_permission(
+        $rule = '', 
+        $relation = 'or', 
+        $mode = 'slug', 
+        $type = null
+    ) {
         return AuthAdmin::checkPermission($rule, $mode, $type, $relation);
     }
 }
@@ -134,7 +171,8 @@ if (!function_exists('laket_attachment_url_list')) {
      * @param bool $domain 是否添加域名
      * @return 返回附件列表
      */
-    function laket_attachment_url_list($ids, $domain = false) {
+    function laket_attachment_url_list($ids, $domain = false)
+    {
         if ($ids == '') {
             return false;
         }
@@ -155,7 +193,8 @@ if (! function_exists('laket_flash_setting')) {
      * @param mix|null $default 默认值
      * @return 闪存插件设置值
      */
-    function laket_flash_setting($name, $key = null, $default = null) {
+    function laket_flash_setting($name, $key = null, $default = null)
+    {
         $flashs = FlashModel::getFlashs();
         
         $data = Arr::get($flashs, $name, []);

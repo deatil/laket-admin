@@ -5,7 +5,7 @@ return [
         "name" => "LaketAdmin",
         "name_mini" => "Laket",
         "version" => "1.0.1",
-        "release" => "1.0.1.20210323",
+        "release" => "1.0.1.20210329",
     ],
     
     'password' => [
@@ -21,8 +21,12 @@ return [
     'auth' => [
         // 认证方式，1为实时认证；2为登录认证。
         'type' => env('laket.auth_type', 1),
+        // 登陆认证过滤，格式: requestMethod:requestName
         'authenticate_excepts' => ($authenticateExceptsEnv = env('laket.auth_authenticate_excepts', '')) ? explode(',', $authenticateExceptsEnv) : [],
-        'permission_excepts' => ($permissionExceptsEnv = env('laket.auth_permission_excepts', 'public')) ? explode(',', $permissionExceptsEnv) : [],
+        // 权限认证过滤，格式: requestMethod:requestName
+        'permission_excepts' => ($permissionExceptsEnv = env('laket.auth_permission_excepts', '')) ? explode(',', $permissionExceptsEnv) : [],
+        // 锁屏认证过滤，格式: requestMethod:requestName
+        'screenlock_excepts' => ($screenlockExceptsEnv = env('laket.auth_screenlock_excepts', '')) ? explode(',', $screenlockExceptsEnv) : [],
     ],
     
     'flash' => [
@@ -45,7 +49,7 @@ return [
             'allow_credentials' => env('laket.response_json_allow_credentials', 0),
             'allow_methods' => env('laket.response_json_allow_methods', 'GET,POST,PATCH,PUT,DELETE,OPTIONS'),
             'allow_headers' => env('laket.response_json_allow_headers', 'X-Requested-With,X_Requested_With,Content-Type,Authorization'),
-            'expose_headers' => env('laket.response_json_expose_headers', 'Larke-Admin-Captcha-Id'),
+            'expose_headers' => env('laket.response_json_expose_headers', ''),
             'max_age' => env('laket.response_json_max_age', ''),
         ],
     ],

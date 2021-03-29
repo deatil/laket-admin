@@ -30,7 +30,7 @@ class AuthGroup extends Base
                 ->toArray();
             $total = AuthGroupModel::count();
             
-            $tree = new Tree();
+            $tree = make(Tree::class);
             $tree->withData($list);
             $list = $tree->buildArray(0);
             $list = $tree->buildFormatList($list, 'title');
@@ -52,7 +52,7 @@ class AuthGroup extends Base
      */
     public function create()
     {
-        $Tree = new Tree();
+        $Tree = make(Tree::class);
         $list = AuthGroupModel::order(['id' => 'ASC'])
             ->column('*', 'id');
         
@@ -107,7 +107,7 @@ class AuthGroup extends Base
             $this->error('用户组不存在！');
         }
         
-        $Tree = new Tree();
+        $Tree = make(Tree::class);
         
         $list = AuthGroupModel::order([
                 'id' => 'ASC',
@@ -286,7 +286,7 @@ class AuthGroup extends Base
                 }
             }
             
-            $json = (new Tree)
+            $json = make(Tree::class)
                 ->withConfig('buildChildKey', 'children')
                 ->withData($json)
                 ->buildArray(0);

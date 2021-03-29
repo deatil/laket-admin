@@ -67,7 +67,7 @@ class Service extends BaseService
      */
     public function register()
     {
-        $this->registerGlobalConfig();
+        $this->registerConfig();
         
         $this->registerAlias();
         
@@ -107,7 +107,7 @@ class Service extends BaseService
     /**
      * 全局配置
      */
-    protected function registerGlobalConfig() 
+    protected function registerConfig() 
     {
         $viewPath = __DIR__ . '/../resources/view';
         
@@ -116,7 +116,6 @@ class Service extends BaseService
         
         // 设置环境变量
         $this->app->env->set([
-            // 页面变量
             'laket_admin_layout' => $layout,
             'laket_admin_input_item' => $inputItem,
         ]);

@@ -30,17 +30,12 @@ class ScreenLockCheck
     
     /**
      * 入口
-     *
-     * @create 2020-7-21
-     * @author deatil
      */
     public function handle($request, Closure $next)
     {
-        $response = $next($request);
-        
         $this->checkScreenLock();
         
-        return $response;
+        return $next($request);
     }
     
     
@@ -53,29 +48,25 @@ class ScreenLockCheck
     protected function checkScreenLock()
     {
         // 过滤的行为
-        $allowUrl = [
+        $allowUrl = array_merge([
             'get:admin.passport.captcha',
             'get:admin.passport.login',
             'post:admin.passport.login-post',
             'get:admin.passport.logout',
             'post:admin.passport.lockscreen',
             'post:admin.passport.unlockscreen',
-            'get:admin.index',
-            'get:admin.main',
-        ];
+            'get:admin.index.index',
+            'get:admin.index.main',
+        ], (array) config('laket.auth.screenlock_excepts', []));
         
         $requestMethod = request()->rule()->getMethod();
         $requestName = request()->rule()->getName();
         
-        $rule = strtolower(
-            $requestMethod . 
-            ':' . $requestName
-        );
-        
+        $rule = strtolower($requestMethod . ':' . $requestName);
         if (! in_array($rule, $allowUrl)) {
-            $check = (new Screen())->check();
+            $check = make(Screen::class)->check();
             if ($check !== false) {
-                $url = laket_route('admin.index');
+                $url = laket_route('admin.index.index');
                 $this->error('后台已锁定，请先解锁', $url);
             }
         }
