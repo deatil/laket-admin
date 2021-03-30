@@ -81,11 +81,12 @@ class Service extends BaseService
     protected $slug = 'laket-admin.flash.settings';
     
     /**
-     * 引导，选填
+     * 引导，必填
      */
     public function boot()
     {
-        Flash::extend('laket/laket-settings', __CLASS__);
+        // 闪存插件注册，必须设置
+        Flash::extend('laket/laket-settings'/*插件包名*/, __CLASS__/*当前插件服务类名*/);
     }
     
     /**

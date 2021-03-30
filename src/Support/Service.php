@@ -23,7 +23,22 @@ class Service extends BaseService
      */
     protected function loadViewsFrom($path, $namespace)
     {
-        app('laket-admin.view-finder')->addNamespace($namespace, $path);
+        $viewFinder = app('laket-admin.view-finder');
+        
+        // 设置配置的视图路径
+        $config = config('laket.view');
+        if (isset($config['paths']) 
+            && is_array($config['paths'])
+        ) {
+            foreach ($config['paths'] as $viewPath) {
+                if (is_dir($appPath = $viewPath.'/vendor/'.$namespace)) {
+                    $viewFinder->addNamespace($namespace, $appPath);
+                }
+            }
+        }
+        
+        // 设置自定义路径
+        $viewFinder->addNamespace($namespace, $path);
     }
     
     /**

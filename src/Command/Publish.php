@@ -221,6 +221,8 @@ class Publish extends Command
      */
     protected function publishDirectory($from, $to)
     {
+        $this->createParentDirectory(dirname($to));
+        
         File::copyDir($from, $to);
 
         $this->status($from, $to, 'Directory');

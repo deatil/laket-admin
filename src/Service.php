@@ -120,7 +120,7 @@ class Service extends BaseService
      */
     protected function registerConfig() 
     {
-        $viewPath = __DIR__ . '/../resources/view';
+        $viewPath = __DIR__ . '/../resources/views';
         
         $layout = $viewPath . DIRECTORY_SEPARATOR . 'layout.html';
         $inputItem = $viewPath . DIRECTORY_SEPARATOR . 'inputItem.html';
@@ -155,7 +155,16 @@ class Service extends BaseService
         // 视图
         $this->app->bind('laket-admin.view-finder', function() {
             $viewFinder = new ViewFinder();
-            $viewFinder->addLocation($this->app->getAppPath() . '/view');
+            
+            // 加载配置的视图路径
+            $config = config('laket.view');
+            if (isset($config['paths']) 
+                && is_array($config['paths'])
+            ) {
+                foreach ($config['paths'] as $viewPath) {
+                    $viewFinder->addLocation($viewPath);
+                }
+            }
             
             return $viewFinder;
         });
@@ -221,7 +230,7 @@ class Service extends BaseService
      */
     public function bootView()
     {
-        $this->loadViewsFrom(__DIR__ . '/../resources/view', 'laket-admin');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laket-admin');
     }
     
     /**
@@ -302,14 +311,20 @@ class Service extends BaseService
             // 静态文件 
             // php think laket-admin:publish --tag=laket-admin-assets
             $this->publishes([
-                __DIR__ . '/../resources/assets/' => root_path() . 'public/static/admin/',
+                __DIR__ . '/../resources/assets/' => public_path() . 'static/admin/',
             ], 'laket-admin-assets');
             
             // 配置文件 
             // php think laket-admin:publish --tag=laket-admin-config
             $this->publishes([
-                __DIR__ . '/../resources/config/laket.php' => root_path() . 'config/laket.php',
+                __DIR__ . '/../resources/config/laket.php' => config_path() . 'laket.php',
             ], 'laket-admin-config');
+            
+            // 视图文件，需要修改系统页面时候可以执行命令
+            // php think laket-admin:publish --tag=laket-admin-views
+            $this->publishes([
+                __DIR__ . '/../resources/views/' => app_path() . 'view/vendor/laket-admin/',
+            ], 'laket-admin-views');
         }
     }
 

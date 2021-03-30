@@ -39,6 +39,11 @@ return [
     
     // 视图
     'view' => [
+        // 视图位置
+        'paths' => [
+            app_path('view'),
+        ],
+        
         'taglib_build_in' => env('laket.view_taglib_build_in', "\\Laket\\Admin\\Template\\Taglib\\Laket"),
     ],
     
