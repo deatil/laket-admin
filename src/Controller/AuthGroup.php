@@ -179,6 +179,11 @@ class AuthGroup extends Base
             $this->error('用户组不存在！');
         }
         
+        $authGroupCount = AuthGroupModel::count();
+        if ($authGroupCount <= 1) {
+            $this->error('用户组至少保留一个！');
+        }
+        
         $authGroup = AuthGroupModel::where([
                 'id' => $groupId,
             ])
