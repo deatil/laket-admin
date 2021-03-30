@@ -55,10 +55,21 @@ class Service extends BaseService
      * @var array
      */
     protected $routeMiddleware = [
+        'laket-admin.auth' => Middleware\Auth::class,
+        'laket-admin.permission' => Middleware\Permission::class,
+        'laket-admin.screen-lock' => Middleware\ScreenLockCheck::class,
+    ];
+
+    /**
+     * 路由中间件分组别名
+     *
+     * @var array
+     */
+    protected $middlewareGroups = [
         'laket-admin' => [
-            'laket-admin.auth' => Middleware\Auth::class,
-            'laket-admin.permission' => Middleware\Permission::class,
-            'laket-admin.screen-lock' => Middleware\ScreenLockCheck::class,
+            'laket-admin.auth',
+            'laket-admin.permission',
+            'laket-admin.screen-lock',
         ]
     ];
     
@@ -232,11 +243,26 @@ class Service extends BaseService
     public function bootMiddleware()
     {
         $this->app->middleware->add(Middleware\ExceptionHandler::class);
-    
-        // 配置路由中间件
+        
+        // 中间件配置
         $middleware = config('middleware', []);
+        
+        // 路由中间件别名
         foreach ($this->routeMiddleware as $key => $routeMiddleware) {
+            if (isset($middleware['alias'][$key])) {
+                unset($middleware['alias'][$key]);
+            }
+            
             $middleware['alias'][$key] = $routeMiddleware;
+        }
+        
+        // 路由中间件分组
+        foreach ($this->middlewareGroups as $group => $middlewareGroup) {
+            if (isset($middleware['alias'][$group])) {
+                unset($middleware['alias'][$group]);
+            }
+            
+            $middleware['alias'][$group] = $middlewareGroup;
         }
         
         config($middleware, 'middleware');
