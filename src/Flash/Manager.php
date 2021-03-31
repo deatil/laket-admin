@@ -256,8 +256,7 @@ class Manager
                 return null;
             }
             
-            $directory = $flashDirectory 
-                . DIRECTORY_SEPARATOR . $data['name'];
+            $directory = realpath($flashDirectory . DIRECTORY_SEPARATOR . $data['name']);
             
             if (! class_exists($data['bind_service']) 
                 && file_exists($directory)
@@ -272,24 +271,15 @@ class Manager
                 }
                 
                 $this->registerPsr4(Arr::get($composerData, 'psr-4', []));
-                $this->registerService(Arr::get($composerData, 'services', []), true);
+                $this->registerService(Arr::get($composerData, 'services', []));
             }
             
             if (! class_exists($data['bind_service'])) {
                 return null;
             }
             
+            // 获取绑定服务
             $newClass = app()->getService($data['bind_service']);
-            $newClass2 = null;
-            if (! $newClass) {
-                app()->register($data['bind_service']);
-                $newClass2 = app()->getService($data['bind_service']);
-            }
-            
-            if (! $newClass && $newClass2) {
-                app()->bootService($newClass2);
-                $newClass = $newClass2;
-            }
             
             if (! $newClass) {
                 return null;
@@ -372,9 +362,9 @@ class Manager
                 continue;
             }
             
-            app()->register($service);
+            $registerService = app()->register($service);
             
-            if ($boot) {
+            if (! $registerService && $boot) {
                 $newService = app()->getService($service);
                 app()->bootService($newService);
             }
