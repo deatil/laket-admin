@@ -57,6 +57,8 @@ class ViewFinder
      */
     public function find($name)
     {
+        $name = $this->normalizeName($name);
+        
         if (isset($this->views[$name])) {
             return $this->views[$name];
         }
