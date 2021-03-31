@@ -81,11 +81,13 @@
                                                     
                                                     <b>{$vo.title}</b>
                                                 </div>
-                                                <div style="margin-top: 5px;">
+                                                <div style="margin-top: 5px;" class="text-muted">
                                                     {$vo.name}
                                                 </div>
                                             {else /}
-                                                {$vo.name}
+                                                <div class="text-muted">
+                                                    {$vo.name}
+                                                </div>
                                             {/if}
                                         </div>
                                     </div>
@@ -127,10 +129,10 @@
                                     {volist name="vo.authors" id="author"}
                                         <div>
                                             <a href="{$author.homepage}" target="_blank">
-                                                <b>{$author.name}</b>
+                                                {$author.name}
                                             </a>
                                         </div>
-                                        <div style="margin-top: 5px;">
+                                        <div style="margin-top: 5px;" class="text-muted">
                                             {$author.email}
                                         </div>
                                     {/volist}

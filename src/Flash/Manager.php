@@ -384,6 +384,7 @@ class Manager
             $directories = $this->getDirectories($directory);
             
             $flashs = collect($directories)
+                ->sort()
                 ->map(function($path) {
                     $composerData = $this->parseComposer($path . '/composer.json');
                     return $composerData;
@@ -396,11 +397,6 @@ class Manager
         
         collect($flashs)->each(function($flash) {
             $services = Arr::get($flash, 'services', []);
-            if (! empty($services) 
-                && class_exists($services[0])
-            ) {
-                return;
-            }
             
             $this->registerPsr4(Arr::get($flash, 'psr-4', []));
             $this->registerService(Arr::get($flash, 'services', []), true);
