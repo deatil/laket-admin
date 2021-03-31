@@ -67,7 +67,7 @@ class ViewFinder
 
         return $this->views[$name] = $this->findInPaths($name, $this->paths);
     }
-
+    
     /**
      * Get the path to a template with a named path.
      *
@@ -176,6 +176,25 @@ class ViewFinder
         return realpath($path) ?: $path;
     }
     
+    /**
+     * Normalize the given view name.
+     *
+     * @param  string  $name
+     * @return string
+     */
+    public function normalizeName($name)
+    {
+        $delimiter = static::HINT_PATH_DELIMITER;
+
+        if (strpos($name, $delimiter) === false) {
+            return str_replace('/', '.', $name);
+        }
+
+        [$namespace, $name] = explode($delimiter, $name);
+
+        return $namespace.$delimiter.str_replace('/', '.', $name);
+    }
+
     /**
      * Add a namespace hint to the finder.
      *

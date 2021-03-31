@@ -79,7 +79,8 @@ trait View
     protected function fetch($template, $vars = [])
     {
         if (! file_exists($template)) {
-            $template = app('laket-admin.view-finder')->find($template);
+            $viewFinder = app('laket-admin.view-finder');
+            $template = $viewFinder->find($viewFinder->normalizeName($template));
         }
         
         // 配置视图标签

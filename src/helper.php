@@ -13,7 +13,7 @@ use Laket\Admin\Http\Traits\View as ViewTrait;
 if (! function_exists('make')) {
     /**
      * 实例化一个类
-     * @param string $name 类名或标识 默认获取当前应用实例
+     * @param string $name 类名或标识
      * @param array  $args 参数
      * @return object
      */
