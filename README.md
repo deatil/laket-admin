@@ -23,13 +23,25 @@
 
 ### 安装步骤
 
-1. 首先安装 `thinkphp 6.*`，并确认连接数据库的配置没有问题，开始执行以下命令
+1. 首先安装 `thinkphp 6.0.*`
+
+```php
+composer create-project topthink/think laket-admin 6.0.* & cd laket-admin
+```
+
+2. 配置数据库的连接信息，并确认能够正常连接数据库
+
+```
+config/database.php
+```
+
+3. 执行以下命令下载系统
 
 ```php
 composer require laket/laket-admin
 ```
 
-2. 然后运行下面的命令安装系统
+4. 然后运行下面的命令安装系统
 
 ```php
 php think laket-admin:install
@@ -37,7 +49,7 @@ php think laket-admin:install
 
 运行完命令后，你可以找到 `config/laket.php` 配置文件
 
-3. 后台地址 `http://yourdomain.com/admin/index`, 登录账号：`admin` 及密码 `123456`
+5. 后台地址 `http://yourdomain.com/admin/index`, 登录账号：`admin` 及密码 `123456`
 
 
 ### 闪存推荐
