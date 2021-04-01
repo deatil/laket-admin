@@ -120,10 +120,8 @@ class Service extends BaseService
      */
     protected function registerConfig() 
     {
-        $viewPath = __DIR__ . '/../resources/views';
-        
-        $layout = $viewPath . DIRECTORY_SEPARATOR . 'layout.html';
-        $inputItem = $viewPath . DIRECTORY_SEPARATOR . 'inputItem.html';
+        $layout = __DIR__ . '/../resources/views/layout.html';
+        $inputItem = __DIR__ . '/../resources/views/inputItem.html';
         
         // 设置环境变量
         $this->app->env->set([
@@ -218,9 +216,7 @@ class Service extends BaseService
      */
     public function bootCommand()
     {
-        if ($this->app->runningInConsole()) {
-            $this->commands($this->commands);
-        }
+        $this->commands($this->commands);
     }
 
     /**
