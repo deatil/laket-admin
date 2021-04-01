@@ -1,5 +1,25 @@
 ## flash闪存插件结构目录
 
+### 结构目录
+
+~~~
+flashs 目录
+├─ author                   作者目录
+│  ├─ package               闪存插件名称
+│  │  ├─ resources          资源目录
+│  │  ├─ src                代码目录
+│  │  │  ├─ Service.php     闪存插件服务，根据自定义加载设置放置
+│  │  ├─ composer.json      composer加载文件
+│  │  ├─ icon.png           闪存插件icon文件
+│  │  ├─ LICENSE            许可协议
+│  │  ├─ README.md          闪存插件说明文件
+│  │  └─ ...                其他
+│  │
+│  └─ ...                   同一作者其他闪存插件
+│
+└─ ...                      其他闪存插件
+~~~
+
 ### composer
 
 ~~~json
