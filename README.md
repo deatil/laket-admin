@@ -26,7 +26,7 @@
 1. 首先安装 `thinkphp 6.0.*`
 
 ```php
-composer create-project topthink/think laket-admin 6.0.* & cd laket-admin
+composer create-project topthink/think laket-admin 6.0.* && cd laket-admin
 ```
 
 2. 配置数据库的连接信息，并确认能够正常连接数据库
