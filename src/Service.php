@@ -10,7 +10,6 @@ use Laket\Admin\Flash\Manager;
 use Laket\Admin\Support\Form;
 use Laket\Admin\Support\Loader;
 use Laket\Admin\Support\Password;
-use Laket\Admin\Support\Lang;
 use Laket\Admin\Support\ViewFinder;
 use Laket\Admin\Support\Publish;
 use Laket\Admin\Support\Service as BaseService;
