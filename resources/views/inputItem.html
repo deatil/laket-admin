@@ -526,6 +526,9 @@
     {:laket_runhook('laket_admin_input_item', $vo)}
 
 {/volist}
+
+{:laket_runhook('laket_admin_input_item_js_before')}
+
 <script type="text/javascript" src="admin/libs/webuploader/webuploader.min.js"></script>
 <link rel="stylesheet" href="admin/libs/webuploader/webuploader.css">
 
@@ -540,3 +543,5 @@ $('.uploader-list').each(function () {
     $(this).viewer();
 });
 </script>
+
+{:laket_runhook('laket_admin_input_item_js_after')}

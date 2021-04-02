@@ -15,7 +15,20 @@ use think\Service as BaseService;
 class Service extends BaseService
 {
     /**
-     * 注册视图命名空间
+     * 配置信息
+     */
+    protected function mergeConfigFrom($path, $key)
+    {
+        $config = $this->app->config;
+
+        $config->set(array_merge(
+            require $path, 
+            $config->get($key, [])
+        ), $key);
+    }
+    
+    /**
+     * 注册视图
      *
      * @param  string|array  $path
      * @param  string  $namespace
@@ -42,16 +55,27 @@ class Service extends BaseService
     }
     
     /**
-     * 配置信息
+     * 注册多语言
+     *
+     * @param  string $path
+     * @return void
      */
-    protected function mergeConfigFrom($path, $key)
+    protected function loadLangsFrom($path)
     {
-        $config = $this->app->config;
-
-        $config->set(array_merge(
-            require $path, 
-            $config->get($key, [])
-        ), $key);
+        if (!is_dir($path) || !file_exists($path)) {
+            return ;
+        }
+        
+        $langset = app()->lang->getLangSet();
+        
+        $path = realpath($path);
+        
+        // 多语言文件
+        app()->lang->load($path . '/' . $langset . '.php');
+        
+        // 文件夹
+        $files = glob($path . '/' . $langset . '.*');
+        app()->lang->load($files);
     }
     
     /**

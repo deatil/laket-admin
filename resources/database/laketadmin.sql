@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS `pre__laket_admin`;
 CREATE TABLE `pre__laket_admin` (
   `id` char(32) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT '' COMMENT '用户ID',
   `name` varchar(20) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '管理账号',
-  `password` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '管理密码',
-  `password_salt` varchar(6) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '加密因子',
+  `password` char(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '管理密码',
+  `password_salt` char(6) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '加密因子',
   `nickname` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '昵称',
   `email` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `avatar` varchar(32) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '头像',
