@@ -2,6 +2,8 @@
 
 namespace Laket\Admin\Model;
 
+use think\facade\Cache;
+
 use Laket\Admin\Facade\Admin as AuthAdmin;
 
 /**
@@ -46,13 +48,13 @@ class AuthRule extends ModelBase
     
     /**
      * 获取菜单列表
+     *
      * @param type $data
      * @return type
      */
     public static function getMenusList()
     {
-        $menus = cache('laket_admin_menus');
-        if (!$menus) {
+        $menus =  Cache::remember(md5('laket.admin.menus'), function() {
             $menus = [];
             
             $data = static::select()->toArray();
@@ -62,8 +64,8 @@ class AuthRule extends ModelBase
                 }
             }
             
-            cache('laket_admin_menus', $menus);
-        }
+            return $menus;
+        }, 0);
         
         return $menus;
     }

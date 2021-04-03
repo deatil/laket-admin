@@ -116,9 +116,8 @@ class Flash extends ModelBase
      */
     public static function getFlashs()
     {
-        $data = Cache::get(md5('laket.model.flashs'));
-        if (! $data) {
-            $installData = self::order('listorder', 'ASC')
+        $data = Cache::remember(md5('laket.model.flashs'), function() {
+            $installData = static::order('listorder', 'ASC')
                 ->order('install_time', 'ASC')
                 ->select()
                 ->toArray();
@@ -128,8 +127,8 @@ class Flash extends ModelBase
                 $data[$item['name']] = $item;
             }
             
-            Cache::set(md5('laket.model.flashs'), $data, 0);
-        }
+            return $data;
+        }, 0);
         
         return $data;
     }
