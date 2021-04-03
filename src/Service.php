@@ -83,6 +83,14 @@ class Service extends BaseService
         $this->registerAlias();
         
         $this->registerBind();
+        
+        $this->registerMiddleware();
+        
+        $this->registerEvent();
+        
+        $this->registerCommand();
+        
+        $this->registerPublishes();
     }
     
     /**
@@ -90,19 +98,11 @@ class Service extends BaseService
      */
     public function boot()
     {
-        $this->bootCommand();
-        
         $this->bootView();
         
         $this->bootRouter();
         
-        $this->bootMiddleware();
-        
-        $this->bootEvent();
-        
         $this->bootFlash();
-        
-        $this->bootPublishes();
     }
     
     /**
@@ -214,30 +214,37 @@ class Service extends BaseService
     /**
      * 脚本
      */
-    public function bootCommand()
+    public function registerCommand()
     {
         $this->commands($this->commands);
     }
-
-    /**
-     * 视图
-     *
-     * @return void
-     */
-    public function bootView()
-    {
-        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laket-admin');
-    }
     
     /**
-     * 路由
+     * 推送
      *
      * @return void
      */
-    protected function bootRouter()
+    protected function registerPublishes()
     {
-        // 路由
-        $this->loadRoutesFrom(__DIR__ . '/../resources/routes/admin.php');
+        if ($this->app->runningInConsole()) {
+            // 静态文件 
+            // php think laket-admin:publish --tag=laket-admin-assets
+            $this->publishes([
+                __DIR__ . '/../resources/assets/' => public_path() . 'static/admin/',
+            ], 'laket-admin-assets');
+            
+            // 配置文件 
+            // php think laket-admin:publish --tag=laket-admin-config
+            $this->publishes([
+                __DIR__ . '/../resources/config/laket.php' => config_path() . 'laket.php',
+            ], 'laket-admin-config');
+            
+            // 视图文件，需要修改系统页面时候可以执行命令
+            // php think laket-admin:publish --tag=laket-admin-views
+            $this->publishes([
+                __DIR__ . '/../resources/views/' => app_path() . 'view/vendor/laket-admin/',
+            ], 'laket-admin-views');
+        }
     }
 
     /**
@@ -245,7 +252,7 @@ class Service extends BaseService
      *
      * @return void
      */
-    public function bootMiddleware()
+    public function registerMiddleware()
     {
         $this->app->middleware->add(Middleware\ExceptionHandler::class);
         
@@ -278,12 +285,33 @@ class Service extends BaseService
      *
      * @return void
      */
-    public function bootEvent()
+    public function registerEvent()
     {
         Event::listen(
             AdminEvent\MainUrl::class, 
             AdminListener\MainUrl::class
         );
+    }
+
+    /**
+     * 视图
+     *
+     * @return void
+     */
+    public function bootView()
+    {
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laket-admin');
+    }
+    
+    /**
+     * 路由
+     *
+     * @return void
+     */
+    protected function bootRouter()
+    {
+        // 路由
+        $this->loadRoutesFrom(__DIR__ . '/../resources/routes/admin.php');
     }
     
     /**
@@ -294,34 +322,6 @@ class Service extends BaseService
     protected function bootFlash()
     {
         app('laket-admin.flash')->bootFlash();
-    }
-    
-    /**
-     * 推送
-     *
-     * @return void
-     */
-    protected function bootPublishes()
-    {
-        if ($this->app->runningInConsole()) {
-            // 静态文件 
-            // php think laket-admin:publish --tag=laket-admin-assets
-            $this->publishes([
-                __DIR__ . '/../resources/assets/' => public_path() . 'static/admin/',
-            ], 'laket-admin-assets');
-            
-            // 配置文件 
-            // php think laket-admin:publish --tag=laket-admin-config
-            $this->publishes([
-                __DIR__ . '/../resources/config/laket.php' => config_path() . 'laket.php',
-            ], 'laket-admin-config');
-            
-            // 视图文件，需要修改系统页面时候可以执行命令
-            // php think laket-admin:publish --tag=laket-admin-views
-            $this->publishes([
-                __DIR__ . '/../resources/views/' => app_path() . 'view/vendor/laket-admin/',
-            ], 'laket-admin-views');
-        }
     }
 
 }
