@@ -59,6 +59,8 @@ php think laket-admin:install
 | [系统设置](https://github.com/deatil/laket-settings) | 添加系统的设置功能 |
 | [操作日志](https://github.com/deatil/laket-operation-log) | 记录管理员在后台的操作日志 |
 | [数据库管理](https://github.com/deatil/laket-admin-database) | 数据库备份、优化、修复及还原 |
+| [百度编辑器](https://github.com/deatil/laket-ueditor) | 增强闪存插件设置，增强设置闪存插件 |
+| [闪存插件禁用](https://github.com/deatil/laket-flash-disable) | 禁用后插件将不能进行相关的操作 |
 
 注：闪存插件目录默认为 `/flashs` 目录
 
