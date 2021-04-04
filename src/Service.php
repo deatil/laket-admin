@@ -4,8 +4,6 @@ declare (strict_types = 1);
 
 namespace Laket\Admin;
 
-use think\facade\Event;
-
 use Laket\Admin\Flash\Manager;
 use Laket\Admin\Support\Form;
 use Laket\Admin\Support\Loader;
@@ -86,8 +84,6 @@ class Service extends BaseService
         
         $this->registerMiddleware();
         
-        $this->registerEvent();
-        
         $this->registerCommand();
         
         $this->registerPublishes();
@@ -120,21 +116,6 @@ class Service extends BaseService
      */
     protected function registerConfig() 
     {
-        $layout = __DIR__ . '/../resources/views/layout.html';
-        $inputItem = __DIR__ . '/../resources/views/inputItem.html';
-        
-        // 设置环境变量
-        $this->app->env->set([
-            'laket_admin_layout' => $layout,
-            'laket_admin_input_item' => $inputItem,
-        ]);
-        
-        // 设置公用参数
-        $this->app->view->assign([
-            'laket_admin_layout' => $layout,
-            'laket_admin_input_item' => $inputItem,
-        ]);
-        
         // 配置
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/laket.php', 'laket');
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/laket_exception.php', 'laket_exception');
@@ -281,19 +262,6 @@ class Service extends BaseService
     }
     
     /**
-     * 事件
-     *
-     * @return void
-     */
-    public function registerEvent()
-    {
-        Event::listen(
-            AdminEvent\MainUrl::class, 
-            AdminListener\MainUrl::class
-        );
-    }
-
-    /**
      * 视图
      *
      * @return void
@@ -301,6 +269,11 @@ class Service extends BaseService
     public function bootView()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laket-admin');
+        
+        // 设置公用参数
+        $this->app->view->assign([
+            'laket_admin_layout' => app('laket-admin.view-finder')->find('laket-admin::layout'),
+        ]);
     }
     
     /**

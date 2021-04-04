@@ -146,7 +146,7 @@ class AuthGroup extends Base
         }
         
         if (!isset($data['id']) || empty($data['id'])) {
-            $this->error(__('用户组ID不存在！'));
+            $this->error('用户组ID不存在！');
         }
         
         $authGroup = AuthGroupModel::where([

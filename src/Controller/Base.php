@@ -26,22 +26,6 @@ abstract class Base extends BaseController
     protected $middleware = [];
     
     /**
-     * 空操作
-     */
-    public function _empty()
-    {
-        $this->error(__('该页面不存在！'));
-    }
-    
-    /**
-     * 初始化
-     */
-    protected function initialize()
-    {
-        parent::initialize();
-    }
-    
-    /**
      * 生成查询所需要的条件,排序方式
      */
     protected function buildparams()

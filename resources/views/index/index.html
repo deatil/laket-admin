@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>{:config('laket.admin.name')}</title>
     <meta name="author" content="deatil">
-    <base href="/static/" />
+    <base href="{:laket_assets('/')}" />
     <link rel="stylesheet" href="admin/libs/layui/css/layui.css">
     <link rel="stylesheet" href="admin/libs/iconfont/iconfont.css">
     <link rel="stylesheet" href="admin/admin/css/index.css">
@@ -27,7 +27,7 @@
                 <a href="javascript:;" class="admin-menu-toggle icon iconfont icon-other lake-admin-winner-hide" title="隐藏侧边"></a>
             </div>
             <ul class="layui-nav layui-layout-right lake-admin-right">
-                {:laket_runhook('lake_admin_top_left_nav_start')}
+                {:laket_runhook('laket_admin_top_left_nav_start')}
                 
                 <li class="layui-nav-item lake-admin-top-tip" lay-title="站点主页">
                     <a href="/" target="_blank">
@@ -35,7 +35,7 @@
                     </a>
                 </li>
                 
-                {:laket_runhook('lake_admin_top_left_nav_homepage_after')}
+                {:laket_runhook('laket_admin_top_left_nav_homepage_after')}
                 
                 <li class="layui-nav-item layui-hide-xs lake-admin-top-tip" lay-title="锁屏">
                     <a class="lake-admin-lock js-lake-admin-lock" 
@@ -48,7 +48,7 @@
                     </a>
                 </li>
                 
-                {:laket_runhook('lake_admin_top_left_nav_lockscreen_after')}
+                {:laket_runhook('laket_admin_top_left_nav_lockscreen_after')}
                 
                 <li class="layui-nav-item">
                     <a href="javascript:;" class="admin-side-full lake-admin-winner-hide lake-admin-top-tip" lay-title="全屏显示">
@@ -56,7 +56,7 @@
                     </a>
                 </li>
                 
-                {:laket_runhook('lake_admin_top_left_nav_skin_after')}
+                {:laket_runhook('laket_admin_top_left_nav_skin_after')}
                 
                 <li class="layui-nav-item">
                     <a href="javascript:;" title="清理缓存">
@@ -83,7 +83,7 @@
                     </dl>
                 </li>
                 
-                {:laket_runhook('lake_admin_top_left_nav_clearcache_after')}
+                {:laket_runhook('laket_admin_top_left_nav_clearcache_after')}
                 
                 <li class="layui-nav-item lake-admin-skin">
                     <a class="name" href="javascript:;">
@@ -101,7 +101,7 @@
                     </dl>
                 </li>
                 
-                {:laket_runhook('lake_admin_top_left_nav_skin_after')}
+                {:laket_runhook('laket_admin_top_left_nav_skin_after')}
                 
                 <li class="layui-nav-item">
                     <a href="javascript:;">
@@ -136,7 +136,7 @@
                     </dl>
                 </li>
                 
-                {:laket_runhook('lake_admin_top_left_nav_profile_after')}
+                {:laket_runhook('laket_admin_top_left_nav_profile_after')}
                 
             </ul>
         </div>
@@ -250,7 +250,7 @@
     }).use(['lakeAdmin']);
     </script>
     
-    {:laket_runhook('lake_admin_index_script_after')}
+    {:laket_runhook('laket_admin_index_script_after')}
 </body>
 
 </html>

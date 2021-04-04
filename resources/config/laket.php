@@ -41,10 +41,14 @@ return [
     'view' => [
         // 视图位置
         'paths' => [
-            app_path('view'),
+            app_path().'view',
         ],
         
+        // 标签
         'taglib_build_in' => env('laket.view_taglib_build_in', "\\Laket\\Admin\\Template\\Taglib\\Laket"),
+        
+        // 资源
+        'assets' => env('laket.view_assets', "/static"),
     ],
     
     'response' => [

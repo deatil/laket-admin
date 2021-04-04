@@ -8,6 +8,7 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 use Laket\Admin\Facade\Flash as Flasher;
 use Laket\Admin\Facade\Admin as AuthAdmin;
+use Laket\Admin\Facade\ViewFinder as ViewPathFinder;
 use Laket\Admin\Http\Traits\View as ViewTrait;
 
 if (! function_exists('make')) {
@@ -63,11 +64,25 @@ if (! function_exists('laket_route')) {
     }
 }
 
+if (! function_exists('laket_view_path')) {
+    /**
+     * 获取视图路径
+     *
+     * @param string $template 模板路径
+     *
+     * @return string
+     * @throws \Exception
+     */
+    function laket_view_path($template) 
+    {
+        return ViewPathFinder::find($template);
+    }
+}
+
 if (! function_exists('laket_view')) {
     /**
      * 解析和获取模板内容 用于输出
      *
-     * @access protected
      * @param string $template 模板文件名或者内容
      * @param array  $vars     模板变量
      *
@@ -84,6 +99,21 @@ if (! function_exists('laket_view')) {
                 return $this->fetch($template, $vars);
             }
         })->view($template, $vars);
+    }
+}
+
+if (! function_exists('laket_assets')) {
+    /**
+     * 获取视图路径
+     *
+     * @param string $template 模板路径
+     *
+     * @return string
+     * @throws \Exception
+     */
+    function laket_assets($assets = '') 
+    {
+        return config('laket.view.assets').($assets ?: '');
     }
 }
 

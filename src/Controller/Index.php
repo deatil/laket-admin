@@ -34,14 +34,13 @@ class Index extends Base
         $menus = AuthRuleModel::getMenuList();
         $this->assign("menus", $menus);
         
-        // 后台首页数据
+        // 自定义后台首页
         $mainUrl = laket_route('admin.index.main');
         $mainUrlData = new AdminEvent\Data\MainUrl($mainUrl);
-        
-        // 自定义后台首页
         event(new AdminEvent\MainUrl($mainUrlData));
+        $mainUrl = $mainUrlData->url;
         
-        $this->assign("main_url", $mainUrlData->url);
+        $this->assign("main_url", $mainUrl);
         
         return $this->fetch('laket-admin::index.index');
     }
@@ -97,7 +96,7 @@ class Index extends Base
             $gd = gd_info();
             $sys_info['gdinfo'] = $gd['GD Version'];
         } else {
-            $sys_info['gdinfo'] = __("未知");
+            $sys_info['gdinfo'] = "未知";
         }
         return $sys_info;
     }
