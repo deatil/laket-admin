@@ -4,8 +4,8 @@ return [
     'admin' => [
         "name" => "LaketAdmin",
         "name_mini" => "Laket",
-        "version" => "1.0.2",
-        "release" => "1.0.2.20210405",
+        "version" => "1.0.3",
+        "release" => "1.0.3.20210406",
     ],
     
     'password' => [

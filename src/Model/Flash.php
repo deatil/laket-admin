@@ -29,7 +29,7 @@ class Flash extends ModelBase
         'keywordlist',
         'authorlist',
         'settinglist',
-        'settingDatalist',
+        'setting_datalist',
     ];
     
     public function getKeywordlistAttr() 
@@ -104,10 +104,12 @@ class Flash extends ModelBase
         }
         
         $settinglist = $info['settinglist'];
-        $settingDatalist = $info['settingDatalist'];
+        $settingDatalist = $info['setting_datalist'];
         
         foreach ($settinglist as $value) {
             if (isset($settingDatalist[$value['name']])) {
+                $value['value'] = $settingDatalist[$value['name']];
+                
                 switch ($value['type']) {
                     case 'array':
                         $settingDatalist[$value['name']] = json_decode($value['value'], true);
