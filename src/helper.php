@@ -183,14 +183,7 @@ if (!function_exists('laket_attachment_url')) {
      */
     function laket_attachment_url($id, $domain = false)
     {
-        $data = AttachmentModel::where([
-                'id' => $id
-            ])
-            ->find();
-        $path = $data['uri'];
-        return ($path !== false) ? 
-            ($domain ? request()->domain() . $path : $path)
-            : "";
+        return AttachmentModel::getAttachmentUrl($id, $domain);
     }
 }
 

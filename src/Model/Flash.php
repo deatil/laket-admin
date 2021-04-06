@@ -5,8 +5,8 @@ declare (strict_types = 1);
 namespace Laket\Admin\Model;
 
 use Composer\Semver\Semver;
-
 use think\facade\Cache;
+use Laket\Admin\Event;
 
 /*
  * 闪存
@@ -29,7 +29,7 @@ class Flash extends ModelBase
         'keywordlist',
         'authorlist',
         'settinglist',
-        'setting_datalist',
+        'settingDatalist',
     ];
     
     public function getKeywordlistAttr() 
@@ -87,6 +87,77 @@ class Flash extends ModelBase
     {
         $model->setAttr('update_time', time());
         $model->setAttr('update_ip', request()->ip());
+    }
+    
+    /**
+     * 获取配置
+     *
+     * @return array
+     */
+    public static function getConfigs($name)
+    {
+        $info = Flash::where([
+                "name" => $name,
+            ])->find();
+        if (empty($info)) {
+            return [];
+        }
+        
+        $settinglist = $info['settinglist'];
+        $settingDatalist = $info['settingDatalist'];
+        
+        foreach ($settinglist as $value) {
+            if (isset($settingDatalist[$value['name']])) {
+                switch ($value['type']) {
+                    case 'array':
+                        $settingDatalist[$value['name']] = json_decode($value['value'], true);
+                        break;
+                    case 'radio':
+                        $settingDatalist[$value['name']] = isset($value['options'][$value['value']]) ? $value['value'] : '';
+                        break;
+                    case 'select':
+                        $settingDatalist[$value['name']] = isset($value['options'][$value['value']]) ? $value['value'] : '';
+                        break;
+                    case 'checkbox':
+                        if (empty($value['value'])) {
+                            $settingDatalist[$value['name']] = [];
+                        } else {
+                            $valueArr = explode(',', $value['value']);
+                            foreach ($valueArr as $v) {
+                                if (isset($value['options'][$v])) {
+                                    $settingDatalist[$value['name']][$v] = $value['options'][$v];
+                                } elseif ($v) {
+                                    $settingDatalist[$value['name']][$v] = $v;
+                                }
+                            }
+                        }
+                        break;
+                    case 'image':
+                        $settingDatalist[$value['name']] = !empty($value['value']) ? Attachment::getAttachmentUrl($value['value']) : '';
+                        break;
+                    case 'images':
+                        if (!empty($value['value'])) {
+                            $images_values = explode(',', $value['value']);
+                            foreach ($value['value'] as $val) {
+                                $settingDatalist[$value['name']][] = Attachment::getAttachmentUrl($val);
+                            }
+                        } else {
+                            $settingDatalist[$value['name']] = [];
+                        }
+                        break;
+                    default:
+                        $settingDatalist[$value['name']] = $value['value'];
+                        break;
+                }
+            }
+        }
+        
+        // 事件
+        $eventData = new Event\Data\FlashModelGetConfigs($settinglist, $settingDatalist);
+        event(new Event\FlashModelGetConfigs($eventData));
+        $settingDatalist = $eventData->settingDatalist;
+        
+        return $settingDatalist;
     }
     
     /**

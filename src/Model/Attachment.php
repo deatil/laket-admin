@@ -52,6 +52,18 @@ class Attachment extends ModelBase
         return static::objectPath($this->path, $this->driver);
     }
     
+    public static function getAttachmentUrl($id, $domain = false)
+    {
+        $data = static::where([
+                'id' => $id
+            ])
+            ->find();
+        $path = $data['uri'];
+        return ($path !== false) ? 
+            ($domain ? request()->domain() . $path : $path)
+            : "";
+    }
+    
     public static function deleteFile($path, $disk = '')
     {
         return static::filesystem($disk)->delete($path);
