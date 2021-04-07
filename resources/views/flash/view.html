@@ -89,7 +89,7 @@
                                     <tr>
                                         <td>作者</td>
                                         <td>邮箱</td>
-                                        <td>用户组</td>
+                                        <td>开发角色</td>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -127,7 +127,13 @@
                     </tr>
                     <tr>
                         <td>更新时间</td>
-                        <td>{:date('Y-m-d H:i:s', $data['upgrade_time'])}</td>
+                        <td>
+                            {if !empty($data['upgrade_time'])}
+                                {:date('Y-m-d H:i:s', $data['upgrade_time'])}
+                            {else}
+                                --
+                            {/if}
+                        </td>
                     </tr>
                     <tr>
                         <td>状态</td>

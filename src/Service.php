@@ -44,6 +44,7 @@ class Service extends BaseService
     protected $commands = [
         Command\Publish::class,
         Command\Install::class,
+        Command\Flash::class,
         Command\ResetPassword::class,
     ];
 

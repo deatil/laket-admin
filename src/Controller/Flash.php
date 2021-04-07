@@ -8,7 +8,6 @@ use Composer\Semver\Semver;
 use Composer\Semver\Comparator;
 use Composer\Semver\VersionParser;
 
-use think\facade\Db;
 use think\helper\Arr;
 use think\helper\Str;
 
@@ -127,19 +126,19 @@ class Flash extends Base
     {
         $name = $this->request->param('name');
         if (empty($name)) {
-            $this->error('请选择需要安装的闪存！');
+            return $this->error('请选择需要安装的闪存！');
         }
         
         $installInfo = FlashModel::where(['name' => $name])
             ->find();
         if (! empty($installInfo)) {
-            $this->error('闪存已经安装过了！');
+            return $this->error('闪存已经安装过了！');
         }
         
         Flasher::loadFlash();
         $info = Flasher::getFlash($name);
         if (empty($info)) {
-            $this->error('闪存不存在！');
+            return $this->error('闪存不存在！');
         }
         
         $checkInfo = Flasher::validateInfo($info);
@@ -178,7 +177,7 @@ class Flash extends Base
             'setting' => json_encode(Arr::get($info, 'setting', [])),
         ]);
         if ($flash === false) {
-            $this->error('安装失败！');
+            return $this->error('安装失败！');
         }
         
         Flasher::getNewClassMethod($flash['bind_service'], 'install');
@@ -196,22 +195,22 @@ class Flash extends Base
     {
         $name = $this->request->param('name');
         if (empty($name)) {
-            $this->error('请选择需要卸载的闪存！');
+            return $this->error('请选择需要卸载的闪存！');
         }
         
         $installInfo = FlashModel::where(['name' => $name])
             ->find();
         if (empty($installInfo)) {
-            $this->error('闪存还没有安装！');
+            return $this->error('闪存还没有安装！');
         }
         
         if ($installInfo['status'] == 1) {
-            $this->error('请禁用闪存插件后再卸载！');
+            return $this->error('请禁用闪存插件后再卸载！');
         }
 
         $status = FlashModel::where(['name' => $name])->delete();
         if ($status === false) {
-            $this->error("卸载失败！");
+            return $this->error("卸载失败！");
         }
         
         Flasher::loadFlash();
@@ -232,23 +231,23 @@ class Flash extends Base
     {
         $name = $this->request->param('name');
         if (empty($name)) {
-            $this->error('请选择需要更新的闪存！');
+            return $this->error('请选择需要更新的闪存！');
         }
         
         $installInfo = FlashModel::where(['name' => $name])
             ->find();
         if (empty($installInfo)) {
-            $this->error('闪存还没有安装！');
+            return $this->error('闪存还没有安装！');
         }
         
         if ($installInfo['status'] == 1) {
-            $this->error('请禁用闪存插件后再更新！');
+            return $this->error('请禁用闪存插件后再更新！');
         }
 
         Flasher::loadFlash();
         $info = Flasher::getFlash($name);
         if (empty($info)) {
-            $this->error('本地闪存不存在！');
+            return $this->error('本地闪存不存在！');
         }
         
         $checkInfo = Flasher::validateInfo($info);
@@ -295,7 +294,7 @@ class Flash extends Base
                 'name' => $name
             ]);
         if ($status === false) {
-            $this->error('更新失败！');
+            return $this->error('更新失败！');
         }
         
         Flasher::getNewClassMethod(Arr::get($info, 'bind_service'), 'upgrade');
@@ -313,14 +312,14 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
-            $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的闪存！');
         }
         
         $data = FlashModel::where([
                 "name" => $name,
             ])->find();
         if (empty($data)) {
-            $this->error('信息不存在！');
+            return $this->error('信息不存在！');
         }
         
         $icon = '';
@@ -346,14 +345,14 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
-            $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的闪存！');
         }
         
         $info = FlashModel::where([
                 "name" => $name,
             ])->find();
         if (empty($info)) {
-            $this->error('信息不存在！');
+            return $this->error('信息不存在！');
         }
         
         if ($this->request->isPost()) {
@@ -396,7 +395,7 @@ class Flash extends Base
             ]);
             
             if ($status === false) {
-                $this->error('设置失败！');
+                return $this->error('设置失败！');
             }
             
             // 清除缓存
@@ -443,14 +442,14 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
-            $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的闪存！');
         }
         
         $installInfo = FlashModel::where([
                 "name" => $name,
             ])->find();
         if (empty($installInfo)) {
-            $this->error('闪存还没有安装！');
+            return $this->error('闪存还没有安装！');
         }
         
         $status = FlashModel::where([
@@ -459,7 +458,7 @@ class Flash extends Base
             'status' => 1,
         ]);
         if ($status === false) {
-            $this->error('启用失败！');
+            return $this->error('启用失败！');
         }
         
         Flasher::loadFlash();
@@ -478,14 +477,14 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
-            $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的闪存！');
         }
         
         $installInfo = FlashModel::where([
                 "name" => $name,
             ])->find();
         if (empty($installInfo)) {
-            $this->error('闪存还没有安装！');
+            return $this->error('闪存还没有安装！');
         }
         
         $status = FlashModel::where([
@@ -495,7 +494,7 @@ class Flash extends Base
         ]);
         
         if ($status === false) {
-            $this->error('禁用失败！');
+            return $this->error('禁用失败！');
         }
         
         Flasher::getNewClassMethod($installInfo['bind_service'], 'disable');
@@ -513,7 +512,7 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s', 0);
         if (empty($name)) {
-            $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的闪存！');
         }
         
         $listorder = $this->request->param('value/d', 100);
@@ -524,7 +523,7 @@ class Flash extends Base
             'listorder' => $listorder,
         ]);
         if ($rs === false) {
-            $this->error("排序失败！");
+            return $this->error("排序失败！");
         }
         
         // 清除缓存

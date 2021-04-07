@@ -384,11 +384,11 @@ class Manager
             $directories = $this->getDirectories($directory);
             
             $flashs = collect($directories)
-                ->sort()
                 ->map(function($path) {
                     $composerData = $this->parseComposer($path . '/composer.json');
                     return $composerData;
                 })
+                ->order('name')
                 ->values()
                 ->toArray();
             
