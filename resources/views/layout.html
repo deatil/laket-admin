@@ -38,7 +38,12 @@
     </script>
     {/block}
     {block name="layui"}
+    <link rel="stylesheet" href="admin/libs/viewer/viewer.min.css">
+    <script type="text/javascript" src="admin/libs/viewer/viewer.min.js"></script>
+    <link rel="stylesheet" href="admin/libs/webuploader/webuploader.css">
+    <script type="text/javascript" src="admin/libs/webuploader/webuploader.min.js"></script>
     <link rel="stylesheet" href="admin/libs/layui-extend/jquery.jsonview/jquery.jsonview.min.css">
+    
     <script type="text/javascript">
     layui.config({
         version: "{:config('laket.admin.release')}",
