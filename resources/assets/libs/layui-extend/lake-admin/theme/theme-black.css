@@ -24,7 +24,7 @@
 
 /** header样式 */
 .layui-layout-admin .layui-header {
-    background-color: #282b33;
+    background-color: #212225;
 }
 
 .layui-layout-admin .layui-header .lake-admin-skin-active {
@@ -60,20 +60,21 @@
     background-color: #24262F;
 }
 
+.layui-side .layui-nav .layui-nav-item a:hover {
+    color: #fff;
+}
+
 .layui-nav-tree .layui-nav-child dd.layui-this, 
 .layui-nav-tree .layui-nav-child dd.layui-this a, 
 .layui-nav-tree .layui-this, 
 .layui-nav-tree .layui-this > a, 
 .layui-nav-tree .layui-this > a:hover {
-    background-color: #009688;
+    background-color: #282b33 !important;
+    color: #009688 !important;
 }
 
 .layui-nav-tree .layui-nav-bar {
     background-color: #009688;
-}
-
-.layui-side .layui-nav .layui-nav-item a:hover {
-    color: #fff;
 }
 
 .lake-admin .layui-nav .layui-this:after, 
@@ -85,6 +86,10 @@
 /** 侧边栏文字颜色 */
 .layui-side .layui-nav .layui-nav-item a {
     color: rgba(238, 238, 238, .7);
+}
+.layui-side .layui-nav .layui-nav-item.layui-this a {
+    background-color: #393d49 !important;
+    color: #009688 !important;
 }
 
 .layui-side .layui-nav-itemed > a, 

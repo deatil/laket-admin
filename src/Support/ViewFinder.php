@@ -6,6 +6,8 @@ namespace Laket\Admin\Support;
 
 use InvalidArgumentException;
 
+use Laket\Admin\Traits\Macroable;
+
 /**
  * 视图
  *
@@ -14,6 +16,8 @@ use InvalidArgumentException;
  */
 class ViewFinder
 {
+    use Macroable;
+    
     /**
      * Hint path delimiter value.
      *

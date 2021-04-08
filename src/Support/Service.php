@@ -6,6 +6,8 @@ namespace Laket\Admin\Support;
 
 use think\Service as BaseService;
 
+use Laket\Admin\Traits\Macroable;
+
 /**
  * 服务
  *
@@ -14,6 +16,8 @@ use think\Service as BaseService;
  */
 class Service extends BaseService
 {
+    use Macroable;
+    
     /**
      * 配置信息
      */

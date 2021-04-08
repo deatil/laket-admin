@@ -1,8 +1,30 @@
  $(function() {
+     // ueditor编辑器集合
+     var ueditors = {};
      // 文件上传集合
      var webuploader = [];
      // 当前上传对象
      var curr_uploader = {};
+
+     // ueditor编辑器
+     $('.js-ueditor').each(function() {
+         var ueditor_name = $(this).attr('id');
+         ueditors[ueditor_name] = UE.getEditor(ueditor_name, {
+             initialFrameHeight: 400, //初始化编辑器高度,默认320
+             autoHeightEnabled: false, //是否自动长高
+             maximumWords: 50000, //允许的最大字符数
+             serverUrl: laket.url.ueditor_upload_url,
+         });
+         $('#' + ueditor_name + 'grabimg').click(function() {
+             var con = ueditors[ueditor_name].getContent();
+             $.post(laket.url.ueditor_grabimg_url, { 'content': con, 'type': 'images' },
+                 function(data) {
+                     ueditors[ueditor_name].setContent(data);
+                     layer.msg("图片本地化完成");
+                 }, 'html');
+         })
+
+     });
 
      // 文件上传
      $('.js-upload-file,.js-upload-files').each(function() {

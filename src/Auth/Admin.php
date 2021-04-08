@@ -8,6 +8,7 @@ use think\facade\Session;
 use think\facade\Config;
 
 use Laket\Admin\Facade\Password;
+use Laket\Admin\Traits\Macroable;
 use Laket\Admin\Model\Admin as AdminModel;
 use Laket\Admin\Model\AuthGroup as AuthGroupModel;
 
@@ -19,6 +20,8 @@ use Laket\Admin\Model\AuthGroup as AuthGroupModel;
  */
 class Admin
 {
+    use Macroable;
+    
     /**
      * 登陆数据
      */

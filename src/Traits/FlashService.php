@@ -6,6 +6,12 @@ namespace Laket\Admin\Traits;
 
 use Closure;
 
+/**
+ * 闪存插件服务
+ *
+ * @create 2021-3-17
+ * @author deatil
+ */
 trait FlashService
 {
     /**

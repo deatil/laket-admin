@@ -7,6 +7,8 @@ namespace Laket\Admin\Http;
 use think\Response;
 use think\exception\HttpResponseException;
 
+use Laket\Admin\Traits\Macroable;
+
 /*
  * 响应
  *
@@ -15,6 +17,8 @@ use think\exception\HttpResponseException;
  */
 class JsonResponse
 {
+    use Macroable;
+    
     // 输出头信息列表
     protected $headers = [];
     

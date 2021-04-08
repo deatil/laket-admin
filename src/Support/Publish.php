@@ -4,6 +4,8 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Support;
 
+use Laket\Admin\Traits\Macroable;
+
 /**
  * 推送
  *
@@ -12,6 +14,8 @@ namespace Laket\Admin\Support;
  */
 class Publish
 {
+    use Macroable;
+    
     /**
      * The paths that should be published.
      *
