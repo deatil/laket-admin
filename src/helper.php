@@ -14,6 +14,7 @@ use Laket\Admin\Http\Traits\View as ViewTrait;
 if (! function_exists('make')) {
     /**
      * 实例化一个类
+     *
      * @param string $name 类名或标识
      * @param array  $args 参数
      * @return object
@@ -27,6 +28,7 @@ if (! function_exists('make')) {
 if (! function_exists('laket_url')) {
     /**
      * Url生成
+     *
      * @param string      $url    路由地址
      * @param array       $vars   变量
      * @param bool|string $suffix 生成的URL后缀
@@ -47,6 +49,7 @@ if (! function_exists('laket_url')) {
 if (! function_exists('laket_route')) {
     /**
      * Url生成
+     *
      * @param string      $name   路由名称
      * @param array       $vars   变量
      * @param bool|string $suffix 生成的URL后缀
@@ -69,8 +72,8 @@ if (! function_exists('laket_view_path')) {
      * 获取视图路径
      *
      * @param string $template 模板路径
-     *
      * @return string
+     *
      * @throws \Exception
      */
     function laket_view_path($template) 
@@ -85,8 +88,8 @@ if (! function_exists('laket_view')) {
      *
      * @param string $template 模板文件名或者内容
      * @param array  $vars     模板变量
-     *
      * @return string
+     *
      * @throws \Exception
      */
     function laket_view($template, $vars = []) 
@@ -107,8 +110,8 @@ if (! function_exists('laket_assets')) {
      * 获取视图路径
      *
      * @param string $template 模板路径
-     *
      * @return string
+     *
      * @throws \Exception
      */
     function laket_assets($assets = '') 
@@ -120,6 +123,7 @@ if (! function_exists('laket_assets')) {
 if (! function_exists('laket_check_permission')) {
     /**
      * 权限检测
+     *
      * @param string $rule slug名称
      * @param string $relation
      * @param string $mode
@@ -139,6 +143,7 @@ if (! function_exists('laket_check_permission')) {
 if (!function_exists('laket_runhook')) {
     /**
      * 行为
+     *
      * @param  string $tag    标签名称
      * @param  mixed  $params 传入参数
      * @param  bool   $once   只获取一个有效返回值
@@ -160,6 +165,7 @@ if (!function_exists('laket_runhook')) {
 if (!function_exists('laket_file_name')) {
     /**
      * 根据附件id获取文件名
+     *
      * @param string $id 附件id
      * @return string
      */
@@ -177,6 +183,7 @@ if (!function_exists('laket_file_name')) {
 if (!function_exists('laket_attachment_url')) {
     /**
      * 获取附件路径
+     *
      * @param int $id 附件id
      * @param bool $domain 是否添加域名
      * @return string
@@ -190,6 +197,7 @@ if (!function_exists('laket_attachment_url')) {
 if (!function_exists('laket_attachment_url_list')) {
     /**
      * 获取多附件地址
+     *
      * @param string $ids 附件id列表
      * @param bool $domain 是否添加域名
      * @return 返回附件列表
@@ -211,6 +219,7 @@ if (!function_exists('laket_attachment_url_list')) {
 if (! function_exists('laket_flash_setting')) {
     /**
      * 闪存插件配置信息
+     *
      * @param string $name 闪存插件包名
      * @param string|null $key 取值
      * @param mix|null $default 默认值
@@ -233,7 +242,10 @@ if (! function_exists('laket_flash_setting')) {
 
 if (! function_exists('laket_admin_authenticate_excepts')) {
     /**
-     * 登陆验证过滤
+     * 登陆过滤
+     *
+     * @param array $excepts 过滤规则
+     * @return mix
      */
     function laket_admin_authenticate_excepts(array $excepts)
     {
@@ -244,9 +256,25 @@ if (! function_exists('laket_admin_authenticate_excepts')) {
 if (! function_exists('laket_admin_permission_excepts')) {
     /**
      * 权限过滤
+     *
+     * @param array $excepts 过滤规则
+     * @return mix
      */
     function laket_admin_permission_excepts(array $excepts)
     {
         return Flasher::permissionExcepts($excepts);
+    }
+}
+
+if (! function_exists('laket_admin_screenlock_excepts')) {
+    /**
+     * 锁屏过滤
+     *
+     * @param array $excepts 过滤规则
+     * @return mix
+     */
+    function laket_admin_screenlock_excepts(array $excepts)
+    {
+        return Flasher::screenlockExcepts($excepts);
     }
 }

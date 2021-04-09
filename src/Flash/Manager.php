@@ -140,7 +140,7 @@ class Manager
     }
     
     /**
-     * 添加登陆过滤
+     * 登陆过滤
      *
      * @param array $excepts
      * 
@@ -163,7 +163,7 @@ class Manager
     }
     
     /**
-     * 添加权限过滤
+     * 权限过滤
      *
      * @param array $excepts
      * 
@@ -178,6 +178,29 @@ class Manager
         $auth = config('laket.auth', []);
         foreach ($excepts as $except) {
             $auth['permission_excepts'][] = $except;
+        }
+        
+        config([
+            'auth' => $auth,
+        ], 'laket');
+    }
+    
+    /**
+     * 锁屏过滤
+     *
+     * @param array $excepts
+     * 
+     * @return void
+     */
+    public function screenlockExcepts(array $excepts = [])
+    {
+        if (empty($excepts)) {
+            return ;
+        }
+        
+        $auth = config('laket.auth', []);
+        foreach ($excepts as $except) {
+            $auth['screenlock_excepts'][] = $except;
         }
         
         config([
