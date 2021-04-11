@@ -45,7 +45,7 @@ class Publish extends Command
     {
         $this
             ->setName('laket-admin:publish')
-            ->addOption('force', null, Option::VALUE_NONE, 'force')
+            ->addOption('force', 'f', Option::VALUE_NONE, 'force')
             ->addOption('all', null, Option::VALUE_NONE, 'all')
             ->addOption('provider', null, Option::VALUE_OPTIONAL, 'provider')
             ->addOption('tag', null, Option::VALUE_OPTIONAL, 'tag')

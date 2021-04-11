@@ -24,7 +24,7 @@ use Laket\Admin\Model\Flash as FlashModel;
 /**
  * 闪存
  *
- * php think laket-admin:flash --package=package_name --action=install
+ * php think laket-admin:flash [--package=package_name] [--action=install]
  *
  * @create 2021-4-7
  * @author deatil
@@ -38,8 +38,8 @@ class Flash extends Command
     {
         $this
             ->setName('laket-admin:flash')
-            ->addOption('package', null, Option::VALUE_OPTIONAL, 'flash package name.')
-            ->addOption('action', null, Option::VALUE_OPTIONAL, 'flash command action.')
+            ->addOption('package', 'p', Option::VALUE_OPTIONAL, 'flash package name.')
+            ->addOption('action', 'a', Option::VALUE_OPTIONAL, 'flash command action.')
             ->setDescription('The command is some flash tools.');
     }
 
