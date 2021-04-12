@@ -19,6 +19,7 @@ class Check
     
     /**
      * 设置
+     *
      * @param array $auths 权限数据
      * @return object
      */
@@ -30,6 +31,7 @@ class Check
     
     /**
      * 获取权限数据
+     *
      * @return array
      */
     public function getAuths()
@@ -39,6 +41,7 @@ class Check
     
     /**
      * 检查权限
+     *
      * @param string|array name  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
      * @param string relation    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
      * @param string mode        执行check的模式 | slug
@@ -84,6 +87,7 @@ class Check
     
     /**
      * 单次检查权限
+     *
      * @param string name       需要验证的规则列表
      * @param string relation   如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
      * @param string mode       执行check的模式 url | slug
@@ -116,6 +120,7 @@ class Check
     
     /**
      * 获取权限数据
+     *
      * @param string $name 要验证的规则
      * @param string $auth 权限
      * @return boolean
@@ -147,6 +152,7 @@ class Check
    
     /**
      * 格式化name
+     *
      * @param string $name 要检测的名称
      * @return string
      */
@@ -166,6 +172,7 @@ class Check
     
     /**
      * 检测 And
+     *
      * @param array $list 数据列表
      * @return boolean
      */
@@ -175,23 +182,18 @@ class Check
             return false;
         }
         
-        $allStatus = true;
         foreach ($list as $value2) {
             if (empty($value2)) {
-                $allStatus = false;
-                break;
+                return false;
             }
         }
         
-        if ($allStatus !== false) {
-            return true;
-        }
-        
-        return false;
+        return true;
     }
     
     /**
      * 检测 Or
+     *
      * @param array $list 数据列表
      * @return boolean
      */
@@ -202,7 +204,7 @@ class Check
         }
         
         foreach ($list as $value) {
-            if (!empty($value)) {
+            if (! empty($value)) {
                 return true;
             }
         }
