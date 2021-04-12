@@ -20,6 +20,10 @@ class Service extends BaseService
     
     /**
      * 配置信息
+     *
+     * @param  string  $path
+     * @param  string  $key
+     * @return void
      */
     protected function mergeConfigFrom($path, $key)
     {

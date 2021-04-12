@@ -54,12 +54,11 @@ class Flash extends Base
                     if (class_exists($data['bind_service'])) {
                         app()->register($data['bind_service']);
                         $newClass = app()->getService($data['bind_service']);
-                        if (isset($newClass->composer)) {
-                            $icon = dirname($newClass->composer) . '/icon.png';
-                        }
+                        
+                        $icon = Flasher::getFlashIcon($newClass);
                     }
                     
-                    $data['icon'] = Flasher::getIcon($icon);
+                    $data['icon'] = $icon;
                     
                     return $data;
                 })

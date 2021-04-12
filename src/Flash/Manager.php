@@ -568,6 +568,34 @@ class Manager
     }
     
     /**
+     * 闪存标识
+     *
+     * @param object|null $newClass
+     *
+     * @return string
+     */
+    public function getFlashIcon(?object $newClass = null)
+    {
+        if (! is_object($newClass)) {
+            return '';
+        }
+        
+        if (! empty($newClass->icon)) {
+            $icon = $newClass->icon;
+        } else {
+            if (empty($newClass->composer)) {
+                $composer = $this->getPathFromClass($newClass) . '/../composer.json';
+            } else {
+                $composer = $newClass->composer;
+            }
+            
+            $icon = dirname($composer) . '/icon.png';
+        }
+        
+        return $this->getIcon($icon);
+    }
+    
+    /**
      * 闪存信息
      *
      * @param string|null $name
@@ -581,13 +609,19 @@ class Manager
             return [];
         }
         
-        if (! isset($newClass->composer)) {
+        if (empty($newClass->composer)) {
+            $composer = $this->getPathFromClass($newClass) . '/../composer.json';
+        } else {
+            $composer = $newClass->composer;
+        }
+        
+        if (! file_exists($composer)) {
             return [];
         }
         
         try {
-            $info = (array) json_decode(file_get_contents($newClass->composer), true);
-        } catch (\Throwable $e) {
+            $info = (array) json_decode(file_get_contents($composer), true);
+        } catch (\Exception $e) {
             $info = [];
         }
         
@@ -595,8 +629,9 @@ class Manager
         if (! empty($newClass->icon)) {
             $iconPath = $newClass->icon;
         } else {
-            $iconPath = dirname($newClass->composer) . '/icon.png';
+            $iconPath = dirname($composer) . '/icon.png';
         }
+        
         $icon = $this->getIcon($iconPath);
 
         // 设置
@@ -610,7 +645,7 @@ class Manager
                 $setting = include $newClass->setting;
             }
         } else {
-            $settingPath = dirname($newClass->composer) . '/setting.php';
+            $settingPath = dirname($composer) . '/setting.php';
             if (file_exists($settingPath)) {
                 $setting = include $settingPath;
             }
@@ -740,4 +775,23 @@ class Manager
         return $flashs;
     }
     
+    /**
+     * 根据类名获取类所在文件夹
+     *
+     * @param string|object|null $class
+     *
+     * @return string|bool
+     */
+    public function getPathFromClass($class = null)
+    {
+        if (is_object($class)) {
+            $class = get_class($class);
+        }
+        
+        $reflection = new ReflectionClass($class);
+        $filePath = dirname($reflection->getFileName());
+
+        return $filePath;
+    }
+
 }
