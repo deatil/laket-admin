@@ -10,6 +10,7 @@ use think\captcha\Captcha;
 
 use Laket\Admin\Support\File;
 use Laket\Admin\Event as AdminEvent;
+use Laket\Admin\Model\Admin as AdminModel;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
 use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
@@ -60,6 +61,10 @@ class Index extends Base
         $attachmentCount = AttachmentModel::count();
         $this->assign('attachment_count', $attachmentCount);
         
+        // 管理员数量
+        $adminCount = AdminModel::count();
+        $this->assign('admin_count', $adminCount);
+        
         $this->assign('sys_info', $this->getSysInfo());
         
         return $this->fetch('laket-admin::index.main');
@@ -85,7 +90,7 @@ class Index extends Base
         //$sys_info['max_ex_time'] = @ini_get("max_execution_time") . 's';
         $sys_info['domain'] = $_SERVER['HTTP_HOST']; //域名
         //$sys_info['remaining_space'] = round((disk_free_space(".") / (1024 * 1024)), 2) . 'M'; //剩余空间
-        //$sys_info['user_ip'] = $_SERVER['REMOTE_ADDR']; //用户IP地址
+        //$sys_info['remote_addr'] = $_SERVER['REMOTE_ADDR']; //用户IP地址
         $sys_info['beijing_time'] = gmdate("Y年n月j日 H:i:s", time() + 8 * 3600); //北京时间
         $sys_info['time'] = date("Y年n月j日 H:i:s"); //服务器时间
         //$sys_info['web_directory'] = $_SERVER["DOCUMENT_ROOT"]; //网站目录
