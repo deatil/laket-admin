@@ -162,8 +162,8 @@ layui.use(['table', 'upload'], function() {
     table.render({
         elem: '#table',
         toolbar: '#toolbar',
-        url: '{:laket_route("admin.flash.index-post")}',
-        method: 'post',
+        url: '{:laket_route("admin.flash.index-data")}',
+        method: 'get',
         page: 10,
         cols: [
             [

@@ -25,14 +25,14 @@ Route::group(config('laket.route.group'), function() {
 
     // 附件
     Route::get('attachment/index', Controller\Attachment::class . '@index')->name('admin.attachment.index');
-    Route::post('attachment/index', Controller\Attachment::class . '@index')->name('admin.attachment.index-post');
+    Route::get('attachment/index-data', Controller\Attachment::class . '@indexData')->name('admin.attachment.index-data');
     Route::get('attachment/view', Controller\Attachment::class . '@view')->name('admin.attachment.view');
     Route::post('attachment/delete', Controller\Attachment::class . '@delete')->name('admin.attachment.delete');
     Route::post('attachment/upload', Controller\Attachment::class . '@upload')->name('admin.attachment.upload');
 
     // 管理员
     Route::get('admin/index', Controller\Admin::class . '@index')->name('admin.admin.index');
-    Route::post('admin/index', Controller\Admin::class . '@index')->name('admin.admin.index-post');
+    Route::get('admin/index-data', Controller\Admin::class . '@indexData')->name('admin.admin.index-data');
     Route::get('admin/add', Controller\Admin::class . '@add')->name('admin.admin.add');
     Route::post('admin/add', Controller\Admin::class . '@add')->name('admin.admin.add-post');
     Route::get('admin/edit', Controller\Admin::class . '@edit')->name('admin.admin.edit');
@@ -46,7 +46,7 @@ Route::group(config('laket.route.group'), function() {
 
     // 用户组
     Route::get('auth-group/index', Controller\AuthGroup::class . '@index')->name('admin.auth-group.index');
-    Route::post('auth-group/index', Controller\AuthGroup::class . '@index')->name('admin.auth-group.index-post');
+    Route::get('auth-group/index-data', Controller\AuthGroup::class . '@indexData')->name('admin.auth-group.index-data');
     Route::get('auth-group/create', Controller\AuthGroup::class . '@create')->name('admin.auth-group.create');
     Route::post('auth-group/write', Controller\AuthGroup::class . '@write')->name('admin.auth-group.write');
     Route::get('auth-group/edit', Controller\AuthGroup::class . '@edit')->name('admin.auth-group.edit');
@@ -58,9 +58,9 @@ Route::group(config('laket.route.group'), function() {
 
     // 权限菜单
     Route::get('auth-rule/index', Controller\AuthRule::class . '@index')->name('admin.auth-rule.index');
-    Route::post('auth-rule/index', Controller\AuthRule::class . '@index')->name('admin.auth-rule.index-post');
+    Route::get('auth-rule/index-data', Controller\AuthRule::class . '@indexData')->name('admin.auth-rule.index-data');
     Route::get('auth-rule/all', Controller\AuthRule::class . '@all')->name('admin.auth-rule.all');
-    Route::post('auth-rule/all', Controller\AuthRule::class . '@all')->name('admin.auth-rule.all-post');
+    Route::get('auth-rule/all-data', Controller\AuthRule::class . '@allData')->name('admin.auth-rule.all-data');
     Route::get('auth-rule/add', Controller\AuthRule::class . '@add')->name('admin.auth-rule.add');
     Route::post('auth-rule/add', Controller\AuthRule::class . '@add')->name('admin.auth-rule.add-post');
     Route::get('auth-rule/edit', Controller\AuthRule::class . '@edit')->name('admin.auth-rule.edit');
@@ -72,7 +72,7 @@ Route::group(config('laket.route.group'), function() {
 
     // 闪存
     Route::get('flash/index', Controller\Flash::class . '@index')->name('admin.flash.index');
-    Route::post('flash/index', Controller\Flash::class . '@index')->name('admin.flash.index-post');
+    Route::get('flash/index-data', Controller\Flash::class . '@indexData')->name('admin.flash.index-data');
     Route::get('flash/local', Controller\Flash::class . '@local')->name('admin.flash.local');
     Route::post('flash/refresh', Controller\Flash::class . '@refreshLocal')->name('admin.flash.refresh');
     Route::post('flash/install', Controller\Flash::class . '@install')->name('admin.flash.install');

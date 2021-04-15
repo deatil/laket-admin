@@ -28,51 +28,55 @@ class Flash extends Base
      */
     public function index()
     {
-        if ($this->request->isAjax()) {
-            $limit = $this->request->param('limit/d', 10);
-            $page = $this->request->param('page/d', 1);
-            
-            $searchField = $this->request->param('search_field/s', '', 'trim');
-            $keyword = $this->request->param('keyword/s', '', 'trim');
-            
-            $map = [];
-            if (!empty($searchField) && !empty($keyword)) {
-                $map[] = [$searchField, 'like', "%$keyword%"];
-            }
-
-            $list = FlashModel::where($map)
-                ->page($page, $limit)
-                ->order('listorder ASC, name ASC')
-                ->select()
-                ->toArray();
-            $total = FlashModel::where($map)->count();
-
-            // 添加icon图标
-            $list = collect($list)
-                ->each(function($data, $key) {
-                    $icon = '';
-                    if (class_exists($data['bind_service'])) {
-                        app()->register($data['bind_service']);
-                        $newClass = app()->getService($data['bind_service']);
-                        
-                        $icon = Flasher::getFlashIcon($newClass);
-                    }
-                    
-                    $data['icon'] = $icon;
-                    
-                    return $data;
-                })
-                ->toArray();
-            
-            return $this->json([
-                "code" => 0, 
-                'msg' => '获取成功！',
-                'data' => $list,
-                'count' => $total,
-            ]);
-        } else {
-            return $this->fetch('laket-admin::flash.index');
+        return $this->fetch('laket-admin::flash.index');
+    }
+    
+    /**
+     * 已安装
+     */
+    public function indexData()
+    {
+        $limit = $this->request->param('limit/d', 10);
+        $page = $this->request->param('page/d', 1);
+        
+        $searchField = $this->request->param('search_field/s', '', 'trim');
+        $keyword = $this->request->param('keyword/s', '', 'trim');
+        
+        $map = [];
+        if (!empty($searchField) && !empty($keyword)) {
+            $map[] = [$searchField, 'like', "%$keyword%"];
         }
+
+        $list = FlashModel::where($map)
+            ->page($page, $limit)
+            ->order('listorder ASC, name ASC')
+            ->select()
+            ->toArray();
+        $total = FlashModel::where($map)->count();
+
+        // 添加icon图标
+        $list = collect($list)
+            ->each(function($data, $key) {
+                $icon = '';
+                if (class_exists($data['bind_service'])) {
+                    app()->register($data['bind_service']);
+                    $newClass = app()->getService($data['bind_service']);
+                    
+                    $icon = Flasher::getFlashIcon($newClass);
+                }
+                
+                $data['icon'] = $icon;
+                
+                return $data;
+            })
+            ->toArray();
+        
+        return $this->json([
+            "code" => 0, 
+            'msg' => '获取成功！',
+            'data' => $list,
+            'count' => $total,
+        ]);
     }
 
     /**

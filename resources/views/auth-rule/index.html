@@ -51,8 +51,8 @@ layui.use(['table', 'treeGrid'], function() {
         elem: '#' + tableId,
         toolbar: '#toolbar',
         idField: 'id',
-        url: "{:laket_route('admin.auth-rule.index-post')}",
-        method: 'post',
+        url: "{:laket_route('admin.auth-rule.index-data')}",
+        method: 'get',
         cellMinWidth: 100,
         treeId: 'id', //树形id字段名称
         treeUpId: 'parentid', //树形父id字段名称

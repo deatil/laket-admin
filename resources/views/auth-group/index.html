@@ -76,8 +76,8 @@ layui.use('table', function() {
     table.render({
         elem: '#table',
         toolbar: '#toolbarTop',
-        url: '{:laket_route("admin.auth-group.index-post")}',
-        method: 'post',
+        url: '{:laket_route("admin.auth-group.index-data")}',
+        method: 'get',
         cols: [
             [
                 { field: 'listorder', align: 'center', width: 70, title: '排序', edit: 'text' },

@@ -69,8 +69,8 @@ layui.use(['table', 'laydate'], function() {
     table.render({
         elem: '#dataTable',
         toolbar: '#toolbarTop',
-        url: '{:laket_route("admin.attachment.index-post")}',
-        method: 'post',
+        url: '{:laket_route("admin.attachment.index-data")}',
+        method: 'get',
         cols: [
             [
                 { type: 'checkbox', fixed: 'left' },

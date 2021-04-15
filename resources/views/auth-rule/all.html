@@ -48,7 +48,7 @@
     <a href='{:laket_route("admin.auth-rule.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
 </script>
 <script type="text/html" id="titleTpl">
-    <span data-lake-tip="" lay-title="{{ d.tip }}">{{ d.title }}</span>
+    <span data-lake-tip="" lay-title="{{ d.remark }}">{{ d.title }}</span>
 </script>
 <script type="text/html" id="menuTpl">
     <input type="checkbox" name="menu_show" data-href="{:laket_route('admin.auth-rule.setmenu')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="switchStatus" {{ d.menu_show==1 ? 'checked' : '' }}>
@@ -66,8 +66,8 @@ layui.use('table', function() {
     table.render({
         elem: '#dataTable',
         toolbar: '#toolbar',
-        url: '{:laket_route("admin.auth-rule.all-post")}',
-        method: 'post',
+        url: '{:laket_route("admin.auth-rule.all-data")}',
+        method: 'get',
         cols: [
             [
                 { field: 'listorder', align: 'center', width: 80, title: '排序', edit: 'text' },

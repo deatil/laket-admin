@@ -19,36 +19,40 @@ class Attachment extends Base
      */
     public function index()
     {
-        if ($this->request->isPost()) {
-            $limit = $this->request->param('limit/d', 10);
-            $page = $this->request->param('page/d', 1);
-            $map = $this->buildparams();
-            
-            $list = AttachmentModel::where($map)
-                ->page($page, $limit)
-                ->order('create_time desc')
-                ->select()
-                ->toArray();
-            if (! empty($list)) {
-                foreach ($list as $k => &$v) {
-                    $v['path'] = AttachmentModel::objectUrl($v['path']);
-                }
-                unset($v);
+        return $this->fetch('laket-admin::attachment.index');
+    }
+    
+    /**
+     * 附件列表页
+     */
+    public function indexData()
+    {
+        $limit = $this->request->param('limit/d', 10);
+        $page = $this->request->param('page/d', 1);
+        $map = $this->buildparams();
+        
+        $list = AttachmentModel::where($map)
+            ->page($page, $limit)
+            ->order('create_time desc')
+            ->select()
+            ->toArray();
+        if (! empty($list)) {
+            foreach ($list as $k => &$v) {
+                $v['path'] = AttachmentModel::objectUrl($v['path']);
             }
-            
-            $total = AttachmentModel::where($map)
-                ->order('create_time desc')
-                ->count();
-            $result = [
-                "code" => 0, 
-                "count" => $total, 
-                "data" => $list,
-            ];
-            
-            return $this->json($result);
-        } else {
-            return $this->fetch('laket-admin::attachment.index');
+            unset($v);
         }
+        
+        $total = AttachmentModel::where($map)
+            ->order('create_time desc')
+            ->count();
+            
+        $result = [
+            "code" => 0, 
+            "count" => $total, 
+            "data" => $list,
+        ];
+        return $this->json($result);
     }
     
     /**

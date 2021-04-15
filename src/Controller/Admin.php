@@ -22,43 +22,47 @@ class Admin extends Base
      */
     public function index()
     {
-        if ($this->request->isPost()) {
-            $limit = $this->request->param('limit/d', 10);
-            $page = $this->request->param('page/d', 1);
+        return $this->fetch('laket-admin::admin.index');
+    }
+    
+    /**
+     * 管理员管理列表
+     */
+    public function indexData()
+    {
+        $limit = $this->request->param('limit/d', 10);
+        $page = $this->request->param('page/d', 1);
 
-            $map = $this->buildparams();
-            
-            if (! env('admin_is_root')) {
-                $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
-                $adminIds = AuthGroupAccessModel::where([
-                        ['group_id', 'in', $userChildGroupIds],
-                    ])
-                    ->column('admin_id');
-                $map[] = ['id', 'in', $adminIds];
-            }
-            
-            $list = AdminModel::with(['groups'])
-                ->where($map)
-                ->page($page, $limit)
-                ->select()
-                ->visible([
-                    'groups' => [
-                        'title',
-                    ]
+        $map = $this->buildparams();
+        
+        if (! env('admin_is_root')) {
+            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
+            $adminIds = AuthGroupAccessModel::where([
+                    ['group_id', 'in', $userChildGroupIds],
                 ])
-                ->toArray();
-            $total = AdminModel::where($map)
-                ->count();
-            
-            $result = [
-                "code" => 0, 
-                "count" => $total, 
-                "data" => $list
-            ];
-            return $this->json($result);
-        } else {
-            return $this->fetch('laket-admin::admin.index');
+                ->column('admin_id');
+            $map[] = ['id', 'in', $adminIds];
         }
+        
+        $list = AdminModel::with(['groups'])
+            ->where($map)
+            ->page($page, $limit)
+            ->select()
+            ->visible([
+                'groups' => [
+                    'title',
+                ]
+            ])
+            ->toArray();
+        $total = AdminModel::where($map)
+            ->count();
+        
+        $result = [
+            "code" => 0, 
+            "count" => $total, 
+            "data" => $list
+        ];
+        return $this->json($result);
     }
 
     /**

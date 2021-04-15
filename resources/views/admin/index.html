@@ -79,8 +79,8 @@ layui.use('table', function() {
     table.render({
         elem: '#table',
         toolbar: '#toolbarDemo',
-        url: '{:laket_route("admin.admin.index-post")}',
-        method: 'post',
+        url: '{:laket_route("admin.admin.index-data")}',
+        method: 'get',
         cols: [
             [
                 { field: 'name', width: 120, title: '登录名', templet: '#nameTpl' },

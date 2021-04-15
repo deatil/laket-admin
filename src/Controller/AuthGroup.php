@@ -22,29 +22,33 @@ class AuthGroup extends Base
      */
     public function index()
     {
-        if ($this->request->isPost()) {
-            $list = AuthGroupModel::order([
-                    'add_time' => 'ASC',
-                ])
-                ->select()
-                ->toArray();
-            $total = AuthGroupModel::count();
-            
-            $tree = make(Tree::class);
-            $tree->withData($list);
-            $list = $tree->buildArray(0);
-            $list = $tree->buildFormatList($list, 'title');
-            
-            $result = [
-                "code" => 0, 
-                "count" => $total, 
-                "data" => $list,
-            ];
-            
-            return $this->json($result);
-        } else {
-            return $this->fetch('laket-admin::auth-group.index');
-        }
+        return $this->fetch('laket-admin::auth-group.index');
+    }
+    
+    /**
+     * 权限管理首页
+     */
+    public function indexData()
+    {
+        $list = AuthGroupModel::order([
+                'add_time' => 'ASC',
+            ])
+            ->select()
+            ->toArray();
+        $total = AuthGroupModel::count();
+        
+        $tree = make(Tree::class);
+        $tree->withData($list);
+        $list = $tree->buildArray(0);
+        $list = $tree->buildFormatList($list, 'title');
+        
+        $result = [
+            "code" => 0, 
+            "count" => $total, 
+            "data" => $list,
+        ];
+        
+        return $this->json($result);
     }
 
     /**

@@ -20,29 +20,32 @@ class AuthRule extends Base
      */
     public function index()
     {
-        if ($this->request->isPost()) {
+        return $this->fetch('laket-admin::auth-rule.index');
+    }
+    
+    /**
+     * 首页
+     */
+    public function indexData()
+    {
+        $result = AuthRuleModel::order([
+                'listorder' => 'ASC', 
+                'id' => 'ASC',
+            ])
+            ->select()
+            ->toArray();
 
-            $result = AuthRuleModel::order([
-                    'listorder' => 'ASC', 
-                    'id' => 'ASC',
-                ])
-                ->select()
-                ->toArray();
-
-            $Tree = make(Tree::class);
-            $menuTree = $Tree->withData($result)->buildArray(0);
-            $menus = $Tree->buildFormatList($menuTree, 'title');
-            $total = count($menus);
-            
-            $result = [
-                "code" => 0, 
-                "count" => $total, 
-                "data" => $menus
-            ];
-            return $this->json($result);
-        } else {
-            return $this->fetch('laket-admin::auth-rule.index');
-        }
+        $Tree = make(Tree::class);
+        $menuTree = $Tree->withData($result)->buildArray(0);
+        $menus = $Tree->buildFormatList($menuTree, 'title');
+        $total = count($menus);
+        
+        $result = [
+            "code" => 0, 
+            "count" => $total, 
+            "data" => $menus
+        ];
+        return $this->json($result);
     }
 
     /**
@@ -50,34 +53,38 @@ class AuthRule extends Base
      */
     public function all()
     {
-        if ($this->request->isPost()) {
-            $limit = $this->request->param('limit/d', 20);
-            $page = $this->request->param('page/d', 1);
-            
-            $searchField = $this->request->param('search_field/s', '', 'trim');
-            $keyword = $this->request->param('keyword/s', '', 'trim');
-            
-            $map = [];
-            if (!empty($searchField) && !empty($keyword)) {
-                $map[] = [$searchField, 'like', "%$keyword%"];
-            }
-            
-            $data = AuthRuleModel::where($map)
-                ->page($page, $limit)
-                ->order('slug ASC, url ASC, id ASC')
-                ->select()
-                ->toArray();
-            $total = AuthRuleModel::where($map)->count();
-            
-            $result = [
-                "code" => 0, 
-                "count" => $total, 
-                "data" => $data,
-            ];
-            return $this->json($result);
-        } else {
-            return $this->fetch('laket-admin::auth-rule.all');
+        return $this->fetch('laket-admin::auth-rule.all');
+    }
+    
+    /**
+     * 全部
+     */
+    public function allData()
+    {
+        $limit = $this->request->param('limit/d', 20);
+        $page = $this->request->param('page/d', 1);
+        
+        $searchField = $this->request->param('search_field/s', '', 'trim');
+        $keyword = $this->request->param('keyword/s', '', 'trim');
+        
+        $map = [];
+        if (!empty($searchField) && !empty($keyword)) {
+            $map[] = [$searchField, 'like', "%$keyword%"];
         }
+        
+        $data = AuthRuleModel::where($map)
+            ->page($page, $limit)
+            ->order('slug ASC, url ASC, id ASC')
+            ->select()
+            ->toArray();
+        $total = AuthRuleModel::where($map)->count();
+        
+        $result = [
+            "code" => 0, 
+            "count" => $total, 
+            "data" => $data,
+        ];
+        return $this->json($result);
     }
 
     /**
