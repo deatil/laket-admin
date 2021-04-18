@@ -45,7 +45,7 @@ return [
         ],
         
         // 标签
-        'taglib_build_in' => env('laket.view_taglib_build_in', "\\Laket\\Admin\\Template\\Taglib\\Laket"),
+        'taglib_build_in' => ($envViewTaglib = env('laket.view_taglib_build_in', '')) ? explode(',', $envViewTaglib): ["\\Laket\\Admin\\Template\\Taglib\\Laket"],
         
         // 资源
         'assets' => env('laket.view_assets', "/static"),

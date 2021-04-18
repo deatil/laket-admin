@@ -84,10 +84,9 @@ trait View
         
         // 配置视图标签
         $viewTaglib = ThinkView::getConfig('taglib_build_in');
-        $taglib = config('laket.view.taglib_build_in', '');
 
         $viewTaglibs = explode(',', $viewTaglib);
-        $taglibs = explode(',', $taglib);
+        $taglibs = (array) app('laket-admin.view-taglib')->getTaglibs();
         
         $newTaglibs = array_filter(array_merge($viewTaglibs, $taglibs));
         ThinkView::config([

@@ -8,6 +8,7 @@ use Laket\Admin\Flash\Manager;
 use Laket\Admin\Support\Form;
 use Laket\Admin\Support\Loader;
 use Laket\Admin\Support\Password;
+use Laket\Admin\Support\ViewTaglib;
 use Laket\Admin\Support\ViewFinder;
 use Laket\Admin\Support\Publish;
 use Laket\Admin\Support\Service as BaseService;
@@ -149,6 +150,9 @@ class Service extends BaseService
             return $viewFinder;
         });
         
+        // 视图标签
+        $this->app->bind('laket-admin.view-taglib', ViewTaglib::class);
+        
         // 导入器
         $this->app->bind('laket-admin.loader', Loader::class);
         
@@ -275,6 +279,10 @@ class Service extends BaseService
         $this->app->view->assign([
             'laket_admin_layout' => app('laket-admin.view-finder')->find('laket-admin::layout'),
         ]);
+        
+        // 注册视图标签
+        $taglibs = config('laket.view.taglib_build_in', '');
+        $this->registerViewTaglib($taglibs);
     }
     
     /**

@@ -72,6 +72,10 @@
     {{#  } }}
 </script>
 
+<script type="text/html" id="loginTimeTpl">
+    {{ layui.util.toDateString(d.last_login_time * 1000, 'yyyy-MM-dd HH:mm:ss') }}
+</script>
+
 <script type="text/javascript">
 layui.use('table', function() {
     var table = layui.table,
@@ -87,7 +91,7 @@ layui.use('table', function() {
                 { field: 'email',width: 200, title: 'E-mail' },
                 { field: 'nickname', title: '昵称' },
                 { field: 'groups', width: 150, title: '所属用户组', templet: '#groupsTpl'},
-                { field: 'last_login_time', width: 170, title: '最后登录时间' },
+                { field: 'last_login_time', width: 170, title: '最后登录时间', templet: '#loginTimeTpl' },
                 { field: 'status', title: '状态', width: 80, templet: '#statusTpl' },
                 { title: '操作', width: 220, toolbar: '#barTool' },
             ]

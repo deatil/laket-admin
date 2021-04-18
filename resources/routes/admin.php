@@ -22,13 +22,15 @@ Route::group(config('laket.route.group'), function() {
     Route::post('profile/index', Controller\Profile::class . '@postIndex')->name('admin.profile.index-post');
     Route::get('profile/password', Controller\Profile::class . '@getPassword')->name('admin.profile.password');
     Route::post('profile/password', Controller\Profile::class . '@postPassword')->name('admin.profile.password-post');
+    
+    // 上传
+    Route::post('upload/file', Controller\Upload::class . '@file')->name('admin.upload.file');
 
     // 附件
     Route::get('attachment/index', Controller\Attachment::class . '@index')->name('admin.attachment.index');
     Route::get('attachment/index-data', Controller\Attachment::class . '@indexData')->name('admin.attachment.index-data');
     Route::get('attachment/view', Controller\Attachment::class . '@view')->name('admin.attachment.view');
     Route::post('attachment/delete', Controller\Attachment::class . '@delete')->name('admin.attachment.delete');
-    Route::post('attachment/upload', Controller\Attachment::class . '@upload')->name('admin.attachment.upload');
 
     // 管理员
     Route::get('admin/index', Controller\Admin::class . '@index')->name('admin.admin.index');

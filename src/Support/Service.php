@@ -61,6 +61,23 @@ class Service extends BaseService
         // 设置自定义路径
         $viewFinder->addNamespace($namespace, $path);
     }
+
+    /**
+     * 注册视图标签
+     *
+     * @param string|array $path
+     * @return void
+     */
+    protected function registerViewTaglib($taglib)
+    {
+        $taglibs = is_array($taglib) ? $taglib : func_get_args();
+        
+        $viewTaglib = app('laket-admin.view-taglib');
+        
+        foreach ((array) $taglibs as $taglib) {
+            $viewTaglib->addTaglib($taglib);
+        }
+    }
     
     /**
      * 注册多语言

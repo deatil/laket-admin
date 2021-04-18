@@ -115,7 +115,7 @@ class Form
         
         $string = "<div id='file_list_{$name}' class='uploader-list'>";
         if (!empty($value)) {
-            $path = laket_attachment_url($value) ? laket_attachment_url($value) : $static_url . "/admin/img/none.png";
+            $path = laket_attachment_url($value) ? laket_attachment_url($value) : "admin/admin/img/none.png";
             $string .= "<div class='file-item thumbnail'><img data-original='{$path}' src='{$path}' width='100' style='max-height: 100px;'><i class='iconfont icon-delete_fill remove-picture' data-id='{$value}'></i></div>";
         }
         
