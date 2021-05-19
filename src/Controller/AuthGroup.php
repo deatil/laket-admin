@@ -20,7 +20,7 @@ class AuthGroup extends Base
     /**
      * 权限管理首页
      */
-    public function index()
+    public function getIndex()
     {
         return $this->fetch('laket-admin::auth-group.index');
     }
@@ -28,7 +28,7 @@ class AuthGroup extends Base
     /**
      * 权限管理首页
      */
-    public function indexData()
+    public function getIndexData()
     {
         $list = AuthGroupModel::order([
                 'add_time' => 'ASC',
@@ -54,7 +54,7 @@ class AuthGroup extends Base
     /**
      * 添加管理员用户
      */
-    public function create()
+    public function getAdd()
     {
         $Tree = make(Tree::class);
         $list = AuthGroupModel::order(['id' => 'ASC'])
@@ -66,13 +66,13 @@ class AuthGroup extends Base
         
         $this->assign("group_data", $groupData);
         
-        return $this->fetch('laket-admin::auth-group.create');
+        return $this->fetch('laket-admin::auth-group.add');
     }
     
     /**
      * 管理员用户数据写入
      */
-    public function write()
+    public function postAdd()
     {
         $data = $this->request->post();
         if (empty($data['parentid'])) {
@@ -96,7 +96,7 @@ class AuthGroup extends Base
     /**
      * 编辑管理员用户
      */
-    public function edit()
+    public function getEdit()
     {
         $id = $this->request->param('id');
         if (empty($id)) {
@@ -142,7 +142,7 @@ class AuthGroup extends Base
     /**
      * 数据更新
      */
-    public function update()
+    public function postEdit()
     {
         $data = $this->request->post();
         if (empty($data['parentid'])) {
@@ -176,7 +176,7 @@ class AuthGroup extends Base
     /**
      * 删除管理员用户
      */
-    public function delete()
+    public function postDelete()
     {
         $groupId = $this->request->param('id');
         if (empty($groupId)) {
@@ -221,101 +221,105 @@ class AuthGroup extends Base
     /**
      * 访问授权页面
      */
-    public function access()
+    public function getAccess()
     {
-        if ($this->request->isPost()) {
-            $groupId = $this->request->post('id');
-            if (empty($groupId)) {
-                $this->error('用户组不存在！');
-            }
-        
-            $authGroup = AuthGroupModel::where([
-                    'id' => $groupId,
-                ])
-                ->find();
-            if (empty($authGroup)) {
-                $this->error('用户组不存在！');
-            }
-            
-            $newRules = $this->request->post('rules');
-            
-            $rules = [];
-            if (!empty($newRules)) {
-                $rules = explode(',', $newRules);
-            }
-            
-            // 删除权限
-            AuthRuleAccessModel::where([
-                'group_id' => $groupId,
-            ])->delete();
-            
-            // 权限添加
-            if (isset($rules) && !empty($rules)) {
-                foreach ($rules as $rule) {
-                    AuthRuleAccessModel::create([
-                        'group_id' => $groupId,
-                        'rule_id' => $rule,
-                    ]);
-                }
-            }
-            
-            $this->success('授权成功！');
-        } else {
-            $groupId = $this->request->param('group_id');
-            if (empty($groupId)) {
-                $this->error('用户组ID不能为空！');
-            }
-            
-            $rules = AuthGroupModel::withJoin(['ruleAccess'])
-                ->where([
-                    'auth_group.id' => $groupId,
-                ])
-                ->visible([
-                    'ruleAccess' => [
-                        'rule_id',
-                    ]
-                ])
-                ->column('ruleAccess.rule_id');
-            $this->assign('rules', $rules);
-        
-            $result = AuthRuleModel::returnNodes(false);
-            
-            $json = [];
-            if (!empty($result)) {
-                foreach ($result as $rs) {
-                    $data = [
-                        'id' => $rs['id'],
-                        'parentid' => $rs['parentid'],
-                        'title' => (empty($rs['method']) ? $rs['title'] : ($rs['title'] . '[' . strtoupper($rs['method']) . ']')),
-                        // 'checked' => in_array($rs['id'], $rules) ? true : false,
-                        'field' => 'roleid',
-                        'spread' => false,
-                    ];
-                    $json[] = $data;
-                }
-            }
-            
-            $json = make(Tree::class)
-                ->withConfig('buildChildKey', 'children')
-                ->withData($json)
-                ->buildArray(0);
-            
-            $this->assign('group_id', $groupId);
-            $this->assign('json', $json);
-            
-            $authGroup = AuthGroupModel::where([
-                'id' => $groupId,
-            ])->find();
-            $this->assign('auth_group', $authGroup);
-            
-            return $this->fetch('laket-admin::auth-group.access');
+        $groupId = $this->request->param('group_id');
+        if (empty($groupId)) {
+            $this->error('用户组ID不能为空！');
         }
+        
+        $rules = AuthGroupModel::withJoin(['ruleAccess'])
+            ->where([
+                'auth_group.id' => $groupId,
+            ])
+            ->visible([
+                'ruleAccess' => [
+                    'rule_id',
+                ]
+            ])
+            ->column('ruleAccess.rule_id');
+        $this->assign('rules', $rules);
+    
+        $result = AuthRuleModel::returnNodes(false);
+        
+        $json = [];
+        if (!empty($result)) {
+            foreach ($result as $rs) {
+                $data = [
+                    'id' => $rs['id'],
+                    'parentid' => $rs['parentid'],
+                    'title' => (empty($rs['method']) ? $rs['title'] : ($rs['title'] . '[' . strtoupper($rs['method']) . ']')),
+                    // 'checked' => in_array($rs['id'], $rules) ? true : false,
+                    'field' => 'roleid',
+                    'spread' => false,
+                ];
+                $json[] = $data;
+            }
+        }
+        
+        $json = make(Tree::class)
+            ->withConfig('buildChildKey', 'children')
+            ->withData($json)
+            ->buildArray(0);
+        
+        $this->assign('group_id', $groupId);
+        $this->assign('json', $json);
+        
+        $authGroup = AuthGroupModel::where([
+            'id' => $groupId,
+        ])->find();
+        $this->assign('auth_group', $authGroup);
+        
+        return $this->fetch('laket-admin::auth-group.access');
+    }
+    
+    /**
+     * 访问授权页面
+     */
+    public function postAccess()
+    {
+        $groupId = $this->request->post('id');
+        if (empty($groupId)) {
+            $this->error('用户组不存在！');
+        }
+    
+        $authGroup = AuthGroupModel::where([
+                'id' => $groupId,
+            ])
+            ->find();
+        if (empty($authGroup)) {
+            $this->error('用户组不存在！');
+        }
+        
+        $newRules = $this->request->post('rules');
+        
+        $rules = [];
+        if (!empty($newRules)) {
+            $rules = explode(',', $newRules);
+        }
+        
+        // 删除权限
+        AuthRuleAccessModel::where([
+            'group_id' => $groupId,
+        ])->delete();
+        
+        // 权限添加
+        if (isset($rules) && !empty($rules)) {
+            foreach ($rules as $rule) {
+                AuthRuleAccessModel::create([
+                    'group_id' => $groupId,
+                    'rule_id' => $rule,
+                ]);
+            }
+        }
+        
+        $this->success('授权成功！');
     }
 
     /**
      * 菜单排序
      */
-    public function listorder()
+    public function postListorder()
     {
         $id = $this->request->param('id/s', 0);
         if (empty($id)) {

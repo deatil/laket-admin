@@ -100,6 +100,7 @@ class Upload extends Base
         return json([
             'code' => 0,
             'info' => $fileInfo['name'] . '上传成功',
+            'class' => 'success',
             'id' => $fileAdd['id'],
             'path' => $filePath,
         ]);

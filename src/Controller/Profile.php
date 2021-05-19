@@ -18,7 +18,7 @@ class Profile extends Base
     /**
      * 管理员账号修改
      */
-    public function getIndex()
+    public function getSetting()
     {
         $adminInfo = env('admin_info');
         
@@ -33,13 +33,13 @@ class Profile extends Base
         
         $this->assign("data", $data);
         
-        return $this->fetch('laket-admin::profile.index');
+        return $this->fetch('laket-admin::profile.setting');
     }
 
     /**
      * 管理员账号修改
      */
-    public function postIndex()
+    public function postSetting()
     {
         $adminInfo = env('admin_info');
         

@@ -20,7 +20,7 @@ class Passport extends Base
     /**
      * 验证码
      */
-    public function captcha()
+    public function getCaptcha()
     {
         return captcha('laket');
     }
@@ -76,7 +76,7 @@ class Passport extends Base
     /**
      * 退出登录
      */
-    public function logout()
+    public function getLogout()
     {
         if (! Admin::isLogin()) {
             $this->error("你还没有登陆", laket_route("admin.passport.login"));
@@ -90,7 +90,7 @@ class Passport extends Base
     /**
      * 锁定
      */
-    public function lockscreen()
+    public function postLockscreen()
     {
         $url = request()->url();
         
@@ -102,7 +102,7 @@ class Passport extends Base
     /**
      * 解除锁定
      */
-    public function unlockscreen()
+    public function postUnlockscreen()
     {
         $adminInfo = env('admin_info');
         $password = request()->post('password');

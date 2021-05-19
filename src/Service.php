@@ -109,7 +109,9 @@ class Service extends BaseService
     protected function registerAlias() 
     {
         foreach ($this->alias as $alias => $class) {
-            class_alias($class, $alias);
+            if (! class_exists($alias)) {
+                class_alias($class, $alias);
+            }
         }
     }
     

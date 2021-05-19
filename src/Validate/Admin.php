@@ -28,7 +28,10 @@ class Admin extends Validate
 
     // 定义验证场景
     protected $scene = [
-        'insert' => ['name', 'email'],
+        'insert' => [
+            'name', 
+            'email',
+        ],
     ];
 
 }

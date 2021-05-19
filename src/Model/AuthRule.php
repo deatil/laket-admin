@@ -90,6 +90,7 @@ class AuthRule extends ModelBase
     public static function getTree($mid, $parent = "", $level = 1)
     {
         $data = static::adminMenu($mid);
+        
         $level++;
         if (is_array($data)) {
             $ret = null;
@@ -120,6 +121,7 @@ class AuthRule extends ModelBase
                 }
             }
         }
+        
         return $ret;
     }
 
@@ -170,7 +172,7 @@ class AuthRule extends ModelBase
     /**
      * 获取权限ID列表
      */
-    protected static function getAuthIdList()
+    public static function getAuthIdList()
     {
         static $authIdList = [];
         if (!empty($authIdList)) {

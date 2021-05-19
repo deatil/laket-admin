@@ -20,7 +20,7 @@ class Admin extends Base
     /**
      * 管理员管理列表
      */
-    public function index()
+    public function getIndex()
     {
         return $this->fetch('laket-admin::admin.index');
     }
@@ -28,7 +28,7 @@ class Admin extends Base
     /**
      * 管理员管理列表
      */
-    public function indexData()
+    public function getIndexData()
     {
         $limit = $this->request->param('limit/d', 10);
         $page = $this->request->param('page/d', 1);
@@ -68,102 +68,110 @@ class Admin extends Base
     /**
      * 添加管理员
      */
-    public function add()
+    public function getAdd()
     {
-        if ($this->request->isPost()) {
-            $data = $this->request->post('');
-            
-            $result = $this->validate($data, 'Laket\\Admin\\Validate\\Admin.insert');
-            if (true !== $result) {
-                return $this->error($result);
-            }
-            
-            if (isset($data['status'])) {
-                $data['status'] = 1;
-            } else {
-                $data['status'] = 0;
-            }
-            
-            $status = AdminModel::create($data);
-            if ($status === false) {
-                $this->error('添加失败！');
-            }
-           
-            $this->success("添加管理员成功！");
-        } else {
-            return $this->fetch('laket-admin::admin.add');
+        return $this->fetch('laket-admin::admin.add');
+    }
+
+    /**
+     * 添加管理员
+     */
+    public function postAdd()
+    {
+        $data = $this->request->post('');
+        
+        $result = $this->validate($data, 'Laket\\Admin\\Validate\\Admin.insert');
+        if (true !== $result) {
+            return $this->error($result);
         }
+        
+        if (isset($data['status'])) {
+            $data['status'] = 1;
+        } else {
+            $data['status'] = 0;
+        }
+        
+        $status = AdminModel::create($data);
+        if ($status === false) {
+            $this->error('添加失败！');
+        }
+       
+        $this->success("添加管理员成功！");
     }
 
     /**
      * 管理员编辑
      */
-    public function edit()
+    public function getEdit()
     {
-        if ($this->request->isPost()) {
-            $data = $this->request->post('');
-            
-            $result = $this->validate($data, 'Laket\\Admin\\Validate\\Admin.update');
-            if (true !== $result) {
-                return $this->error($result);
-            }
-            
-            if (empty($data['id'])) {
-                $this->error('参数错误！');
-            }
-            
-            if (env('admin_is_root') != 1) {
-                if ($data['id'] == env('admin_id')) {
-                    $this->error('你不能修改自己的账号！');
-                }
-            }
-            
-            $adminInfo = AdminModel::where([
-                    "id" => $data['id'],
-                ])
-                ->find();
-            if (empty($adminInfo)) {
-                $this->error('信息不存在！');
-            }
-            
-            if (isset($data['status'])) {
-                $data['status'] = 1;
-            } else {
-                $data['status'] = 0;
-            }
-            
-            $status = AdminModel::update($data, [
-                    'id' => $data['id'],
-                ]);
-            if ($status === false) {
-                $this->error('修改失败！');
-            }
-            
-            $this->success("修改成功！");
-        } else {
-            $id = $this->request->param('id/s');
-            if (empty($id)) {
-                $this->error('参数错误！');
-            }
-            
-            $data = AdminModel::where([
-                    "id" => $id,
-                ])
-                ->find();
-            if (empty($data)) {
-                $this->error('账号不存在！');
-            }
-            
-            $this->assign("data", $data);
-            
-            return $this->fetch('laket-admin::admin.edit');
+        $id = $this->request->param('id/s');
+        if (empty($id)) {
+            $this->error('参数错误！');
         }
+        
+        $data = AdminModel::where([
+                "id" => $id,
+            ])
+            ->find();
+        if (empty($data)) {
+            $this->error('账号不存在！');
+        }
+        
+        $this->assign("data", $data);
+        
+        return $this->fetch('laket-admin::admin.edit');
+    }
+
+    /**
+     * 管理员编辑
+     */
+    public function postEdit()
+    {
+        $data = $this->request->post('');
+        
+        $result = $this->validate($data, 'Laket\\Admin\\Validate\\Admin.update');
+        if (true !== $result) {
+            return $this->error($result);
+        }
+        
+        if (empty($data['id'])) {
+            $this->error('参数错误！');
+        }
+        
+        if (env('admin_is_root') != 1) {
+            if ($data['id'] == env('admin_id')) {
+                $this->error('你不能修改自己的账号！');
+            }
+        }
+        
+        $adminInfo = AdminModel::where([
+                "id" => $data['id'],
+            ])
+            ->find();
+        if (empty($adminInfo)) {
+            $this->error('信息不存在！');
+        }
+        
+        if (isset($data['status'])) {
+            $data['status'] = 1;
+        } else {
+            $data['status'] = 0;
+        }
+        
+        $status = AdminModel::update($data, [
+                'id' => $data['id'],
+            ]);
+        if ($status === false) {
+            $this->error('修改失败！');
+        }
+        
+        $this->success("修改成功！");
     }
     
     /**
      * 管理员删除
      */
-    public function delete()
+    public function postDelete()
     {
         $id = $this->request->param('id');
         if (empty($id)) {
@@ -205,7 +213,7 @@ class Admin extends Base
     /**
      * 管理员详情
      */
-    public function view()
+    public function getView()
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
@@ -242,151 +250,159 @@ class Admin extends Base
     /**
      * 管理员更新密码
      */
-    public function password()
+    public function getPassword()
     {
-        if ($this->request->isPost()) {
-            $post = $this->request->post('');
-            
-            if (empty($post) || !isset($post['id'])) {
-                $this->error('没有修改的数据！');
-                return false;
-            }
-            
-            if (empty($post['password'])) {
-                $this->error('新密码不能为空！');
-            }
-            if (empty($post['password_confirm'])) {
-                $this->error('确认密码不能为空！');
-            }
-            
-            if ($post['password'] != $post['password_confirm']) {
-                $this->error('两次密码不一致！');
-            }
-            
-            if (env('admin_is_root') != 1) {
-                if ($post['id'] == env('admin_id')) {
-                    $this->error('你不能修改自己账号的密码！');
-                }
-            }
-            
-            // 对密码进行处理
-            $passwordinfo = Adminer::encryptPassword($post['password']); 
-            
-            $data = [];
-            $data['password'] = $passwordinfo['password'];
-            $data['password_salt'] = $passwordinfo['encrypt'];
-            
-            $status = AdminModel::where([
-                    'id' => $post['id'],
-                ])
-                ->update($data);
-            if ($status === false) {
-                $this->error('修改密码失败！');
-            }
-            
-            $this->success("修改密码成功！");
-        } else {
-            $id = $this->request->param('id/s');
-            $data = AdminModel::where([
-                    "id" => $id,
-                ])
-                ->find();
-            if (empty($data)) {
-                $this->error('账号不存在！');
-            }
-            
-            $this->assign("data", $data);
-            
-            return $this->fetch('laket-admin::admin.password');
+        $id = $this->request->param('id/s');
+        $data = AdminModel::where([
+                "id" => $id,
+            ])
+            ->find();
+        if (empty($data)) {
+            $this->error('账号不存在！');
         }
+        
+        $this->assign("data", $data);
+        
+        return $this->fetch('laket-admin::admin.password');
+    }
+    
+    /**
+     * 管理员更新密码
+     */
+    public function postPassword()
+    {
+        $post = $this->request->post('');
+        
+        if (empty($post) || !isset($post['id'])) {
+            $this->error('没有修改的数据！');
+            return false;
+        }
+        
+        if (empty($post['password'])) {
+            $this->error('新密码不能为空！');
+        }
+        if (empty($post['password_confirm'])) {
+            $this->error('确认密码不能为空！');
+        }
+        
+        if ($post['password'] != $post['password_confirm']) {
+            $this->error('两次密码不一致！');
+        }
+        
+        if (env('admin_is_root') != 1) {
+            if ($post['id'] == env('admin_id')) {
+                $this->error('你不能修改自己账号的密码！');
+            }
+        }
+        
+        // 对密码进行处理
+        $passwordinfo = Adminer::encryptPassword($post['password']); 
+        
+        $data = [];
+        $data['password'] = $passwordinfo['password'];
+        $data['password_salt'] = $passwordinfo['encrypt'];
+        
+        $status = AdminModel::where([
+                'id' => $post['id'],
+            ])
+            ->update($data);
+        if ($status === false) {
+            $this->error('修改密码失败！');
+        }
+        
+        $this->success("修改密码成功！");
     }
     
     /**
      * 授权
      */
-    public function access()
+    public function getAccess()
     {
-        if ($this->request->isPost()) {
-            $data = $this->request->post('');
-            
-            if (empty($data['id'])) {
-                $this->error('参数错误！');
-            }
-            
-            if (env('admin_is_root') != 1) {
-                if ($data['id'] == env('admin_id')) {
-                    $this->error('你不能修改自己的账号！');
-                }
-            }
-            
-            $adminInfo = AdminModel::where([
-                    "id" => $data['id'],
-                ])
-                ->find();
-            if (empty($adminInfo)) {
-                $this->error('信息不存在！');
-            }
-            
-            // 清除
-            AuthGroupAccessModel::where([
-                    'admin_id' => $data['id'],
-                ])
-                ->delete();
-            
-            $newRoles = [];
-            if (isset($data['roleid']) && !empty($data['roleid'])) {
-                if (! env('admin_is_root')) {
-                    $childGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
-                    $roleids = explode(',', $data['roleid']);
-                    
-                    $newRoles = array_intersect_assoc($childGroupIds, $roleids);
-                } else {
-                    $newRoles = explode(',', $data['roleid']);
-                }
-            }
-            
-            $groupAccess = [];
-            foreach ($newRoles as $role) {
-                AuthGroupAccessModel::create([
-                    'admin_id' => $data['id'],
-                    'group_id' => $role,
-                ]);
-            }
-            
-            $this->success("授权成功！");
-        } else {
-            $id = $this->request->param('id/s');
-            if (empty($id)) {
-                $this->error('参数错误！');
-            }
-            
-            $data = AdminModel::where([
-                    "id" => $id,
-                ])
-                ->find();
-            if (empty($data)) {
-                $this->error('该信息不存在！');
-            }
-            
-            $data['gids'] = AuthGroupAccessModel::where([
-                    'admin_id' => $id,
-                ])
-                ->column('group_id');
-            
-            $this->assign("data", $data);
-            
-            if (!env('admin_is_root')) {
-                $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
-                $roles = AuthGroupModel::getGroups([
-                        ['id', 'in', $userChildGroupIds],
-                    ]);
-            } else {
-                $roles = AuthGroupModel::getGroups();
-            }
-            $this->assign("roles", $roles);
-            
-            return $this->fetch('laket-admin::admin.access');
+        $id = $this->request->param('id/s');
+        if (empty($id)) {
+            $this->error('参数错误！');
         }
+        
+        $data = AdminModel::where([
+                "id" => $id,
+            ])
+            ->find();
+        if (empty($data)) {
+            $this->error('该信息不存在！');
+        }
+        
+        $data['gids'] = AuthGroupAccessModel::where([
+                'admin_id' => $id,
+            ])
+            ->column('group_id');
+        
+        $this->assign("data", $data);
+        
+        if (!env('admin_is_root')) {
+            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
+            $roles = AuthGroupModel::getGroups([
+                    ['id', 'in', $userChildGroupIds],
+                ]);
+        } else {
+            $roles = AuthGroupModel::getGroups();
+        }
+        $this->assign("roles", $roles);
+        
+        return $this->fetch('laket-admin::admin.access');
+    }
+    
+    /**
+     * 授权
+     */
+    public function postAccess()
+    {
+        $data = $this->request->post('');
+        
+        if (empty($data['id'])) {
+            $this->error('参数错误！');
+        }
+        
+        if (env('admin_is_root') != 1) {
+            if ($data['id'] == env('admin_id')) {
+                $this->error('你不能修改自己的账号！');
+            }
+        }
+        
+        $adminInfo = AdminModel::where([
+                "id" => $data['id'],
+            ])
+            ->find();
+        if (empty($adminInfo)) {
+            $this->error('信息不存在！');
+        }
+        
+        // 清除
+        AuthGroupAccessModel::where([
+                'admin_id' => $data['id'],
+            ])
+            ->delete();
+        
+        $newRoles = [];
+        if (isset($data['roleid']) && !empty($data['roleid'])) {
+            if (! env('admin_is_root')) {
+                $childGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
+                $roleids = explode(',', $data['roleid']);
+                
+                $newRoles = array_intersect_assoc($childGroupIds, $roleids);
+            } else {
+                $newRoles = explode(',', $data['roleid']);
+            }
+        }
+        
+        $groupAccess = [];
+        foreach ($newRoles as $role) {
+            AuthGroupAccessModel::create([
+                'admin_id' => $data['id'],
+                'group_id' => $role,
+            ]);
+        }
+        
+        $this->success("授权成功！");
     }
 
 }

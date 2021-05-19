@@ -26,7 +26,7 @@ class Index extends Base
     /**
      * 后台首页
      */
-    public function index()
+    public function getIndex()
     {
         // 用户信息
         $this->assign('user_info', env('admin_info'));
@@ -49,7 +49,7 @@ class Index extends Base
     /**
      * 欢迎首页
      */
-    public function main()
+    public function getMain()
     {
         $this->assign('user_info', env('admin_info'));
         
@@ -109,7 +109,7 @@ class Index extends Base
     /**
      * 清空缓存
      */
-    public function clear()
+    public function postClear()
     {
         $type = $this->request->request("type", 'all');
         switch ($type) {
