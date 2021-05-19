@@ -18,7 +18,11 @@
 
 ### 截图预览
 
-![LaketAdmin](https://user-images.githubusercontent.com/24578855/111893388-652cb900-8a3d-11eb-9f09-3983de3aefa5.png)
+![LaketAdmin](https://user-images.githubusercontent.com/24578855/118827262-cc0c0880-b8ee-11eb-9e5f-6c9c5adc24db.png)
+![LaketAdmin-admin](https://user-images.githubusercontent.com/24578855/118827273-cf06f900-b8ee-11eb-8cde-40c85d83ca94.png)
+![LaketAdmin-flash](https://user-images.githubusercontent.com/24578855/118827296-d3331680-b8ee-11eb-87eb-bcdf5c8cdd3d.png)
+![LaketAdmin-group](https://user-images.githubusercontent.com/24578855/118827300-d4644380-b8ee-11eb-99a3-6e7f8faec8ff.png)
+![LaketAdmin-rule](https://user-images.githubusercontent.com/24578855/118827328-d928f780-b8ee-11eb-996a-211bd7bff961.png)
 
 
 ### 安装步骤
