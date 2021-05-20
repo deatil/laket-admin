@@ -49,6 +49,7 @@ class Permission
             'get:admin.passport.captcha',
             'get:admin.passport.login',
             'post:admin.passport.login-post',
+            'get:admin.passport.logout',
         ], (array) config('laket.auth.permission_excepts', []));
         
         $requestMethod = $request->rule()->getMethod();
