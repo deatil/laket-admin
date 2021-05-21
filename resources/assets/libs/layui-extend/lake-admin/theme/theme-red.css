@@ -14,6 +14,10 @@
     background-color: transparent;
 }
 
+.layui-layout-admin .layui-side .layui-nav .layui-nav-item > a:hover {
+    background: rgba(255, 255, 255, .03);
+}
+
 /** logo部分样式 */
 .layui-layout-admin .layui-header .layui-logo {
     background-color: #DD4B39;
@@ -72,6 +76,11 @@
 /** 侧边栏文字颜色 */
 .layui-side .layui-nav .layui-nav-item a {
     color: rgba(255, 255, 255, .7);
+}
+
+.layui-side .layui-nav .layui-nav-item a:hover {
+    color: #e4f9ea;
+    background: rgba(0, 166, 90, 0.3);
 }
 
 .layui-nav-tree .layui-nav-child dd.layui-this, 

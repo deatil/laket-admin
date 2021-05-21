@@ -184,7 +184,7 @@ html {
 }
 
 /** 侧边栏图标样式 */
-.layui-side .layui-nav-item > a > .layui-icon {
+.layui-side .layui-nav-item > a > .layui-icon:before {
     background-color: #61B2FC;
     color: #fff;
     border-radius: 50%;
@@ -196,19 +196,19 @@ html {
     font-size: 15px;
 }
 
-.layui-side .layui-nav-item:nth-child(even) > a > .layui-icon {
+.layui-side .layui-nav-item:nth-child(even) > a > .layui-icon:before {
     background-color: #7DD733;
 }
 
-.layui-side .layui-nav-item:nth-child(3) > a > .layui-icon {
+.layui-side .layui-nav-item:nth-child(3) > a > .layui-icon:before {
     background-color: #32A2D4;
 }
 
-.layui-side .layui-nav-item:nth-child(4) > a > .layui-icon {
+.layui-side .layui-nav-item:nth-child(4) > a > .layui-icon:before {
     background-color: #2BCCCE;
 }
 
-.layui-side .layui-nav-item:nth-child(5) > a > .layui-icon {
+.layui-side .layui-nav-item:nth-child(5) > a > .layui-icon:before {
     background-color: #7383CF;
 }
 
