@@ -3,6 +3,10 @@
 ::selection{color:#fff !important;background-color:#009688 !important}
 ::-moz-selection{color:#fff !important;background-color:#009688 !important}
 
+.layui-layout-admin .layui-body {
+    margin-bottom: 44px;
+}
+
 .lake-admin iframe {position: absolute; height: 100%; width: 100%; border: none; }
 
 .lake-admin .mag0 { margin:0 !important; }
@@ -149,6 +153,10 @@
     -webkit-transition: all .2s;
 }
 
+.lake-admin .layui-layout-admin.layui-layout-admin-collapse .layui-side .layui-nav-more {
+    right: 8px;
+}
+
 /* 左侧菜单放大 */
 .lake-admin .layui-layer-tips.popup-tips .layui-layer-TipsG{
     display: none;
@@ -173,6 +181,8 @@
     border: none;
     display: inline-block;
     margin-top: -6px !important;
+    position: absolute;
+    top: 20px;
 }
 .lake-admin .lake-admin-menu-left-zoom.layui-nav .layui-nav-mored,
 .lake-admin .lake-admin-menu-left-zoom.layui-nav-itemed>a .layui-nav-more{
@@ -190,6 +200,8 @@
     width: 12px;
     text-align: center;
     border-style:none;
+    position: absolute;
+    top: 20px;
 }
 .lake-admin .lake-admin-menu-left-zoom .layui-nav-itemed > a > .layui-nav-more:before {
     content: '\e61a';
