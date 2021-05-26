@@ -107,9 +107,9 @@ if (! function_exists('laket_view')) {
 
 if (! function_exists('laket_assets')) {
     /**
-     * 获取视图路径
+     * 资源uri
      *
-     * @param string $template 模板路径
+     * @param string $assets 资源路径
      * @return string
      *
      * @throws \Exception
