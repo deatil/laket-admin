@@ -59,9 +59,7 @@ class Attachment extends ModelBase
             ])
             ->find();
         $path = $data['uri'];
-        return ($path !== false) ? 
-            ($domain ? request()->domain() . $path : $path)
-            : "";
+        return $domain ? request()->domain() . $path : $path;
     }
     
     public static function deleteFile($path, $disk = '')
