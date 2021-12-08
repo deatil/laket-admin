@@ -4,13 +4,16 @@ return [
     'admin' => [
         "name" => "LaketAdmin",
         "name_mini" => "Laket",
-        "version" => "1.0.5",
-        "release" => "1.0.5.20210520",
+        "version" => "1.0.6",
+        "release" => "1.0.6.20211208",
     ],
     
     'password' => [
         'salt' => env('laket.admin_salt', 'd,d7ja0db1a974;38cE84976abbac2cd'),
         'super_id' => env('laket.admin_super_id', 'e92ba0a3f86f4a5693d8487eb8c632b5'),
+        
+        // RSA 相关
+        'prikey_cache_key' => env('laket.prikey_cache_key', 'laket-admin-prikey-key'),
     ],
     
     'route' => [

@@ -25,6 +25,7 @@
         "topthink/think-orm": "^2.0",
         "topthink/think-view": "^1.0",
         "topthink/think-captcha": "^3.0",
+        "phpseclib/phpseclib": "^3.0",
         "laket/laket-pclzip": "^1.0"
     },
     "autoload": {
