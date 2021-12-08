@@ -182,9 +182,9 @@ class Service extends BaseService
 
 * `loadRoutesFrom($path)` 加载路由
 
-* `registerRoutes(Closure $closure)` 添加指令
+* `registerRoutes(Closure $closure)` 注册路由
 
-* `commands($commands)` 注册路由
+* `commands($commands)` 添加指令
 
 * `loadViewsFrom($path, $namespace)` 加载视图
 
@@ -192,7 +192,7 @@ class Service extends BaseService
 
 * `loadFilesFrom($path)` 导入文件
 
-* `publishes(array $paths, $groups = null)` 添加脚本推送文件
+* `publishes(array $paths, $groups = null)` 添加脚本推送
 
 
 ### 其他文件
