@@ -151,7 +151,7 @@ class Check
     }
    
     /**
-     * 格式化name
+     * 格式化 name
      *
      * @param string $name 要检测的名称
      * @return string

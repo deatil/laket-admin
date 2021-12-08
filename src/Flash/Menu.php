@@ -22,7 +22,6 @@ class Menu
      *
      * @return array $data 
      * @return int|string $parentId 
-     *
      * @return array
      */
     public static function create($data = [], $parentId = 0) 
@@ -68,7 +67,6 @@ class Menu
      * 删除
      *
      * @param string $slug 规则slug
-     *
      * @return boolean
      */
     public static function delete($slug)
@@ -91,7 +89,6 @@ class Menu
      * 启用
      *
      * @param string $slug
-     *
      * @return boolean
      */
     public static function enable($slug)
@@ -117,7 +114,6 @@ class Menu
      * 禁用
      *
      * @param string $slug
-     *
      * @return boolean
      */
     public static function disable($slug)
@@ -143,7 +139,6 @@ class Menu
      * 导出指定slug的规则
      *
      * @param string $slug
-     *
      * @return array
      */
     public static function export($slug)
@@ -180,7 +175,6 @@ class Menu
      * 根据slug获取规则IDS
      *
      * @param string $slug
-     *
      * @return array
      */
     public static function getAuthRuleIdsBySlug($slug)

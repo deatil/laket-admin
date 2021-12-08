@@ -201,6 +201,7 @@ class JsonResponse
         
         $header = $this->getHeaders();
         $response = Response::create($result)->header($header);
+        
         throw new HttpResponseException($response);
     }
 

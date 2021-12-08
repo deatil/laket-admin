@@ -39,6 +39,7 @@ abstract class BaseController
 
     /**
      * 构造方法
+     *
      * @access public
      * @param  App  $app  应用对象
      */
@@ -57,6 +58,7 @@ abstract class BaseController
 
     /**
      * 验证数据
+     *
      * @access protected
      * @param  array        $data     数据
      * @param  string|array $validate 验证器名或者验证规则数组

@@ -17,7 +17,7 @@ use Laket\Admin\Support\File;
 /**
  * 推送
  *
- * php think laket-admin:publish --tag=tag-name
+ * > php think laket-admin:publish --tag=tag-name
  *
  * @create 2021-3-26
  * @author deatil

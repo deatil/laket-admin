@@ -14,6 +14,7 @@ class Sql
 {
     /**
      * 从sql文件获取纯sql语句
+     *
      * @param  string $sql_file sql文件路径
      * @param  bool $string 如果为真，则只返回一条sql语句，默认以数组形式返回
      * @param  array $replace 替换前缀，如：['my_' => 'me_']，表示将表前缀"my_"替换成"me_"
@@ -37,6 +38,7 @@ class Sql
 
     /**
      * 分割sql语句
+     *
      * @param  string $content sql内容
      * @param  bool $string 如果为真，则只返回一条sql语句，默认以数组形式返回
      * @param  array $replace 替换前缀，如：['my_' => 'me_']，表示将表前缀my_替换成me_
@@ -125,6 +127,7 @@ class Sql
 
     /**
      * 读取文件内容
+     *
      * @param $filename  文件名
      * @return string 文件内容
      */

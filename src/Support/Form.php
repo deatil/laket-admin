@@ -30,6 +30,7 @@ class Form
     
     /**
      * 下拉选择框
+     *
      * @param type $array 数据
      * @param type $id 默认选择
      * @param type $str 属性
@@ -63,6 +64,7 @@ class Form
 
     /**
      * 复选框
+     *
      * @param $array 选项 二维数组
      * @param $id 默认选中值，多个用 '逗号'分割
      * @param $str 属性
@@ -95,6 +97,7 @@ class Form
 
     /**
      * 图片上传
+     *
      * @param string $name 表单名称
      * @param int $id 表单id
      * @param string $value 表单默认值

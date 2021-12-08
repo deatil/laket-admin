@@ -48,6 +48,7 @@ class Auth
     
     /**
      * 登陆检测
+     *
      * @return boolean
      */
     protected function checkLogin($request)

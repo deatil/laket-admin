@@ -29,6 +29,7 @@ class Parser
     
     /**
      * 设置
+     *
      * @param string $url 链接地址
      * @return object
      */
@@ -40,6 +41,7 @@ class Parser
     
     /**
      * 获取链接
+     *
      * @return string
      */
     public function getUrl()
@@ -49,6 +51,7 @@ class Parser
     
     /**
      * 获取地址
+     *
      * @return string
      */
     public function getPath()
@@ -58,6 +61,7 @@ class Parser
     
     /**
      * 获取参数
+     *
      * @return array
      */
     public function getParam()
@@ -67,6 +71,7 @@ class Parser
     
     /**
      * 解析
+     *
      * @return Parser
      */
     public function parse()
@@ -87,6 +92,7 @@ class Parser
     
     /**
      * 解析
+     *
      * @return Parser
      */
     public function parseUrl()

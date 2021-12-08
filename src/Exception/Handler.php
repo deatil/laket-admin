@@ -23,6 +23,7 @@ class Handler extends Handle
 {
     /**
      * 不需要记录信息（日志）的异常类列表
+     *
      * @var array
      */
     protected $ignoreReport = [

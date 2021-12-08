@@ -18,7 +18,7 @@ use Laket\Admin\Model\Admin as AdminModel;
 /**
  * 重设密码
  *
- * php think laket-admin:reset-password
+ * > php think laket-admin:reset-password
  *
  * @create 2021-3-20
  * @author deatil

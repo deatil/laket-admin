@@ -29,6 +29,7 @@ class Rule
 
     /**
      * 获得权限列表
+     *
      * @param integer $uid  用户id
      * @param integer $type 选择类型
      */
@@ -92,6 +93,7 @@ class Rule
     
     /**
      * 获得权限ID列表
+     *
      * @param array $gids 分组id列表
      * @return array
      */
@@ -107,6 +109,7 @@ class Rule
 
     /**
      * 根据用户id获取用户组,返回值为数组
+     *
      * @param integer uid  用户id
      * @return array       用户所属的用户组 
      *  array(

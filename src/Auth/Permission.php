@@ -14,6 +14,7 @@ class Permission
 {
     /**
      * 检查权限
+     *
      * @param string|array name  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
      * @param integer uid        认证用户的id
      * @param string relation    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
@@ -40,6 +41,7 @@ class Permission
 
     /**
      * 获得权限列表
+     *
      * @param integer $uid  用户id
      */
     public function getAuthList($uid, $type)

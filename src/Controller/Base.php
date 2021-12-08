@@ -21,6 +21,7 @@ abstract class Base extends BaseController
 
     /**
      * 控制器中间件
+     *
      * @var array
      */
     protected $middleware = [];

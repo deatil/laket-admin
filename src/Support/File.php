@@ -23,6 +23,7 @@ class File
 
     /**
      * 读取文件内容
+     *
      * @param $filename  文件名
      * @return string 文件内容
      */
@@ -42,6 +43,7 @@ class File
 
     /**
      * 写入文件
+     *
      * @param $filename
      * @param $writetext
      * @param string $openmod
@@ -90,6 +92,7 @@ class File
 
     /**
      * 删除
+     *
      * @param $dirName
      * @return bool
      */
@@ -116,6 +119,7 @@ class File
 
     /**
      * 复制
+     *
      * @param $surDir
      * @param $toDir
      * @return bool
@@ -149,6 +153,7 @@ class File
 
     /**
      * 创建文件夹
+     *
      * @param $dir
      * @return bool
      */
@@ -166,9 +171,9 @@ class File
 
     /**
      * 遍历获取目录下的指定类型的文件
+     *
      * @param $path 路径
-     * @param array $files
-     *  文件类型数组
+     * @param array $files 文件类型数组
      */
     public static function getFiles($path, &$files = array(), $preg = "/\.(gif|jpeg|jpg|png|bmp)$/i")
     {
@@ -309,6 +314,7 @@ class File
     
     /**
      * 检测是否为空文件夹
+     *
      * @param $dir  目录名
      * @return boolean true 空， fasle 不为空
      */

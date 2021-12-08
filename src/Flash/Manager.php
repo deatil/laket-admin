@@ -32,7 +32,9 @@ class Manager
     public $flashs = [];
     
     /**
-     * @var string 本地闪存缓存id
+     * 本地闪存缓存id
+     * 
+     * @var string 
      */
     public $flashsCacheId = 'laket-admin-local-flashs';
 
@@ -41,7 +43,6 @@ class Manager
      *
      * @param string $name 包名
      * @param string $class 绑定服务类
-     *
      * @return self
      */
     public function extend($name, $class = null)
@@ -59,7 +60,6 @@ class Manager
      * 获取添加的闪存
      *
      * @param string $name
-     *
      * @return string
      */
     public function getExtend($name = null)
@@ -75,7 +75,6 @@ class Manager
      * 移除添加的闪存
      *
      * @param string $name
-     *
      * @return string|null
      */
     public function forget($name)
@@ -93,7 +92,6 @@ class Manager
      * 检测非compoer闪存是否存在
      *
      * @param string $name 闪存包名
-     *
      * @return bool
      */
     public function checkLocal($name)
@@ -111,7 +109,6 @@ class Manager
      * 设置闪存路由
      *
      * @param $callback
-     * 
      * @return self
      */
     public function routes($callback)
@@ -127,7 +124,6 @@ class Manager
      *
      * @param $prefix
      * @param $paths
-     * 
      * @return self
      */
     public function namespaces($prefix, $paths = [])
@@ -143,7 +139,6 @@ class Manager
      * 登陆过滤
      *
      * @param array $excepts
-     * 
      * @return void
      */
     public function authenticateExcepts(array $excepts = [])
@@ -166,7 +161,6 @@ class Manager
      * 权限过滤
      *
      * @param array $excepts
-     * 
      * @return void
      */
     public function permissionExcepts(array $excepts = [])
@@ -189,7 +183,6 @@ class Manager
      * 锁屏过滤
      *
      * @param array $excepts
-     * 
      * @return void
      */
     public function screenlockExcepts(array $excepts = [])
@@ -212,7 +205,6 @@ class Manager
      * 执行sql
      *
      * @param string $sql sql字符或者文件
-     * 
      * @return boolen
      */
     public function executeSql(string $sql)
@@ -444,7 +436,6 @@ class Manager
      * 移除闪存信息缓存
      *
      * @param string $name
-     *
      * @return self
      */
     public function forgetFlashCache(string $name)
@@ -463,7 +454,6 @@ class Manager
      * 闪存存放文件夹
      *
      * @param string $path
-     *
      * @return string
      */
     public function getFlashDirectory()
@@ -475,7 +465,6 @@ class Manager
      * 闪存存放目录
      *
      * @param string $path
-     *
      * @return string
      */
     public function getFlashPath(string $path = '')
@@ -488,7 +477,6 @@ class Manager
      * 闪存绑定类
      *
      * @param string|null $name
-     *
      * @return string
      */
     public function getFlashClass(?string $name = null)
@@ -506,7 +494,6 @@ class Manager
      * 实例化类
      *
      * @param string|null $className
-     *
      * @return object
      */
     public function getNewClass(?string $className = null)
@@ -531,7 +518,6 @@ class Manager
      * @param string|null $className 
      * @param string|null $method 
      * @param array $param 
-     *
      * @return mixed
      */
     public function getNewClassMethod(?string $className = null, ?string $method = null, array $param = [])
@@ -557,7 +543,6 @@ class Manager
      * 闪存的实例化类
      *
      * @param string|null $name
-     *
      * @return mixed|object
      */
     public function getFlashNewClass(?string $name = null)
@@ -571,7 +556,6 @@ class Manager
      * 闪存标识
      *
      * @param object|null $newClass
-     *
      * @return string
      */
     public function getFlashIcon(?object $newClass = null)
@@ -599,7 +583,6 @@ class Manager
      * 闪存信息
      *
      * @param string|null $name
-     *
      * @return array
      */
     public function getFlash(?string $name = null)
@@ -693,9 +676,8 @@ class Manager
      * 闪存标识图片
      *
      * @param string|null $icon
-     *
      * @return string
-     */    
+     */
     public function getIcon($icon = '')
     {
         if (! file_exists($icon) || ! is_file($icon)) {
@@ -714,7 +696,6 @@ class Manager
      * 验证闪存信息
      *
      * @param array $info
-     *
      * @return boolen
      */
     public function validateInfo(array $info)
@@ -744,7 +725,6 @@ class Manager
      * 获取满足条件的闪存文件夹
      *
      * @param string|null $dirPath
-     *
      * @return array
      */
     public function getDirectories(?string $dirPath = null)
@@ -779,7 +759,6 @@ class Manager
      * 根据类名获取类所在文件夹
      *
      * @param string|object|null $class
-     *
      * @return string|bool
      */
     public function getPathFromClass($class = null)

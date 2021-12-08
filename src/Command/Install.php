@@ -20,7 +20,7 @@ use Laket\Admin\Support\Sql;
 /**
  * 系统安装
  *
- * php think laket-admin:install
+ * > php think laket-admin:install
  *
  * @create 2020-3-20
  * @author deatil

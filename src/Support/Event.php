@@ -28,6 +28,7 @@ class Event
 
     /**
      * 注册应用事件
+     *
      * @access public
      * @param array $event 事件数据
      * @return void
@@ -51,6 +52,7 @@ class Event
     
     /**
      * 触发事件
+     *
      * @access protected
      * @param array $event 事件数据
      * @return string|array|etc

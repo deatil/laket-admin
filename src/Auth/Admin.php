@@ -29,6 +29,7 @@ class Admin
     
     /**
      * 用户登录
+     *
      * @param string $name 账户名
      * @param string $password (md5值) 密码
      * @return bool|mixed
@@ -90,6 +91,7 @@ class Admin
 
     /**
      * 检测密码
+     *
      * @param type $identifier 用户名或者用户ID
      * @param type $password 密码
      * @return boolean
@@ -116,6 +118,7 @@ class Admin
 
     /**
      * 检验用户是否已经登陆
+     *
      * @return boolean
      */
     public function check()
@@ -182,6 +185,7 @@ class Admin
 
     /**
      * 注销登录状态
+     *
      * @return boolean
      */
     public function logout()
@@ -195,6 +199,7 @@ class Admin
     
     /**
      * 管理员密码加密
+     *
      * @param $password
      * @param $encrypt //传入加密串，在修改密码时做认证
      * @return array/password

@@ -38,12 +38,8 @@ class ScreenLockCheck
         return $next($request);
     }
     
-    
     /**
      * 检测锁屏
-     *
-     * @create 2020-8-5
-     * @author deatil
      */
     protected function checkScreenLock()
     {

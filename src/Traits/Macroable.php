@@ -10,7 +10,7 @@ use ReflectionMethod;
 use BadMethodCallException;
 
 /**
- * 类扩展，来源于laravel框架
+ * 类扩展
  *
  * @create 2021-4-8
  * @author deatil

@@ -17,12 +17,11 @@ class Request
     /**
      * 匹配当前请求路径
      *
-     * @param string $path
-     * @param null|string $current
-     *
      * eg:
      * get,post:admin.index.index
      *
+     * @param string $path
+     * @param null|string $current
      * @return bool
      */
     public static function matchPath($path, ?string $current = null)

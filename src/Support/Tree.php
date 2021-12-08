@@ -44,6 +44,7 @@ class Tree
 
     /**
      * 构造函数，初始化类
+     *
      * @param array 2维数组，例如：
      * array(
      *      1 => array('id'=>'1','parentid'=>0,'title'=>'一级栏目一'),
@@ -63,6 +64,7 @@ class Tree
 
     /**
      * 设置配置
+     *
      * @param  array  $key 键值
      * @param  string $value 内容
      * @return array
@@ -78,6 +80,7 @@ class Tree
     /**
      *
      * 构建数组
+     *
      * @param string    $id 要查询的ID
      * @param string    $itemprefix 前缀
      * @return string
@@ -125,6 +128,7 @@ class Tree
 
     /**
      * 所有父节点
+     *
      * @param  array        $list 数据集
      * @param  string|int   $parentid 节点的parentid
      * @param  string       $sort 排序
@@ -157,6 +161,7 @@ class Tree
 
     /**
      * 所有父节点的ID列表
+     *
      * @param  array        $list 数据集
      * @param  string|int   $parentid 节点的parentid
      * @return array
@@ -178,6 +183,7 @@ class Tree
 
     /**
      * 获取当前ID的所有子节点
+     *
      * @param array         $list 数据集
      * @param string|int    $id 当前id
      * @param string        $sort 排序
@@ -209,6 +215,7 @@ class Tree
 
     /**
      * 获取当前ID的所有子节点id
+     *
      * @param array         $list 数据集
      * @param string|int    $id 当前id
      * @return array
@@ -230,6 +237,7 @@ class Tree
 
     /**
      * 得到子级第一级数组
+     *
      * @param array         $list 数据集
      * @param string|int    $id 当前id
      * @return array
@@ -254,6 +262,7 @@ class Tree
 
     /**
      * 获取ID自己的数据
+     *
      * @param array         $list 数据集
      * @param string|int    $id 当前id
      * @return array
@@ -277,6 +286,7 @@ class Tree
 
     /**
      * 将buildArray的结果返回为二维数组
+     *
      * @param array $data 数据
      * @return array
      */
