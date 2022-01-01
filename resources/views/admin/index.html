@@ -61,7 +61,7 @@
 </script>
 
 <script type="text/html" id="barTool">
-    {{#  if(d.id == "{:config('laket.password.super_id')}"){ }}
+    {{#  if(d.id == "{:config('laket.passport.super_id')}"){ }}
         <a href='{:laket_route("admin.admin.password")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员密码">密码</a>
         <a href='{:laket_route("admin.admin.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员编辑">编辑</a>
     {{#  } else { }}

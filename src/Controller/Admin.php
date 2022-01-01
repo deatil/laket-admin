@@ -190,7 +190,7 @@ class Admin extends Base
             $this->error('你不能删除自己的账号！');
         }
         
-        if ($adminInfo['id'] == config('laket.password.super_id')) {
+        if ($adminInfo['id'] == config('laket.passport.super_id')) {
             $this->error('超级管理员不能删除！');
         }
         

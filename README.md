@@ -1,7 +1,7 @@
-## laket-admin 通用PHP后台开源管理系统
+# laket-admin 通用PHP后台开源管理系统
 
 
-### 项目介绍
+## 项目介绍
 
 *  `laket-admin` 是基于 `thinkphp6` 版本的通用PHP后台开源管理系统
 *  使用 `layui` 搭建的后台管理页面
@@ -9,14 +9,14 @@
 *  闪存插件说明文档 `docs/wiki/flash.md`
 
 
-### 环境要求
+## 环境要求
 
  - PHP >= 7.1.0
  - thinkphp ^6.0.0
  - Fileinfo PHP Extension
 
 
-### 截图预览
+## 截图预览
 
 ![LaketAdmin](https://user-images.githubusercontent.com/24578855/118827262-cc0c0880-b8ee-11eb-9e5f-6c9c5adc24db.png)
 ![LaketAdmin-admin](https://user-images.githubusercontent.com/24578855/118827273-cf06f900-b8ee-11eb-8cde-40c85d83ca94.png)
@@ -25,7 +25,7 @@
 ![LaketAdmin-rule](https://user-images.githubusercontent.com/24578855/118827328-d928f780-b8ee-11eb-996a-211bd7bff961.png)
 
 
-### 安装步骤
+## 安装步骤
 
 1. 首先安装 `thinkphp 6.0.*`
 
@@ -56,7 +56,7 @@ php think laket-admin:install
 5. 后台地址 `http://yourdomain.com/admin/index`, 登录账号：`admin` 及密码 `123456`
 
 
-### 闪存推荐
+## 闪存推荐
 
 | 名称 | 描述 |
 | --- | --- |
@@ -69,14 +69,14 @@ php think laket-admin:install
 注：闪存插件目录默认为 `/flashs` 目录
 
 
-### 问题反馈
+## 问题反馈
 
 在使用中有任何问题，请使用以下联系方式联系我们
 
 Github: https://github.com/deatil/laket-admin
 
 
-### 特别鸣谢
+## 特别鸣谢
 
 感谢以下的项目,排名不分先后
 
@@ -87,11 +87,11 @@ Github: https://github.com/deatil/laket-admin
  - layui
 
 
-### 开源协议
+## 开源协议
 
 *  `laket-admin` 遵循 `Apache2` 开源协议发布，在保留本系统版权的情况下提供个人及商业免费使用。 
 
 
-### 版权
+## 版权
 
 *  该系统所属版权归 deatil(https://github.com/deatil) 所有。

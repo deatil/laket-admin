@@ -50,7 +50,7 @@ class Passport extends Base
         $publicKey = $public->toString('PKCS8');
         
         // 缓存私钥
-        $prikeyCacheKey = config('laket.password.prikey_cache_key');
+        $prikeyCacheKey = config('laket.passport.prikey_cache_key');
         Session::set($prikeyCacheKey, $privateKey);
         
         // 过滤公钥多余字符
@@ -105,7 +105,7 @@ class Passport extends Base
 
         try {
             // 私钥
-            $prikeyCacheKey = config('laket.password.prikey_cache_key');
+            $prikeyCacheKey = config('laket.passport.prikey_cache_key');
             $prikey = Session::get($prikeyCacheKey);
             
             // 导入私钥

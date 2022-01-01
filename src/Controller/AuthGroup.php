@@ -57,7 +57,9 @@ class AuthGroup extends Base
     public function getAdd()
     {
         $Tree = make(Tree::class);
-        $list = AuthGroupModel::order(['id' => 'ASC'])
+        $list = AuthGroupModel::order([
+                'id' => 'ASC',
+            ])
             ->column('*', 'id');
         
         $Tree->withData($list);

@@ -59,7 +59,7 @@ class Upload extends Base
         if ($fileMine == 'text/x-php' || $fileMine == 'text/html') {
             return json([
                 'code' => 0, 
-                'info' => '禁止上传非法文件！'
+                'info' => '禁止上传非法文件'
             ]);
         }
         
@@ -72,11 +72,21 @@ class Upload extends Base
         $savename = AttachmentModel::filesystem()
             ->putFile($uploadPath, $file);
         
+        // 上传文件原始名称
+        $name = $file->getOriginalName();
+        $nameMaxlen = config("laket.upload.name_maxlen");
+        if (strlen($name) > $nameMaxlen) {
+            return json([
+                'code' => 0, 
+                'info' => '上传文件名称最大长度为['.$nameMaxlen.']，请重命名后重试'
+            ]);
+        }
+        
         // 获取附件信息
         $fileInfo = [
             'type' => 'admin',
             'type_id' => env('admin_id'),
-            'name' => $file->getOriginalName(),
+            'name' => $name,
             'mime' => $file->getOriginalMime(),
             'path' => $savename,
             'ext' => $file->getOriginalExtension(),

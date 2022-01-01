@@ -4,12 +4,16 @@ return [
     'admin' => [
         "name" => "LaketAdmin",
         "name_mini" => "Laket",
-        "version" => "1.0.6",
-        "release" => "1.0.6.20211208",
+        "version" => "1.0.7",
+        "release" => "1.0.7.20211231",
     ],
     
-    'password' => [
+    // 登录
+    'passport' => [
+        // 全局盐
         'salt' => env('laket.admin_salt', 'd,d7ja0db1a974;38cE84976abbac2cd'),
+        
+        // 超级管理员ID
         'super_id' => env('laket.admin_super_id', 'e92ba0a3f86f4a5693d8487eb8c632b5'),
         
         // RSA 相关
@@ -38,6 +42,9 @@ return [
     
     'upload' => [
         'disk' => env('laket.upload_disk', 'public'),
+        
+        // 上传文件名称最大长度
+        'name_maxlen' => env('laket.name_maxlen', 150),
     ],
     
     // 视图
@@ -48,12 +55,16 @@ return [
         ],
         
         // 标签
-        'taglib_build_in' => ($envViewTaglib = env('laket.view_taglib_build_in', '')) ? explode(',', $envViewTaglib): ["\\Laket\\Admin\\Template\\Taglib\\Laket"],
+        'taglib_build_in' => 
+            ($envViewTaglib = env('laket.view_taglib_build_in', '')) 
+            ? explode(',', $envViewTaglib) 
+            : ["\\Laket\\Admin\\Template\\Taglib\\Laket"],
         
         // 资源
         'assets' => env('laket.view_assets', "/static"),
     ],
     
+    // 响应
     'response' => [
         'json' => [
             'is_allow_origin' => env('laket.response_json_is_allow_origin', 1),

@@ -176,7 +176,7 @@ class Admin
             return false;
         }
         
-        if (Config::get('laket.password.super_id') != $id) {
+        if (Config::get('laket.passport.super_id') != $id) {
             return false;
         }
         
@@ -206,7 +206,7 @@ class Admin
      */
     public function encryptPassword($password, $encrypt = '')
     {
-        $pwd = Password::setSalt(Config::get("laket.password.salt"))
+        $pwd = Password::setSalt(Config::get("laket.passport.salt"))
             ->encrypt($password, $encrypt);
         return $pwd;
     }
