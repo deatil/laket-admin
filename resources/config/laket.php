@@ -42,9 +42,6 @@ return [
     
     'upload' => [
         'disk' => env('laket.upload_disk', 'public'),
-        
-        // 上传文件名称最大长度
-        'name_maxlen' => env('laket.name_maxlen', 150),
     ],
     
     // 视图

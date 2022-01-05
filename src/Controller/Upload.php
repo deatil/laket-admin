@@ -74,13 +74,6 @@ class Upload extends Base
         
         // 上传文件原始名称
         $name = $file->getOriginalName();
-        $nameMaxlen = config("laket.upload.name_maxlen");
-        if (strlen($name) > $nameMaxlen) {
-            return json([
-                'code' => 0, 
-                'info' => '上传文件名称最大长度为['.$nameMaxlen.']，请重命名后重试'
-            ]);
-        }
         
         // 获取附件信息
         $fileInfo = [

@@ -25,7 +25,7 @@ class Admin extends ModelBase
 
     public static function onBeforeInsert($model)
     {
-        $id = md5(mt_rand(10000, 99999) . microtime());
+        $id = md5(mt_rand(100000, 999999).microtime().uniqid());
         $model->setAttr('id', $id);
         
         $model->setAttr('add_time', time());
