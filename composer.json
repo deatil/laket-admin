@@ -21,9 +21,10 @@
     "require": {
         "php": ">=7.1.0",
         "composer/semver": "^3.2",
-        "topthink/framework": "^6.0.0",
+        "topthink/framework": "^6.1.0",
         "topthink/think-orm": "^2.0",
         "topthink/think-view": "^1.0",
+        "topthink/think-filesystem": "^v2.0.0",
         "topthink/think-captcha": "^3.0",
         "phpseclib/phpseclib": "^3.0",
         "laket/laket-pclzip": "^1.0"
