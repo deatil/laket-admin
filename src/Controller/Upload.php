@@ -81,7 +81,7 @@ class Upload extends Base
             'type_id' => env('admin_id'),
             'name' => $name,
             'mime' => $file->getOriginalMime(),
-            'path' => $savename,
+            'path' => str_replace("\\", "/", $savename),
             'ext' => $file->getOriginalExtension(),
             'size' => $file->getSize(),
             'md5' => $file->hash('md5'),
