@@ -515,12 +515,12 @@ class Manager
     /**
      * 实例化类方法
      *
-     * @param string|null $className 
-     * @param string|null $method 
-     * @param array $param 
+     * @param string $className 
+     * @param string $method 
+     * @param array  $param 
      * @return mixed
      */
-    public function getNewClassMethod(?string $className = null, ?string $method = null, array $param = [])
+    public function getNewClassMethod(string $className, string $method, array $param = [])
     {
         if (empty($className) || empty($method)) {
             return false;
@@ -535,8 +535,7 @@ class Manager
             return false;
         }
         
-        $res = call_user_func_array([$newClass, $method], $param);
-        return $res;
+        return call_user_func_array([$newClass, $method], $param);
     }
     
     /**

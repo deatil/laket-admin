@@ -58,7 +58,7 @@ class Attachment extends ModelBase
                 'id' => $id
             ])
             ->find();
-        $path = $data['uri'];
+        $path = $data['uri'] ?? '';
         return $domain ? request()->domain() . $path : $path;
     }
     

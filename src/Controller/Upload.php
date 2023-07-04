@@ -70,7 +70,7 @@ class Upload extends Base
         }
         
         $savename = AttachmentModel::filesystem()
-            ->putFile($uploadPath, $file);
+            ->putFile($uploadPath, $file, '');
         
         // 上传文件原始名称
         $name = $file->getOriginalName();

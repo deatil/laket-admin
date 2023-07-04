@@ -118,6 +118,7 @@ class Flash extends Base
     public function refreshLocal()
     {
         Flasher::refresh();
+        FlashModel::clearCahce();
         
         return $this->success('闪存刷新成功');
     }
@@ -217,9 +218,7 @@ class Flash extends Base
         }
         
         Flasher::loadFlash();
-        Flasher::getNewClassMethod($installInfo['bind_service'], 'uninstall', [
-            'flash' => $installInfo,
-        ]);
+        Flasher::getNewClassMethod($installInfo['bind_service'], 'uninstall');
         
         // 清除缓存
         Flasher::forgetFlashCache($name);

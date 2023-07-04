@@ -56,7 +56,7 @@ class Tree
      *      7 => array('id'=>'7','parentid'=>3,'title'=>'三级栏目二')
      * )
      */
-    public function withData($data = [])
+    public function withData(array $data)
     {
         $this->data = $data;
         return $this;
@@ -65,7 +65,7 @@ class Tree
     /**
      * 设置配置
      *
-     * @param  array  $key 键值
+     * @param  string $key 键值
      * @param  string $value 内容
      * @return array
      */
@@ -74,6 +74,7 @@ class Tree
         if (isset($this->{$key})) {
             $this->{$key} = $value;
         }
+        
         return $this;
     }
 
@@ -81,8 +82,8 @@ class Tree
      *
      * 构建数组
      *
-     * @param string    $id 要查询的ID
-     * @param string    $itemprefix 前缀
+     * @param string $id 要查询的ID
+     * @param string $itemprefix 前缀
      * @return string
      */
     public function buildArray($id, $itemprefix = '')
@@ -129,12 +130,12 @@ class Tree
     /**
      * 所有父节点
      *
-     * @param  array        $list 数据集
-     * @param  string|int   $parentid 节点的parentid
-     * @param  string       $sort 排序
+     * @param  array      $list 数据集
+     * @param  string|int $parentid 节点的parentid
+     * @param  string     $sort 排序
      * @return array
      */
-    public function getListParents($list = [], $parentid = '', $sort = 'desc')
+    public function getListParents($list, $parentid, $sort = 'desc')
     {
         if (empty($list) || !is_array($list)) {
             return [];
@@ -162,11 +163,11 @@ class Tree
     /**
      * 所有父节点的ID列表
      *
-     * @param  array        $list 数据集
-     * @param  string|int   $parentid 节点的parentid
+     * @param  array      $list 数据集
+     * @param  string|int $parentid 节点的parentid
      * @return array
      */
-    public function getListParentsId($list = [], $parentid = '')
+    public function getListParentsId($list, $parentid)
     {
         $parents = $this->getListParents($list, $parentid);
         if (empty($parents)) {
@@ -184,12 +185,12 @@ class Tree
     /**
      * 获取当前ID的所有子节点
      *
-     * @param array         $list 数据集
-     * @param string|int    $id 当前id
-     * @param string        $sort 排序
+     * @param array      $list 数据集
+     * @param string|int $id 当前id
+     * @param string     $sort 排序
      * @return array
      */
-    public function getListChilds($list = [], $id = '', $sort = 'desc')
+    public function getListChilds($list, $id, $sort = 'desc')
     {
         if (empty($list) || !is_array($list)) {
             return [];
@@ -216,11 +217,11 @@ class Tree
     /**
      * 获取当前ID的所有子节点id
      *
-     * @param array         $list 数据集
-     * @param string|int    $id 当前id
+     * @param array      $list 数据集
+     * @param string|int $id 当前id
      * @return array
      */
-    public function getListChildsId($list = [], $id = '')
+    public function getListChildsId($list, $id)
     {
         $childs = $this->getListChilds($list, $id);
         if (empty($childs)) {
@@ -238,11 +239,11 @@ class Tree
     /**
      * 得到子级第一级数组
      *
-     * @param array         $list 数据集
-     * @param string|int    $id 当前id
+     * @param array      $list 数据集
+     * @param string|int $id 当前id
      * @return array
      */
-    public function getListChild($list = [], $id)
+    public function getListChild($list, $id)
     {
         if (empty($list) || !is_array($list)) {
             return [];
@@ -263,11 +264,11 @@ class Tree
     /**
      * 获取ID自己的数据
      *
-     * @param array         $list 数据集
-     * @param string|int    $id 当前id
+     * @param array      $list 数据集
+     * @param string|int $id 当前id
      * @return array
      */
-    public function getListSelf($list = [], $id)
+    public function getListSelf($list, $id)
     {
         if (empty($list) || !is_array($list)) {
             return [];
@@ -290,7 +291,7 @@ class Tree
      * @param array $data 数据
      * @return array
      */
-    public function buildFormatList($data = [])
+    public function buildFormatList($data)
     {
         if (empty($data)) {
             return [];

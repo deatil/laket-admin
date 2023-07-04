@@ -3,16 +3,16 @@
 
 ## 项目介绍
 
-*  `laket-admin` 是基于 `thinkphp6` 版本的通用PHP后台开源管理系统
-*  使用 `layui` 搭建的后台管理页面
-*  通过系统构建的闪存插件系统完成对项目的开发
-*  闪存插件说明文档 `docs/wiki/flash.md`
+*  `laket-admin` 是基于 `Thinkphp` 的PHP通用后台开源管理系统
+*  使用 `layui` 搭建的后台管理界面
+*  通过系统构建的插件系统完成对项目的开发
+*  插件说明文档 `docs/wiki/flash.md`
 
 
 ## 环境要求
 
  - PHP >= 7.1.0
- - thinkphp ^6.0.0
+ - thinkphp ^6.1 | |^8.0
  - Fileinfo PHP Extension
 
 
@@ -27,10 +27,10 @@
 
 ## 安装步骤
 
-1. 首先安装 `thinkphp 6.0.*`
+1. 首先安装 `thinkphp`
 
 ```php
-composer create-project topthink/think laket-admin 6.0.* && cd laket-admin
+composer create-project topthink/think laket-admin 8.* && cd laket-admin
 ```
 
 2. 配置数据库的连接信息，并确认能够正常连接数据库
