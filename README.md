@@ -11,7 +11,7 @@
 
 ## 环境要求
 
- - PHP >= 7.1.0
+ - PHP >= 8.0.0
  - Thinkphp >= 8.0
  - Fileinfo PHP Extension
 

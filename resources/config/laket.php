@@ -4,8 +4,8 @@ return [
     'admin' => [
         "name"      => "LaketAdmin",
         "name_mini" => "Laket",
-        "version"   => "1.1.0",
-        "release"   => "1.1.0.20230705",
+        "version"   => "1.1.2",
+        "release"   => "1.1.2.20230705",
     ],
     
     // 登录
