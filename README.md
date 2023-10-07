@@ -18,11 +18,10 @@
 
 ## 截图预览
 
-![LaketAdmin](https://user-images.githubusercontent.com/24578855/118827262-cc0c0880-b8ee-11eb-9e5f-6c9c5adc24db.png)
-![LaketAdmin-admin](https://user-images.githubusercontent.com/24578855/118827273-cf06f900-b8ee-11eb-8cde-40c85d83ca94.png)
-![LaketAdmin-flash](https://user-images.githubusercontent.com/24578855/118827296-d3331680-b8ee-11eb-87eb-bcdf5c8cdd3d.png)
-![LaketAdmin-group](https://user-images.githubusercontent.com/24578855/118827300-d4644380-b8ee-11eb-99a3-6e7f8faec8ff.png)
-![LaketAdmin-rule](https://user-images.githubusercontent.com/24578855/118827328-d928f780-b8ee-11eb-996a-211bd7bff961.png)
+![LaketAdmin](https://github.com/deatil/laket-admin/assets/24578855/fcc7187d-5f41-4f24-a0be-76083905902b)![LaketAdmin-admin](https://user-images.githubusercontent.com/24578855/118827273-cf06f900-b8ee-11eb-8cde-40c85d83ca94.png)
+![menus](https://github.com/deatil/laket-admin/assets/24578855/431cfba5-e1b7-459b-bba9-b7370375de18)
+![attach](https://github.com/deatil/laket-admin/assets/24578855/948ce7db-2ffa-4f9f-8b60-45b8606cac1b)
+![ext](https://github.com/deatil/laket-admin/assets/24578855/d8fa5b9e-1d1c-4e33-ade4-e834d04c4109)
 
 
 ## 安装步骤

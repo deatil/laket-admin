@@ -25,6 +25,28 @@ if (! function_exists('make')) {
     }
 }
 
+if (!function_exists('runhook')) {
+    /**
+     * 行为
+     *
+     * @param  string $tag    标签名称
+     * @param  mixed  $params 传入参数
+     * @param  bool   $once   只获取一个有效返回值
+     * @return mixed
+     */
+    function runhook($tag, $params = null, $once = false)
+    {
+        $event = Event::trigger($tag, $params, $once);
+        if ($once) {
+            return $event;
+        } else {
+            $html = join("", $event);;
+            return $html;
+        }
+        
+    }
+}
+
 if (! function_exists('laket_url')) {
     /**
      * Url生成
@@ -151,14 +173,7 @@ if (!function_exists('laket_runhook')) {
      */
     function laket_runhook($tag, $params = null, $once = false)
     {
-        $event = Event::trigger($tag, $params, $once);
-        if ($once) {
-            return $event;
-        } else {
-            $html = join("", $event);;
-            return $html;
-        }
-        
+        return runhook($tag, $params, $once);
     }
 }
 

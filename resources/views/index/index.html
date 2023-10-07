@@ -17,10 +17,15 @@
         <div class="layui-header">
             <div class="lake-admin-logo">
                 <a href="{:laket_route('admin.index.index')}" title="{:config('laket.admin.name')}" class="lake-admin-logo-name">
-                    <span>{:config('laket.admin.name')}</span>
+                    <span>
+                        <img src="admin/admin/img/logo.png" alt="{:config('laket.admin.name')}" class="lake-admin-logo-img">
+                        {:config('laket.admin.name')}
+                    </span>
                 </a>
                 <a href="{:laket_route('admin.index.index')}" title="{:config('laket.admin.name')}" class="lake-admin-logo-name-mini">
-                    <span>{:config('laket.admin.name_mini')}</span>
+                    <span>
+                        <img src="admin/admin/img/logo.png" alt="{:config('laket.admin.name')}" class="lake-admin-logo-img">
+                    </span>
                 </a>
             </div>
             <div class="lake-admin-left">
@@ -114,7 +119,7 @@
                                 lay-id="0213cb7994fca486bd1da1cf4c380450"
                                 lay-icon="iconfont icon-people" 
                                 lay-title="账号信息"
-                                >
+                            >
                                 <i class="iconfont icon-people"></i>&nbsp;账号信息
                             </a>
                         </dd>
@@ -123,7 +128,7 @@
                                 lay-id="f17009e4b79e7afde46161d511dd74d9"
                                 lay-icon="iconfont icon-guanliyuan" 
                                 lay-title="更改密码"
-                                >
+                            >
                                 <i class="iconfont icon-guanliyuan"></i>&nbsp;更改密码
                             </a>
                         </dd>
@@ -142,9 +147,7 @@
         </div>
         <div class="layui-side layui-bg-black">
             <div class="navBar layui-side-scroll" id="navBar">
-                <ul class="layui-nav layui-nav-tree" id="side_menus_bar">
-                    <!--AJAX数据-->
-                </ul>
+                <ul class="layui-nav layui-nav-tree" id="side_menus_bar"></ul>
             </div>
         </div>
         <div class="lake-admin-site-tree-mobile layui-hide">

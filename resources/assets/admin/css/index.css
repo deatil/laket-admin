@@ -26,6 +26,12 @@
 .lake-admin .layui-layout-admin .lake-admin-logo {color: #fff; float: left; line-height: 60px; font-size: 18px; padding: 0 25px; text-align: center; width: 150px; height: 60px;}
 .lake-admin .layui-layout-admin .lake-admin-logo .lake-admin-logo-name {color: #fff;}
 .lake-admin .layui-layout-admin .lake-admin-logo .lake-admin-logo-name-mini {color: #fff;display: none;}
+.lake-admin .layui-layout-admin .lake-admin-logo .lake-admin-logo-img {
+    width: 30px;
+    height: 30px;
+    margin-right: 2px;
+    border-radius: 50%;
+}
 
 .lake-admin .layui-layout-admin .layui-header .layui-layout-right .layui-nav-item.layui-this:after {
     display: none;
