@@ -1,5 +1,5 @@
 /*!
- * lakeAdminTool.js v1.0.2
+ * lakeAdminTool.js v1.0.3
  * https://github.com/deatil/lake-admin
  * 
  * Apache License 2.0 © Deatil
@@ -15,7 +15,7 @@ layui.define(['jquery', 'jqueryCookie', 'lakeAdminMenu'], function (exports) {
             $("#side_menus_bar").find(".layui-this").removeClass('layui-this');
             $("#side_menus_bar").find("a[lay-id=" + data_id + "]").parent().addClass('layui-this');
             
-            if ($("#side_menus_bar.lake-admin-module").find("a[lay-id=" + data_id + "]").length > 0) {
+            if ($("#side_menus_bar").find("a[lay-id=" + data_id + "]").length > 0) {
                 var thiz = $("#side_menus_bar").find("a[lay-id=" + data_id + "]");
                 
                 var childDds = $("#side_menus_bar")
@@ -33,20 +33,16 @@ layui.define(['jquery', 'jqueryCookie', 'lakeAdminMenu'], function (exports) {
                 var navChildItems = thiz
                     .parents('#side_menus_bar .layui-nav-item-active');
                 
-                /*
                 $("#side_menus_bar")
                     .find(".layui-nav-item")
                     .removeClass('layui-nav-itemed');
-                */
                 $(navItems).each(function() {
                     $(this).addClass('layui-nav-itemed');
                 });
                 
-                /*
                 $("#side_menus_bar")
                     .find(".layui-nav-item-active")
                     .removeClass('layui-nav-itemed');
-                */
                 $(navChildItems).each(function() {
                     $(this).addClass('layui-nav-itemed');
                 });
