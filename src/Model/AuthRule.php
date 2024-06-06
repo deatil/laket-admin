@@ -181,7 +181,7 @@ class AuthRule extends ModelBase
         
         $admins = Admin::with(['groups'])
             ->where([
-                'id' => env('admin_id'),
+                'id' => AuthData::getId(),
             ])
             ->select()
             ->toArray();

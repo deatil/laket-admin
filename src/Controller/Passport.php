@@ -11,6 +11,7 @@ use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
 
 use Laket\Admin\Facade\Admin;
+use Laket\Admin\Facade\AuthData;
 use Laket\Admin\Support\Screen;
 
 /**
@@ -159,7 +160,7 @@ class Passport extends Base
      */
     public function unlockscreen()
     {
-        $adminInfo = env('admin_info');
+        $adminInfo = AuthData::getInfo();
         $password = request()->post('password');
         
         if (!Admin::checkPassword($adminInfo['name'], $password)) {

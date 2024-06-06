@@ -151,7 +151,7 @@ class Admin
      */
     public function getId()
     {
-        return $this->data['id'] ?? false;
+        return $this->data['id'] ?? "";
     }
     
     /**
@@ -159,7 +159,7 @@ class Admin
      */
     public function isLogin()
     {
-        return $this->getId() !== false;
+        return $this->getId() !== "";
     }
 
     /**

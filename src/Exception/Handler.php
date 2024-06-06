@@ -5,13 +5,14 @@ declare (strict_types = 1);
 namespace Laket\Admin\Exception;
 
 use Throwable;
+
+use think\Response;
 use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
-use think\Response;
 
 /**
  * 异常

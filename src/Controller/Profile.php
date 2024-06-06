@@ -4,8 +4,9 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Controller;
 
-use Laket\Admin\Model\Admin as AdminModel;
+use Laket\Admin\Facade\AuthData;
 use Laket\Admin\Facade\Admin as AdminFacade;
+use Laket\Admin\Model\Admin as AdminModel;
 
 /**
  * 账号信息
@@ -20,7 +21,7 @@ class Profile extends Base
      */
     public function setting()
     {
-        $adminInfo = env('admin_info');
+        $adminInfo = AuthData::getInfo();
         
         $id = $adminInfo['id'];
         $data = AdminModel::where([
@@ -41,7 +42,7 @@ class Profile extends Base
      */
     public function settingSave()
     {
-        $adminInfo = env('admin_info');
+        $adminInfo = AuthData::getInfo();
         
         $post = $this->request->post();
         
@@ -68,7 +69,7 @@ class Profile extends Base
      */
     public function password()
     {
-        $adminInfo = env('admin_info');
+        $adminInfo = AuthData::getInfo();
         
         $data = AdminModel::where([
                 "id" => $adminInfo['id'],
@@ -88,7 +89,7 @@ class Profile extends Base
      */
     public function passwordSave()
     {
-        $adminInfo = env('admin_info');
+        $adminInfo = AuthData::getInfo();
         
         $post = $this->request->post();
         

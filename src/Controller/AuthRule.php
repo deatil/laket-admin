@@ -49,7 +49,7 @@ class AuthRule extends Base
     }
 
     /**
-     * 全部
+     * 全部菜单
      */
     public function all()
     {
@@ -57,7 +57,7 @@ class AuthRule extends Base
     }
     
     /**
-     * 全部
+     * 全部菜单数据
      */
     public function allData()
     {

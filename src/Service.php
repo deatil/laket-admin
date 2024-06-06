@@ -13,6 +13,7 @@ use Laket\Admin\Support\ViewFinder;
 use Laket\Admin\Support\Publish;
 use Laket\Admin\Support\Service as BaseService;
 use Laket\Admin\Http\JsonResponse as HttpJsonResponse;
+use Laket\Admin\Auth\Data as AuthData;
 use Laket\Admin\Auth\Admin as AuthAdmin;
 use Laket\Admin\Auth\Permission as AuthPermission;
 
@@ -193,6 +194,13 @@ class Service extends BaseService
             $authAdmin = new AuthAdmin();
             
             return $authAdmin;
+        });
+        
+        // 登陆信息
+        $this->app->bind('laket-admin.auth-data', function() {
+            $authData = new AuthData();
+            
+            return $authData;
         });
         
         // 闪存

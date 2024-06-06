@@ -347,6 +347,54 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
+            return $this->error('请选择需要的插件！');
+        }
+        
+        $info = FlashModel::where([
+                "name" => $name,
+            ])->find();
+        if (empty($info)) {
+            return $this->error('插件不存在！');
+        }
+        
+        $settinglist = $info['settinglist'];
+        $setting_datalist = $info['setting_datalist'];
+        
+        foreach ($settinglist as &$value) {
+            if (isset($setting_datalist[$value['name']])) {
+                $value['value'] = $setting_datalist[$value['name']];
+            }
+            
+            if (isset($value['type'])) {
+                if ($value['type'] == 'checkbox') {
+                    $value['value'] = empty($value['value']) ? [] : explode(',', $value['value']);
+                }
+                
+                if ($value['type'] == 'date') {
+                    $value['value'] = empty($value['value']) ? date('Y-m-d') : $value['value'];
+                }
+                
+                if ($value['type'] == 'datetime') {
+                    $value['value'] = empty($value['value']) ? date('Y-m-d H:i:s') : $value['value'];
+                }
+            }
+        }
+        
+        $this->assign("info", $info);
+        
+        // 通用设置
+        $this->assign("fields", $settinglist);
+        
+        return $this->fetch('laket-admin::flash.setting');
+    }
+    
+    /**
+     * 设置保存
+     */
+    public function settingSave()
+    {
+        $name = $this->request->param('name/s');
+        if (empty($name)) {
             return $this->error('请选择需要的闪存！');
         }
         
@@ -354,87 +402,55 @@ class Flash extends Base
                 "name" => $name,
             ])->find();
         if (empty($info)) {
-            return $this->error('信息不存在！');
+            return $this->error('插件不存在！');
         }
         
-        if ($this->request->isPost()) {
-            $data = $this->request->post('item/a');
+        $data = $this->request->post('item/a');
+        
+        $settinglist = $info['settinglist'];
+        
+        foreach ($settinglist as $setting) {
+            $name = $setting['name'];
+            $type = $setting['type'];
+            $title = $setting['title'];
             
-            $settinglist = $info['settinglist'];
-            
-            foreach ($settinglist as $setting) {
-                $name = $setting['name'];
-                $type = $setting['type'];
-                $title = $setting['title'];
-                
-                // 查看是否赋值
-                if (! isset($data[$name])) {
-                    switch ($type) {
-                        // 开关
-                        case 'switch':
-                            $data[$name] = 0;
-                            break;
-                        case 'checkbox':
-                            $data[$name] = '';
-                            break;
-                    }
-                } else {
-                    if (is_array($data[$name])) {
-                        $data[$name] = implode(',', $data[$name]);
-                    }
-                    switch ($type) {
-                        case 'switch':
-                            $data[$name] = 1;
-                            break;
-                    }
+            // 查看是否赋值
+            if (! isset($data[$name])) {
+                switch ($type) {
+                    // 开关
+                    case 'switch':
+                        $data[$name] = 0;
+                        break;
+                    case 'checkbox':
+                        $data[$name] = '';
+                        break;
+                }
+            } else {
+                if (is_array($data[$name])) {
+                    $data[$name] = implode(',', $data[$name]);
+                }
+                switch ($type) {
+                    case 'switch':
+                        $data[$name] = 1;
+                        break;
                 }
             }
-            
-            $status = FlashModel::where([
-                'id' => $info['id'],
-            ])->update([
-                'setting_data' => json_encode($data),
-            ]);
-            
-            if ($status === false) {
-                return $this->error('设置失败！');
-            }
-            
-            // 清除缓存
-            Flasher::forgetFlashCache($name);
-            
-            $this->success('设置成功！');
-        } else {
-            $settinglist = $info['settinglist'];
-            $setting_datalist = $info['setting_datalist'];
-            
-            foreach ($settinglist as &$value) {
-                if (isset($setting_datalist[$value['name']])) {
-                    $value['value'] = $setting_datalist[$value['name']];
-                }
-                
-                if (isset($value['type'])) {
-                    if ($value['type'] == 'checkbox') {
-                        $value['value'] = empty($value['value']) ? [] : explode(',', $value['value']);
-                    }
-                    
-                    if ($value['type'] == 'date') {
-                        $value['value'] = empty($value['value']) ? date('Y-m-d') : $value['value'];
-                    }
-                    
-                    if ($value['type'] == 'datetime') {
-                        $value['value'] = empty($value['value']) ? date('Y-m-d H:i:s') : $value['value'];
-                    }
-                }
-            }
-            
-            $this->assign("info", $info);
-            
-            // 通用设置
-            $this->assign("fields", $settinglist);
-            
-            return $this->fetch('laket-admin::flash.setting');
         }
+        
+        $status = FlashModel::where([
+            'id' => $info['id'],
+        ])->update([
+            'setting_data' => json_encode($data),
+        ]);
+        
+        if ($status === false) {
+            return $this->error('设置失败！');
+        }
+        
+        // 清除缓存
+        Flasher::forgetFlashCache($name);
+        
+        $this->success('设置成功！');
     }
     
     /**

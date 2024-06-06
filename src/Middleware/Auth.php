@@ -8,6 +8,7 @@ use Closure;
 use think\App;
 
 use Laket\Admin\Facade\Admin;
+use Laket\Admin\Facade\AuthData;
 use Laket\Admin\Http\Traits\Jump as JumpTrait;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
 
@@ -73,9 +74,9 @@ class Auth
         $adminIsRoot = Admin::isSuperAdmin();
         
         // 设置环境变量
-        $this->app->env->set('admin_id', $adminInfo['id']);
-        $this->app->env->set('admin_is_root', $adminIsRoot);
-        $this->app->env->set('admin_info', $adminInfo);
+        AuthData::withId($adminInfo['id']);
+        AuthData::withIsRoot($adminIsRoot);
+        AuthData::withInfo($adminInfo);
         
         return true;
     }
@@ -100,7 +101,7 @@ class Auth
             return;
         }
         
-        $adminId = $this->app->env->get('admin_id');
+        $adminId = AuthData::getId();
         if (! empty($adminId)) {
             return;
         }

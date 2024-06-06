@@ -4,6 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Controller;
 
+use Laket\Admin\Facade\AuthData;
 use Laket\Admin\Facade\Admin as Adminer;
 use Laket\Admin\Model\Admin as AdminModel;
 use Laket\Admin\Model\AuthGroup as AuthGroupModel;
@@ -35,8 +36,8 @@ class Admin extends Base
 
         $map = $this->buildparams();
         
-        if (! env('admin_is_root')) {
-            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
+        if (! AuthData::isRoot()) {
+            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(AuthData::getId());
             $adminIds = AuthGroupAccessModel::where([
                     ['group_id', 'in', $userChildGroupIds],
                 ])
@@ -138,10 +139,8 @@ class Admin extends Base
             $this->error('参数错误！');
         }
         
-        if (env('admin_is_root') != 1) {
-            if ($data['id'] == env('admin_id')) {
-                $this->error('你不能修改自己的账号！');
-            }
+        if ($data['id'] == AuthData::getId()) {
+            $this->error('你不能修改自己的账号！');
         }
         
         $adminInfo = AdminModel::where([
@@ -186,7 +185,7 @@ class Admin extends Base
             $this->error('信息不存在！');
         }
         
-        if ($adminInfo['id'] == env('admin_id')) {
+        if ($adminInfo['id'] == AuthData::getId()) {
             $this->error('你不能删除自己的账号！');
         }
         
@@ -289,10 +288,8 @@ class Admin extends Base
             $this->error('两次密码不一致！');
         }
         
-        if (env('admin_is_root') != 1) {
-            if ($post['id'] == env('admin_id')) {
-                $this->error('你不能修改自己账号的密码！');
-            }
+        if ($post['id'] == AuthData::getId()) {
+            $this->error('你不能修改自己账号的密码！');
         }
         
         // 对密码进行处理
@@ -338,8 +335,8 @@ class Admin extends Base
         
         $this->assign("data", $data);
         
-        if (!env('admin_is_root')) {
-            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
+        if (! AuthData::isRoot()) {
+            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(AuthData::getId());
             $roles = AuthGroupModel::getGroups([
                     ['id', 'in', $userChildGroupIds],
                 ]);
@@ -362,10 +359,8 @@ class Admin extends Base
             $this->error('参数错误！');
         }
         
-        if (env('admin_is_root') != 1) {
-            if ($data['id'] == env('admin_id')) {
-                $this->error('你不能修改自己的账号！');
-            }
+        if ($data['id'] == AuthData::getId()) {
+            $this->error('你不能修改自己的账号！');
         }
         
         $adminInfo = AdminModel::where([
@@ -384,8 +379,8 @@ class Admin extends Base
         
         $newRoles = [];
         if (isset($data['roleid']) && !empty($data['roleid'])) {
-            if (! env('admin_is_root')) {
-                $childGroupIds = (new AdminModel)->getUserChildGroupIds(env('admin_id'));
+            if (! AuthData::isRoot()) {
+                $childGroupIds = (new AdminModel)->getUserChildGroupIds(AuthData::getId());
                 $roleids = explode(',', $data['roleid']);
                 
                 $newRoles = array_intersect_assoc($childGroupIds, $roleids);

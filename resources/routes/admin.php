@@ -54,9 +54,9 @@ Route::group(config('laket.route.group'), function() {
     Route::get('auth-group/edit', Controller\AuthGroup::class . '@edit')->name('admin.auth-group.edit');
     Route::post('auth-group/edit', Controller\AuthGroup::class . '@editSave')->name('admin.auth-group.edit-save');
     Route::post('auth-group/delete', Controller\AuthGroup::class . '@delete')->name('admin.auth-group.delete');
+    Route::post('auth-group/listorder', Controller\AuthGroup::class . '@listorder')->name('admin.auth-group.listorder');
     Route::get('auth-group/access', Controller\AuthGroup::class . '@access')->name('admin.auth-group.access');
     Route::post('auth-group/access', Controller\AuthGroup::class . '@accessSave')->name('admin.auth-group.access-save');
-    Route::post('auth-group/listorder', Controller\AuthGroup::class . '@listorder')->name('admin.auth-group.listorder');
 
     // 权限菜单
     Route::get('auth-rule/index', Controller\AuthRule::class . '@index')->name('admin.auth-rule.index');
@@ -72,7 +72,7 @@ Route::group(config('laket.route.group'), function() {
     Route::post('auth-rule/setmenu', Controller\AuthRule::class . '@setmenu')->name('admin.auth-rule.setmenu');
     Route::post('auth-rule/setstate', Controller\AuthRule::class . '@setstate')->name('admin.auth-rule.setstate');
 
-    // 闪存
+    // 闪存插件
     Route::get('flash/index', Controller\Flash::class . '@index')->name('admin.flash.index');
     Route::get('flash/index-data', Controller\Flash::class . '@indexData')->name('admin.flash.index-data');
     Route::get('flash/local', Controller\Flash::class . '@local')->name('admin.flash.local');
@@ -85,7 +85,7 @@ Route::group(config('laket.route.group'), function() {
     Route::post('flash/disable', Controller\Flash::class . '@disable')->name('admin.flash.disable');
     Route::post('flash/listorder', Controller\Flash::class . '@listorder')->name('admin.flash.listorder');
     Route::get('flash/setting', Controller\Flash::class . '@setting')->name('admin.flash.setting');
-    Route::post('flash/setting', Controller\Flash::class . '@setting')->name('admin.flash.setting-save');
-    Route::post('flash/upload', Controller\Flash::class . '@upload')->name('admin.flash.upload-save');
+    Route::post('flash/setting', Controller\Flash::class . '@settingSave')->name('admin.flash.setting-save');
+    Route::post('flash/upload', Controller\Flash::class . '@upload')->name('admin.flash.upload');
 })
 ->middleware(config('laket.route.middleware'));
