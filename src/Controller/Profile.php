@@ -18,7 +18,7 @@ class Profile extends Base
     /**
      * 管理员账号修改
      */
-    public function getSetting()
+    public function setting()
     {
         $adminInfo = env('admin_info');
         
@@ -39,7 +39,7 @@ class Profile extends Base
     /**
      * 管理员账号修改
      */
-    public function postSetting()
+    public function settingSave()
     {
         $adminInfo = env('admin_info');
         
@@ -66,7 +66,7 @@ class Profile extends Base
     /**
      * 管理员密码修改
      */
-    public function getPassword()
+    public function password()
     {
         $adminInfo = env('admin_info');
         
@@ -86,7 +86,7 @@ class Profile extends Base
     /**
      * 管理员密码修改
      */
-    public function postPassword()
+    public function passwordSave()
     {
         $adminInfo = env('admin_info');
         

@@ -48,7 +48,7 @@ class Permission
         $excepts = array_merge([
             'get:admin.passport.captcha',
             'get:admin.passport.login',
-            'post:admin.passport.login-post',
+            'post:admin.passport.login-check',
             'get:admin.passport.logout',
         ], (array) config('laket.auth.permission_excepts', []));
         

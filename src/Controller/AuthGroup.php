@@ -20,7 +20,7 @@ class AuthGroup extends Base
     /**
      * 权限管理首页
      */
-    public function getIndex()
+    public function index()
     {
         return $this->fetch('laket-admin::auth-group.index');
     }
@@ -28,7 +28,7 @@ class AuthGroup extends Base
     /**
      * 权限管理首页
      */
-    public function getIndexData()
+    public function indexData()
     {
         $list = AuthGroupModel::order([
                 'add_time' => 'ASC',
@@ -54,7 +54,7 @@ class AuthGroup extends Base
     /**
      * 添加管理员用户
      */
-    public function getAdd()
+    public function add()
     {
         $Tree = make(Tree::class);
         $list = AuthGroupModel::order([
@@ -74,7 +74,7 @@ class AuthGroup extends Base
     /**
      * 管理员用户数据写入
      */
-    public function postAdd()
+    public function addSave()
     {
         $data = $this->request->post();
         if (empty($data['parentid'])) {
@@ -98,7 +98,7 @@ class AuthGroup extends Base
     /**
      * 编辑管理员用户
      */
-    public function getEdit()
+    public function edit()
     {
         $id = $this->request->param('id');
         if (empty($id)) {
@@ -144,7 +144,7 @@ class AuthGroup extends Base
     /**
      * 数据更新
      */
-    public function postEdit()
+    public function editSave()
     {
         $data = $this->request->post();
         if (empty($data['parentid'])) {
@@ -178,7 +178,7 @@ class AuthGroup extends Base
     /**
      * 删除管理员用户
      */
-    public function postDelete()
+    public function delete()
     {
         $groupId = $this->request->param('id');
         if (empty($groupId)) {
@@ -223,7 +223,7 @@ class AuthGroup extends Base
     /**
      * 访问授权页面
      */
-    public function getAccess()
+    public function access()
     {
         $groupId = $this->request->param('group_id');
         if (empty($groupId)) {
@@ -278,7 +278,7 @@ class AuthGroup extends Base
     /**
      * 访问授权页面
      */
-    public function postAccess()
+    public function accessSave()
     {
         $groupId = $this->request->post('id');
         if (empty($groupId)) {
@@ -321,7 +321,7 @@ class AuthGroup extends Base
     /**
      * 菜单排序
      */
-    public function postListorder()
+    public function listorder()
     {
         $id = $this->request->param('id/s', 0);
         if (empty($id)) {

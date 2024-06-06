@@ -89,7 +89,7 @@ class Auth
         $excepts = array_merge([
             'get:admin.passport.captcha',
             'get:admin.passport.login',
-            'post:admin.passport.login-post',
+            'post:admin.passport.login-check',
         ], (array) config('laket.auth.authenticate_excepts', []));
         
         $requestMethod = $request->rule()->getMethod();

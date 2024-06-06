@@ -18,7 +18,7 @@ class AuthRule extends Base
     /**
      * 首页
      */
-    public function getIndex()
+    public function index()
     {
         return $this->fetch('laket-admin::auth-rule.index');
     }
@@ -26,7 +26,7 @@ class AuthRule extends Base
     /**
      * 首页
      */
-    public function getIndexData()
+    public function indexData()
     {
         $result = AuthRuleModel::order([
                 'listorder' => 'ASC', 
@@ -51,7 +51,7 @@ class AuthRule extends Base
     /**
      * 全部
      */
-    public function getAll()
+    public function all()
     {
         return $this->fetch('laket-admin::auth-rule.all');
     }
@@ -59,7 +59,7 @@ class AuthRule extends Base
     /**
      * 全部
      */
-    public function getAllData()
+    public function allData()
     {
         $limit = $this->request->param('limit/d', 20);
         $page = $this->request->param('page/d', 1);
@@ -90,7 +90,7 @@ class AuthRule extends Base
     /**
      * 添加
      */
-    public function getAdd()
+    public function add()
     {
         $parentid = $this->request->param('parentid/s', '');
         
@@ -113,7 +113,7 @@ class AuthRule extends Base
     /**
      * 添加
      */
-    public function postAdd()
+    public function addSave()
     {
         $data = $this->request->param();
         
@@ -146,7 +146,7 @@ class AuthRule extends Base
     /**
      * 编辑后台菜单
      */
-    public function getEdit()
+    public function edit()
     {
         $id = $this->request->param('id/s', '');
         
@@ -187,7 +187,7 @@ class AuthRule extends Base
     /**
      * 编辑后台菜单
      */
-    public function postEdit()
+    public function editSave()
     {
         $data = $this->request->param();
         
@@ -228,7 +228,7 @@ class AuthRule extends Base
     /**
      * 菜单删除
      */
-    public function postDelete()
+    public function delete()
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
@@ -256,7 +256,7 @@ class AuthRule extends Base
     /**
      * 菜单排序
      */
-    public function postListorder()
+    public function listorder()
     {
         $id = $this->request->param('id/s', 0);
         if (empty($id)) {
@@ -280,7 +280,7 @@ class AuthRule extends Base
     /**
      * 菜单显示状态
      */
-    public function postSetmenu()
+    public function setmenu()
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
@@ -304,7 +304,7 @@ class AuthRule extends Base
     /**
      * 菜单状态
      */
-    public function postSetstate()
+    public function setstate()
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {

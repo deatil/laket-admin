@@ -47,7 +47,7 @@ class ScreenLockCheck
         $allowUrl = array_merge([
             'get:admin.passport.captcha',
             'get:admin.passport.login',
-            'post:admin.passport.login-post',
+            'post:admin.passport.login-check',
             'get:admin.passport.logout',
             'post:admin.passport.lockscreen',
             'post:admin.passport.unlockscreen',

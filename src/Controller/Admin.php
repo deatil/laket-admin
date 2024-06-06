@@ -20,7 +20,7 @@ class Admin extends Base
     /**
      * 管理员管理列表
      */
-    public function getIndex()
+    public function index()
     {
         return $this->fetch('laket-admin::admin.index');
     }
@@ -28,7 +28,7 @@ class Admin extends Base
     /**
      * 管理员管理列表
      */
-    public function getIndexData()
+    public function indexData()
     {
         $limit = $this->request->param('limit/d', 10);
         $page = $this->request->param('page/d', 1);
@@ -68,7 +68,7 @@ class Admin extends Base
     /**
      * 添加管理员
      */
-    public function getAdd()
+    public function add()
     {
         return $this->fetch('laket-admin::admin.add');
     }
@@ -76,7 +76,7 @@ class Admin extends Base
     /**
      * 添加管理员
      */
-    public function postAdd()
+    public function addSave()
     {
         $data = $this->request->post('');
         
@@ -102,7 +102,7 @@ class Admin extends Base
     /**
      * 管理员编辑
      */
-    public function getEdit()
+    public function edit()
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
@@ -125,7 +125,7 @@ class Admin extends Base
     /**
      * 管理员编辑
      */
-    public function postEdit()
+    public function editSave()
     {
         $data = $this->request->post('');
         
@@ -171,7 +171,7 @@ class Admin extends Base
     /**
      * 管理员删除
      */
-    public function postDelete()
+    public function delete()
     {
         $id = $this->request->param('id');
         if (empty($id)) {
@@ -213,7 +213,7 @@ class Admin extends Base
     /**
      * 管理员详情
      */
-    public function getView()
+    public function view()
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
@@ -250,7 +250,7 @@ class Admin extends Base
     /**
      * 管理员更新密码
      */
-    public function getPassword()
+    public function password()
     {
         $id = $this->request->param('id/s');
         $data = AdminModel::where([
@@ -269,7 +269,7 @@ class Admin extends Base
     /**
      * 管理员更新密码
      */
-    public function postPassword()
+    public function passwordSave()
     {
         $post = $this->request->post('');
         
@@ -316,7 +316,7 @@ class Admin extends Base
     /**
      * 授权
      */
-    public function getAccess()
+    public function access()
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
@@ -354,7 +354,7 @@ class Admin extends Base
     /**
      * 授权
      */
-    public function postAccess()
+    public function accessSave()
     {
         $data = $this->request->post('');
         

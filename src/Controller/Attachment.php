@@ -17,7 +17,7 @@ class Attachment extends Base
     /**
      * 附件列表页
      */
-    public function getIndex()
+    public function index()
     {
         return $this->fetch('laket-admin::attachment.index');
     }
@@ -25,7 +25,7 @@ class Attachment extends Base
     /**
      * 附件列表页
      */
-    public function getIndexData()
+    public function indexData()
     {
         $limit = $this->request->param('limit/d', 10);
         $page = $this->request->param('page/d', 1);
@@ -58,7 +58,7 @@ class Attachment extends Base
     /**
      * 附件详情
      */
-    public function getView()
+    public function view()
     {
         $id = $this->request->param('id/s', null);
         if (empty($id)) {
@@ -82,7 +82,7 @@ class Attachment extends Base
     /**
      * 附件删除
      */
-    public function postDelete()
+    public function delete()
     {
         $ids = $this->request->param('ids/a', null);
         if (empty($ids)) {

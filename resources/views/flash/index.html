@@ -273,7 +273,7 @@ layui.use(['table', 'upload'], function() {
     // 上传
     var uploadInst = upload.render({
         elem: '#local-install',
-        url: '{:laket_route("admin.flash.upload-post")}',
+        url: '{:laket_route("admin.flash.upload-save")}',
         accept: 'file',
         exts: 'zip',
         done: function(res, index, upload) {
