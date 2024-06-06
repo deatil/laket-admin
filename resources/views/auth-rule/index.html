@@ -14,9 +14,9 @@
 {block name="script"}
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <a class="layui-btn layui-btn-sm layui-iframe" title="新增菜单" href="{:laket_route('admin.auth-rule.add')}">新增菜单</a>
+        <a class="layui-btn layui-btn-sm layui-iframe" title="添加权限" href="{:laket_route('admin.auth-rule.add')}">添加权限</a>
         <a class="layui-btn layui-btn-sm layui-btn-normal" id="openAll">展开或折叠全部</a>
-        <a class="layui-btn layui-btn-sm" href="{:laket_route('admin.auth-rule.all')}">全部菜单</a>
+        <a class="layui-btn layui-btn-sm" href="{:laket_route('admin.auth-rule.all')}">全部权限</a>
     </div>
 </script>
 
@@ -33,16 +33,17 @@
     <input type="checkbox" name="status" data-href="{:laket_route('admin.auth-rule.setstate')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="启用|关闭" lay-filter="switchStatus" {{ d.status==1 ? 'checked' : '' }}>
 </script>
 <script type="text/html" id="barTool">
-    <a href='{:laket_route("admin.auth-rule.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑菜单">编辑</a>
-    <a href='{:laket_route("admin.auth-rule.add")}?parentid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal layui-iframe" title="新增菜单">添加</a>
+    <a href='{:laket_route("admin.auth-rule.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑权限">编辑</a>
+    <a href='{:laket_route("admin.auth-rule.add")}?parentid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal layui-iframe" title="添加权限">添加</a>
     <a href='{:laket_route("admin.auth-rule.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
 </script>
 
 <script>
 var treeGrid = null;
-layui.use(['table', 'treeGrid'], function() {
+layui.use(['table', 'treeGrid', 'notice'], function() {
     var $ = layui.$,
         treeGrid = layui.treeGrid,
+        notice = layui.notice,
         tableId = 'treeTable',
         ptable = null;
         
@@ -67,7 +68,7 @@ layui.use(['table', 'treeGrid'], function() {
             [
                 { field: 'listorder', align: 'center', width: 80, title: '排序', edit: 'text' },
                 { width: 80, title: '图标',align: 'center', event: 'view', templet:'#iconTpl' },
-                { field: 'title', title: '菜单名称', templet: '#titleTpl' },
+                { field: 'title', title: '权限名称', templet: '#titleTpl' },
                 { width: 220, field: 'slug', title: '标识' },
                 { field: 'method', align: 'center', width: 90, title: '请求方式' },
                 { field: 'menu_show', align: 'center', width: 90, title: '菜单', templet: '#menuTpl', unresize: true },
@@ -84,9 +85,9 @@ layui.use(['table', 'treeGrid'], function() {
             data = obj.data;
         $.post('{:laket_route("admin.auth-rule.listorder")}', { 'id': data.id, 'value': value }, function(data) {
             if (data.code == 1) {
-                layer.msg(data.msg);
+                notice.success(data.msg);
             } else {
-                layer.msg(data.msg);
+                notice.error(data.msg);
             }
 
         })
@@ -101,7 +102,7 @@ layui.use(['table', 'treeGrid'], function() {
         var data = obj.data;
         if (obj.event === 'view') {
             layer.alert(data.id, {
-                title: '菜单ID',
+                title: '权限ID',
                 closeBtn: 0
             });
         }

@@ -2,14 +2,14 @@
 
 {block name="main"}
 <div class="layui-card">
-    <div class="layui-card-header layui-bg-cyan">新增菜单</div>
+    <div class="layui-card-header layui-bg-cyan">添加权限</div>
     <div class="layui-card-body">
         <form class="layui-form" method="post" action="{:laket_route('admin.auth-rule.add-save')}">
             <div class="layui-form-item">
-                <label class="layui-form-label">上级菜单</label>
+                <label class="layui-form-label">上级权限</label>
                 <div class="layui-input-block w300">
                     <select name="parentid" lay-verify="required">
-                        <option value="0">作为一级菜单</option>
+                        <option value="0">作为一级权限</option>
                         {volist name="menus" id="vo"}
                             <option value="{$vo.id}" {if $vo['id'] == $parentid}selected="selected"{/if}>{:htmlspecialchars_decode($vo['spacer'])} {$vo.title}</option>
                         {/volist}
@@ -45,7 +45,7 @@
                     <input type="text" name="url" autocomplete="off" placeholder="模块/控制器/方法" class="layui-input" />
                 </div>
                 <div class="layui-input-block">
-                    <div class="layui-form-mid layui-word-aux">后台菜单通常格式为 “模块/控制器/方法”</div>
+                    <div class="layui-form-mid layui-word-aux">后台权限通常格式为 “模块/控制器/方法”</div>
                 </div>
             </div>
             
@@ -55,7 +55,7 @@
                     <input type="text" name="slug" autocomplete="off" placeholder="链接名称" class="layui-input" value="">
                 </div>
                 <div class="layui-input-block">
-                    <div class="layui-form-mid layui-word-aux">后台菜单链接的slug，通常为路由设置的 'name' 值</div>
+                    <div class="layui-form-mid layui-word-aux">后台权限链接的slug，通常为路由设置的 'name' 值</div>
                 </div>
             </div>
             
@@ -94,7 +94,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="listorder" lay-verify="required" autocomplete="off" placeholder="菜单排序" class="layui-input" value="100">
+                    <input type="text" name="listorder" lay-verify="required" autocomplete="off" placeholder="权限排序" class="layui-input" value="100">
                 </div>
             </div>
             

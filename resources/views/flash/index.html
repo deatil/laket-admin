@@ -127,26 +127,26 @@
 </script>
 
 <script type="text/html" id="actionTpl">
-    {{#  if (d.settinglist.length > 0) { }}
+    {{# if (d.settinglist.length > 0) { }}
         <a class="layui-btn layui-btn-xs layui-iframe" 
             href='{:laket_route("admin.flash.setting")}?name={{ d.name }}'
             title="设置"
             >设置</a>
-    {{#  } }}
-    
-    {{#  if(d.status == 0){ }}
+    {{# } }}
+
+    {{# if(d.status == 0){ }}
         <a class="layui-btn layui-btn-xs layui-btn-normal js-name-action-btn" 
             data-url='{:laket_route("admin.flash.enable")}'
             data-name='{{ d.name }}'
             data-confirm='你确认要启用该闪存吗？'
             >启用</a>
-    {{#  } else { }}
+    {{# } else { }}
         <a class="layui-btn layui-btn-xs layui-btn-warm js-name-action-btn" 
             data-url='{:laket_route("admin.flash.disable")}'
             data-name='{{ d.name }}'
             data-confirm='你确认要禁用该闪存吗？'
             >禁用</a>
-    {{#  } }}
+    {{# } }}
     
     <a class="layui-btn layui-btn-xs layui-btn-danger js-name-action-btn" 
         data-url='{:laket_route("admin.flash.uninstall")}'
@@ -157,9 +157,12 @@
 
 
 <script>
-layui.use(['table', 'upload'], function() {
+layui.config({
+    base: "admin/js/layui-extend/"
+}).use(['table', 'upload', 'notice'], function() {
     var table = layui.table,
         $ = layui.$,
+        notice = layui.notice,
         upload = layui.upload;
         
     table.render({
@@ -211,13 +214,16 @@ layui.use(['table', 'upload'], function() {
             $.post(url, {name: name},function(res){
                 layer.close(loading);
                 if (res.code === 1) {
-                    layer.msg(res.msg, {time:1000, icon:1}, function() {
+                    notice.success(res.msg);
+                    
+                    setTimeout(function() {
                         location.reload();
-                    });
+                    }, 1800);
                 }else{
-                    layer.msg(res.msg, {time:1000, icon:2});
+                    notice.error(res.msg);
                 }
             });
+            
             layer.close(index);
         });
     });
@@ -262,9 +268,9 @@ layui.use(['table', 'upload'], function() {
             'value': value 
         }, function(data) {
             if (data.code == 1) {
-                layer.msg(data.msg);
+                notice.success(data.msg);
             }else{
-                layer.msg(data.msg, { icon: 5 });
+                notice.error(data.msg);
             }
 
         })
@@ -292,15 +298,16 @@ layui.use(['table', 'upload'], function() {
                             force: 1
                         }
                     });
+                    
                     uploadInst.upload();
                 }, function(){
-                    layer.msg('上传已取消');
+                    notice.error('上传已取消');
                 });
             }
         },
         error: function() {
             // 请求异常回调
-            layer.msg('上传请求异常');
+            notice.error('上传请求异常');
         }
     });
 });

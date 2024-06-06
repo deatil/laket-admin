@@ -7,9 +7,9 @@
     <title>{:config('laket.admin.name')}</title>
     <meta name="author" content="deatil">
     <base href="{:laket_assets('/')}" />
-    <link rel="stylesheet" href="admin/libs/layui/css/layui.css">
-    <link rel="stylesheet" href="admin/libs/iconfont/iconfont.css">
-    <link rel="stylesheet" href="admin/admin/css/index.css">
+    <link rel="stylesheet" href="admin/js/layui/css/layui.css">
+    <link rel="stylesheet" href="admin/js/iconfont/iconfont.css">
+    <link rel="stylesheet" href="admin/css/index.css">
 </head>
 
 <body class="layui-layout-body lake-admin lake-admin-skin">
@@ -18,13 +18,13 @@
             <div class="lake-admin-logo">
                 <a href="{:laket_route('admin.index.index')}" title="{:config('laket.admin.name')}" class="lake-admin-logo-name">
                     <span>
-                        <img src="admin/admin/img/logo.png" alt="{:config('laket.admin.name')}" class="lake-admin-logo-img">
+                        <img src="admin/img/logo.png" alt="{:config('laket.admin.name')}" class="lake-admin-logo-img">
                         {:config('laket.admin.name')}
                     </span>
                 </a>
                 <a href="{:laket_route('admin.index.index')}" title="{:config('laket.admin.name')}" class="lake-admin-logo-name-mini">
                     <span>
-                        <img src="admin/admin/img/logo.png" alt="{:config('laket.admin.name')}" class="lake-admin-logo-img">
+                        <img src="admin/img/logo.png" alt="{:config('laket.admin.name')}" class="lake-admin-logo-img">
                     </span>
                 </a>
             </div>
@@ -228,7 +228,7 @@
             Copyright © {:config('laket.admin.name')} v{:config('laket.admin.version')}
         </div>
     </div>
-    <script src="admin/libs/layui/layui.js"></script>
+    <script src="admin/js/layui/layui.js"></script>
     <script type="text/javascript">
     var lake_menus = <?php echo json_encode($menus); ?>;
     
@@ -240,7 +240,7 @@
     
     layui.config({
         version: "{:config('laket.admin.release')}",
-        base: 'admin/libs/layui-extend/'
+        base: 'admin/js/layui-extend/'
     }).extend({
         lakeAdmin: 'lake-admin/lakeAdmin',
         lakeAdminMenu: 'lake-admin/lakeAdminMenu',

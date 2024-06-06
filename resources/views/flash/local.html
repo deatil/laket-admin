@@ -197,7 +197,12 @@
 
 {block name="script"}
 <script>
-layui.use(['table'], function() {
+layui.config({
+    base: "admin/js/layui-extend/"
+}).use(['table', 'notice'], function() {
+    var notice = layui.notice,
+        $ = layui.jquery;
+
     $("body").on('click', ".js-flash-icon", function() {
         var icon = $(this).attr('src');
         layer.open({
@@ -223,11 +228,13 @@ layui.use(['table'], function() {
             $.post(url, {name: name},function(res){
                 layer.close(loading);
                 if (res.code === 1) {
-                    layer.msg(res.msg, {time:1000, icon:1}, function() {
+                    notice.success(res.msg);
+                    
+                    setTimeout(function() {
                         location.reload();
-                    });
+                    }, 1800);
                 }else{
-                    layer.msg(res.msg, {time:5000, icon:2});
+                    notice.error(res.msg);
                 }
             });
             layer.close(index);

@@ -32,7 +32,7 @@
             
             <div class="layui-form-item">
                 <div class="layui-input-block">
-                    <button class="layui-btn ajax-post" lay-submit="" lay-close="self" lay-filter="*" target-form="form-horizontal">立即提交</button>
+                    <button class="layui-btn js-save-btn" lay-submit="" lay-close="self" lay-filter="*" target-form="form-horizontal">立即提交</button>
                 </div>
             </div>
         </form>
@@ -45,7 +45,7 @@
 {block name="script"}
 <script>
 layui.config({
-    base: "admin/libs/layui-extend/"
+    base: "admin/js/layui-extend/"
 }).use(['jquery', 'notice', 'tree', 'treeTool'], function() {
     var $ = layui.$,
         notice = layui.notice,
@@ -83,8 +83,8 @@ layui.config({
         }
     });
     
-    //通用表单post提交
-    $('.ajax-post').on('click', function(e) {
+    // 提交
+    $('.js-save-btn').on('click', function(e) {
         var target, query, _form;
         var target_form = $(this).attr('target-form');
         var that = this;
@@ -109,7 +109,7 @@ layui.config({
         $.post(target, query).success(function(data) {
             if (data.code == 1) {
                 if (data.url) {
-                    notice.success(data.msg)
+                    notice.success(data.msg);
                 } else {
                     notice.error(data.msg);
                 }

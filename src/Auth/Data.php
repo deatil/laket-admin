@@ -22,12 +22,12 @@ class Data
     /**
      * 账号 ID
      */
-    protected string $id;
+    protected string $id = "";
     
     /**
      * 检查当前用户是否超级管理员
      */
-    protected bool $isRoot;
+    protected bool $isRoot = false;
     
     /**
      * 登陆数据

@@ -18,7 +18,7 @@ use Laket\Admin\Model\AuthRuleAccess as AuthRuleAccessModel;
 class AuthGroup extends Base
 {
     /**
-     * 权限管理首页
+     * 权限管理
      */
     public function index()
     {
@@ -26,11 +26,12 @@ class AuthGroup extends Base
     }
     
     /**
-     * 权限管理首页
+     * 权限管理数据
      */
     public function indexData()
     {
         $list = AuthGroupModel::order([
+                'listorder' => 'DESC',
                 'add_time' => 'ASC',
             ])
             ->select()
@@ -51,6 +52,45 @@ class AuthGroup extends Base
         return $this->json($result);
     }
 
+    /**
+     * 全部权限管理
+     */
+    public function all()
+    {
+        return $this->fetch('laket-admin::auth-group.all');
+    }
+    
+    /**
+     * 全部权限管理数据
+     */
+    public function allData()
+    {
+        $limit = $this->request->param('limit/d', 20);
+        $page = $this->request->param('page/d', 1);
+        
+        $searchField = $this->request->param('search_field/s', '', 'trim');
+        $keyword = $this->request->param('keyword/s', '', 'trim');
+        
+        $map = [];
+        if (!empty($searchField) && !empty($keyword)) {
+            $map[] = [$searchField, 'like', "%$keyword%"];
+        }
+        
+        $data = AuthGroupModel::where($map)
+            ->page($page, $limit)
+            ->order('listorder DESC, add_time ASC')
+            ->select()
+            ->toArray();
+        $total = AuthGroupModel::where($map)->count();
+        
+        $result = [
+            "code" => 0, 
+            "count" => $total, 
+            "data" => $data,
+        ];
+        return $this->json($result);
+    }
+    
     /**
      * 添加管理员用户
      */

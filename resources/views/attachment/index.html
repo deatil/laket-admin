@@ -33,14 +33,6 @@
     </div>
 </script>
 
-<script type="text/html" id="barTool">
-    <a href='{:laket_route("admin.attachment.delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
-</script>
-
-<script type="text/html" id="pathTpl">
-    <div><a class="layui-btn layui-btn layui-btn-xs layui-iframe" href="{:laket_route('admin.attachment.view')}?id={{ d.id }}" title="附件详情">{{d.name}}</a></div>
-</script>
-
 <script type="text/html" id="createTimeTpl">
     {{ layui.util.toDateString(d.create_time * 1000, 'yyyy-MM-dd HH:mm:ss') }}
 </script>
@@ -55,6 +47,14 @@
             <span class='text-orange'>禁用</span>
         {{#  } }} 
     </div>
+</script>
+
+<script type="text/html" id="barTool">
+    <a class="layui-btn layui-btn layui-btn-xs layui-iframe" href="{:laket_route('admin.attachment.view')}?id={{ d.id }}" title="附件详情">
+        详情
+    </a>
+    
+    <a href='{:laket_route("admin.attachment.delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
 </script>
 
 <script>
@@ -74,14 +74,14 @@ layui.use(['table', 'laydate'], function() {
         cols: [
             [
                 { type: 'checkbox', fixed: 'left' },
-                { field: 'name', title: '名称', templet:'#pathTpl'},
+                { field: 'name', title: '名称'},
                 { field: 'size',width: 100, title: '大小', sort: true },
                 { field: 'ext',width: 80, title: '类型', sort: true},
                 { field: 'mime',width: 120, title: 'Mime类型'},
                 { field: 'driver',width: 100, title: '存储引擎', sort: true},
                 { field: 'create_time', width: 180, title: '上传时间', sort: true, templet: '#createTimeTpl' },
                 { field: 'status', width: 80, title: '状态',align: "center", templet: '#statusTpl' },
-                { fixed: 'right', width: 70, title: '操作', toolbar: '#barTool' }
+                { fixed: 'right', width: 120, title: '操作', toolbar: '#barTool' }
             ]
         ],
         page: {}

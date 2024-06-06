@@ -2,8 +2,26 @@
 
 {block name="main"}
 <div class="layui-card">
-    <div class="layui-card-header layui-bg-cyan">用户组</div>
+    <div class="layui-card-header layui-bg-cyan">全部用户组</div>
     <div class="layui-card-body">
+        <blockquote class="layui-elem-quote">
+            <form class="layui-form lake-admin-search-form" method="get" lay-filter="lake-admin-search-from">
+                <div class="layui-inline">
+                        <select name="field" class="lake-admin-search-field">
+                            <option value="">全部类型</option>
+                            <option value="title">名称</option>
+                            <option value="description">描述</option>
+                        </select>
+                </div>
+                <div class="layui-inline">
+                    <input type="text" name="keyword" class="layui-input lake-admin-search-val" placeholder="请输入关键字">
+                </div>
+                <div class="layui-inline">
+                    <a class="layui-btn lake-admin-search-btn" data-type="search">搜索</a>
+                </div>
+            </form>
+        </blockquote>
+    
         <div class="layui-form">
             <table class="layui-hide" id="table" lay-filter="table"></table>
         </div>
@@ -15,7 +33,7 @@
 <script type="text/html" id="toolbarTop">
     <div class="layui-btn-container">
         <a class="layui-btn layui-btn-sm layui-iframe" href="{:laket_route('admin.auth-group.add')}" title="添加用户组">添加用户组</a>
-        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-group.all')}">全部用户组</a>
+        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-group.index')}">用户组结构</a>
     </div>
 </script>
 
@@ -26,10 +44,6 @@
         <a href='{:laket_route("admin.auth-group.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑用户组">编辑</a>
         <a href='{:laket_route("admin.auth-group.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
     {{#  } }}
-</script>
-
-<script type="text/html" id="titleTpl">
-    {{ d.spacer }} {{ d.title }}
 </script>
 
 <script type="text/html" id="access">
@@ -61,12 +75,12 @@ layui.config({
     table.render({
         elem: '#table',
         toolbar: '#toolbarTop',
-        url: '{:laket_route("admin.auth-group.index-data")}',
+        url: '{:laket_route("admin.auth-group.all-data")}',
         method: 'get',
         cols: [
             [
                 { field: 'listorder', align: 'center', width: 70, title: '排序', edit: 'text' },
-                { field: 'title', width: 200, title: '名称', templet: '#titleTpl'},
+                { field: 'title', width: 200, title: '名称'},
                 { field: 'description', title: '描述' },
                 { title: '授权', width: 100, templet: "#access" },
                 { field: 'status', align: 'center', width: 80,title: '状态', templet: '#status' },
@@ -94,6 +108,19 @@ layui.config({
                 }
             });
         }
+    });
+    
+    // 搜索
+    $(".lake-admin-search-btn").on("click", function() {
+        table.reload("table", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: $(".lake-admin-search-field").val(),
+                keyword: $(".lake-admin-search-val").val(),
+            }
+        })
     });
     
 });

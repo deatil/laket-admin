@@ -7,12 +7,12 @@
     <title>{:config('laket.admin.name')}</title>
     <meta name="author" content="deatil">
     <base href="{:laket_assets('/')}" />
-    <link rel="stylesheet" href="admin/libs/layui/css/layui.css">
-    <link rel="stylesheet" href="admin/libs/iconfont/iconfont.css">
-    <link rel="stylesheet" href="admin/admin/css/admin.css">
+    <link rel="stylesheet" href="admin/js/layui/css/layui.css">
+    <link rel="stylesheet" href="admin/js/iconfont/iconfont.css">
+    <link rel="stylesheet" href="admin/css/admin.css">
     {:laket_runhook('laket_admin_layout_link_after')}
-    <script src="admin/libs/layui/layui.js"></script>
-    <script src="admin/libs/jquery/jquery.min.js"></script>
+    <script src="admin/js/layui/layui.js"></script>
+    <script src="admin/js/jquery/jquery.min.js"></script>
     <script type="text/javascript">
     // 全局变量
     var laket = {
@@ -38,16 +38,16 @@
     </script>
     {/block}
     {block name="layui"}
-    <link rel="stylesheet" href="admin/libs/viewer/viewer.min.css">
-    <script type="text/javascript" src="admin/libs/viewer/viewer.min.js"></script>
-    <link rel="stylesheet" href="admin/libs/webuploader/webuploader.css">
-    <script type="text/javascript" src="admin/libs/webuploader/webuploader.min.js"></script>
-    <link rel="stylesheet" href="admin/libs/layui-extend/jquery.jsonview/jquery.jsonview.min.css">
+    <link rel="stylesheet" href="admin/js/viewer/viewer.min.css">
+    <script type="text/javascript" src="admin/js/viewer/viewer.min.js"></script>
+    <link rel="stylesheet" href="admin/js/webuploader/webuploader.css">
+    <script type="text/javascript" src="admin/js/webuploader/webuploader.min.js"></script>
+    <link rel="stylesheet" href="admin/js/layui-extend/jquery.jsonview/jquery.jsonview.min.css">
     
     <script type="text/javascript">
     layui.config({
         version: "{:config('laket.admin.release')}",
-        base: 'admin/libs/layui-extend/'
+        base: 'admin/js/layui-extend/'
     }).extend({
         lakeTool: 'lake-admin/lakeTool',
         lakeBind: 'lake-admin/lakeBind',

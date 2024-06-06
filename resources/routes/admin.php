@@ -49,6 +49,8 @@ Route::group(config('laket.route.group'), function() {
     // 用户组
     Route::get('auth-group/index', Controller\AuthGroup::class . '@index')->name('admin.auth-group.index');
     Route::get('auth-group/index-data', Controller\AuthGroup::class . '@indexData')->name('admin.auth-group.index-data');
+    Route::get('auth-group/all', Controller\AuthGroup::class . '@all')->name('admin.auth-group.all');
+    Route::get('auth-group/all-data', Controller\AuthGroup::class . '@allData')->name('admin.auth-group.all-data');
     Route::get('auth-group/add', Controller\AuthGroup::class . '@add')->name('admin.auth-group.add');
     Route::post('auth-group/add', Controller\AuthGroup::class . '@addSave')->name('admin.auth-group.add-save');
     Route::get('auth-group/edit', Controller\AuthGroup::class . '@edit')->name('admin.auth-group.edit');
