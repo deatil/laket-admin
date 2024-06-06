@@ -18,7 +18,7 @@ use Laket\Admin\Model\AuthRuleAccess as AuthRuleAccessModel;
 class AuthGroup extends Base
 {
     /**
-     * 权限管理
+     * 用户组
      */
     public function index()
     {
@@ -26,7 +26,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 权限管理数据
+     * 用户组数据
      */
     public function indexData()
     {
@@ -53,7 +53,7 @@ class AuthGroup extends Base
     }
 
     /**
-     * 全部权限管理
+     * 全部用户组
      */
     public function all()
     {
@@ -61,7 +61,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 全部权限管理数据
+     * 全部用户组数据
      */
     public function allData()
     {
@@ -92,7 +92,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 添加管理员用户
+     * 添加用户组
      */
     public function add()
     {
@@ -112,7 +112,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 管理员用户数据写入
+     * 添加用户组保存
      */
     public function addSave()
     {
@@ -136,7 +136,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 编辑管理员用户
+     * 编辑用户组
      */
     public function edit()
     {
@@ -182,7 +182,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 数据更新
+     * 编辑用户组保存
      */
     public function editSave()
     {
@@ -216,7 +216,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 删除管理员用户
+     * 删除用户组
      */
     public function delete()
     {
@@ -238,7 +238,7 @@ class AuthGroup extends Base
             $this->error('用户组不存在！');
         }
         
-        // 子用户检测
+        // 子用户组检测
         $childGroupCount = AuthGroupModel::where([
                 ['parentid', '=', $groupId],
             ])
@@ -316,7 +316,7 @@ class AuthGroup extends Base
     }
     
     /**
-     * 访问授权页面
+     * 访问授权保存
      */
     public function accessSave()
     {
@@ -359,7 +359,7 @@ class AuthGroup extends Base
     }
 
     /**
-     * 菜单排序
+     * 用户组排序
      */
     public function listorder()
     {
