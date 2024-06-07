@@ -385,7 +385,7 @@ layui.define([
                 var url = $(this).attr('href');
                 layer.confirm('您确定要退出登陆吗？', { 
                     icon: 3, 
-                    title: '提示信息' 
+                    title: '提示' 
                 }, function(index) {
                     $.cookie('lake-admin-menuid', "", {expires: -1});
                     location.href = url;

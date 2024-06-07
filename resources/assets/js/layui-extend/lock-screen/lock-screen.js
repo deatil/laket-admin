@@ -88,7 +88,11 @@ layui.define(['element', 'layer', 'form', 'jquery', 'jqueryCookie', "md5", "util
     var menuid = "";
     lockShowInit(utils);
     $(".js-lake-admin-lock").on('click', function() {
-        layer.confirm("确定要锁定屏幕吗？", function(index) {
+        layer.confirm("确定要锁定屏幕吗？", {
+            icon: 3, 
+            title: '提示', 
+            btn: ['确认', '取消']
+        }, function(index) {
             var lock_url = $('.lake-admin-lock').data('lock-url');
             $.post(lock_url, {}, function (res) {
                 if (res.code == 1) {
@@ -133,7 +137,7 @@ layui.define(['element', 'layer', 'form', 'jquery', 'jqueryCookie', "md5", "util
         }, 1000);
     }
 
-    //提交密码
+    // 提交密码
     form.on('submit(lockSubmit)', function(data) {
         var unlock_url = $('.lake-admin-lock').data('unlock-url');
         var password = data.field.lock_password;
@@ -162,7 +166,7 @@ layui.define(['element', 'layer', 'form', 'jquery', 'jqueryCookie', "md5", "util
         return false;
     });
 
-    //退出登录
+    // 退出登录
     $("#lockQuit").on('click', function() {
         var logout_url = $('.lake-admin-lock').data('logout-url');
         window.location.replace(logout_url);

@@ -52,7 +52,7 @@
 <body class="error-page-wrapper">
 <div class="content-container">
     <div class="head-line">
-        <img src="admin/admin/img/error.svg" alt="" width="120"/>
+        <img src="admin/img/error.svg" alt="" width="120"/>
     </div>
     <div class="subheader">
         <?php echo nl2br(htmlentities($message)); ?>

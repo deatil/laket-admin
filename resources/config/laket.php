@@ -4,8 +4,8 @@ return [
     'admin' => [
         "name"      => "LaketAdmin",
         "name_mini" => "Laket",
-        "version"   => "1.2.6",
-        "release"   => "1.2.6.20240607",
+        "version"   => "1.2.7",
+        "release"   => "1.2.7.20240608",
     ],
     
     // 登录
@@ -27,13 +27,13 @@ return [
     
     'auth' => [
         // 认证方式，1为实时认证；2为登录认证。
-        'type'                 => env('laket.auth_type', 1),
-        // 登陆认证过滤，格式: requestMethod:requestName
-        'authenticate_excepts' => ($authenticateExceptsEnv = env('laket.auth_authenticate_excepts', '')) ? explode(',', $authenticateExceptsEnv) : [],
-        // 权限认证过滤，格式: requestMethod:requestName
-        'permission_excepts'   => ($permissionExceptsEnv = env('laket.auth_permission_excepts', '')) ? explode(',', $permissionExceptsEnv) : [],
-        // 锁屏认证过滤，格式: requestMethod:requestName
-        'screenlock_excepts'   => ($screenlockExceptsEnv = env('laket.auth_screenlock_excepts', '')) ? explode(',', $screenlockExceptsEnv) : [],
+        'type'                 => 1,
+        // 登陆认证过滤，格式: requestMethod:routeName
+        'authenticate_excepts' => [],
+        // 权限认证过滤，格式: requestMethod:routeName
+        'permission_excepts'   => [],
+        // 锁屏认证过滤，格式: requestMethod:routeName
+        'screenlock_excepts'   => [],
     ],
     
     'flash' => [
@@ -48,14 +48,13 @@ return [
     'view' => [
         // 视图位置
         'paths' => [
-            app_path().'view',
+            app_path('view'),
         ],
         
         // 标签
-        'taglib_build_in' => 
-            ($envViewTaglib = env('laket.view_taglib_build_in', '')) 
-            ? explode(',', $envViewTaglib) 
-            : ["\\Laket\\Admin\\Template\\Taglib\\Laket"],
+        'taglib_build_in' => [
+            "\\Laket\\Admin\\Template\\Taglib\\Laket",
+        ],
         
         // 资源
         'assets' => env('laket.view_assets', "/static"),
