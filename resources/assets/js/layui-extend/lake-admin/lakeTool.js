@@ -92,7 +92,20 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
     $(document).on('click', '.layui-iframe', function() {
         var that = $(this),
             query = '';
-        var def = { width: '100%', height: '100%', idSync: false, maxmin: true, table: 'dataTable', type: 2, url: !that.attr('data-href') ? that.attr('href') : that.attr('data-href'), title: that.attr('title') };
+        
+        var width = $(window).width();
+        var height = $(window).height();
+        
+        var def = { 
+            width: width > 768 ? '90%' : '100%', 
+            height: width > 768 ? '85%' : '100%', 
+            idSync: false, 
+            maxmin: true, 
+            table: 'dataTable', 
+            type: 2, 
+            url: !that.attr('data-href') ? that.attr('href') : that.attr('data-href'), 
+            title: that.attr('title') 
+        };
         var opt = new Function('return ' + that.attr('lay-data'))() || {};
 
         opt.url = opt.url || def.url;
@@ -226,7 +239,6 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
         }
         return false;
     });
-
 
     /**
      * 通用状态设置开关

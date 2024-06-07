@@ -21,7 +21,7 @@
                 
                 // 确认对话框
                 this.confirm = function (msg, ok, no) {
-                    var index = layer.confirm(msg, {title: '操作确认', btn: ['确认', '取消']}, function () {
+                    var index = layer.confirm(msg, {title: '提示', btn: ['确认', '取消']}, function () {
                         typeof ok === 'function' && ok.call(this);
                         self.close(index);
                     }, function () {

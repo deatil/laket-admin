@@ -287,7 +287,7 @@ class Service extends BaseService
         
         // 设置公用参数
         $this->app->view->assign([
-            'laket_admin_layout' => app('laket-admin.view-finder')->find('laket-admin::layout'),
+            'laket_admin_layout' => app('laket-admin.view-finder')->find('laket-admin::common.layout'),
         ]);
         
         // 注册视图标签

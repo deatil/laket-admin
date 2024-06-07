@@ -99,9 +99,12 @@ class Flash extends Base
                 } else {
                     $data['upgrade'] = 0;
                 }
+                
+                $data['status'] = Arr::get($installInfo, 'status', 0);;
             } else {
                 $data['install'] = [];
                 $data['upgrade'] = 0;
+                $data['status'] = 0;
             }
             
             return $data;

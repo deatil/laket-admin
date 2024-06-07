@@ -7,11 +7,11 @@
         <div class="layui-tab">
             <div class="layui-tab-content lake-admin-tab-content">
                 <form class="layui-form" action="{:laket_route('admin.flash.setting-save')}?name={$info['name']}" method="post">
-                    {template file="laket-admin::inputItem" /}
+                    {template file="laket-admin::common.inputItem" /}
                     
                     <div class="layui-form-item">
                         <div>
-                            <button class="layui-btn" lay-submit="" lay-filter="formSubmit" lay-close="self">立即提交</button>
+                            <button class="layui-btn" lay-submit="" lay-filter="formSubmit" lay-close="self">保存设置</button>
                         </div>
                     </div>
                 </form>

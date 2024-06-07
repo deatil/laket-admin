@@ -28,6 +28,17 @@
     bottom: 0;
     left: 70px;
 }
+@media screen and (max-width: 767px) {
+    .flash-title {
+        width: 200px !important;
+    }
+    .flash-title .flash-name {
+        width: 150px !important;
+    }
+    .flash-description {
+        width: 200px !important;
+    }
+}
 </style>
 <div class="layui-card">
     <div class="layui-card-header layui-bg-cyan">闪存插件</div>
@@ -43,152 +54,171 @@
             </ul>
             <div class="layui-tab-content">
             
-                <table class="layui-table" lay-skin="line">
-                    <colgroup>
-                        <col width="230">
-                        <col>
-                        <col width="200">
-                        <col width="200">
-                        <col width="160">
-                    </colgroup>
-                    
-                    <thead>
-                        <tr>
-                            <th>闪存</th>
-                            <th>描述</th>
-                            <th>作者</th>
-                            <th>安装时间</th>
-                            <th>操作</th>
-                        </tr> 
-                    </thead>
-                
-                    <tbody>
-                        {volist name="list" id="vo"}
+                <div class="layui-table-responsive">
+                    <table class="layui-table" lay-skin="line">
+                        <colgroup>
+                            <col width="230">
+                            <col>
+                            <col width="200">
+                            <col width="200">
+                            <col width="160">
+                        </colgroup>
+                        
+                        <thead>
                             <tr>
-                                <td>
-                                    <div class="flash-title">
-                                        {if $vo['icon']}
-                                        <div class="flash-icon">
-                                            <img src="{$vo.icon}" width="55" class="js-flash-icon" />
-                                        </div>
-                                        {/if}
-                                        
-                                        <div class="flash-name">
-                                            {if $vo['title']}
-                                                <div>
-                                                    {if $vo['homepage']}
-                                                    <a href="{$vo.homepage}" target="_blank" title="点击查看主页">
-                                                        <i class="iconfont icon-lianjie"></i>
-                                                    </a>
-                                                    {/if}
-                                                    
-                                                    <b>{$vo.title}</b>
-                                                </div>
-                                                <div style="margin-top: 5px;" class="text-muted">
-                                                    {$vo.name}
-                                                </div>
-                                            {else /}
-                                                <div class="text-muted">
-                                                    {$vo.name}
-                                                </div>
+                                <th>名称</th>
+                                <th>描述</th>
+                                <th>作者</th>
+                                <th>安装时间</th>
+                                <th>操作</th>
+                            </tr> 
+                        </thead>
+                    
+                        <tbody>
+                            {volist name="list" id="vo"}
+                                <tr>
+                                    <td>
+                                        <div class="flash-title">
+                                            {if $vo['icon']}
+                                            <div class="flash-icon">
+                                                <img src="{$vo.icon}" width="55" class="js-flash-icon" />
+                                            </div>
                                             {/if}
+                                            
+                                            <div class="flash-name">
+                                                {if $vo['title']}
+                                                    <div>
+                                                        {if $vo['homepage']}
+                                                        <a href="{$vo.homepage}" target="_blank" title="点击查看主页">
+                                                            <i class="iconfont icon-lianjie"></i>
+                                                        </a>
+                                                        {/if}
+                                                        
+                                                        <b class="break-all">{$vo.title}</b>
+                                                    </div>
+                                                    <div class="text-muted break-all" style="margin-top: 5px;">{$vo.name}</div>
+                                                {else /}
+                                                    <div class="text-muted break-all">{$vo.name}</div>
+                                                {/if}
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        {$vo.description}
-                                    </div>
-                                    <div style="margin-top: 5px;">
-                                        <span class="layui-badge layui-bg-green" title="适配系统版本">
-                                            <i class="iconfont icon-label" style="font-size: 12px;"></i>
-                                            {$vo.adaptation}
-                                        </span>
-                                        
-                                        {if !empty($vo['install'])}
-                                            {if $vo['upgrade'] == 1}
-                                                <span class="layui-badge layui-bg-blue" title="已安装版本">
-                                                    <i class="iconfont icon-flag" style="font-size: 12px;"></i>
-                                                    {$vo['install']['version']}
-                                                </span>
-                                                <span class="layui-badge layui-bg-danger" title="可更新版本">
-                                                    <i class="iconfont icon-hotfill" style="font-size: 12px;"></i> 
-                                                    {$vo.version}
-                                                </span>
-                                            {else /}
-                                                <span class="layui-badge layui-bg-blue" title="已安装版本">
-                                                    <i class="iconfont icon-flag" style="font-size: 12px;"></i> 
-                                                    {$vo['install']['version']}
-                                                </span>
-                                            {/if}
-                                        {else /}
-                                            <span class="layui-badge layui-bg-cyan" title="闪存版本">
-                                                v {$vo.version}
+                                    </td>
+                                    <td>
+                                        <div class="flash-description">
+                                            <span class="break-all">{$vo.description}</span>
+                                        </div>
+                                        <div style="margin-top: 5px;">
+                                            <span class="layui-badge layui-bg-green" title="适配系统版本">
+                                                <i class="iconfont icon-label" style="font-size: 12px;"></i>
+                                                {$vo.adaptation}
                                             </span>
-                                        {/if}
-                                    </div>
-                                </td>
-                                <td>
-                                    {volist name="vo.authors" id="author"}
-                                        <div>
-                                            <a href="{$author.homepage}" target="_blank">
-                                                {$author.name}
-                                            </a>
+                                            
+                                            {if !empty($vo['install'])}
+                                                {if $vo['upgrade'] == 1}
+                                                    <span class="layui-badge layui-bg-blue" title="已安装版本">
+                                                        <i class="iconfont icon-flag" style="font-size: 12px;"></i>
+                                                        {$vo['install']['version']}
+                                                    </span>
+                                                    <span class="layui-badge layui-bg-danger" title="可更新版本">
+                                                        <i class="iconfont icon-hotfill" style="font-size: 12px;"></i> 
+                                                        {$vo.version}
+                                                    </span>
+                                                {else /}
+                                                    <span class="layui-badge layui-bg-blue" title="已安装版本">
+                                                        <i class="iconfont icon-flag" style="font-size: 12px;"></i> 
+                                                        {$vo['install']['version']}
+                                                    </span>
+                                                {/if}
+                                            {else /}
+                                                <span class="layui-badge layui-bg-cyan" title="插件版本">
+                                                    v {$vo.version}
+                                                </span>
+                                            {/if}
                                         </div>
-                                        <div style="margin-top: 5px;" class="text-muted">
-                                            {$author.email}
-                                        </div>
-                                    {/volist}
-                                </td>
-                                <td>
-                                    {if !empty($vo['install'])}
-                                        <div title="安装时间">
-                                            <i class="iconfont icon-time"></i>
-                                            {:date('Y-m-d H:i:s', $vo['install']['install_time'])}
-                                        </div>
-                                        
-                                        {if !empty($vo['install']['upgrade_time'])}
-                                            <div title="更新时间">
-                                                <i class="iconfont icon-shuaxin"></i>
-                                                {:date('Y-m-d H:i:s', $vo['install']['upgrade_time'])}
+                                    </td>
+                                    <td>
+                                        {if !empty($vo['authors'])}
+                                            {php}$author = $vo['authors'][0];{/php}
+                                            <div class="author-item">
+                                                <div>
+                                                    <i class="iconfont icon-yonghu" title="作者"></i>
+                                                    <a href="{$author.homepage}" target="_blank">
+                                                        {$author.name}
+                                                    </a>
+                                                </div>
+                                                <div class="text-muted">
+                                                    <i class="iconfont icon-mail" title="邮箱"></i>
+                                                    {$author.email}
+                                                </div>
                                             </div>
                                         {/if}
-                                    {else /}
-                                        --
-                                    {/if}
-                                </td>
-                                <td>
-                                    {if empty($vo['install'])}
-                                    <a href="javascript:;"
-                                        class="layui-btn layui-btn-sm js-flash-action-btn" 
-                                        data-url="{:laket_route('admin.flash.install')}"
-                                        data-name='{$vo.name}'
-                                        data-confirm='你确认要安装该闪存吗？'
-                                        >安装</a>
-                                    {/if}
-                                    
-                                    {if $vo['upgrade'] == 1}
-                                    <a href="javascript:;"
-                                        class="layui-btn layui-btn-sm layui-btn-danger js-flash-action-btn" 
-                                        data-url="{:laket_route('admin.flash.upgrade')}"
-                                        data-name='{$vo.name}'
-                                        data-confirm='你确认要更新该闪存吗？'
-                                        >更新</a>
-                                    {/if}
-                                </td>
-                            </tr>
-                        {/volist}
-                        
-                        {if $list->isEmpty()}
-                            <tr>
-                                <td colspan="5" align="center">
-                                    <div class="layui-none" style="padding: 10px 15px;color: #999;">无数据</div>
-                                </td>
-                            </tr>
-                        {/if}
-                    </tbody>
-                </table>
-        
+                                    </td>
+                                    <td>
+                                        {if !empty($vo['install'])}
+                                            <div title="安装时间">
+                                                <i class="iconfont icon-time"></i>
+                                                {:date('Y-m-d H:i:s', $vo['install']['install_time'])}
+                                            </div>
+                                            
+                                            {if !empty($vo['install']['upgrade_time'])}
+                                                <div title="更新时间">
+                                                    <i class="iconfont icon-shuaxin"></i>
+                                                    {:date('Y-m-d H:i:s', $vo['install']['upgrade_time'])}
+                                                </div>
+                                            {/if}
+                                        {else /}
+                                            --
+                                        {/if}
+                                    </td>
+                                    <td>
+                                        {if empty($vo['install'])}
+                                            <a href="javascript:;"
+                                                class="layui-btn layui-btn-xs js-flash-action-btn" 
+                                                data-url="{:laket_route('admin.flash.install')}"
+                                                data-name='{$vo.name}'
+                                                data-confirm='你确认要安装该插件吗？'
+                                                >安装</a>
+                                        {else /}
+                                            {if $vo['status'] == 1}
+                                                <a href="javascript:;"
+                                                    class="layui-btn layui-btn-xs layui-btn-warm js-flash-action-btn" 
+                                                    data-url="{:laket_route('admin.flash.disable')}"
+                                                    data-name='{$vo.name}'
+                                                    data-confirm='你确认要禁用该插件吗？'
+                                                    >禁用</a>
+                                            {else /}
+                                                <a href="javascript:;"
+                                                    class="layui-btn layui-btn-xs layui-btn-normal js-flash-action-btn" 
+                                                    data-url="{:laket_route('admin.flash.enable')}"
+                                                    data-name='{$vo.name}'
+                                                    data-confirm='你确认要启用该插件吗？'
+                                                    >启用</a>
+                                            {/if}
+                                        {/if}
+                                        
+                                        {if $vo['upgrade'] == 1}
+                                            <a href="javascript:;"
+                                                class="layui-btn layui-btn-xs layui-btn-danger js-flash-action-btn" 
+                                                data-url="{:laket_route('admin.flash.upgrade')}"
+                                                data-name='{$vo.name}'
+                                                data-confirm='你确认要更新该插件吗？'
+                                                >更新</a>
+                                        {/if}
+                                    </td>
+                                </tr>
+                            {/volist}
+                            
+                            {if $list->isEmpty()}
+                                <tr>
+                                    <td colspan="5" align="center">
+                                        <div class="layui-none" style="padding: 10px 15px;color: #999;">无数据</div>
+                                    </td>
+                                </tr>
+                            {/if}
+                        </tbody>
+                    </table>
+            
+                </div>
             </div>
         </div>
     </div>
@@ -223,7 +253,10 @@ layui.config({
         var name = $(this).attr("data-name");
         var confirm = $(this).attr("data-confirm");
         
-        layer.confirm(confirm, function(index){
+        layer.confirm(confirm, {
+            title: '提示', 
+            btn: ['确认', '取消']
+        }, function(index){
             var loading = layer.load(1, {shade: [0.1, '#fff']});
             $.post(url, {name: name},function(res){
                 layer.close(loading);
