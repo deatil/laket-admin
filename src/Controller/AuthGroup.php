@@ -43,13 +43,10 @@ class AuthGroup extends Base
         $list = $tree->buildArray(0);
         $list = $tree->buildFormatList($list, 'title');
         
-        $result = [
-            "code" => 0, 
+        return $this->success('获取成功', '', [
             "count" => $total, 
-            "data" => $list,
-        ];
-        
-        return $this->json($result);
+            "list"  => $list
+        ]);
     }
 
     /**
@@ -76,19 +73,17 @@ class AuthGroup extends Base
             $map[] = [$searchField, 'like', "%$keyword%"];
         }
         
-        $data = AuthGroupModel::where($map)
+        $list = AuthGroupModel::where($map)
             ->page($page, $limit)
             ->order('listorder DESC, add_time ASC')
             ->select()
             ->toArray();
         $total = AuthGroupModel::where($map)->count();
         
-        $result = [
-            "code" => 0, 
+        return $this->success('获取成功', '', [
             "count" => $total, 
-            "data" => $data,
-        ];
-        return $this->json($result);
+            "list"  => $list,
+        ]);
     }
     
     /**

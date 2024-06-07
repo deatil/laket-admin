@@ -45,9 +45,6 @@
                         <div class="layui-inline">
                             <a class="layui-btn laket-admin-search-btn" data-type="search">搜索</a>
                         </div>
-                        <div class="layui-inline">
-                            <a href="javascript:;" class="layui-btn laket-admin-search-all-btn">查看全部</a>
-                        </div>
                     </form>
                 </blockquote>
             
@@ -73,12 +70,12 @@
 
 <script type="text/html" id="nameTpl">
     {{# if(d.homepage){ }} 
-    <a href="{{ d.homepage }}" target="_blank" title="点击查看主页">
-        <i class="iconfont icon-lianjie"></i>
-    </a>
+        <a href="{{ d.homepage }}" target="_blank" title="点击查看主页">
+            <i class="iconfont icon-lianjie"></i>
+        </a>
     {{#  } }}
-
-    {{ d.name }}
+    
+    <span>{{ d.name }}</span>
 </script>
 
 <script type="text/html" id="titleTpl">
@@ -130,7 +127,7 @@
     {{# if (d.settinglist.length > 0) { }}
         <a class="layui-btn layui-btn-xs layui-iframe" 
             href='{:laket_route("admin.flash.setting")}?name={{ d.name }}'
-            title="设置"
+            title="插件设置"
             >设置</a>
     {{# } }}
 
@@ -171,6 +168,13 @@ layui.config({
         url: '{:laket_route("admin.flash.index-data")}',
         method: 'get',
         page: 10,
+        parseData: function(res) {
+            return {
+                "code": res.code == 1 ? 0 : 1,
+                "count": res.data.count,
+                "data": res.data.list,
+            };
+        },
         cols: [
             [
                 { field: 'listorder', align: 'center', width: 60, title: '排序', edit: 'text' },
@@ -240,23 +244,6 @@ layui.config({
             where: {
                 search_field: $(".laket-admin-search-field").val(),
                 keyword: $(".laket-admin-search-val").val(),
-            }
-        })
-    });
-    
-    // 搜索
-    $(".laket-admin-search-all-btn").on("click", function() {
-        $(".laket-admin-search-field").val('');
-        $(".laket-admin-search-val").val('');
-        layui.form.render('select');
-        
-        table.reload("table", {
-            page: {
-                curr: 1
-            },
-            where: {
-                search_field: '',
-                keyword: '',
             }
         })
     });

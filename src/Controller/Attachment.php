@@ -47,12 +47,10 @@ class Attachment extends Base
             ->order('create_time desc')
             ->count();
             
-        $result = [
-            "code" => 0, 
+        return $this->success('获取成功', '', [
             "count" => $total, 
-            "data" => $list,
-        ];
-        return $this->json($result);
+            "list"  => $list,
+        ]);
     }
     
     /**

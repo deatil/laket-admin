@@ -9,7 +9,7 @@
                 <div class="layui-inline">
                     <select name="field" class="lake-admin-search-field">
                         <option value="">全部类型</option>
-                        <option value="name">登录名</option>
+                        <option value="name">账号</option>
                         <option value="email">邮箱</option>
                         <option value="nickname">昵称</option>
                     </select>
@@ -19,9 +19,6 @@
                 </div>
                 <div class="layui-inline">
                     <a class="layui-btn lake-admin-search-btn" data-type="search">搜索</a>
-                </div>
-                <div class="layui-inline">
-                    <a class="layui-btn" href="{:laket_route('admin.admin.index')}">查看全部</a>
                 </div>
             </form>
         </blockquote>
@@ -85,6 +82,13 @@ layui.use('table', function() {
         toolbar: '#toolbarDemo',
         url: '{:laket_route("admin.admin.index-data")}',
         method: 'get',
+        parseData: function(res) {
+            return {
+                "code": res.code == 1 ? 0 : 1,
+                "count": res.data.count,
+                "data": res.data.list,
+            };
+        },
         cols: [
             [
                 { field: 'name', width: 120, title: '账号', templet: '#nameTpl' },

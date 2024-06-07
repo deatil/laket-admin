@@ -15,9 +15,6 @@
                 <div class="layui-inline">
                     <a class="layui-btn search_btn" data-type="reload">搜索</a>
                 </div>
-                <div class="layui-inline">
-                    <a class="layui-btn" href="{:laket_route('admin.attachment.index')}">查看全部</a>
-                </div>
             </form>
         </blockquote>
         
@@ -71,6 +68,13 @@ layui.use(['table', 'laydate'], function() {
         toolbar: '#toolbarTop',
         url: '{:laket_route("admin.attachment.index-data")}',
         method: 'get',
+        parseData: function(res) {
+            return {
+                "code": res.code == 1 ? 0 : 1,
+                "count": res.data.count,
+                "data": res.data.list,
+            };
+        },
         cols: [
             [
                 { type: 'checkbox', fixed: 'left' },

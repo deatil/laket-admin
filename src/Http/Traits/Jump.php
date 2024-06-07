@@ -37,8 +37,8 @@ trait Jump
      * @return void
      */
     protected function success(
-        $msg = '', 
-        $url = null, 
+        $msg  = '', 
+        $url  = null, 
         $data = '', 
         $wait = 3, 
         array $header = []
@@ -78,8 +78,8 @@ trait Jump
      * @return void
      */
     protected function error(
-        $msg = '', 
-        $url = null, 
+        $msg  = '', 
+        $url  = null, 
         $data = '', 
         $wait = 3, 
         array $header = []
@@ -122,7 +122,7 @@ trait Jump
     protected function result(
         $data, 
         $code = 0, 
-        $msg = '', 
+        $msg  = '', 
         $type = '', 
         array $header = []
     ) {

@@ -37,15 +37,13 @@ class AuthRule extends Base
 
         $Tree = make(Tree::class);
         $menuTree = $Tree->withData($result)->buildArray(0);
-        $menus = $Tree->buildFormatList($menuTree, 'title');
-        $total = count($menus);
+        $list = $Tree->buildFormatList($menuTree, 'title');
+        $total = count($list);
         
-        $result = [
-            "code" => 0, 
+        return $this->success('获取成功', '', [
             "count" => $total, 
-            "data" => $menus
-        ];
-        return $this->json($result);
+            "list"  => $list,
+        ]);
     }
 
     /**
@@ -72,19 +70,17 @@ class AuthRule extends Base
             $map[] = [$searchField, 'like', "%$keyword%"];
         }
         
-        $data = AuthRuleModel::where($map)
+        $list = AuthRuleModel::where($map)
             ->page($page, $limit)
             ->order('slug ASC, url ASC, id ASC')
             ->select()
             ->toArray();
         $total = AuthRuleModel::where($map)->count();
         
-        $result = [
-            "code" => 0, 
+        return $this->success('获取成功', '', [
             "count" => $total, 
-            "data" => $data,
-        ];
-        return $this->json($result);
+            "list"  => $list,
+        ]);
     }
 
     /**

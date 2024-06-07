@@ -24,7 +24,7 @@ use Laket\Admin\Support\PclZip;
 class Flash extends Base
 {
     /**
-     * 已安装
+     * 已安装插件
      */
     public function index()
     {
@@ -32,7 +32,7 @@ class Flash extends Base
     }
     
     /**
-     * 已安装
+     * 已安装插件数据
      */
     public function indexData()
     {
@@ -71,16 +71,14 @@ class Flash extends Base
             })
             ->toArray();
         
-        return $this->json([
-            "code" => 0, 
-            'msg' => '获取成功！',
-            'data' => $list,
-            'count' => $total,
+        return $this->success('获取成功', '', [
+            "count" => $total, 
+            "list"  => $list,
         ]);
     }
 
     /**
-     * 本地列表
+     * 本地插件列表
      */
     public function local()
     {
@@ -116,7 +114,7 @@ class Flash extends Base
     }
     
     /**
-     * 刷新本地闪存
+     * 刷新本地插件
      */
     public function refreshLocal()
     {
@@ -127,7 +125,7 @@ class Flash extends Base
     }
     
     /**
-     * 安装
+     * 插件安装
      */
     public function install()
     {
@@ -196,7 +194,7 @@ class Flash extends Base
     }
 
     /**
-     * 卸载
+     * 插件卸载
      */
     public function uninstall()
     {
@@ -230,7 +228,7 @@ class Flash extends Base
     }
     
     /**
-     * 模块更新
+     * 插件更新
      */
     public function upgrade()
     {
@@ -311,7 +309,7 @@ class Flash extends Base
     }
     
     /**
-     * 详情
+     * 插件详情
      */
     public function view()
     {
@@ -344,7 +342,7 @@ class Flash extends Base
     }
     
     /**
-     * 设置
+     * 插件设置
      */
     public function setting()
     {
@@ -392,7 +390,7 @@ class Flash extends Base
     }
     
     /**
-     * 设置保存
+     * 插件设置保存
      */
     public function settingSave()
     {
@@ -447,17 +445,17 @@ class Flash extends Base
         ]);
         
         if ($status === false) {
-            return $this->error('设置失败！');
+            return $this->error('保存设置失败！');
         }
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
-        $this->success('设置成功！');
+        $this->success('保存设置成功！');
     }
     
     /**
-     * 启用
+     * 启用插件
      */
     public function enable()
     {
@@ -492,7 +490,7 @@ class Flash extends Base
     }
     
     /**
-     * 禁用
+     * 禁用插件
      */
     public function disable()
     {
@@ -527,7 +525,7 @@ class Flash extends Base
     }
 
     /**
-     * 排序
+     * 插件排序
      */
     public function listorder()
     {
@@ -554,19 +552,19 @@ class Flash extends Base
     }
     
     /**
-     * 上传
+     * 上传插件
      */
     public function upload()
     {
         $requestFile = $this->request->file('file');
         if (empty($requestFile)) {
-            return $this->error('上传扩展文件不能为空');
+            return $this->error('上传插件文件不能为空');
         }
         
-        // 扩展名
+        // 插件压缩包后缀
         $extension = $requestFile->extension();
         if ($extension != 'zip') {
-            return $this->error('上传的扩展文件格式只支持zip格式');
+            return $this->error('上传的插件文件格式只支持zip格式');
         }
         
         // 缓存目录
@@ -580,7 +578,7 @@ class Flash extends Base
         
         $list = $zip->listContent();
         if ($list == 0) {
-            return $this->error('上传的扩展文件错误');
+            return $this->error('上传的插件文件错误');
         }
         
         $composer = collect($list)
@@ -600,28 +598,28 @@ class Flash extends Base
             ->toArray();
         
         if (empty($composer)) {
-            return $this->error('扩展composer.json不存在');
+            return $this->error('插件composer.json不存在');
         }
         
         $data = $zip->extractByIndex($composer[0]['index'], PCLZIP_OPT_EXTRACT_AS_STRING);
         if ($data == 0) {
-            return $this->error('上传的扩展文件错误');
+            return $this->error('上传的插件文件错误');
         }
         
         try {
             $composerInfo = json_decode($data[0]['content'], true);
         } catch(\Exception $e) {
-            return $this->error('扩展composer.json格式错误');
+            return $this->error('插件composer.json格式错误');
         }
         
         if (! isset($composerInfo['name']) 
             || empty($composerInfo['name'])
         ) {
-            return $this->error('扩展composer.json格式错误');
+            return $this->error('插件composer.json格式错误');
         }
         
         if (! preg_match('/^[a-zA-Z][a-zA-Z0-9\_\-\/]+$/', $composerInfo['name'])) {
-            return $this->error('扩展包名格式错误');
+            return $this->error('插件包名格式错误');
         }
         
         $extensionDirectory = Flasher::getFlashPath('');
@@ -629,9 +627,9 @@ class Flash extends Base
         
         $force = $this->request->param('force');
         
-        // 检查扩展目录是否存在
+        // 检查插件目录是否存在
         if (file_exists($extensionPath) && !$force) {
-            return $this->error('扩展('.$composerInfo['name'].')已经存在');
+            return $this->error('插件('.$composerInfo['name'].')已经存在');
         }
         
         $extensionRemovePath = str_replace('composer.json', '', $composer[0]['filename']);
@@ -647,13 +645,13 @@ class Flash extends Base
         );
         
         if ($list == 0) {
-            return $this->error('扩展('.$composerInfo['name'].')解压失败');
+            return $this->error('插件('.$composerInfo['name'].')解压失败');
         }
         
         // 上传后刷新本地缓存
         Flasher::refresh();
         
-        return $this->success('扩展('.$composerInfo['name'].')上传成功');
+        return $this->success('插件('.$composerInfo['name'].')上传成功');
     }
 
 }

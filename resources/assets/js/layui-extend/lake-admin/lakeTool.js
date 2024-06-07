@@ -362,6 +362,8 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
                             }
                         }
                     });
+                }).error(function() {
+                    layer.msg("请求失败");
                 });
             });
         } else {
@@ -375,6 +377,8 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
                         }
                     }
                 });
+            }).error(function() {
+                layer.msg("请求失败");
             });
         };
         return false;
@@ -413,6 +417,8 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
                         }
                     }, 1500);
                 }
+            }).error(function() {
+                layer.msg("请求失败");
             });
         }
 

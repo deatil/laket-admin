@@ -54,6 +54,13 @@ layui.use(['table', 'treeGrid', 'notice'], function() {
         idField: 'id',
         url: "{:laket_route('admin.auth-rule.index-data')}",
         method: 'get',
+        parseData: function(res) {
+            return {
+                "code": res.code == 1 ? 0 : 1,
+                "count": res.data.count,
+                "data": res.data.list,
+            };
+        },
         cellMinWidth: 100,
         treeId: 'id', //树形id字段名称
         treeUpId: 'parentid', //树形父id字段名称

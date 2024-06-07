@@ -77,6 +77,13 @@ layui.config({
         toolbar: '#toolbarTop',
         url: '{:laket_route("admin.auth-group.all-data")}',
         method: 'get',
+        parseData: function(res) {
+            return {
+                "code": res.code == 1 ? 0 : 1,
+                "count": res.data.count,
+                "data": res.data.list,
+            };
+        },
         cols: [
             [
                 { field: 'listorder', align: 'center', width: 70, title: '排序', edit: 'text' },

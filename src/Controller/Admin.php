@@ -58,12 +58,10 @@ class Admin extends Base
         $total = AdminModel::where($map)
             ->count();
         
-        $result = [
-            "code" => 0, 
+        return $this->success('获取成功', '', [
             "count" => $total, 
-            "data" => $list
-        ];
-        return $this->json($result);
+            "list"  => $list,
+        ]);
     }
 
     /**
