@@ -223,7 +223,7 @@ class Admin extends Base
             "id" => $id,
         ])->find();
         if (empty($data)) {
-            $this->error('信息不存在！');
+            $this->error('账号不存在！');
         }
         
         $gids = AuthGroupAccessModel::where([
@@ -239,7 +239,7 @@ class Admin extends Base
             }
         }
         
-        $data['groups'] = implode(',', $groups);
+        $data['groups'] = $groups;
         
         $this->assign("data", $data);
         

@@ -11,7 +11,7 @@
 }
 </style>
 <div class="layui-card">
-    <div class="layui-card-header layui-bg-cyan">闪存详情</div>
+    <div class="layui-card-header layui-bg-cyan">插件详情</div>
     <div class="layui-card-body">
         <div class="table-responsive">
             <table class="layui-table">
@@ -20,12 +20,6 @@
                     <col>
                 </colgroup>
           
-                <thead>
-                    <tr>
-                        <td>名称</td>
-                        <td>内容</td>
-                    </tr>
-                </thead>
                 <tbody>
                     {if !empty($data['icon'])}
                     <tr>
@@ -49,7 +43,7 @@
                         <td>{$data.name}</td>
                     </tr>
                     <tr>
-                        <td>主页</td>
+                        <td>插件主页</td>
                         <td>
                             {if $data['homepage']}
                             <a href="{$data.homepage}" target="_blank" title="点击查看主页">
@@ -75,7 +69,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>作者</td>
+                        <td>插件作者</td>
                         <td>
                             {if !empty($data['authorlist'])}
                             <table class="layui-table">
@@ -110,23 +104,45 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>版本</td>
-                        <td>{$data.version}</td>
+                        <td>插件版本号</td>
+                        <td>
+                            <span class="layui-badge layui-bg-green">
+                                {$data.version}
+                            </span>
+                        </td>
                     </tr>
                     <tr>
-                        <td>适配版本</td>
-                        <td>{$data.adaptation}</td>
+                        <td>适配系统版本</td>
+                        <td>
+                            <span class="layui-badge layui-bg-blue">
+                                {$data.adaptation}
+                            </span>
+                        </td>
                     </tr>
                     <tr>
                         <td>排序</td>
                         <td>{$data.listorder}</td>
                     </tr>
+                    
+                    <tr>
+                        <td>状态</td>
+                        <td>
+                            {if $data.status == 1}
+                                <span class="layui-badge-dot layui-bg-green"></span>
+                                <span class="text-green">启用</span>
+                            {else}
+                                <span class="layui-badge-dot layui-bg-orange"></span>
+                                <span class="text-orange">禁用</span>
+                            {/if}
+                        </td>
+                    </tr>
+                    
                     <tr>
                         <td>安装时间</td>
                         <td>{:date('Y-m-d H:i:s', $data['install_time'])}</td>
                     </tr>
                     <tr>
-                        <td>更新时间</td>
+                        <td>最后更新</td>
                         <td>
                             {if !empty($data['upgrade_time'])}
                                 {:date('Y-m-d H:i:s', $data['upgrade_time'])}
@@ -134,10 +150,6 @@
                                 --
                             {/if}
                         </td>
-                    </tr>
-                    <tr>
-                        <td>状态</td>
-                        <td>{$data.status == 1 ? '<span class="layui-btn layui-btn-xs">启用</span>' : '<span class="layui-btn layui-btn-danger layui-btn-xs">禁用</span>'}</td>
                     </tr>
 
                 </tbody>

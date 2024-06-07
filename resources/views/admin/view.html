@@ -10,13 +10,7 @@
                     <col width="200">
                     <col>
                 </colgroup>
-          
-                <thead>
-                    <tr>
-                        <td>名称</td>
-                        <td>内容</td>
-                    </tr>
-                </thead>
+
                 <tbody>
                     <tr>
                         <td>头像</td>
@@ -31,16 +25,22 @@
                         <td>{$data.id}</td>
                     </tr>
                     <tr>
-                        <td>管理账号</td>
+                        <td>账号</td>
                         <td>{$data.name}</td>
                     </tr>
                     <tr>
-                        <td>真实姓名</td>
+                        <td>昵称</td>
                         <td>{$data.nickname}</td>
                     </tr>
                     <tr>
                         <td>所属用户组</td>
-                        <td>{$data.groups}</td>
+                        <td>
+                            {foreach $data['groups'] as $key => $vo}
+                                <span class="layui-badge layui-bg-green">
+                                    {$vo}
+                                </span>
+                            {/foreach}
+                        </td>
                     </tr>
                     <tr>
                         <td>邮箱</td>
@@ -48,7 +48,7 @@
                     </tr>
                     <tr>
                         <td>最后登陆时间</td>
-                        <td>{$data.last_login_time}</td>
+                        <td>{:date('Y-m-d H:i:s', $data['last_login_time'])}</td>
                     </tr>
                     <tr>
                         <td>最后登陆IP</td>
@@ -68,13 +68,13 @@
                     </tr>
 
                     <tr>
-                        <td>添加时间</td>
+                        <td>注册时间</td>
                         <td>
-                            {$data['add_time']}
+                            {:date('Y-m-d H:i:s', $data['add_time'])}
                         </td>
                     </tr>
                     <tr>
-                        <td>添加IP</td>
+                        <td>注册IP</td>
                         <td>
                             {$data['add_ip']}
                         </td>

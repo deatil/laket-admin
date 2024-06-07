@@ -16,7 +16,7 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Support\PclZip;
 
 /**
- * 闪存
+ * 插件管理
  *
  * @create 2021-3-19
  * @author deatil
@@ -123,7 +123,7 @@ class Flash extends Base
         Flasher::refresh();
         FlashModel::clearCahce();
         
-        return $this->success('闪存刷新成功');
+        return $this->success('插件刷新成功');
     }
     
     /**
@@ -133,30 +133,30 @@ class Flash extends Base
     {
         $name = $this->request->param('name');
         if (empty($name)) {
-            return $this->error('请选择需要安装的闪存！');
+            return $this->error('请选择需要安装的插件！');
         }
         
         $installInfo = FlashModel::where(['name' => $name])
             ->find();
         if (! empty($installInfo)) {
-            return $this->error('闪存已经安装过了！');
+            return $this->error('插件已经安装过了！');
         }
         
         Flasher::loadFlash();
         $info = Flasher::getFlash($name);
         if (empty($info)) {
-            return $this->error('闪存不存在！');
+            return $this->error('插件不存在！');
         }
         
         $checkInfo = Flasher::validateInfo($info);
         if (! $checkInfo) {
-            return $this->error('闪存信息错误！');
+            return $this->error('插件信息错误！');
         }
         
         try {
             $infoVersion = (new VersionParser())->normalize($info['version']);
         } catch(\Exception $e) {
-            return $this->error('闪存版本信息错误！');
+            return $this->error('插件版本信息错误！');
         }
         
         $adminVersion = config('laket.admin.version');
@@ -164,11 +164,11 @@ class Flash extends Base
         try {
             $versionCheck = Semver::satisfies($adminVersion, $info['adaptation']);
         } catch(\Exception $e) {
-            return $this->error('闪存适配系统版本错误！');
+            return $this->error('插件适配系统版本错误！');
         }
         
         if (! $versionCheck) {
-            return $this->error('闪存适配系统版本错误，当前系统版本：' . $adminVersion);
+            return $this->error('插件适配系统版本错误，当前系统版本：' . $adminVersion);
         }
         
         $flash = FlashModel::create([
@@ -202,17 +202,17 @@ class Flash extends Base
     {
         $name = $this->request->param('name');
         if (empty($name)) {
-            return $this->error('请选择需要卸载的闪存！');
+            return $this->error('请选择需要卸载的插件！');
         }
         
         $installInfo = FlashModel::where(['name' => $name])
             ->find();
         if (empty($installInfo)) {
-            return $this->error('闪存还没有安装！');
+            return $this->error('插件还没有安装！');
         }
         
         if ($installInfo['status'] == 1) {
-            return $this->error('请禁用闪存插件后再卸载！');
+            return $this->error('请禁用插件后再卸载！');
         }
 
         $status = FlashModel::where(['name' => $name])->delete();
@@ -236,28 +236,28 @@ class Flash extends Base
     {
         $name = $this->request->param('name');
         if (empty($name)) {
-            return $this->error('请选择需要更新的闪存！');
+            return $this->error('请选择需要更新的插件！');
         }
         
         $installInfo = FlashModel::where(['name' => $name])
             ->find();
         if (empty($installInfo)) {
-            return $this->error('闪存还没有安装！');
+            return $this->error('插件还没有安装！');
         }
         
         if ($installInfo['status'] == 1) {
-            return $this->error('请禁用闪存插件后再更新！');
+            return $this->error('请禁用插件后再更新！');
         }
 
         Flasher::loadFlash();
         $info = Flasher::getFlash($name);
         if (empty($info)) {
-            return $this->error('本地闪存不存在！');
+            return $this->error('本地插件不存在！');
         }
         
         $checkInfo = Flasher::validateInfo($info);
         if (! $checkInfo) {
-            return $this->error('闪存信息错误！');
+            return $this->error('插件信息错误！');
         }
         
         $adminVersion = config('laket.admin.version');
@@ -265,23 +265,23 @@ class Flash extends Base
         try {
             $versionCheck = Semver::satisfies($adminVersion, $info['adaptation']);
         } catch(\Exception $e) {
-            return $this->error('闪存适配系统版本错误！');
+            return $this->error('插件适配系统版本错误！');
         }
         
         if (! $versionCheck) {
-            return $this->error('闪存适配系统版本错误，当前系统版本：' . $adminVersion);
+            return $this->error('插件适配系统版本错误，当前系统版本：' . $adminVersion);
         }
         
         try {
             $infoVersion = (new VersionParser())->normalize($info['version']);
         } catch(\Exception $e) {
-            return $this->error('闪存版本信息不正确！');
+            return $this->error('插件版本信息不正确！');
         }
         
         $infoVersion = Arr::get($info, 'version', 0);
         $installVersion = Arr::get($installInfo, 'version', 0);
         if (! Comparator::greaterThan($infoVersion, $installVersion)) {
-            return $this->error('闪存不需要更新！');
+            return $this->error('插件不需要更新！');
         }
         
         $status = FlashModel::update([
@@ -317,7 +317,7 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
-            return $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的插件！');
         }
         
         $data = FlashModel::where([
@@ -398,7 +398,7 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
-            return $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的插件！');
         }
         
         $info = FlashModel::where([
@@ -463,14 +463,14 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
-            return $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的插件！');
         }
         
         $installInfo = FlashModel::where([
                 "name" => $name,
             ])->find();
         if (empty($installInfo)) {
-            return $this->error('闪存还没有安装！');
+            return $this->error('插件还没有安装！');
         }
         
         $status = FlashModel::where([
@@ -498,14 +498,14 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s');
         if (empty($name)) {
-            return $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的插件！');
         }
         
         $installInfo = FlashModel::where([
                 "name" => $name,
             ])->find();
         if (empty($installInfo)) {
-            return $this->error('闪存还没有安装！');
+            return $this->error('插件还没有安装！');
         }
         
         $status = FlashModel::where([
@@ -533,7 +533,7 @@ class Flash extends Base
     {
         $name = $this->request->param('name/s', 0);
         if (empty($name)) {
-            return $this->error('请选择需要的闪存！');
+            return $this->error('请选择需要的插件！');
         }
         
         $listorder = $this->request->param('value/d', 100);
