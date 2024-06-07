@@ -219,7 +219,9 @@ layui.config({
         }, function(index){
             var loading = layer.load(1, {shade: [0.1, '#fff']});
             
-            $.post(url, {name: name},function(res){
+            $.post(url, {
+                name: name
+            },function(res){
                 layer.close(loading);
                 
                 if (res.code === 1) {
@@ -231,6 +233,9 @@ layui.config({
                 } else {
                     notice.error(res.msg);
                 }
+            }).error(function() {
+                layer.close(loading);
+                notice.error('请求失败！');
             });
             
             layer.close(index);
@@ -255,17 +260,19 @@ layui.config({
         var value = obj.value,
             data = obj.data;
         
-        $.post('{:laket_route("admin.flash.listorder")}', {
+        var url = '{:laket_route("admin.flash.listorder")}';
+        $.post(url, {
             'name': data.name,
             'value': value 
         }, function(data) {
             if (data.code == 1) {
                 notice.success(data.msg);
-            }else{
+            } else {
                 notice.error(data.msg);
             }
-
-        })
+        }).error(function() {
+            notice.error('请求失败！');
+        });
     });
     
     // 上传

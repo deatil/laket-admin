@@ -160,7 +160,8 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
             href = !that.attr('data-href') ? that.attr('href') : that.attr('data-href'),
             data = that.attr('data-data') ? that.attr('data-data') : {},
             callback = that.attr('data-callback') ? that.attr('data-callback') : undefined;
-        layer.confirm('删除之后无法恢复，您确定要删除吗？', { icon: 3, title: '提示信息' }, function(index) {
+        
+        layer.confirm('删除之后无法恢复，您确定要删除吗？', { icon: 3, title: '提示' }, function(index) {
             if (!href) {
                 notice.info('请设置data-href参数');
                 return false;
@@ -178,7 +179,10 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
                 } else {
                     notice.error(res.msg);
                 }
+            }).error(function() {
+                notice.error('请求失败！');
             });
+            
             layer.close(index);
         });
         return false;
@@ -262,6 +266,10 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
                 that.trigger('click');
                 form.render('checkbox');
             }
+        }).error(function() {
+            notice.error('请求失败！');
+            that.trigger('click');
+            form.render('checkbox');
         });
     });
 

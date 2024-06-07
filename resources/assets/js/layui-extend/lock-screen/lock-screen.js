@@ -69,7 +69,7 @@ layui.define(['element', 'layer', 'form', 'jquery', 'jqueryCookie', "md5", "util
                             </div>\
                             <div class="layui-col-xs4 layui-col-sm4 layui-col-md4">\
                                 <button style="width: 100%;box-sizing:border-box;border-radius: 0;" type="button" lay-submit lay-filter="lockSubmit"\
-                                        class="layui-btn lock-btn layui-btn-lg layui-btn-normal">确定\
+                                        class="layui-btn lock-btn layui-btn-lg layui-btn-normal">确定解锁\
                                 </button>\
                             </div>\
                         </div>\
@@ -105,6 +105,8 @@ layui.define(['element', 'layer', 'form', 'jquery', 'jqueryCookie', "md5", "util
                 } else {
                     layer.alert(res.msg);
                 }
+            }).error(function() {
+                layer.alert('锁屏操作失败！');
             });
         });
     });
@@ -145,24 +147,29 @@ layui.define(['element', 'layer', 'form', 'jquery', 'jqueryCookie', "md5", "util
             password: md5(password)
         }, function (res) {
             layer.msg(res.msg, {
-                time:1500,
+                time: 1500,
                 anim: 6,
                 zIndex: 999999991
             }, function () {
-                if (res.code==1){
-                    utils.local("isLock", null);   //清除锁屏的缓存
-                    $("#lockPassword").val("");   //清除输入框的密码
+                if (res.code == 1) {
+                    utils.local("isLock", null); //清除锁屏的缓存
+                    $("#lockPassword").val("");  //清除输入框的密码
                     $(".lock-screen").hide();
                     clearInterval(lock_inter);
                     
                     $.cookie('lake-admin-menuid', menuid, {
                         expires: 1,
                     });
-                } else {
-                    layer.alert("解锁屏幕失败！");
                 }
             });
+        }).error(function() {
+            layer.msg('离线, 解锁屏幕失败！', {
+                time: 1500,
+                anim: 6,
+                zIndex: 999999991
+            });
         });
+        
         return false;
     });
 

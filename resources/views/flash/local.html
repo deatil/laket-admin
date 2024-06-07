@@ -258,18 +258,24 @@ layui.config({
             btn: ['确认', '取消']
         }, function(index){
             var loading = layer.load(1, {shade: [0.1, '#fff']});
+            
             $.post(url, {name: name},function(res){
                 layer.close(loading);
+                
                 if (res.code === 1) {
                     notice.success(res.msg);
                     
                     setTimeout(function() {
                         location.reload();
                     }, 1800);
-                }else{
+                } else {
                     notice.error(res.msg);
                 }
+            }).error(function() {
+                layer.close(loading);
+                notice.error('请求失败！');
             });
+            
             layer.close(index);
         });
     });

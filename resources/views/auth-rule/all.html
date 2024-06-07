@@ -111,14 +111,21 @@ layui.use(['table', 'notice'], function() {
     table.on('edit(dataTable)', function(obj) {
         var value = obj.value,
             data = obj.data;
-        $.post('{:laket_route("admin.auth-rule.listorder")}', {'id': data.id,'value':value }, function(data) {
+            
+        var url = '{:laket_route("admin.auth-rule.listorder")}';
+        $.post(url, {
+            'id': data.id,
+            'value':value 
+        }, function(data) {
             if (data.code == 1) {
                 notice.success(data.msg);
-            }else{
+            } else {
                 notice.error(data.msg);
             }
 
-        })
+        }).error(function() {
+            notice.error('请求失败！');
+        });
     });
 });
 </script>

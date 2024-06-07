@@ -113,6 +113,7 @@ layui.config({
                 } else {
                     notice.error(data.msg);
                 }
+                
                 setTimeout(function() {
                     if (data.url) {
                         location.href = data.url;
@@ -128,7 +129,10 @@ layui.config({
                     }
                 }, 1500);
             }
+        }).error(function() {
+            notice.error('请求失败！');
         });
+        
         return false;
     });
 });

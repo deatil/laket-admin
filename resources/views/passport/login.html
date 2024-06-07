@@ -109,7 +109,15 @@
                     // 刷新验证码
                     $("#verify").click();
                 }
-            }, "json");
+            }, "json").error(function() {
+                $(".login-btn").show();
+                $(".logining-btn").hide();
+                
+                layer.msg('请求失败！', { 
+                    offset: '15px',
+                    icon: 2 
+                });
+            });
             
             return false;
         });

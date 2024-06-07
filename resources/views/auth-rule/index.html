@@ -86,18 +86,24 @@ layui.use(['table', 'treeGrid', 'notice'], function() {
         page: false
     })
 
-    //监听单元格编辑
+    // 监听单元格编辑
     treeGrid.on('edit(treeTable)', function(obj) {
         var value = obj.value,
             data = obj.data;
-        $.post('{:laket_route("admin.auth-rule.listorder")}', { 'id': data.id, 'value': value }, function(data) {
+        
+        var url = '{:laket_route("admin.auth-rule.listorder")}';
+        $.post(url, { 
+            'id': data.id, 
+            'value': value 
+        }, function(data) {
             if (data.code == 1) {
                 notice.success(data.msg);
             } else {
                 notice.error(data.msg);
             }
-
-        })
+        }).error(function() {
+            notice.error('请求失败！');
+        });
     });
 
     $('#openAll').click(function(e) {

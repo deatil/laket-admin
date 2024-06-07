@@ -103,7 +103,8 @@ layui.config({
             data = obj.data;
         
         if (field == 'listorder') {
-            $.post('{:laket_route("admin.auth-group.listorder")}', { 
+            var url = '{:laket_route("admin.auth-group.listorder")}';
+            $.post(url, { 
                 'id': data.id, 
                 'value': value 
             }, function(data) {
@@ -113,6 +114,8 @@ layui.config({
                 } else {
                     notice.error(data.msg);
                 }
+            }).error(function() {
+                notice.error('请求失败！');
             });
         }
     });
