@@ -41,7 +41,7 @@
     </style>
 </head>
 <body>
-{php}$codeText=$code == 1 ? 'success' : ($code == 0 ? 'error' : 'info');{/php}
+{php}$codeText = $code == 1 ? 'success' : ($code == 0 ? 'error' : 'info');{/php}
 <div class="system-message {$codeText}">
     <div class="image">
         <img src="admin/img/{$codeText}.svg" alt="" width="150" />

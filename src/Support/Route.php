@@ -35,12 +35,12 @@ class Route
     protected function getRouteInformation($route)
     {
         return [
-            'name' => $route['name'],
-            'rule' => $route['rule'],
-            'route' => $this->getRouteInfo($route['route']),
-            'method' => $route['method'],
-            'vars' => $route['vars'],
-            'option' => $route['option'],
+            'name'    => $route['name'],
+            'rule'    => $route['rule'],
+            'route'   => $this->getRouteInfo($route['route']),
+            'method'  => $route['method'],
+            'vars'    => $route['vars'],
+            'option'  => $route['option'],
             'pattern' => $route['pattern'],
         ];
     }

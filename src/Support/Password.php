@@ -31,14 +31,14 @@ class Password
     /**
      * 密码加密
      *
-     * @param $password
-     * @param $encrypt //传入加密串，在修改密码时做认证
-     * @return array/password
+     * @param $password 密码
+     * @param $encrypt  加密串，在修改密码时做认证
+     * @return array|string
      */
     public function encrypt($password, $encrypt = '')
     {
         $pwd = [];
-        $pwd['encrypt'] = $encrypt ? $encrypt : $this->randomString();
+        $pwd['encrypt']  = $encrypt ? $encrypt : $this->randomString();
         $pwd['password'] = md5(md5($password . $pwd['encrypt']) . $this->salt);
         return $encrypt ? $pwd['password'] : $pwd;
     }

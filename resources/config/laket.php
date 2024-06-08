@@ -4,8 +4,8 @@ return [
     'admin' => [
         "name"      => "LaketAdmin",
         "name_mini" => "Laket",
-        "version"   => "1.2.7",
-        "release"   => "1.2.7.20240608",
+        "version"   => "1.2.8",
+        "release"   => "1.2.8.20240608",
     ],
     
     // 登录
@@ -48,7 +48,7 @@ return [
     'view' => [
         // 视图位置
         'paths' => [
-            app_path('view'),
+            root_path('view'),
         ],
         
         // 标签

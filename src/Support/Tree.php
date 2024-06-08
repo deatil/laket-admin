@@ -22,13 +22,13 @@ class Tree
      * 生成树型结构所需修饰符号，可以换成图片
      * @var array
      */
-    public $icon = ['│', '├', '└'];
+    public $icon       = ['│', '├', '└'];
     public $blankspace = "&nbsp;";
     
     // 查询
-    public $idKey = "id";
+    public $idKey       = "id";
     public $parentidKey = "parentid";
-    public $spacerKey = "spacer";
+    public $spacerKey   = "spacer";
     public $haschildKey = "haschild";
     
     // 返回子级key

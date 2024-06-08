@@ -3,7 +3,7 @@
 
 ## 项目介绍
 
-*  `laket-admin` 是基于 `Thinkphp` 的PHP通用后台管理系统
+*  `laket-admin` 是基于 `Thinkphp` 的 PHP 通用后台管理系统
 *  使用 `layui` 搭建的后台管理界面
 *  通过系统构建的插件系统完成对项目的开发
 *  插件说明文档 `docs/wiki/flash.md`
@@ -55,24 +55,17 @@ php think laket-admin:install
 5. 后台地址 `http://yourdomain.com/admin/index`, 登录账号：`admin` 及密码 `123456`
 
 
-## 闪存推荐
+## 插件推荐
 
 | 名称 | 描述 |
 | --- | --- |
 | [系统设置](https://github.com/deatil/laket-settings) | 添加系统的设置功能 |
 | [操作日志](https://github.com/deatil/laket-operation-log) | 记录管理员在后台的操作日志 |
 | [数据库管理](https://github.com/deatil/laket-admin-database) | 数据库备份、优化、修复及还原 |
-| [百度编辑器](https://github.com/deatil/laket-ueditor) | 增强闪存插件设置，增强设置闪存插件 |
-| [闪存插件禁用](https://github.com/deatil/laket-flash-disable) | 禁用后插件将不能进行相关的操作 |
+| [百度编辑器](https://github.com/deatil/laket-ueditor) | 设置添加百度编辑器使用 |
+| [插件禁用](https://github.com/deatil/laket-flash-disable) | 禁用后插件将不能进行相关的操作 |
 
-注：闪存插件目录默认为 `/flashs` 目录
-
-
-## 问题反馈
-
-在使用中有任何问题，请使用以下联系方式联系我们
-
-Github: https://github.com/deatil/laket-admin
+注：插件目录默认为 `/flashs` 目录
 
 
 ## 特别鸣谢

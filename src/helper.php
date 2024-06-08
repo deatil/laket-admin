@@ -6,8 +6,8 @@ use think\helper\Arr;
 
 use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
-use Laket\Admin\Facade\Flash as Flasher;
 use Laket\Admin\Facade\Admin as AuthAdmin;
+use Laket\Admin\Facade\Flash as FlashManager;
 use Laket\Admin\Facade\ViewFinder as ViewPathFinder;
 use Laket\Admin\Http\Traits\View as ViewTrait;
 
@@ -25,7 +25,28 @@ if (! function_exists('make')) {
     }
 }
 
-if (!function_exists('runhook')) {
+if (! function_exists('route')) {
+    /**
+     * 根据路由名称生成 Url
+     *
+     * @param string      $name   路由名称
+     * @param array       $vars   变量
+     * @param bool|string $suffix 生成的URL后缀
+     * @param bool|string $domain 域名
+     * @return UrlBuild
+     */
+    function route(
+        string $name = '', 
+        array $vars = [], 
+        $suffix = true, 
+        $domain = false
+    ) {
+        $newUrl = url($name, $vars, $suffix, $domain);
+        return (string) $newUrl;
+    }
+}
+
+if (! function_exists('runhook')) {
     /**
      * 行为
      *
@@ -162,7 +183,7 @@ if (! function_exists('laket_check_permission')) {
     }
 }
 
-if (!function_exists('laket_runhook')) {
+if (! function_exists('laket_runhook')) {
     /**
      * 行为
      *
@@ -177,7 +198,7 @@ if (!function_exists('laket_runhook')) {
     }
 }
 
-if (!function_exists('laket_file_name')) {
+if (! function_exists('laket_file_name')) {
     /**
      * 根据附件id获取文件名
      *
@@ -195,7 +216,7 @@ if (!function_exists('laket_file_name')) {
     }
 }
 
-if (!function_exists('laket_attachment_url')) {
+if (! function_exists('laket_attachment_url')) {
     /**
      * 获取附件路径
      *
@@ -209,24 +230,28 @@ if (!function_exists('laket_attachment_url')) {
     }
 }
 
-if (!function_exists('laket_attachment_url_list')) {
+if (! function_exists('laket_attachment_urls')) {
     /**
      * 获取多附件地址
      *
-     * @param string $ids 附件id列表
-     * @param bool $domain 是否添加域名
-     * @return 返回附件列表
+     * @param string|array $ids    附件id列表
+     * @param bool         $domain 是否添加域名
+     * @return array
      */
-    function laket_attachment_url_list($ids, $domain = false)
+    function laket_attachment_urls($ids, $domain = false)
     {
-        if ($ids == '') {
-            return false;
+        if (empty($ids)) {
+            return [];
         }
         
-        $id_list = explode(',', $ids);
-        foreach ($id_list as $id) {
+        if (! is_array($ids)) {
+            $ids = explode(',', $ids);
+        }
+        
+        foreach ($ids as $id) {
             $list[] = laket_attachment_url($id, $domain);
         }
+        
         return $list;
     }
 }
@@ -235,10 +260,10 @@ if (! function_exists('laket_flash_setting')) {
     /**
      * 闪存插件配置信息
      *
-     * @param string $name 闪存插件包名
-     * @param string|null $key 取值
-     * @param mix|null $default 默认值
-     * @return 闪存插件设置值
+     * @param string      $name     闪存插件包名
+     * @param string|null $key     取值
+     * @param mix|null    $default 默认值
+     * @return mix 闪存插件设置值
      */
     function laket_flash_setting($name, $key = null, $default = null)
     {
@@ -255,41 +280,41 @@ if (! function_exists('laket_flash_setting')) {
     }
 }
 
-if (! function_exists('laket_admin_authenticate_excepts')) {
+if (! function_exists('laket_authenticate_excepts')) {
     /**
      * 登陆过滤
      *
      * @param array $excepts 过滤规则
      * @return mix
      */
-    function laket_admin_authenticate_excepts(array $excepts)
+    function laket_authenticate_excepts(array $excepts)
     {
-        return Flasher::authenticateExcepts($excepts);
+        return FlashManager::authenticateExcepts($excepts);
     }
 }
 
-if (! function_exists('laket_admin_permission_excepts')) {
+if (! function_exists('laket_permission_excepts')) {
     /**
      * 权限过滤
      *
      * @param array $excepts 过滤规则
      * @return mix
      */
-    function laket_admin_permission_excepts(array $excepts)
+    function laket_permission_excepts(array $excepts)
     {
-        return Flasher::permissionExcepts($excepts);
+        return FlashManager::permissionExcepts($excepts);
     }
 }
 
-if (! function_exists('laket_admin_screenlock_excepts')) {
+if (! function_exists('laket_screenlock_excepts')) {
     /**
      * 锁屏过滤
      *
      * @param array $excepts 过滤规则
      * @return mix
      */
-    function laket_admin_screenlock_excepts(array $excepts)
+    function laket_screenlock_excepts(array $excepts)
     {
-        return Flasher::screenlockExcepts($excepts);
+        return FlashManager::screenlockExcepts($excepts);
     }
 }

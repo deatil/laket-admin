@@ -97,9 +97,9 @@ class Service extends BaseService
      */
     public function boot()
     {
-        $this->bootView();
+        $this->loadView();
         
-        $this->bootRouter();
+        $this->loadRouter();
         
         $this->bootFlash();
     }
@@ -226,7 +226,7 @@ class Service extends BaseService
             // 静态文件 
             // php think laket-admin:publish --tag=laket-admin-assets
             $this->publishes([
-                __DIR__ . '/../resources/assets/' => public_path() . 'static/admin/',
+                __DIR__ . '/../resources/assets/' => public_path('static/admin'),
             ], 'laket-admin-assets');
             
             // 配置文件 
@@ -235,10 +235,10 @@ class Service extends BaseService
                 __DIR__ . '/../resources/config/laket.php' => config_path() . 'laket.php',
             ], 'laket-admin-config');
             
-            // 视图文件，需要修改系统页面时候可以执行命令
+            // 视图文件
             // php think laket-admin:publish --tag=laket-admin-views
             $this->publishes([
-                __DIR__ . '/../resources/views/' => app_path() . 'view/vendor/laket-admin/',
+                __DIR__ . '/../resources/views/' => root_path('view/vendor/laket-admin'),
             ], 'laket-admin-views');
         }
     }
@@ -281,7 +281,7 @@ class Service extends BaseService
      *
      * @return void
      */
-    public function bootView()
+    public function loadView()
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laket-admin');
         
@@ -300,7 +300,7 @@ class Service extends BaseService
      *
      * @return void
      */
-    protected function bootRouter()
+    protected function loadRouter()
     {
         // 路由
         $this->loadRoutesFrom(__DIR__ . '/../resources/routes/admin.php');

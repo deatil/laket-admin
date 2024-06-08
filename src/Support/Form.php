@@ -15,14 +15,46 @@ class Form
     /**
      * 生成Token
      *
-     * @param string $name
-     * @param string $type
+     * @param string $name 令牌名称
+     * @param string $type 令牌生成方法
      * @return string
      */
     public static function token($name = '__token__', $type = 'md5')
     {
         if (function_exists('token')) {
             return token($name, $type);
+        }
+        
+        return '';
+    }
+    
+    /**
+     * 生成令牌隐藏表单
+     *
+     * @param string $name 令牌名称
+     * @param string $type 令牌生成方法
+     * @return string
+     */
+    public static function tokenField($name = '__token__', $type = 'md5')
+    {
+        if (function_exists('token_field')) {
+            return token_field($name, $type);
+        }
+        
+        return '';
+    }
+    
+    /**
+     * 生成令牌meta
+     *
+     * @param string $name 令牌名称
+     * @param string $type 令牌生成方法
+     * @return string
+     */
+    public static function tokenMeta($name = '__token__', $type = 'md5')
+    {
+        if (function_exists('token_meta')) {
+            return token_meta($name, $type);
         }
         
         return '';
@@ -58,7 +90,9 @@ class Form
             $selected = in_array($key, $ids) ? 'selected' : '';
             $string .= '<option value="' . $key . '" ' . $selected . '>' . $value . '</option>';
         }
+        
         $string .= '</select>';
+        
         return $string;
     }
 
@@ -84,6 +118,7 @@ class Form
         if ($defaultvalue) {
             $string .= '<input type="hidden" ' . $str . ' value="-99">';
         }
+        
         $i = 1;
         foreach ($array as $key => $value) {
             $key = trim($key);
@@ -92,6 +127,7 @@ class Form
 
             $i++;
         }
+        
         return $string;
     }
 

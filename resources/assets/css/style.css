@@ -1758,6 +1758,12 @@ code {
     margin: 15px 0 5px 0;
 }
 
+.lake-admin-auth-manager-expand  {
+    border: 1px solid #EEE;
+    border-radius: 2px;	
+    padding: 5px 0 5px 3px;
+    margin-bottom: 5px;
+}
 .lake-admin-auth-manager-access  {
     border: 1px solid #EEE;
     border-radius: 2px;	

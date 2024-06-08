@@ -38,6 +38,7 @@ class File
                 @fclose($fp);
             }
         }
+        
         return $content;
     }
 
