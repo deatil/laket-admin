@@ -4,7 +4,7 @@ namespace Laket\Admin\Model;
 
 use think\facade\Cache;
 
-use Laket\Admin\Facade\Admin as AuthAdmin;
+use Laket\Admin\Facade\Admin as AdminData;
 
 /**
  * 权限规则模型
@@ -151,7 +151,7 @@ class AuthRule extends ModelBase
         }
         
         // 是否超级管理员
-        if (AuthAdmin::isSuperAdmin()) {
+        if (AdminData::isSuperAdmin()) {
             return $result;
         }
         
@@ -181,7 +181,7 @@ class AuthRule extends ModelBase
         
         $admins = Admin::with(['groups'])
             ->where([
-                'id' => AuthData::getId(),
+                'id' => AdminData::getId(),
             ])
             ->select()
             ->toArray();
@@ -196,9 +196,9 @@ class AuthRule extends ModelBase
         }
         
         $authIdList = AuthRuleAccess::where([
-            ['group_id', 'in', $groupIds],
-        ])
-        ->column('rule_id');
+                ['group_id', 'in', $groupIds],
+            ])
+            ->column('rule_id');
         
         return $authIdList;
     }

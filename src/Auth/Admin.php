@@ -53,6 +53,42 @@ class Admin
     }
 
     /**
+     * 注销登录状态
+     *
+     * @return boolean
+     */
+    public function logout()
+    {
+        Session::clear();
+        
+        $this->data = [];
+        
+        return true;
+    }
+
+    /**
+     * 检验用户是否已经登陆
+     *
+     * @return boolean
+     */
+    public function check()
+    {
+        $adminid = Session::get('laket_admin_adminid');
+        if (empty($adminid)) {
+            return false;
+        }
+        
+        $info = $this->getInfo($adminid);
+        if ($info === false) {
+            return false;
+        }
+        
+        $this->data = $info;
+        
+        return true;
+    }
+
+    /**
      * 更新登录状态信息
      */
     public function loginStatus($id)
@@ -115,31 +151,9 @@ class Admin
         
         return true;
     }
-
-    /**
-     * 检验用户是否已经登陆
-     *
-     * @return boolean
-     */
-    public function check()
-    {
-        $adminid = Session::get('laket_admin_adminid');
-        if (empty($adminid)) {
-            return false;
-        }
-        
-        $info = $this->getInfo($adminid);
-        if ($info === false) {
-            return false;
-        }
-        
-        $this->data = $info;
-        
-        return true;
-    }
     
     /**
-     * 登陆数据
+     * 登陆账号数据
      */
     public function getData()
     {
@@ -182,27 +196,13 @@ class Admin
         
         return true;
     }
-
-    /**
-     * 注销登录状态
-     *
-     * @return boolean
-     */
-    public function logout()
-    {
-        Session::clear();
-        
-        $this->data = [];
-        
-        return true;
-    }
     
     /**
      * 管理员密码加密
      *
      * @param $password
-     * @param $encrypt //传入加密串，在修改密码时做认证
-     * @return array/password
+     * @param $encrypt  传入加密串，在修改密码时做认证
+     * @return array/string
      */
     public function encryptPassword($password, $encrypt = '')
     {
@@ -220,6 +220,10 @@ class Admin
         $type = null, 
         $relation = 'or'
     ) {
+        if (! $this->isLogin()) {
+            return false;
+        }
+        
         if ($this->isSuperAdmin()) {
             return true;
         }

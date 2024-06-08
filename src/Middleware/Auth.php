@@ -8,7 +8,6 @@ use Closure;
 use think\App;
 
 use Laket\Admin\Facade\Admin;
-use Laket\Admin\Facade\AuthData;
 use Laket\Admin\Http\Traits\Jump as JumpTrait;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
 
@@ -69,15 +68,7 @@ class Auth
             $this->error('您的帐号已经被锁定！', $this->loginUrl);
             return false;
         }
-        
-        // 是否是超级管理员
-        $adminIsRoot = Admin::isSuperAdmin();
-        
-        // 设置环境变量
-        AuthData::withId($adminInfo['id']);
-        AuthData::withIsRoot($adminIsRoot);
-        AuthData::withInfo($adminInfo);
-        
+
         return true;
     }
     
@@ -101,7 +92,7 @@ class Auth
             return;
         }
         
-        $adminId = AuthData::getId();
+        $adminId = Admin::getId();
         if (! empty($adminId)) {
             return;
         }

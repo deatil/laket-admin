@@ -11,7 +11,6 @@ use phpseclib3\Crypt\RSA;
 use phpseclib3\Crypt\PublicKeyLoader;
 
 use Laket\Admin\Facade\Admin;
-use Laket\Admin\Facade\AuthData;
 use Laket\Admin\Support\Screen;
 
 /**
@@ -73,6 +72,10 @@ class Passport extends Base
      */
     public function loginCheck()
     {
+        if (Admin::isLogin()) {
+            return $this->error('你已经登陆！');
+        }
+        
         $verify = request()->post('verify');
         
         // 验证码
@@ -160,7 +163,7 @@ class Passport extends Base
      */
     public function unlockscreen()
     {
-        $adminInfo = AuthData::getInfo();
+        $adminInfo = Admin::getData();
         $password = request()->post('password');
         
         if (!Admin::checkPassword($adminInfo['name'], $password)) {

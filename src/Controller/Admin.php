@@ -4,8 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Controller;
 
-use Laket\Admin\Facade\AuthData;
-use Laket\Admin\Facade\Admin as Adminer;
+use Laket\Admin\Facade\Admin as AdminData;
 use Laket\Admin\Model\Admin as AdminModel;
 use Laket\Admin\Model\AuthGroup as AuthGroupModel;
 use Laket\Admin\Model\AuthGroupAccess as AuthGroupAccessModel;
@@ -36,8 +35,8 @@ class Admin extends Base
 
         $map = $this->buildparams();
         
-        if (! AuthData::isRoot()) {
-            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(AuthData::getId());
+        if (! AdminData::isSuperAdmin()) {
+            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(AdminData::getId());
             $adminIds = AuthGroupAccessModel::where([
                     ['group_id', 'in', $userChildGroupIds],
                 ])
@@ -137,16 +136,20 @@ class Admin extends Base
             $this->error('参数错误！');
         }
         
-        if ($data['id'] == AuthData::getId()) {
-            $this->error('你不能修改自己的账号！');
-        }
-        
         $adminInfo = AdminModel::where([
                 "id" => $data['id'],
             ])
             ->find();
         if (empty($adminInfo)) {
-            $this->error('信息不存在！');
+            $this->error('账号信息不存在！');
+        }
+        
+        if ($adminInfo['id'] == AdminData::getId()) {
+            $this->error('你不能修改自己的账号！');
+        }
+        
+        if (AdminData::isSuperAdmin($adminInfo['id'])) {
+            $this->error('超级管理员不能被修改！');
         }
         
         if (isset($data['status'])) {
@@ -183,12 +186,12 @@ class Admin extends Base
             $this->error('信息不存在！');
         }
         
-        if ($adminInfo['id'] == AuthData::getId()) {
+        if ($adminInfo['id'] == AdminData::getId()) {
             $this->error('你不能删除自己的账号！');
         }
         
-        if ($adminInfo['id'] == config('laket.passport.super_id')) {
-            $this->error('超级管理员不能删除！');
+        if (AdminData::isSuperAdmin($adminInfo['id'])) {
+            $this->error('超级管理员不能被删除！');
         }
         
         $status = AdminModel::where([
@@ -286,12 +289,12 @@ class Admin extends Base
             $this->error('两次密码不一致！');
         }
         
-        if ($post['id'] == AuthData::getId()) {
+        if ($post['id'] == AdminData::getId()) {
             $this->error('你不能修改自己账号的密码！');
         }
         
         // 对密码进行处理
-        $passwordinfo = Adminer::encryptPassword($post['password']); 
+        $passwordinfo = AdminData::encryptPassword($post['password']); 
         
         $data = [];
         $data['password'] = $passwordinfo['password'];
@@ -333,8 +336,8 @@ class Admin extends Base
         
         $this->assign("data", $data);
         
-        if (! AuthData::isRoot()) {
-            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(AuthData::getId());
+        if (! AdminData::isSuperAdmin()) {
+            $userChildGroupIds = (new AdminModel)->getUserChildGroupIds(AdminData::getId());
             $roles = AuthGroupModel::getGroups([
                     ['id', 'in', $userChildGroupIds],
                 ]);
@@ -357,7 +360,7 @@ class Admin extends Base
             $this->error('参数错误！');
         }
         
-        if ($data['id'] == AuthData::getId()) {
+        if ($data['id'] == AdminData::getId()) {
             $this->error('你不能修改自己的账号！');
         }
         
@@ -377,8 +380,8 @@ class Admin extends Base
         
         $newRoles = [];
         if (isset($data['roleid']) && !empty($data['roleid'])) {
-            if (! AuthData::isRoot()) {
-                $childGroupIds = (new AdminModel)->getUserChildGroupIds(AuthData::getId());
+            if (! AdminData::isSuperAdmin()) {
+                $childGroupIds = (new AdminModel)->getUserChildGroupIds(AdminData::getId());
                 $roleids = explode(',', $data['roleid']);
                 
                 $newRoles = array_intersect_assoc($childGroupIds, $roleids);

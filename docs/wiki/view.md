@@ -12,7 +12,7 @@ php think laket-admin:publish --tag=laket-admin-views
 2. 推送后模板位置
 
 ```php
-view\vendor\laket-admin\
+view/vendor/laket-admin/
 ```
 
 3. 可以在模板位置找到你想修改的模板，可以只保留你需要修改的模板文件

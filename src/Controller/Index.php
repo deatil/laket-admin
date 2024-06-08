@@ -9,7 +9,7 @@ use think\facade\Cache;
 use think\captcha\Captcha;
 
 use Laket\Admin\Support\File;
-use Laket\Admin\Facade\AuthData;
+use Laket\Admin\Facade\Admin;
 use Laket\Admin\Event as AdminEvent;
 use Laket\Admin\Model\Admin as AdminModel;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
@@ -30,7 +30,7 @@ class Index extends Base
     public function index()
     {
         // 用户信息
-        $this->assign('user_info', AuthData::getInfo());
+        $this->assign('user_info', Admin::getData());
 
         // 左侧菜单
         $menus = AuthRuleModel::getMenuList();
@@ -52,7 +52,7 @@ class Index extends Base
      */
     public function main()
     {
-        $this->assign('user_info', AuthData::getInfo());
+        $this->assign('user_info', Admin::getData());
         
         // 模型数量
         $flashCount = FlashModel::count();

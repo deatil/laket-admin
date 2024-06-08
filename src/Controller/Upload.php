@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Controller;
 
-use Laket\Admin\Facade\AuthData;
+use Laket\Admin\Facade\Admin;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 /**
@@ -79,7 +79,7 @@ class Upload extends Base
         // 获取附件信息
         $fileInfo = [
             'type' => 'admin',
-            'type_id' => AuthData::getId(),
+            'type_id' => Admin::getId(),
             'name' => $name,
             'mime' => $file->getOriginalMime(),
             'path' => str_replace("\\", "/", $savename),

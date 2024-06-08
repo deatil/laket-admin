@@ -4,8 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Controller;
 
-use Laket\Admin\Facade\AuthData;
-use Laket\Admin\Facade\Admin as AdminFacade;
+use Laket\Admin\Facade\Admin;
 use Laket\Admin\Model\Admin as AdminModel;
 
 /**
@@ -21,11 +20,10 @@ class Profile extends Base
      */
     public function setting()
     {
-        $adminInfo = AuthData::getInfo();
+        $adminInfo = Admin::getData();
         
-        $id = $adminInfo['id'];
         $data = AdminModel::where([
-                "id" => $id,
+                "id" => $adminInfo['id'],
             ])->find();
         
         if (empty($data)) {
@@ -42,8 +40,6 @@ class Profile extends Base
      */
     public function settingSave()
     {
-        $adminInfo = AuthData::getInfo();
-        
         $post = $this->request->post();
         
         $data = [];
@@ -51,6 +47,8 @@ class Profile extends Base
         $data['nickname'] = $post['nickname'];
         $data['avatar'] = $post['avatar'];
 
+        $adminInfo = Admin::getData();
+        
         $status = AdminModel::where([
                 'id' => $adminInfo['id'],
             ])
@@ -69,7 +67,7 @@ class Profile extends Base
      */
     public function password()
     {
-        $adminInfo = AuthData::getInfo();
+        $adminInfo = Admin::getData();
         
         $data = AdminModel::where([
                 "id" => $adminInfo['id'],
@@ -89,8 +87,6 @@ class Profile extends Base
      */
     public function passwordSave()
     {
-        $adminInfo = AuthData::getInfo();
-        
         $post = $this->request->post();
         
         // 验证数据
@@ -124,11 +120,12 @@ class Profile extends Base
             $this->error('请确保新密码与旧密码不同');
         }
         
-        if (! AdminFacade::checkPassword($adminInfo['name'], $post['password'])) {
+        $adminInfo = Admin::getData();
+        if (! Admin::checkPassword($adminInfo['name'], $post['password'])) {
             $this->error('旧密码错误！');
         }
 
-        $passwordinfo = AdminFacade::encryptPassword($post['password2']); //对密码进行处理
+        $passwordinfo = Admin::encryptPassword($post['password2']); //对密码进行处理
         
         $data = [];
         $data['password'] = $passwordinfo['password'];
@@ -142,7 +139,7 @@ class Profile extends Base
             $this->error('修改密码失败！');
         }
         
-        AdminFacade::logout();
+        Admin::logout();
         
         $this->success("修改密码成功！");
     }

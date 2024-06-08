@@ -91,10 +91,7 @@ class Admin extends ModelBase
         }
         
         // 用户组列表
-        $authGroupList = AuthGroup::where([
-                'module' => 'admin',
-            ])
-            ->order([
+        $authGroupList = AuthGroup::order([
                 'id' => 'ASC',
             ])
             ->select();
