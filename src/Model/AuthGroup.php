@@ -79,7 +79,10 @@ class AuthGroup extends ModelBase
             ->where([
                 'status' => 1
             ])
-            ->order('listorder ASC')
+            ->order([
+                'listorder' => 'DESC',
+                'add_time' => 'ASC',
+            ])
             ->select()
             ->toArray();
         

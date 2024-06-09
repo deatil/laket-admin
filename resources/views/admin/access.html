@@ -18,7 +18,7 @@
                 <div class="layui-input-block w300">
                     <select name="roleid" xm-select="roleid" xm-select-search="" lay-filter="roleid">
                         {volist name="roles" id="vo"}
-                            <option value="{$vo['id']}" {if in_array($vo['id'], $data['gids']) }selected{/if}>{$vo['title']}</option>
+                            <option value="{$vo['id']}" {if in_array($vo['id'], $data['gids']) }selected{/if}>{$vo['spacer']|raw|default=""} {$vo['title']}</option>
                         {/volist}
                     </select>
                 </div>

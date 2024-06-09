@@ -94,7 +94,8 @@ class Admin extends ModelBase
         $authGroupList = AuthGroup::order([
                 'id' => 'ASC',
             ])
-            ->select();
+            ->select()
+            ->toArray();
         
         // 当前用户组ID列表
         $userGroupIds = $this->getGroupIdList($uid);
@@ -103,8 +104,8 @@ class Admin extends ModelBase
         
         $userChildGroupIds = [];
         if (!empty($userGroupIds)) {
-            foreach ($userGroupIds as $user_group_id) {
-                $getChildGroupIds = $Tree->getListChildsId($authGroupList, $user_group_id);
+            foreach ($userGroupIds as $userGroupId) {
+                $getChildGroupIds = $Tree->getListChildsId($authGroupList, $userGroupId);
                 $userChildGroupIds = array_merge($userChildGroupIds, $getChildGroupIds);
             }
         }

@@ -4,6 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Controller;
 
+use Laket\Admin\Support\Tree;
 use Laket\Admin\Facade\Admin as AdminData;
 use Laket\Admin\Model\Admin as AdminModel;
 use Laket\Admin\Model\AuthGroup as AuthGroupModel;
@@ -288,10 +289,21 @@ class Admin extends Base
             return $this->error('两次密码不一致！');
         }
         
+        $data = AdminModel::where([
+            "id" => $post['id'],
+        ])->find();
+        if (empty($data)) {
+            return $this->error('账号不存在！');
+        }
+        
         if ($post['id'] == AdminData::getId()) {
             return $this->error('你不能修改自己账号的密码！');
         }
         
+        if (AdminData::isSuperAdmin($post['id'])) {
+            return $this->error('超级管理员不能被修改密码！');
+        }
+
         // 对密码进行处理
         $passwordinfo = AdminData::encryptPassword($post['password']); 
         
@@ -342,7 +354,13 @@ class Admin extends Base
                 ]);
         } else {
             $roles = AuthGroupModel::getGroups();
+        
+            $tree = make(Tree::class);
+            $tree->withData($roles);
+            $roles = $tree->buildArray(0);
+            $roles = $tree->buildFormatList($roles, 'title');
         }
+        
         $this->assign("roles", $roles);
         
         return $this->fetch('laket-admin::admin.access');
@@ -368,7 +386,11 @@ class Admin extends Base
             ])
             ->find();
         if (empty($adminInfo)) {
-            return $this->error('信息不存在！');
+            return $this->error('账号不存在！');
+        }
+        
+        if (AdminData::isSuperAdmin($adminInfo['id'])) {
+            return $this->error('超级管理员不需要授权！');
         }
         
         // 清除
