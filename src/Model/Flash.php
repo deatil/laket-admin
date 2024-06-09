@@ -29,6 +29,7 @@ class Flash extends ModelBase
     protected $append = [
         'keywordlist',
         'authorlist',
+        'requirelist',
         'settinglist',
         'setting_datalist',
     ];
@@ -46,6 +47,16 @@ class Flash extends ModelBase
     public function getAuthorlistAttr() 
     {
         $value = $this->authors;
+        if (empty($value)) {
+            return [];
+        }
+        
+        return json_decode($value, true);
+    }
+    
+    public function getRequirelistAttr() 
+    {
+        $value = $this->require;
         if (empty($value)) {
             return [];
         }

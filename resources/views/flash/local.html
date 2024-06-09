@@ -87,7 +87,7 @@
                                             
                                             <div class="flash-name">
                                                 {if $vo['title']}
-                                                    <div>
+                                                    <div style="margin-bottom: 5px;">
                                                         {if $vo['homepage']}
                                                         <a href="{$vo.homepage}" target="_blank" title="点击查看主页">
                                                             <i class="iconfont icon-lianjie"></i>
@@ -96,7 +96,18 @@
                                                         
                                                         <b class="break-all">{$vo.title}</b>
                                                     </div>
-                                                    <div class="text-muted break-all" style="margin-top: 5px;">{$vo.name}</div>
+                                                {/if}
+                                                
+                                                {if !empty($vo['require'])}
+                                                    <div class="flash-item-{:md5($vo['name'])}" style="display: none;">{:print_r($vo.require, true)}</div>
+                                                    
+                                                    <div class="break-all-word">
+                                                        <a href="javascript:;"
+                                                            class="text-muted js-flash-require" 
+                                                            data-title="{$vo['title']}"
+                                                            data-name="{:md5($vo['name'])}"
+                                                            >{$vo.name}</a>
+                                                    </div>
                                                 {else /}
                                                     <div class="text-muted break-all">{$vo.name}</div>
                                                 {/if}
@@ -262,6 +273,17 @@ layui.config({
                 return false;
             },
             content: '<div style="display: flex;align-items: center;justify-content: center;text-align: justify;height: 100%;"><img src="' + icon + '" style="height: 100%;" /></div>',
+        });
+    });
+    
+    $("body").on('click', ".js-flash-require", function() {
+        var name = $(this).data('name');
+        var title = $(this).data('title');
+        var require = $(".flash-item-" + name).html();
+        
+        layer.alert('<pre class="layui-code my-0">' + require + '</pre>', {
+            title: "插件依赖【" + title + "】",
+            closeBtn: 0
         });
     });
     

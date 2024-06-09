@@ -100,6 +100,7 @@ CREATE TABLE `pre__laket_flash` (
   `authors` text CHARACTER SET utf8mb4 NOT NULL COMMENT '作者',
   `version` varchar(50) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '版本',
   `adaptation` varchar(50) CHARACTER SET utf8mb4 NOT NULL DEFAULT '' COMMENT '适配系统版本',
+  `require` text CHARACTER SET utf8mb4 COMMENT '依赖插件',
   `bind_service` text CHARACTER SET utf8mb4 NOT NULL COMMENT '绑定服务',
   `setting` mediumtext CHARACTER SET utf8mb4 COMMENT '配置设置信息',
   `setting_data` text CHARACTER SET utf8mb4 COMMENT '配置结果信息',

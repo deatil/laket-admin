@@ -178,6 +178,7 @@ class Flash extends Command
             'authors'      => json_encode(Arr::get($info, 'authors', [])),
             'version'      => Arr::get($info, 'version'),
             'adaptation'   => Arr::get($info, 'adaptation'),
+            'require'      => json_encode(Arr::get($info, 'require')),
             'bind_service' => Arr::get($info, 'bind_service'),
             'setting'      => json_encode(Arr::get($info, 'setting', [])),
         ]);
@@ -216,9 +217,7 @@ class Flash extends Command
         }
         
         Flasher::loadFlash();
-        Flasher::getNewClassMethod($installInfo['bind_service'], 'uninstall', [
-            'flash' => $installInfo,
-        ]);
+        Flasher::getNewClassMethod($installInfo['bind_service'], 'uninstall');
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -300,6 +299,7 @@ class Flash extends Command
                 'authors'      => json_encode(Arr::get($info, 'authors', [])),
                 'version'      => Arr::get($info, 'version'),
                 'adaptation'   => Arr::get($info, 'adaptation'),
+                'require'      => json_encode(Arr::get($info, 'require')),
                 'bind_service' => Arr::get($info, 'bind_service'),
                 'setting'      => json_encode(Arr::get($info, 'setting', [])),
                 'upgrade_time' => time(),

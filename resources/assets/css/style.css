@@ -1442,6 +1442,10 @@ code {
   word-wrap: break-word !important;
   white-space: pre-wrap;
 }
+.break-all-word {
+  word-break: break-all !important;
+  word-wrap: break-word !important;
+}
 
 .text-lowercase {
   text-transform: lowercase !important;

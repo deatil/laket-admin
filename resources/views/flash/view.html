@@ -119,6 +119,37 @@
                             </span>
                         </td>
                     </tr>
+                    
+                    {if !empty($data['requirelist'])}
+                    <tr>
+                        <td>依赖插件</td>
+                        <td>
+                            <table class="layui-table">
+                                <colgroup>
+                                    <col width="200">
+                                    <col>
+                                    <col width="200">
+                                </colgroup>
+                          
+                                <thead>
+                                    <tr>
+                                        <td>插件</td>
+                                        <td>依赖版本</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {foreach $data['requirelist'] as $key => $vo}
+                                    <tr>
+                                        <td>{$key|default="--"}</td>
+                                        <td>{$vo|default="--"}</td>
+                                    </tr>
+                                    {/foreach}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    {/if}
+                    
                     <tr>
                         <td>排序</td>
                         <td>{$data.listorder}</td>
