@@ -99,11 +99,34 @@
                                                 {/if}
                                                 
                                                 {if !empty($vo['require'])}
-                                                    <div class="flash-item-{:md5($vo['name'])}" style="display: none;">{:print_r($vo.require, true)}</div>
+                                                    <div class="flash-item-{:md5($vo['name'])}" style="display: none;"> 
+                                                        <table class="layui-table my-0">
+                                                            <colgroup>
+                                                                <col width="200">
+                                                                <col>
+                                                            </colgroup>
+                                                      
+                                                            <thead>
+                                                                <tr>
+                                                                    <td>插件</td>
+                                                                    <td>依赖版本</td>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {foreach $vo['require'] as $key => $vv}
+                                                                <tr>
+                                                                    <td>{$key|default="--"}</td>
+                                                                    <td>{$vv|default="--"}</td>
+                                                                </tr>
+                                                                {/foreach}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                     
                                                     <div class="break-all-word">
                                                         <a href="javascript:;"
                                                             class="text-muted js-flash-require" 
+                                                            title="插件依赖"
                                                             data-title="{$vo['title']}"
                                                             data-name="{:md5($vo['name'])}"
                                                             >{$vo.name}</a>
@@ -281,7 +304,7 @@ layui.config({
         var title = $(this).data('title');
         var require = $(".flash-item-" + name).html();
         
-        layer.alert('<pre class="layui-code my-0">' + require + '</pre>', {
+        layer.alert(require, {
             title: "插件依赖【" + title + "】",
             closeBtn: 0
         });
