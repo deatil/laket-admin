@@ -4,8 +4,9 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Model;
 
-use Composer\Semver\Semver;
 use think\facade\Cache;
+use Composer\Semver\Semver;
+
 use Laket\Admin\Event;
 
 /*
@@ -174,7 +175,7 @@ class Flash extends ModelBase
         $version = $data['version'];
         
         try {
-            $versionCheck =  Semver::satisfies($version, $constraints);
+            $versionCheck = Semver::satisfies($version, $constraints);
         } catch(\Exception $e) {
             return false;
         }
@@ -248,4 +249,78 @@ class Flash extends ModelBase
         return ! $this->enabled($name);
     }
     
+    /**
+     * 检测扩展依赖
+     * 
+     * @param array $requireExtensions
+     * @return array
+     */
+    public static function checkRequireExtension(array $requireExtensions = [])
+    {
+        if (empty($requireExtensions)) {
+            return [];
+        }
+        
+        $requireExtensionNames = collect($requireExtensions)
+            ->filter(function($data) {
+                return !empty($data);
+            })
+            ->each(function($data, $key) {
+                return $key;
+            })
+            ->map(function($data) {
+                return $data;
+            })
+            ->toArray();
+        $requireExtensionNames = array_values($requireExtensionNames);
+        
+        $extensions = Flash::whereIn('name', $requireExtensionNames)
+            ->field('name,version')
+            ->select()
+            ->toArray();
+        
+        $installExtensions = [];
+        foreach ($extensions as $k => $v) {
+            $installExtensions[$v['name']] = $v['version'];
+        }
+        
+        $data = [];
+        foreach ($requireExtensions as $name => $version) {
+            if (isset($installExtensions[$name])) {
+                try {
+                    $versionCheck = Semver::satisfies($installExtensions[$name], $version);
+                } catch(\Exception $e) {
+                    $versionCheck = false;
+                }
+                
+                if ($versionCheck) {
+                    $requireExtensionData = [
+                        'name' => $name,
+                        'version' => $version,
+                        'install_version' => $installExtensions[$name],
+                        'match' => true,
+                    ];
+                } else {
+                    $requireExtensionData = [
+                        'name' => $name,
+                        'version' => $version,
+                        'install_version' => $installExtensions[$name],
+                        'match' => false,
+                    ];
+                }
+            } else {
+                $requireExtensionData = [
+                    'name' => $name,
+                    'version' => $version,
+                    'install_version' => '',
+                    'match' => false,
+                ];
+            }
+            
+            $data[] = $requireExtensionData;
+        }
+        
+        return $data;
+    }
+
 }

@@ -4,6 +4,8 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Auth;
 
+use think\facade\Session;
+
 use Laket\Admin\Model\AuthGroup as AuthGroupModel;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
 use Laket\Admin\Model\AuthRuleAccess as AuthRuleAccessModel;
@@ -17,14 +19,18 @@ use Laket\Admin\Model\AuthRuleAccess as AuthRuleAccessModel;
 class Rule
 {    
     // 认证方式，1为实时认证；2为登录认证。
-    protected $type = 1; 
+    protected $type = 2; 
+    
+    // 模式, slug 或者 url
+    protected $mode = 'slug'; 
 
     /**
-     * 开始
+     * 初始化
      */
-    public function __construct($type = 1)
+    public function __construct($type = 1, $mode = 'slug')
     {
         $this->type = $type;
+        $this->mode = $mode;
     }
 
     /**
@@ -35,15 +41,10 @@ class Rule
      */
     public function getAuthList($uid)
     {
-        static $authCacheList = []; //保存用户验证通过的权限列表
-        if (isset($authCacheList[$uid])) {
-            return $authCacheList[$uid];
-        }
+        $cacheId = '_AUTH_LIST_' . $uid . '_' . $this->mode;
         
-        if ($this->type == 2 
-            && isset($_SESSION['_AUTH_LIST_' . $uid])
-        ) {
-            return $_SESSION['_AUTH_LIST_' . $uid];
+        if ($this->type == 2  && Session::has($cacheId)) {
+            return Session::get($cacheId);
         }
         
         // 读取用户所属用户组
@@ -55,10 +56,10 @@ class Rule
             }
         }
         
-        $ids = $this->getGroupRuleidList($gids); //保存用户所属用户组设置的所有权限规则id
+        // 保存用户所属用户组设置的所有权限规则id
+        $ids = $this->getGroupRuleidList($gids); 
         $ids = array_unique($ids);
         if (empty($ids)) {
-            $authCacheList[$uid] = [];
             return [];
         }
         
@@ -77,18 +78,23 @@ class Rule
         if (!empty($rules)) {
             foreach ($rules as $rule) {
                 if (! empty($rule['slug'])) {
-                    $authList[] = strtolower($rule['method'].':'.$rule['slug']);
+                    if ($this->mode == 'slug') {
+                        $authList[] = $rule['slug'];
+                    } else {
+                        $authList[] = strtoupper($rule['method']).':'.$rule['url'];
+                    }
                 }
             }
         }
         
-        $authCacheList[$uid] = $authList;
+        $authList = array_unique($authList);
+        
         if ($this->type == 2) {
             // 规则列表结果保存到session
-            $_SESSION['_AUTH_LIST_' . $uid] = $authList;
+            Session::set($cacheId, $authList);
         }
         
-        return array_unique($authList);
+        return $authList;
     }
     
     /**

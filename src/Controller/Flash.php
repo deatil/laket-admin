@@ -86,27 +86,28 @@ class Flash extends Base
         $flashs = Flasher::getFlashs();
         
         $installFlashs = FlashModel::getFlashs();
-        $flashs = collect($flashs)->each(function($data, $key) use($installFlashs) {
-            if (isset($installFlashs[$data['name']])) {
-                $data['install'] = $installInfo = $installFlashs[$data['name']];
-                
-                $infoVersion = Arr::get($data, 'version', 0);
-                $installVersion = Arr::get($installInfo, 'version', 0);
-                if (Comparator::greaterThan($infoVersion, $installVersion)) {
-                    $data['upgrade'] = 1;
+        $flashs = collect($flashs)
+            ->each(function($data, $key) use($installFlashs) {
+                if (isset($installFlashs[$data['name']])) {
+                    $data['install'] = $installInfo = $installFlashs[$data['name']];
+                    
+                    $infoVersion = Arr::get($data, 'version', 0);
+                    $installVersion = Arr::get($installInfo, 'version', 0);
+                    if (Comparator::greaterThan($infoVersion, $installVersion)) {
+                        $data['upgrade'] = 1;
+                    } else {
+                        $data['upgrade'] = 0;
+                    }
+                    
+                    $data['status'] = Arr::get($installInfo, 'status', 0);;
                 } else {
+                    $data['install'] = [];
                     $data['upgrade'] = 0;
+                    $data['status'] = 0;
                 }
                 
-                $data['status'] = Arr::get($installInfo, 'status', 0);;
-            } else {
-                $data['install'] = [];
-                $data['upgrade'] = 0;
-                $data['status'] = 0;
-            }
-            
-            return $data;
-        });
+                return $data;
+            });
         
         $this->assign('list', $flashs);
         
@@ -169,17 +170,26 @@ class Flash extends Base
             return $this->error('插件适配系统版本错误，当前系统版本：' . $adminVersion);
         }
         
+        $requireExtensions = FlashModel::checkRequireExtension($info['require']);
+        if (! empty($requireExtensions)) {
+            foreach ($requireExtensions as $re) {
+                if (! $re['match']) {
+                    return $this->error('依赖插件(' . $re['name'] . ')错误，已安装版本: ' . $re['install_version']);
+                }
+            }
+        }
+        
         $flash = FlashModel::create([
-            'name' => Arr::get($info, 'name'),
-            'title' => Arr::get($info, 'title'),
-            'description' => Arr::get($info, 'description'),
-            'keywords' => json_encode(Arr::get($info, 'keywords')),
-            'homepage' => Arr::get($info, 'homepage'),
-            'authors' => json_encode(Arr::get($info, 'authors', [])),
-            'version' => Arr::get($info, 'version'),
-            'adaptation' => Arr::get($info, 'adaptation'),
+            'name'         => Arr::get($info, 'name'),
+            'title'        => Arr::get($info, 'title'),
+            'description'  => Arr::get($info, 'description'),
+            'keywords'     => json_encode(Arr::get($info, 'keywords')),
+            'homepage'     => Arr::get($info, 'homepage'),
+            'authors'      => json_encode(Arr::get($info, 'authors', [])),
+            'version'      => Arr::get($info, 'version'),
+            'adaptation'   => Arr::get($info, 'adaptation'),
             'bind_service' => Arr::get($info, 'bind_service'),
-            'setting' => json_encode(Arr::get($info, 'setting', [])),
+            'setting'      => json_encode(Arr::get($info, 'setting', [])),
         ]);
         if ($flash === false) {
             return $this->error('安装失败！');
@@ -190,7 +200,7 @@ class Flash extends Base
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
-        $this->success('安装成功！');
+        return $this->success('安装成功！');
     }
 
     /**
@@ -224,7 +234,7 @@ class Flash extends Base
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
-        $this->success("卸载成功！");
+        return $this->success("卸载成功！");
     }
     
     /**
@@ -282,16 +292,25 @@ class Flash extends Base
             return $this->error('插件不需要更新！');
         }
         
+        $requireExtensions = FlashModel::checkRequireExtension($info['require']);
+        if (! empty($requireExtensions)) {
+            foreach ($requireExtensions as $re) {
+                if (! $re['match']) {
+                    return $this->error('依赖插件(' . $re['name'] . ')错误，已安装版本: ' . $re['install_version']);
+                }
+            }
+        }
+
         $status = FlashModel::update([
-                'title' => Arr::get($info, 'title'),
-                'description' => Arr::get($info, 'description'),
-                'keywords' => json_encode(Arr::get($info, 'keywords')),
-                'homepage' => Arr::get($info, 'homepage'),
-                'authors' => json_encode(Arr::get($info, 'authors', [])),
-                'version' => Arr::get($info, 'version'),
-                'adaptation' => Arr::get($info, 'adaptation'),
+                'title'        => Arr::get($info, 'title'),
+                'description'  => Arr::get($info, 'description'),
+                'keywords'     => json_encode(Arr::get($info, 'keywords')),
+                'homepage'     => Arr::get($info, 'homepage'),
+                'authors'      => json_encode(Arr::get($info, 'authors', [])),
+                'version'      => Arr::get($info, 'version'),
+                'adaptation'   => Arr::get($info, 'adaptation'),
                 'bind_service' => Arr::get($info, 'bind_service'),
-                'setting' => json_encode(Arr::get($info, 'setting', [])),
+                'setting'      => json_encode(Arr::get($info, 'setting', [])),
                 'upgrade_time' => time(),
             ], [
                 'name' => $name
@@ -305,7 +324,7 @@ class Flash extends Base
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
-        $this->success('更新成功！');
+        return $this->success('更新成功！');
     }
     
     /**
@@ -451,7 +470,7 @@ class Flash extends Base
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
-        $this->success('保存设置成功！');
+        return $this->success('保存设置成功！');
     }
     
     /**
@@ -486,7 +505,7 @@ class Flash extends Base
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
-        $this->success('启用成功！');
+        return $this->success('启用成功！');
     }
     
     /**
@@ -521,7 +540,7 @@ class Flash extends Base
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
-        $this->success('禁用成功！');
+        return $this->success('禁用成功！');
     }
 
     /**
@@ -548,7 +567,7 @@ class Flash extends Base
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
-        $this->success("排序成功！");
+        return $this->success("排序成功！");
     }
     
     /**

@@ -136,7 +136,7 @@ class Manager
     }
     
     /**
-     * 登陆过滤
+     * 登录过滤
      *
      * @param array $excepts
      * @return void
@@ -607,6 +607,10 @@ class Manager
             $info = [];
         }
         
+        if (empty($info)) {
+            return [];
+        }
+        
         // 图标
         if (! empty($newClass->icon)) {
             $iconPath = $newClass->icon;
@@ -634,17 +638,18 @@ class Manager
         }
         
         return [
-            'icon' => $icon,
-            'name' => $name,
-            'title' => Arr::get($info, 'laket.title'),
-            'description' => Arr::get($info, 'description'),
-            'keywords' => Arr::get($info, 'keywords'),
-            'homepage' => Arr::get($info, 'homepage'),
-            'authors' => Arr::get($info, 'authors', []), 
-            'version' => Arr::get($info, 'laket.version'),
-            'adaptation' => Arr::get($info, 'laket.adaptation'),
+            'icon'         => $icon,
+            'name'         => $name,
+            'title'        => Arr::get($info, 'laket.title'),
+            'description'  => Arr::get($info, 'description'),
+            'keywords'     => Arr::get($info, 'keywords'),
+            'homepage'     => Arr::get($info, 'homepage'),
+            'authors'      => Arr::get($info, 'authors', []), 
+            'version'      => Arr::get($info, 'laket.version'),
+            'adaptation'   => Arr::get($info, 'laket.adaptation'),
+            'require'      => Arr::get($info, 'laket.require', []),
             'bind_service' => Arr::get($this->flashs, $name, ''),
-            'setting' => (array) $setting,
+            'setting'      => (array) $setting,
         ];
     }
     
@@ -655,15 +660,16 @@ class Manager
      */
     public function getFlashs()
     {
-        $flashs = $this->flashs;
-        
         $thiz = $this;
         
+        $flashs = $this->flashs;
         $list = collect($flashs)->each(function($className, $name) use($thiz) {
             $info = $thiz->getFlash($name);
-            if (!empty($info)) {
+            if (! empty($info)) {
                 return $info;
             }
+            
+            return [];
         })->filter(function($data) {
             return !empty($data);
         })->toArray();

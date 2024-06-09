@@ -23,7 +23,7 @@ class Admin
     use Macroable;
     
     /**
-     * 登陆数据
+     * 登录数据
      */
     protected $data = [];
     
@@ -40,7 +40,7 @@ class Admin
         $password = trim($password);
         $passwordPass = $this->checkPassword($name, $password);
         if ($passwordPass === false) {
-            return false;
+            return [];
         }
         
         $info = $this->getInfo($name);
@@ -49,7 +49,7 @@ class Admin
         
         Session::set('laket_admin_adminid', $info['id']);
         
-        return true;
+        return $info;
     }
 
     /**
@@ -67,7 +67,7 @@ class Admin
     }
 
     /**
-     * 检验用户是否已经登陆
+     * 检验用户是否已经登录
      *
      * @return boolean
      */
@@ -153,7 +153,7 @@ class Admin
     }
     
     /**
-     * 登陆账号数据
+     * 登录账号数据
      */
     public function getData()
     {
@@ -161,7 +161,7 @@ class Admin
     }
     
     /**
-     * 登陆ID
+     * 登录ID
      */
     public function getId()
     {
@@ -169,7 +169,7 @@ class Admin
     }
     
     /**
-     * 是否登陆
+     * 是否登录
      */
     public function isLogin()
     {
@@ -216,8 +216,8 @@ class Admin
      */
     public function checkPermission(
         $rule, 
-        $mode = 'slug', 
-        $type = null, 
+        $mode     = 'slug', 
+        $type     = null, 
         $relation = 'or'
     ) {
         if (! $this->isLogin()) {

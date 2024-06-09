@@ -4,8 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Http;
 
-use think\Response;
-use think\exception\HttpResponseException;
+use think\Response as ThinkResponse;
 
 use Laket\Admin\Traits\Macroable;
 
@@ -15,7 +14,7 @@ use Laket\Admin\Traits\Macroable;
  * @create 2021-3-20
  * @author deatil
  */
-class JsonResponse
+class Response
 {
     use Macroable;
     
@@ -184,10 +183,10 @@ class JsonResponse
      * @return string json
      */
     public function json(
-        $success = true, 
-        $code = 0, 
-        $message = "", 
-        $data = [], 
+        $success    = true, 
+        $code       = 0, 
+        $message    = "", 
+        $data       = [], 
         $userHeader = []
     ) {
         $result['success'] = $success;
@@ -200,9 +199,9 @@ class JsonResponse
         $result = json_encode($result, JSON_UNESCAPED_SLASHES|JSON_UNESCAPED_UNICODE);
         
         $header = $this->getHeaders();
-        $response = Response::create($result)->header($header);
+        $response = ThinkResponse::create($result)->header($header);
         
-        throw new HttpResponseException($response);
+        return $response;
     }
 
 }

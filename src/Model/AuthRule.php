@@ -107,14 +107,15 @@ class AuthRule extends ModelBase
                 
                 $array = [
                     "menuid" => $id,
-                    "id" => $id,
-                    "title" => $a['title'],
-                    "icon" => $a['icon'],
+                    "id"     => $id,
+                    "title"  => $a['title'],
+                    "icon"   => $a['icon'],
                     "parent" => $parent,
-                    "url" => $url,
+                    "url"    => $url,
                 ];
                 $ret[$id ] = $array;
                 $child = static::getTree($a['id'], $id, $level);
+                
                 // 只考虑5层结构
                 if ($child && $level <= 5) {
                     $ret[$id]['items'] = $child;

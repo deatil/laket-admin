@@ -5,7 +5,7 @@ return [
         "name"      => "LaketAdmin",
         "name_mini" => "Laket",
         "version"   => "1.2.9",
-        "release"   => "1.2.9.20240608",
+        "release"   => "1.2.9.20240609",
     ],
     
     // 登录
@@ -28,7 +28,7 @@ return [
     'auth' => [
         // 认证方式，1为实时认证；2为登录认证。
         'type'                 => 1,
-        // 登陆认证过滤，格式: requestMethod:routeName
+        // 登录认证过滤，格式: requestMethod:routeName
         'authenticate_excepts' => [],
         // 权限认证过滤，格式: requestMethod:routeName
         'permission_excepts'   => [],

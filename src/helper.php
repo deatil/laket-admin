@@ -110,6 +110,30 @@ if (! function_exists('laket_route')) {
     }
 }
 
+if (! function_exists('laket_admin_url')) {
+    /**
+     * 后台 Url 生成
+     *
+     * @param string      $url    路由地址
+     * @param array       $vars   变量
+     * @param bool|string $suffix 生成的URL后缀
+     * @param bool|string $domain 域名
+     * @return UrlBuild
+     */
+    function laket_admin_url(
+        string $url = '', 
+        array $vars = [], 
+        $suffix = true, 
+        $domain = false
+    ) {
+        $group = config('laket.route.group');
+        $url = '/' . $group . '/' . ltrim($url, '/');
+        
+        $newUrl = url($url, $vars, $suffix, $domain);
+        return (string) $newUrl;
+    }
+}
+
 if (! function_exists('laket_view_path')) {
     /**
      * 获取视图路径
@@ -163,9 +187,12 @@ if (! function_exists('laket_assets')) {
     }
 }
 
-if (! function_exists('laket_check_permission')) {
+if (! function_exists('laket_auth')) {
     /**
      * 权限检测
+     *
+     * 检测链接: 
+     * laket_auth("GET:admin/auth-group/access", 'or', 'url')
      *
      * @param string $rule slug名称
      * @param string $relation
@@ -173,11 +200,11 @@ if (! function_exists('laket_check_permission')) {
      * @param string|null $type
      * @return bool
      */
-    function laket_check_permission(
-        $rule = '', 
+    function laket_auth(
+        $rule     = '', 
         $relation = 'or', 
-        $mode = 'slug', 
-        $type = null
+        $mode     = 'slug', 
+        $type     = null
     ) {
         return AuthAdmin::checkPermission($rule, $mode, $type, $relation);
     }
@@ -282,7 +309,7 @@ if (! function_exists('laket_flash_setting')) {
 
 if (! function_exists('laket_authenticate_excepts')) {
     /**
-     * 登陆过滤
+     * 登录过滤
      *
      * @param array $excepts 过滤规则
      * @return mix

@@ -12,7 +12,7 @@ use Laket\Admin\Http\Traits\Jump as JumpTrait;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
 
 /**
- * 登陆检测
+ * 登录检测
  *
  * @create 2021-3-18
  * @author deatil
@@ -24,12 +24,9 @@ class Auth
     /** @var App */
     protected $app;
     
-    protected $loginUrl = '';
-    
     public function __construct(App $app)
     {
-        $this->app  = $app;
-        $this->loginUrl = laket_route("admin.passport.login");
+        $this->app = $app;
     }
     
     /**
@@ -37,66 +34,62 @@ class Auth
      */
     public function handle($request, Closure $next)
     {
-        // 登陆检测
-        $this->checkLogin($request);
-        
+        $loginUrl = laket_route("admin.passport.login");
+
         // 地址检测
-        $this->checkAuth($request);
+        if ($this->shouldPassThrough($request)) {
+            return $next($request);
+        }
         
+        // 登录检测
+        if (! Admin::check()) {
+            return $this->error('请先登录！', $loginUrl);
+        }
+
+        // 检测账号状态
+        if (! $this->checkStatus()) {
+            return $this->error('您的帐号已被锁定！', $loginUrl);
+        }
+
         return $next($request);
     }
     
     /**
-     * 登陆检测
+     * 检测账号状态
      *
      * @return boolean
      */
-    protected function checkLogin($request)
+    protected function checkStatus()
     {
-        // 检查是否登录
-        $check = Admin::check();
-        if (empty($check)) {
-            return false;
-        }
-        
         // 获取当前登录用户信息
         $adminInfo = Admin::getData();
         
         // 是否锁定
-        if (! $adminInfo['status']) {
+        if ($adminInfo['status'] != 1) {
             Admin::logout();
-            $this->error('您的帐号已经被锁定！', $this->loginUrl);
             return false;
         }
-
+        
         return true;
     }
     
     /**
      * 检测权限
      */
-    protected function checkAuth($request)
+    protected function shouldPassThrough($request)
     {
-        // 过滤不需要登陆的行为
+        // 过滤不需要登录的行为
         $excepts = array_merge([
-            'get:admin.passport.captcha',
-            'get:admin.passport.login',
-            'post:admin.passport.login-check',
+            'admin.passport.captcha',
+            'admin.passport.login',
+            'admin.passport.login-check',
         ], (array) config('laket.auth.authenticate_excepts', []));
         
-        $requestMethod = $request->rule()->getMethod();
         $requestName = $request->rule()->getName();
-        
-        $rule = strtolower($requestMethod . ':' . $requestName);
-        if (in_array($rule, $excepts)) {
-            return;
+        if (in_array($requestName, $excepts)) {
+            return true;
         }
         
-        $adminId = Admin::getId();
-        if (! empty($adminId)) {
-            return;
-        }
-        
-        $this->error('请先登陆', $this->loginUrl);
+        return false;
     }
 }

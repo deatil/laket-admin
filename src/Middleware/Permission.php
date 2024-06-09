@@ -27,7 +27,7 @@ class Permission
     
     public function __construct(App $app)
     {
-        $this->app  = $app;
+        $this->app = $app;
     }
     
     /**
@@ -35,7 +35,9 @@ class Permission
      */
     public function handle($request, Closure $next)
     {
-        $this->checkPermission($request);
+        if (! $this->checkPermission($request)) {
+            return $this->error('未授权访问!');
+        }
         
         return $next($request);
     }
@@ -46,31 +48,28 @@ class Permission
     protected function checkPermission($request)
     {
         $excepts = array_merge([
-            'get:admin.passport.captcha',
-            'get:admin.passport.login',
-            'post:admin.passport.login-check',
-            'get:admin.passport.logout',
+            'admin.passport.captcha',
+            'admin.passport.login',
+            'admin.passport.login-check',
+            'admin.passport.logout',
         ], (array) config('laket.auth.permission_excepts', []));
         
-        $requestMethod = $request->rule()->getMethod();
-        $requestName = $request->rule()->getName();
-        
-        $rule = strtolower($requestMethod . ':' . $requestName);
+        $rule = $request->rule()->getName();
         if (in_array($rule, $excepts)) {
-            return ;
+            return true;
         }
         
         // 超级管理员
         $isSuperAdmin = Admin::isSuperAdmin();
         if ($isSuperAdmin) {
-            return ;
+            return true;
         }
         
         // 检测访问权限
         if (Admin::checkPermission($rule)) {
-            return ;
+            return true;
         }
         
-        $this->error('未授权访问!');
+        return false;
     }
 }

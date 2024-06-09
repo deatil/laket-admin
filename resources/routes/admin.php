@@ -4,7 +4,7 @@ use think\facade\Route;
 use Laket\Admin\Controller;
 
 Route::group(config('laket.route.group'), function() {
-    // 登陆
+    // 登录
     Route::get('passport/captcha', Controller\Passport::class . '@captcha')->name('admin.passport.captcha');
     Route::get('passport/login', Controller\Passport::class . '@login')->name('admin.passport.login');
     Route::post('passport/login', Controller\Passport::class . '@loginCheck')->name('admin.passport.login-check');

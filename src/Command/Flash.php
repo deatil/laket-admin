@@ -159,17 +159,27 @@ class Flash extends Command
             return false;
         }
         
+        $requireExtensions = FlashModel::checkRequireExtension($info['require']);
+        if (! empty($requireExtensions)) {
+            foreach ($requireExtensions as $re) {
+                if (! $re['match']) {
+                    $this->output->error('Flash require\'flash [' . $re['name'] . '] error, installed version: ' . $re['install_version']);
+                    return false;
+                }
+            }
+        }
+
         $flash = FlashModel::create([
-            'name' => Arr::get($info, 'name'),
-            'title' => Arr::get($info, 'title'),
-            'description' => Arr::get($info, 'description'),
-            'keywords' => json_encode(Arr::get($info, 'keywords')),
-            'homepage' => Arr::get($info, 'homepage'),
-            'authors' => json_encode(Arr::get($info, 'authors', [])),
-            'version' => Arr::get($info, 'version'),
-            'adaptation' => Arr::get($info, 'adaptation'),
+            'name'         => Arr::get($info, 'name'),
+            'title'        => Arr::get($info, 'title'),
+            'description'  => Arr::get($info, 'description'),
+            'keywords'     => json_encode(Arr::get($info, 'keywords')),
+            'homepage'     => Arr::get($info, 'homepage'),
+            'authors'      => json_encode(Arr::get($info, 'authors', [])),
+            'version'      => Arr::get($info, 'version'),
+            'adaptation'   => Arr::get($info, 'adaptation'),
             'bind_service' => Arr::get($info, 'bind_service'),
-            'setting' => json_encode(Arr::get($info, 'setting', [])),
+            'setting'      => json_encode(Arr::get($info, 'setting', [])),
         ]);
         if ($flash === false) {
             $this->output->error('Install error.');
@@ -272,16 +282,26 @@ class Flash extends Command
             return false;
         }
         
+        $requireExtensions = FlashModel::checkRequireExtension($info['require']);
+        if (! empty($requireExtensions)) {
+            foreach ($requireExtensions as $re) {
+                if (! $re['match']) {
+                    $this->output->error('Flash require\'flash [' . $re['name'] . '] error, installed version: ' . $re['install_version']);
+                    return false;
+                }
+            }
+        }
+
         $status = FlashModel::update([
-                'title' => Arr::get($info, 'title'),
-                'description' => Arr::get($info, 'description'),
-                'keywords' => json_encode(Arr::get($info, 'keywords')),
-                'homepage' => Arr::get($info, 'homepage'),
-                'authors' => json_encode(Arr::get($info, 'authors', [])),
-                'version' => Arr::get($info, 'version'),
-                'adaptation' => Arr::get($info, 'adaptation'),
+                'title'        => Arr::get($info, 'title'),
+                'description'  => Arr::get($info, 'description'),
+                'keywords'     => json_encode(Arr::get($info, 'keywords')),
+                'homepage'     => Arr::get($info, 'homepage'),
+                'authors'      => json_encode(Arr::get($info, 'authors', [])),
+                'version'      => Arr::get($info, 'version'),
+                'adaptation'   => Arr::get($info, 'adaptation'),
                 'bind_service' => Arr::get($info, 'bind_service'),
-                'setting' => json_encode(Arr::get($info, 'setting', [])),
+                'setting'      => json_encode(Arr::get($info, 'setting', [])),
                 'upgrade_time' => time(),
             ], [
                 'name' => $name

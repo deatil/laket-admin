@@ -45,7 +45,7 @@
                     <input type="text" name="url" autocomplete="off" placeholder="链接" class="layui-input" value="{$data.url}">
                 </div>
                 <div class="layui-input-block">
-                    <div class="layui-form-mid layui-word-aux">后台权限通常格式为 “模块/控制器/方法”</div>
+                    <div class="layui-form-mid layui-word-aux">后台权限链接前缀默认为 "{$route_group}"，只需要填写后缀，支持自定义完整链接</div>
                 </div>
             </div>
             
@@ -55,7 +55,7 @@
                     <input type="text" name="slug" autocomplete="off" placeholder="链接名称" class="layui-input" value="{$data.slug}">
                 </div>
                 <div class="layui-input-block">
-                    <div class="layui-form-mid layui-word-aux">后台权限链接的slug，通常为路由设置的 'name' 值</div>
+                    <div class="layui-form-mid layui-word-aux">后台权限链接的 "slug"，通常为路由设置的 "name" 值，后台链接使用该值</div>
                 </div>
             </div>
             

@@ -102,6 +102,8 @@ class AuthRule extends Base
         $this->assign("parentid", $parentid);
         $this->assign("menus", $menus);
         
+        $this->assign("route_group", config('laket.route.group'));
+        
         return $this->fetch('laket-admin::auth-rule.add');
     }
 
@@ -133,10 +135,10 @@ class AuthRule extends Base
         $res = AuthRuleModel::create($data);
         
         if ($res === false) {
-            $this->error('添加失败！');
+            return $this->error('添加失败！');
         }
         
-        $this->success("添加成功！");
+        return $this->success("添加成功！");
     }
 
     /**
@@ -148,7 +150,7 @@ class AuthRule extends Base
         
         $data = AuthRuleModel::where(["id" => $id])->find();
         if (empty($data)) {
-            $this->error('菜单不存在！');
+            return $this->error('菜单不存在！');
         }
         
         $ruleList = AuthRuleModel::order([
@@ -177,6 +179,8 @@ class AuthRule extends Base
         $this->assign("parentid", $data['parentid']);
         $this->assign("menus", $menus);
         
+        $this->assign("route_group", config('laket.route.group'));
+        
         return $this->fetch('laket-admin::auth-rule.edit');
     }
 
@@ -191,7 +195,7 @@ class AuthRule extends Base
             "id" => $data['id'],
         ])->find();
         if (empty($rs)) {
-            $this->error('权限菜单不存在！');
+            return $this->error('权限菜单不存在！');
         }
         
         if (!isset($data['menu_show'])) {
@@ -215,10 +219,10 @@ class AuthRule extends Base
             'id' => $data['id']
         ]);
         if ($res === false) {
-            $this->error('编辑失败！');
+            return $this->error('编辑失败！');
         }
         
-        $this->success("编辑成功！");
+        return $this->success("编辑成功！");
     }
 
     /**
@@ -228,25 +232,25 @@ class AuthRule extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error('ID错误！');
+            return $this->error('ID错误！');
         }
         
         $rs = AuthRuleModel::where(["id" => $id])->find();
         if (empty($rs)) {
-            $this->error('权限菜单不存在！');
+            return $this->error('权限菜单不存在！');
         }
         
         $result = AuthRuleModel::where(["parentid" => $id])->find();
         if (!empty($result)) {
-            $this->error("含有子菜单，无法删除！");
+            return $this->error("含有子菜单，无法删除！");
         }
         
         $res = AuthRuleModel::where(["id" => $id])->delete();
         if ($res === false) {
-            $this->error("删除失败！");
+            return $this->error("删除失败！");
         }
         
-        $this->success("删除成功！");
+        return $this->success("删除成功！");
     }
 
     /**
@@ -256,7 +260,7 @@ class AuthRule extends Base
     {
         $id = $this->request->param('id/s', 0);
         if (empty($id)) {
-            $this->error('参数不能为空！');
+            return $this->error('参数不能为空！');
         }
         
         $listorder = $this->request->param('value/d', 100);
@@ -267,10 +271,10 @@ class AuthRule extends Base
             'listorder' => $listorder,
         ]);
         if ($rs === false) {
-            $this->error("菜单排序失败！");
+            return $this->error("菜单排序失败！");
         }
         
-        $this->success("菜单排序成功！");
+        return $this->success("菜单排序成功！");
     }
 
     /**
@@ -280,7 +284,7 @@ class AuthRule extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error('参数不能为空！');
+            return $this->error('参数不能为空！');
         }
         
         $status = $this->request->param('status/d', 0);
@@ -291,10 +295,10 @@ class AuthRule extends Base
             'menu_show' => $status,
         ]);
         if ($rs === false) {
-            $this->error('操作失败！');
+            return $this->error('操作失败！');
         }
         
-        $this->success('操作成功！');
+        return $this->success('操作成功！');
     }
 
     /**
@@ -304,7 +308,7 @@ class AuthRule extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error('参数不能为空！');
+            return $this->error('参数不能为空！');
         }
         
         $status = $this->request->param('status/d', 0);
@@ -315,10 +319,10 @@ class AuthRule extends Base
             'status' => $status,
         ]);
         if ($rs === false) {
-            $this->error('操作失败！');
+            return $this->error('操作失败！');
         }
         
-        $this->success('操作成功！');
+        return $this->success('操作成功！');
     }
 
 }

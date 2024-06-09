@@ -42,10 +42,10 @@ class Check
     /**
      * 检查权限
      *
-     * @param string|array name  需要验证的规则列表,支持逗号分隔的权限规则或索引数组
-     * @param string relation    如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
-     * @param string mode        执行check的模式 | slug
-     * @return boolean|array     通过验证返回true;失败返回false
+     * @param string|array name     需要验证的规则列表,支持逗号分隔的权限规则或索引数组
+     * @param string       relation 如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
+     * @param string       mode     执行check的模式 | slug
+     * @return boolean|array 通过验证返回true;失败返回false
      */
     public function check($name, $relation = 'or', $mode = 'slug') 
     {
@@ -88,10 +88,10 @@ class Check
     /**
      * 单次检查权限
      *
-     * @param string name       需要验证的规则列表
-     * @param string relation   如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
-     * @param string mode       执行check的模式 url | slug
-     * @return boolean|string   通过验证返回true;失败返回false
+     * @param string name     需要验证的规则列表
+     * @param string relation 如果为 'or' 表示满足任一条规则即通过验证;如果为 'and'则表示需满足所有规则才能通过验证
+     * @param string mode     执行check的模式 url | slug
+     * @return boolean|string 通过验证返回true;失败返回false
      */
     public function checkOnce($name, $mode = 'slug')
     {
@@ -127,6 +127,22 @@ class Check
      */
     protected function checkMatchUrl($name, $auth)
     {
+        $names = explode(":", $name);
+        $auths = explode(":", $auth);
+        
+        if (count($names) < 2 || count($auths) < 2) {
+            return false;
+        }
+        
+        $nameMethod = $names[0];
+        $authMethod = $auths[0];
+        if ($nameMethod != $authMethod) {
+            return false;
+        }
+        
+        $name = substr($name, strlen($nameMethod) + 1);
+        $auth = substr($auth, strlen($authMethod) + 1);
+        
         $nameParse = (new Parser)->withUrl($name)->parse();
         $namePath = $nameParse->getPath();
         $nameParam = $nameParse->getParam();
@@ -159,7 +175,6 @@ class Check
     protected function formatName($name)
     {
         if (is_string($name)) {
-            $name = strtolower($name);
             if (strpos($name, ',') !== false) {
                 $name = explode(',', $name);
             } else {

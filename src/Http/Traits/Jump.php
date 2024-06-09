@@ -4,7 +4,6 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Http\Traits;
 
-use think\exception\HttpResponseException;
 use think\Response;
 
 /**
@@ -18,8 +17,11 @@ use think\Response;
  * {
  *     use \Laket\Admin\Http\Traits\Jump;
  *     public function index(){
- *         $this->error();
- *         $this->redirect();
+ *         return $this->error();
+ *     }
+ *
+ *     public function redirectUrl(){
+ *         return $this->redirect();
  *     }
  * }
  */
@@ -28,7 +30,7 @@ trait Jump
 
     /**
      * 操作成功跳转的快捷方法
-     * @access protected
+     * 
      * @param  mixed     $msg 提示信息
      * @param  string    $url 跳转的URL地址
      * @param  mixed     $data 返回的数据
@@ -64,12 +66,12 @@ trait Jump
             $response = json($result);
         }
 
-        throw new HttpResponseException($response);
+        return $response;
     }
 
     /**
      * 操作错误跳转的快捷方法
-     * @access protected
+     * 
      * @param  mixed     $msg 提示信息
      * @param  string    $url 跳转的URL地址
      * @param  mixed     $data 返回的数据
@@ -106,12 +108,12 @@ trait Jump
             $response = json($result);
         }
 
-        throw new HttpResponseException($response);
+        return $response;
     }
 
     /**
      * 返回封装后的API数据到客户端
-     * @access protected
+     * 
      * @param  mixed     $data 要返回的数据
      * @param  integer   $code 返回的code
      * @param  mixed     $msg 提示信息
@@ -136,16 +138,16 @@ trait Jump
         $type     = $type ?: $this->getResponseType();
         $response = Response::create($result, $type)->header($header);
 
-        throw new HttpResponseException($response);
+        return $response;
     }
 
     /**
      * URL重定向
-     * @access protected
-     * @param  string         $url 跳转的URL表达式
-     * @param  array|integer  $params 其它URL参数
-     * @param  integer        $code http code
-     * @param  array          $with 隐式传参
+     * 
+     * @param  string        $url 跳转的URL表达式
+     * @param  array|integer $params 其它URL参数
+     * @param  integer       $code http code
+     * @param  array         $with 隐式传参
      * @return void
      */
     protected function redirect($url, $code = 302, $with = [])
@@ -157,7 +159,7 @@ trait Jump
 
     /**
      * 获取当前的response 输出类型
-     * @access protected
+     * 
      * @return string
      */
     protected function getResponseType()

@@ -43,7 +43,7 @@ class Index extends Base
         $mainUrl = $mainUrlData->url;
         
         $this->assign("main_url", $mainUrl);
-        
+
         return $this->fetch('laket-admin::index.index');
     }
     
@@ -130,7 +130,7 @@ class Index extends Base
                 break;
         }
         
-        $this->success('清理缓存成功');
+        return $this->success('清理缓存成功');
     }
 
 }

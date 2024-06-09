@@ -5,7 +5,6 @@ declare (strict_types = 1);
 namespace Laket\Admin\Http\Traits;
 
 use think\Response;
-use think\exception\HttpResponseException;
 
 /**
  * JSON数据返回
@@ -18,8 +17,11 @@ use think\exception\HttpResponseException;
  * {
  *     use \Laket\Admin\Http\Traits\Json;
  *     public function index(){
- *         $this->errorJson();
- *         $this->successJson();
+ *         return $this->errorJson();
+ *     }
+ *
+ *     public function index2(){
+ *         return $this->successJson();
  *     }
  * }
  */

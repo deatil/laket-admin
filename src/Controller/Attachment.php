@@ -60,14 +60,14 @@ class Attachment extends Base
     {
         $id = $this->request->param('id/s', null);
         if (empty($id)) {
-            $this->error('请选择需要查看的附件！');
+            return $this->error('请选择需要查看的附件！');
         }
         
         $data = AttachmentModel::where([
             'id' => $id,
         ])->find();
         if (empty($data)) {
-            $this->error('附件不存在！');
+            return $this->error('附件不存在！');
         }
     
         $data['path'] = AttachmentModel::objectUrl($data['path']);
@@ -84,7 +84,7 @@ class Attachment extends Base
     {
         $ids = $this->request->param('ids/a', null);
         if (empty($ids)) {
-            $this->error('请选择需要删除的附件！');
+            return $this->error('请选择需要删除的附件！');
         }
         
         if (! is_array($ids)) {
@@ -104,7 +104,7 @@ class Attachment extends Base
             AttachmentModel::deleteFile($attachment['path'], $attachment['driver']);
         }
         
-        $this->success('文件删除成功！');
+        return $this->success('文件删除成功！');
     }
 
 }

@@ -75,7 +75,10 @@ class AuthGroup extends Base
         
         $list = AuthGroupModel::where($map)
             ->page($page, $limit)
-            ->order('listorder DESC, add_time ASC')
+            ->order([
+                'listorder' => 'DESC',
+                'add_time' => 'ASC',
+            ])
             ->select()
             ->toArray();
         $total = AuthGroupModel::where($map)->count();
@@ -113,7 +116,7 @@ class AuthGroup extends Base
     {
         $data = $this->request->post();
         if (empty($data['parentid'])) {
-            $this->error('父级不能为空');
+            return $this->error('父级不能为空');
         }
         
         $result = $this->validate($data, 'Laket\\Admin\\Validate\\AuthGroup');
@@ -124,10 +127,10 @@ class AuthGroup extends Base
         $r = AuthGroupModel::create($data);
         
         if ($r === false) {
-            $this->error('添加失败！');
+            return $this->error('添加失败！');
         }
         
-        $this->success('添加成功！');
+        return $this->success('添加成功！');
     }
     
     /**
@@ -137,7 +140,7 @@ class AuthGroup extends Base
     {
         $id = $this->request->param('id');
         if (empty($id)) {
-            $this->error('用户组不存在！');
+            return $this->error('用户组不存在！');
         }
         
         $authGroup = AuthGroupModel::where([
@@ -145,7 +148,7 @@ class AuthGroup extends Base
             ])
             ->find();
         if (empty($authGroup)) {
-            $this->error('用户组不存在！');
+            return $this->error('用户组不存在！');
         }
         
         $Tree = make(Tree::class);
@@ -183,11 +186,11 @@ class AuthGroup extends Base
     {
         $data = $this->request->post();
         if (empty($data['parentid'])) {
-            $this->error('父级不能为空');
+            return $this->error('父级不能为空');
         }
         
         if (!isset($data['id']) || empty($data['id'])) {
-            $this->error('用户组ID不存在！');
+            return $this->error('用户组ID不存在！');
         }
         
         $authGroup = AuthGroupModel::where([
@@ -195,7 +198,7 @@ class AuthGroup extends Base
             ])
             ->find();
         if (empty($authGroup)) {
-            $this->error('用户组不存在！');
+            return $this->error('用户组不存在！');
         }
         
         // 更新
@@ -204,10 +207,10 @@ class AuthGroup extends Base
             ]);
         
         if ($r === false) {
-            $this->error('更新失败！');
+            return $this->error('更新失败！');
         }
         
-        $this->success('更新成功！');
+        return $this->success('更新成功！');
     }
     
     /**
@@ -217,12 +220,12 @@ class AuthGroup extends Base
     {
         $groupId = $this->request->param('id');
         if (empty($groupId)) {
-            $this->error('用户组不存在！');
+            return $this->error('用户组不存在！');
         }
         
         $authGroupCount = AuthGroupModel::count();
         if ($authGroupCount <= 1) {
-            $this->error('用户组至少保留一个！');
+            return $this->error('用户组至少保留一个！');
         }
         
         $authGroup = AuthGroupModel::where([
@@ -230,7 +233,7 @@ class AuthGroup extends Base
             ])
             ->find();
         if (empty($authGroup)) {
-            $this->error('用户组不存在！');
+            return $this->error('用户组不存在！');
         }
         
         // 子用户组检测
@@ -239,12 +242,12 @@ class AuthGroup extends Base
             ])
             ->count();
         if ($childGroupCount > 0) {
-            $this->error('删除失败，请删除子用户后再删除！');
+            return $this->error('删除失败，请删除子用户后再删除！');
         }
         
         $rs = AuthGroupModel::where(['id' => $groupId])->delete();
         if ($rs === false) {
-            $this->error('删除失败！');
+            return $this->error('删除失败！');
         }
         
         // 删除权限
@@ -252,7 +255,7 @@ class AuthGroup extends Base
             'group_id' => $groupId,
         ])->delete();
         
-        $this->success("删除成功！");
+        return $this->success("删除成功！");
     }
     
     /**
@@ -262,7 +265,7 @@ class AuthGroup extends Base
     {
         $groupId = $this->request->param('group_id');
         if (empty($groupId)) {
-            $this->error('用户组ID不能为空！');
+            return $this->error('用户组ID不能为空！');
         }
         
         $rules = AuthGroupModel::withJoin(['ruleAccess'])
@@ -317,7 +320,7 @@ class AuthGroup extends Base
     {
         $groupId = $this->request->post('id');
         if (empty($groupId)) {
-            $this->error('用户组不存在！');
+            return $this->error('用户组不存在！');
         }
     
         $authGroup = AuthGroupModel::where([
@@ -325,7 +328,7 @@ class AuthGroup extends Base
             ])
             ->find();
         if (empty($authGroup)) {
-            $this->error('用户组不存在！');
+            return $this->error('用户组不存在！');
         }
         
         $newRules = $this->request->post('rules');
@@ -350,7 +353,7 @@ class AuthGroup extends Base
             }
         }
         
-        $this->success('授权成功！');
+        return $this->success('授权成功！');
     }
 
     /**
@@ -360,7 +363,7 @@ class AuthGroup extends Base
     {
         $id = $this->request->param('id/s', 0);
         if (empty($id)) {
-            $this->error('参数不能为空！');
+            return $this->error('参数不能为空！');
         }
         
         $listorder = $this->request->param('value/d', 100);
@@ -371,10 +374,10 @@ class AuthGroup extends Base
             'listorder' => $listorder,
         ]);
         if ($rs === false) {
-            $this->error("排序失败！");
+            return $this->error("排序失败！");
         }
         
-        $this->success("排序成功！");
+        return $this->success("排序成功！");
     }
     
 }

@@ -12,7 +12,7 @@ use Laket\Admin\Support\ViewTaglib;
 use Laket\Admin\Support\ViewFinder;
 use Laket\Admin\Support\Publish;
 use Laket\Admin\Support\Service as BaseService;
-use Laket\Admin\Http\JsonResponse as HttpJsonResponse;
+use Laket\Admin\Http\Response as HttpResponse;
 use Laket\Admin\Auth\Admin as AuthAdmin;
 use Laket\Admin\Auth\Permission as AuthPermission;
 
@@ -163,10 +163,10 @@ class Service extends BaseService
         
         // json响应
         $this->app->bind('laket-admin.response', function() {
-            $httpJsonResponse = new HttpJsonResponse();
+            $httpResponse = new HttpResponse();
             
             $config = config('laket.response.json');
-            $httpJsonResponse
+            $httpResponse
                 ->withIsAllowOrigin($config['is_allow_origin'])
                 ->withAllowOrigin($config['allow_origin'])
                 ->withAllowCredentials($config['allow_credentials'])
@@ -175,7 +175,7 @@ class Service extends BaseService
                 ->withAllowHeaders($config['allow_headers'])
                 ->withExposeHeaders($config['expose_headers']);
             
-            return $httpJsonResponse;
+            return $httpResponse;
         });
 
         // 密码
@@ -188,7 +188,7 @@ class Service extends BaseService
             return $authPermission;
         });
         
-        // 登陆信息
+        // 登录信息
         $this->app->bind('laket-admin.auth-admin', function() {
             $authAdmin = new AuthAdmin();
             

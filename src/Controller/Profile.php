@@ -27,7 +27,7 @@ class Profile extends Base
             ])->find();
         
         if (empty($data)) {
-            $this->error('该信息不存在！');
+            return $this->error('该信息不存在！');
         }
         
         $this->assign("data", $data);
@@ -56,10 +56,10 @@ class Profile extends Base
             ->update();
         
         if ($status === false) {
-            $this->error('修改失败！');
+            return $this->error('修改失败！');
         }
         
-        $this->success("修改成功！");
+        return $this->success("修改成功！");
     }
 
     /**
@@ -74,7 +74,7 @@ class Profile extends Base
             ])->find();
         
         if (empty($data)) {
-            $this->error('信息不存在！');
+            return $this->error('信息不存在！');
         }
         
         $this->assign("data", $data);
@@ -101,28 +101,28 @@ class Profile extends Base
         }
         
         if (!isset($post['password']) || empty($post['password'])) {
-            $this->error('请填写旧密码！');
+            return $this->error('请填写旧密码！');
         }
 
         if (!isset($post['password2']) || empty($post['password2'])) {
-            $this->error('请填写新密码！');
+            return $this->error('请填写新密码！');
         }
 
         if (!isset($post['password2_confirm']) || empty($post['password2_confirm'])) {
-            $this->error('请填写确认密码！');
+            return $this->error('请填写确认密码！');
         }
         
         if ($post['password2'] != $post['password2_confirm']) {
-            $this->error('确认密码错误！');
+            return $this->error('确认密码错误！');
         }
         
         if ($post['password2'] == $post['password']) {
-            $this->error('请确保新密码与旧密码不同');
+            return $this->error('请确保新密码与旧密码不同');
         }
         
         $adminInfo = Admin::getData();
         if (! Admin::checkPassword($adminInfo['name'], $post['password'])) {
-            $this->error('旧密码错误！');
+            return $this->error('旧密码错误！');
         }
 
         $passwordinfo = Admin::encryptPassword($post['password2']); //对密码进行处理
@@ -136,12 +136,12 @@ class Profile extends Base
         ])->update($data);
         
         if ($status === false) {
-            $this->error('修改密码失败！');
+            return $this->error('修改密码失败！');
         }
         
         Admin::logout();
         
-        $this->success("修改密码成功！");
+        return $this->success("修改密码成功！");
     }
 
 }

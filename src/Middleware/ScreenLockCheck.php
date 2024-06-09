@@ -25,7 +25,7 @@ class ScreenLockCheck
     
     public function __construct(App $app)
     {
-        $this->app  = $app;
+        $this->app = $app;
     }
     
     /**
@@ -33,7 +33,9 @@ class ScreenLockCheck
      */
     public function handle($request, Closure $next)
     {
-        $this->checkScreenLock();
+        if (! $this->checkScreenLock()) {
+            return $this->error('后台已锁定，请先解锁', laket_route('admin.index.index'));
+        }
         
         return $next($request);
     }
@@ -44,28 +46,26 @@ class ScreenLockCheck
     protected function checkScreenLock()
     {
         // 过滤的行为
-        $allowUrl = array_merge([
-            'get:admin.passport.captcha',
-            'get:admin.passport.login',
-            'post:admin.passport.login-check',
-            'get:admin.passport.logout',
-            'post:admin.passport.lockscreen',
-            'post:admin.passport.unlockscreen',
-            'get:admin.index.index',
-            'get:admin.index.main',
+        $excepts = array_merge([
+            'admin.passport.captcha',
+            'admin.passport.login',
+            'admin.passport.login-check',
+            'admin.passport.logout',
+            'admin.passport.lockscreen',
+            'admin.passport.unlockscreen',
+            'admin.index.index',
+            'admin.index.main',
         ], (array) config('laket.auth.screenlock_excepts', []));
         
-        $requestMethod = request()->rule()->getMethod();
         $requestName = request()->rule()->getName();
-        
-        $rule = strtolower($requestMethod . ':' . $requestName);
-        if (! in_array($rule, $allowUrl)) {
+        if (! in_array($requestName, $excepts)) {
             $check = make(Screen::class)->check();
             if ($check !== false) {
-                $url = laket_route('admin.index.index');
-                $this->error('后台已锁定，请先解锁', $url);
+                return false;
             }
         }
+        
+        return true;
     }
     
 }

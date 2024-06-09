@@ -26,10 +26,10 @@ class Permission
         $name, 
         $uid = '', 
         $relation = 'or', 
-        $type = 1, 
+        $type = 2, 
         $mode = 'slug'
     ) {
-        $authList = $this->getAuthList($uid, $type);
+        $authList = $this->getAuthList($uid, $type, $mode);
         
         $checkAuthList = (new Check)->withAuths($authList)->check($name, $relation, $mode);
         if ($checkAuthList !== false) {
@@ -44,10 +44,10 @@ class Permission
      *
      * @param integer $uid  用户id
      */
-    public function getAuthList($uid, $type)
+    public function getAuthList($uid, $type, $mode)
     {
         // 获取用户需要验证的所有有效规则列表
-        $authList = (new Rule($type))->getAuthList($uid); 
+        $authList = (new Rule($type, $mode))->getAuthList($uid); 
         
         return $authList;
     }

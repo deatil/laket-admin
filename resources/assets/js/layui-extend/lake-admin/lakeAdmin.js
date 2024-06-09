@@ -375,7 +375,7 @@ layui.define([
                 });
             });
             
-            // 退出登陆
+            // 退出登录
             $(document).on('click', '.js-lake-admin-logout', function (e) {
                 // 取消事件的默认动作
                 e.preventDefault();
@@ -383,7 +383,7 @@ layui.define([
                 e.stopPropagation();
                 
                 var url = $(this).attr('href');
-                layer.confirm('您确定要退出登陆吗？', { 
+                layer.confirm('您确定要退出登录吗？', { 
                     icon: 3, 
                     title: '提示' 
                 }, function(index) {

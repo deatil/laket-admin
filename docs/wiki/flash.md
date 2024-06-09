@@ -1,31 +1,31 @@
-## flash闪存插件结构目录
+## 插件结构目录
 
 ### 结构目录
 
 ~~~
 flashs 目录
 ├─ author                   作者目录
-│  ├─ package               闪存插件名称
+│  ├─ package               插件名称
 │  │  ├─ resources          资源目录
 │  │  ├─ src                代码目录
-│  │  │  ├─ Service.php     闪存插件服务，根据自定义加载设置放置
+│  │  │  ├─ Service.php     插件服务，根据自定义加载设置放置
 │  │  ├─ composer.json      composer加载文件
-│  │  ├─ icon.png           闪存插件icon文件
+│  │  ├─ icon.png           插件icon文件
 │  │  ├─ LICENSE            许可协议
-│  │  ├─ README.md          闪存插件说明文件
+│  │  ├─ README.md          插件说明文件
 │  │  └─ ...                其他
 │  │
-│  └─ ...                   同一作者其他闪存插件
+│  └─ ...                   同一作者其他插件
 │
-└─ ...                      其他闪存插件
+└─ ...                      其他插件
 ~~~
 
 ### composer
 
 ~~~json
 {
-    "name": "laket/laket-settings", # 闪存插件包名，必填
-    "description": "The settings is a laket-admin'extension.", # 闪存插件描述，必填
+    "name": "laket/laket-settings", # 插件包名，必填
+    "description": "The settings is a laket-admin'extension.", # 插件描述，必填
     "keywords": [
         "laket",
         "settings",
@@ -49,18 +49,22 @@ flashs 目录
     },
     "autoload": {
         "psr-4": {
-            "Laket\\Admin\\Settings\\": "src" # 闪存插件自动加载配置，必填
+            "Laket\\Admin\\Settings\\": "src" # 插件自动加载配置，必填
         }
     },
     "laket" : {
-        "title": "系统设置", # 闪存插件名称，必填
-        "version": "1.0.1", # 闪存插件版本号，必填
-        "adaptation": "1.0.*" # 闪存插件适配系统版本号，必填
+        "title": "系统设置",   # 插件名称，必填
+        "version": "1.0.1",    # 插件版本号，必填
+        "adaptation": "1.0.*", # 插件适配系统版本号，必填
+        "require": {           # 依赖插件，选填
+            "laket/laket-settings":"1.2.*",
+            "laket/laket-operation-log":"1.3.*"
+        }
     },
     "extra": {
         "think":{
             "services":[
-                "Laket\\Admin\\Settings\\Service" # 闪存插件服务，必填
+                "Laket\\Admin\\Settings\\Service" # 插件服务，必填
             ]
         }
     }
@@ -68,7 +72,7 @@ flashs 目录
 ~~~
 
 
-### 闪存插件服务
+### 插件服务
 
 ~~~php
 <?php
@@ -105,7 +109,7 @@ class Service extends BaseService
      */
     public function boot()
     {
-        // 闪存插件注册，必须设置
+        // 插件注册，必须设置
         Flash::extend('laket/laket-settings'/*插件包名*/, __CLASS__/*当前插件服务类名*/);
     }
     
@@ -178,7 +182,7 @@ class Service extends BaseService
 ~~~
 
 
-### 闪存插件服务默认提供的一些方法
+### 插件服务默认提供的一些方法
 
 * `loadRoutesFrom($path)` 加载路由
 

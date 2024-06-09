@@ -91,10 +91,10 @@ class Admin extends Base
         
         $status = AdminModel::create($data);
         if ($status === false) {
-            $this->error('添加失败！');
+            return $this->error('添加失败！');
         }
        
-        $this->success("添加管理员成功！");
+        return $this->success("添加管理员成功！");
     }
 
     /**
@@ -104,7 +104,7 @@ class Admin extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error('参数错误！');
+            return $this->error('参数错误！');
         }
         
         $data = AdminModel::where([
@@ -112,7 +112,7 @@ class Admin extends Base
             ])
             ->find();
         if (empty($data)) {
-            $this->error('账号不存在！');
+            return $this->error('账号不存在！');
         }
         
         $this->assign("data", $data);
@@ -133,7 +133,7 @@ class Admin extends Base
         }
         
         if (empty($data['id'])) {
-            $this->error('参数错误！');
+            return $this->error('参数错误！');
         }
         
         $adminInfo = AdminModel::where([
@@ -141,15 +141,15 @@ class Admin extends Base
             ])
             ->find();
         if (empty($adminInfo)) {
-            $this->error('账号信息不存在！');
+            return $this->error('账号信息不存在！');
         }
         
         if ($adminInfo['id'] == AdminData::getId()) {
-            $this->error('你不能修改自己的账号！');
+            return $this->error('你不能修改自己的账号！');
         }
         
         if (AdminData::isSuperAdmin($adminInfo['id'])) {
-            $this->error('超级管理员不能被修改！');
+            return $this->error('超级管理员不能被修改！');
         }
         
         if (isset($data['status'])) {
@@ -162,10 +162,10 @@ class Admin extends Base
                 'id' => $data['id'],
             ]);
         if ($status === false) {
-            $this->error('修改失败！');
+            return $this->error('修改失败！');
         }
         
-        $this->success("修改成功！");
+        return $this->success("修改成功！");
     }
     
     /**
@@ -175,7 +175,7 @@ class Admin extends Base
     {
         $id = $this->request->param('id');
         if (empty($id)) {
-            $this->error('参数错误！');
+            return $this->error('参数错误！');
         }
         
         $adminInfo = AdminModel::where([
@@ -183,15 +183,15 @@ class Admin extends Base
             ])
             ->find();
         if (empty($adminInfo)) {
-            $this->error('信息不存在！');
+            return $this->error('信息不存在！');
         }
         
         if ($adminInfo['id'] == AdminData::getId()) {
-            $this->error('你不能删除自己的账号！');
+            return $this->error('你不能删除自己的账号！');
         }
         
         if (AdminData::isSuperAdmin($adminInfo['id'])) {
-            $this->error('超级管理员不能被删除！');
+            return $this->error('超级管理员不能被删除！');
         }
         
         $status = AdminModel::where([
@@ -199,7 +199,7 @@ class Admin extends Base
             ])
             ->delete();
         if ($status === false) {
-            $this->error('删除失败！');
+            return $this->error('删除失败！');
         }
         
         AuthGroupAccessModel::where([
@@ -207,7 +207,7 @@ class Admin extends Base
             ])
             ->delete();
         
-        $this->success("删除成功！");
+        return $this->success("删除成功！");
     }
     
     /**
@@ -217,14 +217,14 @@ class Admin extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error('参数错误！');
+            return $this->error('参数错误！');
         }
         
         $data = AdminModel::where([
             "id" => $id,
         ])->find();
         if (empty($data)) {
-            $this->error('账号不存在！');
+            return $this->error('账号不存在！');
         }
         
         $gids = AuthGroupAccessModel::where([
@@ -258,7 +258,7 @@ class Admin extends Base
             ])
             ->find();
         if (empty($data)) {
-            $this->error('账号不存在！');
+            return $this->error('账号不存在！');
         }
         
         $this->assign("data", $data);
@@ -274,23 +274,22 @@ class Admin extends Base
         $post = $this->request->post('');
         
         if (empty($post) || !isset($post['id'])) {
-            $this->error('没有修改的数据！');
-            return false;
+            return $this->error('没有修改的数据！');
         }
         
         if (empty($post['password'])) {
-            $this->error('新密码不能为空！');
+            return $this->error('新密码不能为空！');
         }
         if (empty($post['password_confirm'])) {
-            $this->error('确认密码不能为空！');
+            return $this->error('确认密码不能为空！');
         }
         
         if ($post['password'] != $post['password_confirm']) {
-            $this->error('两次密码不一致！');
+            return $this->error('两次密码不一致！');
         }
         
         if ($post['id'] == AdminData::getId()) {
-            $this->error('你不能修改自己账号的密码！');
+            return $this->error('你不能修改自己账号的密码！');
         }
         
         // 对密码进行处理
@@ -305,10 +304,10 @@ class Admin extends Base
             ])
             ->update($data);
         if ($status === false) {
-            $this->error('修改密码失败！');
+            return $this->error('修改密码失败！');
         }
         
-        $this->success("修改密码成功！");
+        return $this->success("修改密码成功！");
     }
     
     /**
@@ -318,7 +317,7 @@ class Admin extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            $this->error('参数错误！');
+            return $this->error('参数错误！');
         }
         
         $data = AdminModel::where([
@@ -326,7 +325,7 @@ class Admin extends Base
             ])
             ->find();
         if (empty($data)) {
-            $this->error('该信息不存在！');
+            return $this->error('该信息不存在！');
         }
         
         $data['gids'] = AuthGroupAccessModel::where([
@@ -357,11 +356,11 @@ class Admin extends Base
         $data = $this->request->post('');
         
         if (empty($data['id'])) {
-            $this->error('参数错误！');
+            return $this->error('参数错误！');
         }
         
         if ($data['id'] == AdminData::getId()) {
-            $this->error('你不能修改自己的账号！');
+            return $this->error('你不能修改自己的账号！');
         }
         
         $adminInfo = AdminModel::where([
@@ -369,7 +368,7 @@ class Admin extends Base
             ])
             ->find();
         if (empty($adminInfo)) {
-            $this->error('信息不存在！');
+            return $this->error('信息不存在！');
         }
         
         // 清除
@@ -398,7 +397,7 @@ class Admin extends Base
             ]);
         }
         
-        $this->success("授权成功！");
+        return $this->success("授权成功！");
     }
 
 }

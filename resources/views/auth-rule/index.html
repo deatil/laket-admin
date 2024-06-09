@@ -14,7 +14,12 @@
 {block name="script"}
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
-        <a class="layui-btn layui-btn-sm layui-iframe" title="添加权限" href="{:laket_route('admin.auth-rule.add')}">添加权限</a>
+        {if laket_auth(['admin.auth-rule.add'])}
+            <a class="layui-btn layui-btn-sm layui-iframe" title="添加权限" href="{:laket_route('admin.auth-rule.add')}">添加权限</a>
+        {else}
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加权限</a>
+        {/if}
+        
         <a class="layui-btn layui-btn-sm layui-btn-normal" id="openAll">展开或折叠全部</a>
         <a class="layui-btn layui-btn-sm" href="{:laket_route('admin.auth-rule.all')}">全部权限</a>
     </div>
@@ -23,19 +28,45 @@
 <script type="text/html" id="iconTpl">
     <span title="{{d.title}}：{{d.id}}"><i class='iconfont {{d.icon}}'></i></span>
 </script>
+
 <script type="text/html" id="titleTpl">
     <span data-lake-tip="" lay-title="{{ d.remark }}">{{ d.title }}</span>
 </script>
+
 <script type="text/html" id="menuTpl">
-    <input type="checkbox" name="menu_show" data-href="{:laket_route('admin.auth-rule.setmenu')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="switchStatus" {{ d.menu_show==1 ? 'checked' : '' }}>
+    {if laket_auth(['admin.auth-rule.setmenu'])}
+        <input type="checkbox" name="menu_show" data-href="{:laket_route('admin.auth-rule.setmenu')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="switchStatus" {{ d.menu_show==1 ? 'checked' : '' }}>
+    {else}
+        <input type="checkbox" name="menu_show" disabled lay-skin="switch" lay-text="显示|隐藏" {{ d.menu_show==1 ? 'checked' : '' }}>
+    {/if}
 </script>
+
 <script type="text/html" id="switchTpl">
-    <input type="checkbox" name="status" data-href="{:laket_route('admin.auth-rule.setstate')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="启用|关闭" lay-filter="switchStatus" {{ d.status==1 ? 'checked' : '' }}>
+    {if laket_auth(['admin.auth-rule.setmenu'])}
+        <input type="checkbox" name="status" data-href="{:laket_route('admin.auth-rule.setstate')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="启用|关闭" lay-filter="switchStatus" {{ d.status==1 ? 'checked' : '' }}>
+    {else}
+        <input type="checkbox" name="status" disabled lay-skin="switch" lay-text="启用|关闭" {{ d.status==1 ? 'checked' : '' }}>
+    {/if}
 </script>
+
 <script type="text/html" id="barTool">
-    <a href='{:laket_route("admin.auth-rule.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑权限">编辑</a>
-    <a href='{:laket_route("admin.auth-rule.add")}?parentid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal layui-iframe" title="添加权限">添加</a>
-    <a href='{:laket_route("admin.auth-rule.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    {if laket_auth(['admin.auth-rule.edit'])}
+        <a href='{:laket_route("admin.auth-rule.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑权限">编辑</a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">访问授权</a>
+    {/if}
+
+    {if laket_auth(['admin.auth-rule.add'])}
+        <a href='{:laket_route("admin.auth-rule.add")}?parentid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal layui-iframe" title="添加权限">添加</a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">添加</a>
+    {/if}
+
+    {if laket_auth(['admin.auth-rule.delete'])}
+        <a href='{:laket_route("admin.auth-rule.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">删除</a>
+    {/if}
 </script>
 
 <script>
@@ -115,7 +146,7 @@ layui.use(['table', 'treeGrid', 'notice'], function() {
         var data = obj.data;
         if (obj.event === 'view') {
             layer.alert(data.id, {
-                title: '权限ID',
+                title: '权限ID【' + data.title + "】",
                 closeBtn: 0
             });
         }
