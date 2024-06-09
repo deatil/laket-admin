@@ -115,18 +115,18 @@ class Index extends Base
         $type = $this->request->request("type", 'all');
         switch ($type) {
             case 'data':
-                File::delDir(root_path() . 'runtime' . DIRECTORY_SEPARATOR . 'cache');
+                File::delDir(root_path('runtime/cache'));
                 Cache::clear();
                 break;
                 
             case 'template':
-                File::delDir(root_path() . 'runtime' . DIRECTORY_SEPARATOR . 'temp');
+                File::delDir(root_path('runtime/temp'));
                 break;
                 
             case 'all':
-                File::delDir(root_path() . 'runtime' . DIRECTORY_SEPARATOR . 'cache');
+                File::delDir(root_path('runtime/cache'));
                 Cache::clear();
-                File::delDir(root_path() . 'runtime' . DIRECTORY_SEPARATOR . 'temp');
+                File::delDir(root_path('runtime/temp'));
                 break;
         }
         
