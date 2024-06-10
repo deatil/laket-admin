@@ -125,7 +125,6 @@ class AuthGroup extends Base
         }
         
         $r = AuthGroupModel::create($data);
-        
         if ($r === false) {
             return $this->error('添加失败！');
         }

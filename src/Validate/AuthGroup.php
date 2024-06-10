@@ -20,7 +20,6 @@ class AuthGroup extends Validate
     // 定义验证提示
     protected $message = [
         'title.require' => '用户组名称不得为空',
-
     ];
 
     // 定义验证场景

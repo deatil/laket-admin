@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="admin/js/layui/css/layui.css" />
     <link rel="stylesheet" href="admin/js/iconfont/iconfont.css">
     <link rel="stylesheet" type="text/css" href="admin/css/login.css" />
+    {:laket_runhook('login_link_after')}
 </head>
 
 <body class="login-bg">
@@ -146,6 +147,7 @@
         })
     })
     </script>
+    {:laket_runhook('login_script_after')}
 </body>
 
 </html>
