@@ -15,7 +15,7 @@
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         {if laket_auth(['admin.auth-rule.add'])}
-            <a class="layui-btn layui-btn-sm layui-iframe" title="添加权限" href="{:laket_route('admin.auth-rule.add')}">添加权限</a>
+            <a class="layui-btn layui-btn-sm layui-iframe" title="添加权限" href="javascript:;" data-href="{:laket_route('admin.auth-rule.add')}">添加权限</a>
         {else}
             <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加权限</a>
         {/if}
@@ -51,19 +51,19 @@
 
 <script type="text/html" id="barTool">
     {if laket_auth(['admin.auth-rule.edit'])}
-        <a href='{:laket_route("admin.auth-rule.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑权限">编辑</a>
+        <a href="javascript:;" data-href='{:laket_route("admin.auth-rule.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑权限">编辑</a>
     {else}
-        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">访问授权</a>
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">编辑</a>
     {/if}
 
     {if laket_auth(['admin.auth-rule.add'])}
-        <a href='{:laket_route("admin.auth-rule.add")}?parentid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal layui-iframe" title="添加权限">添加</a>
+        <a href="javascript:;" data-href='{:laket_route("admin.auth-rule.add")}?parentid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal layui-iframe" title="添加权限">添加</a>
     {else}
         <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">添加</a>
     {/if}
 
     {if laket_auth(['admin.auth-rule.delete'])}
-        <a href='{:laket_route("admin.auth-rule.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+        <a href="javascript:;" data-href='{:laket_route("admin.auth-rule.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
     {else}
         <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">删除</a>
     {/if}

@@ -129,7 +129,7 @@ class Passport extends Base
         
         // 是否锁定
         if ($adminInfo['status'] != 1) {
-            return $this->error('您的帐号已被锁定！');
+            return $this->error('帐号不存在或者已被锁定！');
         }
         
         // 清除数据

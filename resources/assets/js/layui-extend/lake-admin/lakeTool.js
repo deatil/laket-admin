@@ -116,6 +116,11 @@ layui.define(['table', 'element', 'layer', 'form', 'notice'], function(exports) 
         opt.table = opt.table || def.table;
         opt.idSync = opt.idSync || def.idSync;
         opt.maxmin = opt.maxmin || def.maxmin;
+        
+        if (width < 550) {
+            opt.width = '100%';
+            opt.height = '100%';
+        }
 
         if (!opt.url) {
             notice.info('请设置data-href参数');

@@ -34,7 +34,7 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         {if laket_auth(['admin.admin.add'])}
-            <a class="layui-btn layui-btn-sm layui-iframe" title="添加管理员" href="{:laket_route('admin.admin.add')}">添加管理员</a>
+            <a class="layui-btn layui-btn-sm layui-iframe" title="添加管理员" href="javascript:;" data-href="{:laket_route('admin.admin.add')}">添加管理员</a>
         {else}
             <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加管理员</a>
         {/if}
@@ -42,7 +42,7 @@
 </script>
 
 <script type="text/html" id="nameTpl">
-    <a class="text-green layui-iframe" title="管理员详情" href="{:laket_route('admin.admin.view')}?id={{ d.id }}">{{ d.name }}</a>
+    <a class="layui-iframe" title="管理员详情" href="javascript:;" data-href="{:laket_route('admin.admin.view')}?id={{ d.id }}">{{ d.name }}</a>
 </script>
 
 <script type="text/html" id="groupsTpl">
@@ -63,26 +63,26 @@
 
 <script type="text/html" id="barTool">
     {if laket_auth(['admin.admin.password'])}
-        <a href='{:laket_route("admin.admin.password")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员密码">密码</a>
+        <a href="javascript:;" data-href='{:laket_route("admin.admin.password")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员密码">密码</a>
     {else}
         <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">密码</a>
     {/if}
 
     {if laket_auth(['admin.admin.edit'])}
-        <a href='{:laket_route("admin.admin.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员编辑">编辑</a>
+        <a href="javascript:;" data-href='{:laket_route("admin.admin.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="管理员编辑">编辑</a>
     {else}
         <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">编辑</a>
     {/if}
     
     {{# if(d.id != "{:config('laket.passport.super_id')}"){ }}
         {if laket_auth(['admin.admin.access'])}
-            <a href='{:laket_route("admin.admin.access")}?id={{ d.id }}' class="layui-btn layui-btn-normal layui-btn-xs layui-iframe" title="管理员授权">授权</a>
+            <a href="javascript:;" data-href='{:laket_route("admin.admin.access")}?id={{ d.id }}' class="layui-btn layui-btn-normal layui-btn-xs layui-iframe" title="管理员授权">授权</a>
         {else}
             <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">授权</a>
         {/if}
         
         {if laket_auth(['admin.admin.delete'])}
-            <a href='{:laket_route("admin.admin.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+            <a href="javascript:;" data-href='{:laket_route("admin.admin.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
         {else}
             <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">删除</a>
         {/if}

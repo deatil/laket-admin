@@ -5,6 +5,8 @@ declare (strict_types = 1);
 namespace Laket\Admin\Controller;
 
 use Laket\Admin\Support\Tree;
+use Laket\Admin\Facade\Admin as AdminData;
+use Laket\Admin\Model\Admin as AdminModel;
 use Laket\Admin\Model\AuthGroup as AuthGroupModel;
 use Laket\Admin\Model\AuthRule as AuthRuleModel;
 use Laket\Admin\Model\AuthRuleAccess as AuthRuleAccessModel;
@@ -278,17 +280,28 @@ class AuthGroup extends Base
             ])
             ->column('ruleAccess.rule_id');
         $this->assign('rules', $rules);
+        
+        // 当前账号权限列表
+        $authIds = make(AdminModel::class)->getAuthIdList(AdminData::getId());
     
         $result = AuthRuleModel::returnNodes(false);
         
         $json = [];
         if (!empty($result)) {
+            $isSuperAdmin = AdminData::isSuperAdmin();
+            
             foreach ($result as $rs) {
+                $disabled = false;
+                if (!$isSuperAdmin && !in_array($rs['id'], $authIds)) {
+                    $disabled = true;
+                }
+                
                 $data = [
                     'id' => $rs['id'],
                     'parentid' => $rs['parentid'],
                     'title' => (empty($rs['method']) ? $rs['title'] : ($rs['title'] . '[' . strtoupper($rs['method']) . ']')),
                     // 'checked' => in_array($rs['id'], $rules) ? true : false,
+                    'disabled' => $disabled,
                     'field' => 'roleid',
                     'spread' => false,
                 ];
@@ -333,14 +346,22 @@ class AuthGroup extends Base
         $newRules = $this->request->post('rules');
         
         $rules = [];
-        if (!empty($newRules)) {
-            $rules = explode(',', $newRules);
+        if (! empty($newRules)) {
+            if (! AdminData::isSuperAdmin()) {
+                // 当前账号权限列表
+                $authIds = make(AdminModel::class)->getAuthIdList(AdminData::getId());
+                $rules = explode(',', $newRules);
+                
+                $newRoles = array_intersect_assoc($authIds, $rules);
+            } else {
+                $rules = explode(',', $newRules);
+            }
         }
-        
+
         // 删除权限
         AuthRuleAccessModel::where([
-            'group_id' => $groupId,
-        ])->delete();
+                'group_id' => $groupId,
+            ])->delete();
         
         // 权限添加
         if (isset($rules) && !empty($rules)) {

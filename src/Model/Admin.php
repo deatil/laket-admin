@@ -62,7 +62,7 @@ class Admin extends ModelBase
     /**
      * 获取用户的用户组ID列表
      */
-    public static function getUserGroupIds($uid)
+    public function getUserGroupIds($uid)
     {
         // 当前用户组ID列表
         $userGroupIds = $this->getGroupIdList($uid);

@@ -6,7 +6,10 @@
     <div class="layui-card-body">
         <form class="layui-form" method="post" action="{:laket_route('admin.admin.add-save')}">
             <div class="layui-form-item">
-                <label class="layui-form-label">用户名</label>
+                <label class="layui-form-label">
+                    用户名
+                    <span class="text-danger">*</span>
+                </label>
                 <div class="layui-input-block w300">
                     <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="用户名" class="layui-input">
                 </div>
@@ -16,9 +19,12 @@
             </div>
             
             <div class="layui-form-item">
-                <label class="layui-form-label">E-mail</label>
+                <label class="layui-form-label">
+                    邮箱
+                    <span class="text-danger">*</span>
+                </label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="email" lay-verify="required|email" autocomplete="off" placeholder="E-mail" class="layui-input">
+                    <input type="text" name="email" lay-verify="required|email" autocomplete="off" placeholder="邮箱" class="layui-input">
                 </div>
                 <div class="layui-input-block">
                     <div class="layui-form-mid layui-word-aux">填写完整邮箱，如 xxx@163.com</div>
@@ -26,12 +32,15 @@
             </div>
             
             <div class="layui-form-item">
-                <label class="layui-form-label">昵称</label>
+                <label class="layui-form-label">
+                    昵称
+                    <span class="text-danger">*</span>
+                </label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="nickname" autocomplete="off" placeholder="请输入昵称" class="layui-input">
+                    <input type="text" name="nickname" lay-verify="required" autocomplete="off" placeholder="昵称" class="layui-input">
                 </div>
                 <div class="layui-input-block">
-                    <div class="layui-form-mid layui-word-aux">昵称不能为空</div>
+                    <div class="layui-form-mid layui-word-aux">填写用户名对应的昵称</div>
                 </div>
             </div>
             
@@ -40,7 +49,7 @@
                 <div class="layui-input-block w300">
                     <div class="layui-inline">
                         <div class="js-upload-image">
-                            {php}echo HtmlForm::images('avatar','',0){/php}
+                            {php}echo HtmlForm::images('avatar', '', 0){/php}
                         </div>
                     </div>
                 </div>

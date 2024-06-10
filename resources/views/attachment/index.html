@@ -52,7 +52,7 @@
 
 <script type="text/html" id="barTool">
     {if laket_auth(['admin.attachment.view'])}
-        <a class="layui-btn layui-btn layui-btn-xs layui-iframe" href="{:laket_route('admin.attachment.view')}?id={{ d.id }}" title="附件详情">
+        <a class="layui-btn layui-btn layui-btn-xs layui-iframe" href="javascript:;" data-href="{:laket_route('admin.attachment.view')}?id={{ d.id }}" title="附件详情">
             详情
         </a>
     {else}
@@ -60,7 +60,7 @@
     {/if}
 
     {if laket_auth(['admin.attachment.delete'])}
-        <a href='{:laket_route("admin.attachment.delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+        <a href="javascript:;" data-href='{:laket_route("admin.attachment.delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
     {else}
         <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">删除</a>
     {/if}

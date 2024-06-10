@@ -48,6 +48,9 @@ class Admin extends Base
         $list = AdminModel::with(['groups'])
             ->where($map)
             ->page($page, $limit)
+            ->order([
+                'add_time' => 'ASC',
+            ])
             ->select()
             ->visible([
                 'groups' => [

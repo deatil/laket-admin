@@ -15,7 +15,7 @@
 <script type="text/html" id="toolbarTop">
     <div class="layui-btn-container">
         {if laket_auth(['admin.auth-group.add'])}
-            <a class="layui-btn layui-btn-sm layui-iframe" href="{:laket_route('admin.auth-group.add')}" title="添加用户组">添加用户组</a>
+            <a class="layui-btn layui-btn-sm layui-iframe" href="javascript:;" data-href="{:laket_route('admin.auth-group.add')}" title="添加用户组">添加用户组</a>
         {else}
             <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加用户组</a>
         {/if}
@@ -29,13 +29,13 @@
         <a class='layui-btn layui-btn-xs layui-btn-danger layui-btn-disabled'>不可操作</a>
     {{#  } else { }}
         {if laket_auth(['admin.auth-group.edit'])}
-            <a href='{:laket_route("admin.auth-group.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑用户组">编辑</a>
+            <a href="javascript:;" data-href='{:laket_route("admin.auth-group.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑用户组">编辑</a>
         {else}
             <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">编辑</a>
         {/if}
         
         {if laket_auth(['admin.auth-group.delete'])}
-            <a href='{:laket_route("admin.auth-group.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+            <a href="javascript:;" data-href='{:laket_route("admin.auth-group.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
         {else}
             <a href='javascript:;' class="layui-btn layui-btn-danger layui-btn-xs layui-btn-disabled">删除</a>
         {/if}
@@ -51,7 +51,7 @@
         <a class='layui-btn layui-btn-xs layui-btn-danger layui-btn-disabled'>不可操作</a>
     {{#  } else { }}
         {if laket_auth(['admin.auth-group.access'])}
-            <a class="layui-btn layui-btn-xs layui-iframe" href="{:laket_route('admin.auth-group.access')}?group_id={{d.id}}" title="访问授权">访问授权</a>
+            <a class="layui-btn layui-btn-xs layui-iframe" href="javascript:;" data-href="{:laket_route('admin.auth-group.access')}?group_id={{d.id}}" title="访问授权">访问授权</a>
         {else}
             <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">访问授权</a>
         {/if}

@@ -97,7 +97,7 @@
     {{#  } }}
     
     <span class="flash-title">
-        <a class="layui-iframe" href="{:laket_route('admin.flash.view')}?name={{ d.name }}" title="插件详情">
+        <a class="layui-iframe" href="javascript:;" data-href="{:laket_route('admin.flash.view')}?name={{ d.name }}" title="插件详情">
             {{ d.title }}
         </a>
     </span>
@@ -136,7 +136,7 @@
     {{# if (d.settinglist.length > 0) { }}
         {if laket_auth(['admin.flash.setting'])}
             <a class="layui-btn layui-btn-xs layui-iframe" 
-                href='{:laket_route("admin.flash.setting")}?name={{ d.name }}'
+                href="javascript:;" data-href='{:laket_route("admin.flash.setting")}?name={{ d.name }}'
                 title="插件设置"
                 >设置</a>
         {else}
@@ -253,7 +253,13 @@ layui.config({
                     notice.success(res.msg);
                     
                     setTimeout(function() {
-                        location.reload();
+                        table.reload("table", {
+                            page: {},
+                            where: {
+                                search_field: $(".laket-admin-search-field").val(),
+                                keyword: $(".laket-admin-search-val").val(),
+                            }
+                        });
                     }, 1800);
                 } else {
                     notice.error(res.msg);
@@ -277,7 +283,7 @@ layui.config({
                 search_field: $(".laket-admin-search-field").val(),
                 keyword: $(".laket-admin-search-val").val(),
             }
-        })
+        });
     });
     
     // 监听单元格编辑

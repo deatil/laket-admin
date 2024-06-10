@@ -48,7 +48,7 @@ class Auth
 
         // 检测账号状态
         if (! $this->checkStatus()) {
-            return $this->error('您的帐号已被锁定！', $loginUrl);
+            return $this->error('帐号不存在或者已被锁定！', $loginUrl);
         }
 
         return $next($request);

@@ -6,7 +6,10 @@
     <div class="layui-card-body">
         <form class="layui-form" method="post" action="{:laket_route('admin.auth-rule.edit-save')}">
             <div class="layui-form-item">
-                <label class="layui-form-label">上级权限</label>
+                <label class="layui-form-label">
+                    上级权限
+                    <span class="text-danger">*</span>
+                </label>
                 <div class="layui-input-block w300">
                     <select name="parentid" lay-verify="required">
                         <option value="0">作为一级权限</option>
@@ -21,9 +24,17 @@
             </div>
             
             <div class="layui-form-item">
-                <label class="layui-form-label">名称 </label>
+                <label class="layui-form-label">
+                    名称 
+                    <span class="text-danger">*</span>
+                </label>
                 <div class="layui-input-block w300">
                     <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input" value="{$data.title}">
+                </div>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        填写权限的名称
+                    </div>
                 </div>
             </div>
             
@@ -40,27 +51,27 @@
             </div>
             
             <div class="layui-form-item">
-                <label class="layui-form-label">后台链接</label>
+                <label class="layui-form-label">
+                    后台链接
+                    <span class="text-danger">*</span>
+                </label>
                 <div class="layui-input-block w300">
                     <input type="text" name="url" autocomplete="off" placeholder="链接" class="layui-input" value="{$data.url}">
                 </div>
                 <div class="layui-input-block">
-                    <div class="layui-form-mid layui-word-aux">后台权限链接前缀默认为 "{$route_group}"，只需要填写后缀，支持自定义完整链接</div>
+                    <div class="layui-form-mid layui-word-aux">
+                        后台权限链接前缀默认为 <span class="layui-badge layui-bg-green">{$route_group}</span>，
+                        只需要填写后缀，
+                        支持自定义完整链接
+                    </div>
                 </div>
             </div>
             
             <div class="layui-form-item">
-                <label class="layui-form-label">链接名称</label>
-                <div class="layui-input-block w300">
-                    <input type="text" name="slug" autocomplete="off" placeholder="链接名称" class="layui-input" value="{$data.slug}">
-                </div>
-                <div class="layui-input-block">
-                    <div class="layui-form-mid layui-word-aux">后台权限链接的 "slug"，通常为路由设置的 "name" 值，后台链接使用该值</div>
-                </div>
-            </div>
-            
-            <div class="layui-form-item">
-                <label class="layui-form-label">请求方式</label>
+                <label class="layui-form-label">
+                    请求方式
+                    <span class="text-danger">*</span>
+                </label>
                 <div class="layui-input-block w300">
                     <select name="method" lay-verify="required">
                         <option value="">选择请求方式</option>
@@ -73,6 +84,26 @@
                         <option value="PATCH" {if $data['method'] == 'PATCH'}selected="selected"{/if}>PATCH</option>
                         <option value="OPTIONS" {if $data['method'] == 'OPTIONS'}selected="selected"{/if}>OPTIONS</option>
                     </select>
+                    <div class="layui-form-mid layui-word-aux">
+                        链接的请求方式
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layui-form-item">
+                <label class="layui-form-label">
+                    链接名称
+                    <span class="text-danger">*</span>
+                </label>
+                <div class="layui-input-block w300">
+                    <input type="text" name="slug" autocomplete="off" placeholder="链接名称" class="layui-input" value="{$data.slug}">
+                </div>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">
+                        后台权限链接的 <span class="layui-badge layui-bg-green">slug</span>，
+                        通常为路由设置的 <span class="layui-badge layui-bg-green">name</span> 值，
+                        后台链接使用该值
+                    </div>
                 </div>
             </div>
             
