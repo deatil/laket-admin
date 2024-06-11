@@ -116,7 +116,7 @@ class Admin extends Base
             ])
             ->find();
         if (empty($data)) {
-            return $this->error('账号不存在！');
+            return $this->error('管理员信息不存在！');
         }
         
         $this->assign("data", $data);
@@ -145,11 +145,11 @@ class Admin extends Base
             ])
             ->find();
         if (empty($adminInfo)) {
-            return $this->error('账号信息不存在！');
+            return $this->error('管理员信息不存在！');
         }
         
         if ($adminInfo['id'] == AdminData::getId()) {
-            return $this->error('你不能修改自己的账号！');
+            return $this->error('你不能修改自己的管理员信息！');
         }
         
         if (AdminData::isSuperAdmin($adminInfo['id'])) {
@@ -191,7 +191,7 @@ class Admin extends Base
         }
         
         if ($adminInfo['id'] == AdminData::getId()) {
-            return $this->error('你不能删除自己的账号！');
+            return $this->error('你不能删除自己的管理员信息！');
         }
         
         if (AdminData::isSuperAdmin($adminInfo['id'])) {
@@ -228,7 +228,7 @@ class Admin extends Base
             "id" => $id,
         ])->find();
         if (empty($data)) {
-            return $this->error('账号不存在！');
+            return $this->error('管理员信息不存在！');
         }
         
         $gids = AuthGroupAccessModel::where([
@@ -262,7 +262,7 @@ class Admin extends Base
             ])
             ->find();
         if (empty($data)) {
-            return $this->error('账号不存在！');
+            return $this->error('管理员信息不存在！');
         }
         
         $this->assign("data", $data);
@@ -296,11 +296,11 @@ class Admin extends Base
             "id" => $post['id'],
         ])->find();
         if (empty($data)) {
-            return $this->error('账号不存在！');
+            return $this->error('管理员信息不存在！');
         }
         
         if ($post['id'] == AdminData::getId()) {
-            return $this->error('你不能修改自己账号的密码！');
+            return $this->error('你不能修改自己的密码！');
         }
         
         if (AdminData::isSuperAdmin($post['id'])) {
@@ -380,16 +380,16 @@ class Admin extends Base
             return $this->error('参数错误！');
         }
         
-        if ($data['id'] == AdminData::getId()) {
-            return $this->error('你不能修改自己的账号！');
-        }
-        
         $adminInfo = AdminModel::where([
                 "id" => $data['id'],
             ])
             ->find();
         if (empty($adminInfo)) {
-            return $this->error('账号不存在！');
+            return $this->error('管理员信息不存在！');
+        }
+        
+        if ($adminInfo['id'] == AdminData::getId()) {
+            return $this->error('你不能修改自己的信息！');
         }
         
         if (AdminData::isSuperAdmin($adminInfo['id'])) {
