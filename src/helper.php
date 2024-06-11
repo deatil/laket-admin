@@ -1,8 +1,8 @@
 <?php
 
+use think\helper\Arr;
 use think\facade\Event;
 use think\facade\View;
-use think\helper\Arr;
 
 use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
@@ -37,7 +37,7 @@ if (! function_exists('route')) {
      */
     function route(
         string $name = '', 
-        array $vars = [], 
+        array $vars  = [], 
         $suffix = true, 
         $domain = false
     ) {
@@ -101,7 +101,7 @@ if (! function_exists('laket_route')) {
      */
     function laket_route(
         string $name = '', 
-        array $vars = [], 
+        array $vars  = [], 
         $suffix = true, 
         $domain = false
     ) {
