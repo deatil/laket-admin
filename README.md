@@ -31,7 +31,6 @@
             </center>
         </td>
     </tr>
-    
     <tr>
         <td width="50%">
             <center>
@@ -44,7 +43,6 @@
             </center>
         </td>
     </tr>
-
 </table>
 
 更多截图 
