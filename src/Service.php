@@ -182,18 +182,10 @@ class Service extends BaseService
         $this->app->bind('laket-admin.password', Password::class);
         
         // 权限
-        $this->app->bind('laket-admin.auth-permission', function() {
-            $authPermission = new AuthPermission();
-            
-            return $authPermission;
-        });
+        $this->app->bind('laket-admin.auth-permission', AuthPermission::class);
         
         // 登录信息
-        $this->app->bind('laket-admin.auth-admin', function() {
-            $authAdmin = new AuthAdmin();
-            
-            return $authAdmin;
-        });
+        $this->app->bind('laket-admin.auth-admin', AuthAdmin::class);
         
         // 闪存
         $this->app->bind('laket-admin.flash', Manager::class);

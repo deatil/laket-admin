@@ -48,8 +48,10 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">头像</label>
                 <div class="layui-input-block w300">
-                    <div class="js-upload-image">
-                        {php}echo HtmlForm::images('avatar', '', $data['avatar']){/php}
+                    <div class="layui-inline">
+                        <div class="js-upload-image">
+                            {:form_images('avatar', '', $data['avatar'])}
+                        </div>
                     </div>
                 </div>
             </div>

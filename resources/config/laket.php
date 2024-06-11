@@ -20,6 +20,7 @@ return [
         'prikey_cache_key' => env('laket.prikey_cache_key', 'laket-admin-prikey-key'),
     ],
     
+    // 路由
     'route' => [
         'group'      => env('laket.route_group', 'admin'),
         'middleware' => env('laket.route_middleware', 'laket-admin'),
@@ -28,19 +29,23 @@ return [
     'auth' => [
         // 认证方式，1为实时认证；2为登录认证。
         'type'                 => 1,
-        // 登录认证过滤，格式: requestMethod:routeName
+        // 登录认证过滤，格式: routeName
         'authenticate_excepts' => [],
-        // 权限认证过滤，格式: requestMethod:routeName
+        // 权限认证过滤，格式: routeName
         'permission_excepts'   => [],
-        // 锁屏认证过滤，格式: requestMethod:routeName
+        // 锁屏认证过滤，格式: routeName
         'screenlock_excepts'   => [],
     ],
     
+    // 插件
     'flash' => [
+        // 插件目录
         'directory' => env('laket.flash_directory', 'flashs'),
     ],
     
+    // 上传
     'upload' => [
+        // 上传驱动
         'disk' => env('laket.upload_disk', 'public'),
     ],
     

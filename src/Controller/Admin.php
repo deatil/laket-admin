@@ -412,7 +412,7 @@ class Admin extends Base
                 $childGroupIds = (new AdminModel)->getUserChildGroupIds(AdminData::getId());
                 $roleids = explode(',', $data['roleid']);
                 
-                $newRoles = array_intersect_assoc($childGroupIds, $roleids);
+                $newRoles = array_intersect($childGroupIds, $roleids);
             } else {
                 $newRoles = explode(',', $data['roleid']);
             }

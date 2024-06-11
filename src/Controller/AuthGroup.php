@@ -324,7 +324,31 @@ class AuthGroup extends Base
         
         return $this->fetch('laket-admin::auth-group.access');
     }
-    
+
+    /**
+     * 用户组排序
+     */
+    public function listorder()
+    {
+        $id = $this->request->param('id/s', 0);
+        if (empty($id)) {
+            return $this->error('参数不能为空！');
+        }
+        
+        $listorder = $this->request->param('value/d', 100);
+        
+        $rs = AuthGroupModel::where([
+            'id' => $id,
+        ])->update([
+            'listorder' => $listorder,
+        ]);
+        if ($rs === false) {
+            return $this->error("排序失败！");
+        }
+        
+        return $this->success("排序成功！");
+    }
+
     /**
      * 访问授权保存
      */
@@ -352,7 +376,7 @@ class AuthGroup extends Base
                 $authIds = make(AdminModel::class)->getAuthIdList(AdminData::getId());
                 $rules = explode(',', $newRules);
                 
-                $newRoles = array_intersect_assoc($authIds, $rules);
+                $newRoles = array_intersect($authIds, $rules);
             } else {
                 $rules = explode(',', $newRules);
             }
@@ -374,30 +398,6 @@ class AuthGroup extends Base
         }
         
         return $this->success('授权成功！');
-    }
-
-    /**
-     * 用户组排序
-     */
-    public function listorder()
-    {
-        $id = $this->request->param('id/s', 0);
-        if (empty($id)) {
-            return $this->error('参数不能为空！');
-        }
-        
-        $listorder = $this->request->param('value/d', 100);
-        
-        $rs = AuthGroupModel::where([
-            'id' => $id,
-        ])->update([
-            'listorder' => $listorder,
-        ]);
-        if ($rs === false) {
-            return $this->error("排序失败！");
-        }
-        
-        return $this->success("排序成功！");
     }
     
 }

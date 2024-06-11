@@ -6,25 +6,32 @@
     <div class="layui-card-body">
         <form class="layui-form" method="post" action="{:laket_route('admin.profile.setting-save')}">
             <div class="layui-form-item">
-                <label class="layui-form-label">E-mail</label>
-                <div class="layui-input-inline">
+                <label class="layui-form-label">邮箱</label>
+                <div class="layui-input-block w300">
                     <input type="text" name="email" value="{$data.email}" autocomplete="off" placeholder="E-mail" class="layui-input">
                 </div>
-                <div class="layui-form-mid layui-word-aux">填写完整邮箱，如 xxx@163.com</div>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">填写完整邮箱，如 xxx@163.com</div>
+                </div>
             </div>
             
             <div class="layui-form-item">
-                <label class="layui-form-label">真实姓名</label>
-                <div class="layui-input-inline">
+                <label class="layui-form-label">昵称</label>
+                <div class="layui-input-block w300">
                     <input type="text" name="nickname" value="{$data.nickname}" autocomplete="off" placeholder="真实姓名" class="layui-input">
+                </div>
+                <div class="layui-input-block">
+                    <div class="layui-form-mid layui-word-aux">填写账号的昵称，登录后会在右上角显示</div>
                 </div>
             </div>
             
             <div class="layui-form-item">
                 <label class="layui-form-label">头像</label>
-                <div class="layui-input-inline">
-                    <div class="js-upload-image">
-                        {php}echo HtmlForm::images('avatar','',$data['avatar']){/php}
+                <div class="layui-input-block">
+                    <div class="layui-inline">
+                        <div class="js-upload-image">
+                            {:form_images('avatar', '', $data['avatar'])}
+                        </div>
                     </div>
                 </div>
             </div>

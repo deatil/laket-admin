@@ -64,12 +64,12 @@ class Form
      * 下拉选择框
      *
      * @param type $array 数据
-     * @param type $id 默认选择
-     * @param type $str 属性
+     * @param type $id    默认选择
+     * @param type $str   属性
      * @param type $default_option 默认选项
-     * @return boolean|string
+     * @return string
      */
-    public static function select($array = array(), $id = 0, $str = '', $default_option = '')
+    public static function select($array = [], $id = 0, $str = '', $default_option = '')
     {
         $string = '<select ' . $str . '>';
         $default_selected = (empty($id) && $default_option) ? 'selected' : '';
@@ -78,10 +78,10 @@ class Form
         }
 
         if (!is_array($array) || count($array) == 0) {
-            return false;
+            return '';
         }
 
-        $ids = array();
+        $ids = [];
         if (isset($id)) {
             $ids = explode(',', $id);
         }
@@ -100,11 +100,11 @@ class Form
      * 复选框
      *
      * @param $array 选项 二维数组
-     * @param $id 默认选中值，多个用 '逗号'分割
-     * @param $str 属性
+     * @param $id    默认选中值，多个用 '逗号'分割
+     * @param $str   属性
      * @param $defaultvalue 是否增加默认值 默认值为 -99
      */
-    public static function checkbox($array = array(), $id = '', $str = '', $defaultvalue = '', $field = '')
+    public static function checkbox($array = [], $id = '', $str = '', $defaultvalue = '', $field = '')
     {
         $string = '';
         
@@ -134,22 +134,22 @@ class Form
     /**
      * 图片上传
      *
-     * @param string $name 表单名称
-     * @param int $id 表单id
-     * @param string $value 表单默认值
-     * @param string $multiple 是否多图片
+     * @param string $name     表单名称
+     * @param int    $id       表单id
+     * @param string $value    表单默认值
+     * @param bool   $mult     是否多图片
      * @param string $alowexts 允许图片格式
      * @param int $size 图片大小限制
      */
-    public static function images(
-        $name, 
-        $id = '', 
-        $value = '', 
-        $multiple = 'false', 
-        $size = 0
-    ) {
-        if (!$id) {
+    public static function images($name, $id = '', $value = '', $mult = false, $size = 0) {
+        if (empty($id)) {
             $id = $name;
+        }
+        
+        if ($mult) {
+            $multiple = 'true';
+        } else {
+            $multiple = 'false';
         }
         
         $string = "<div id='file_list_{$name}' class='uploader-list'>";

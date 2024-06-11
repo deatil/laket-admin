@@ -4,6 +4,7 @@ use think\facade\Event;
 use think\facade\View;
 use think\helper\Arr;
 
+use Laket\Admin\Support\Form;
 use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 use Laket\Admin\Facade\Admin as AuthAdmin;
@@ -343,5 +344,52 @@ if (! function_exists('laket_screenlock_excepts')) {
     function laket_screenlock_excepts(array $excepts)
     {
         return FlashManager::screenlockExcepts($excepts);
+    }
+}
+
+if (! function_exists('form_select')) {
+    /**
+     * 下拉选择框
+     *
+     * @param type $array 数据
+     * @param type $id 默认选择
+     * @param type $str 属性
+     * @param type $default_option 默认选项
+     * @return string
+     */
+    function form_select($array = [], $id = 0, $str = '', $default_option = '')
+    {
+        return Form::select($array, $id, $str, $default_option);
+    }
+}
+
+if (! function_exists('form_checkbox')) {
+    /**
+     * 复选框
+     *
+     * @param $array 选项 二维数组
+     * @param $id    默认选中值，多个用 '逗号'分割
+     * @param $str   属性
+     * @param $defaultvalue 是否增加默认值 默认值为 -99
+     */
+    function form_checkbox($array = [], $id = '', $str = '', $defaultvalue = '', $field = '')
+    {
+        return Form::checkbox($array, $id, $str, $defaultvalue, $field);
+    }
+}
+
+if (! function_exists('form_images')) {
+    /**
+     * 图片上传
+     *
+     * @param string $name     表单名称
+     * @param int    $id       表单id
+     * @param string $value    表单默认值
+     * @param bool   $mult     是否多图片
+     * @param string $alowexts 允许图片格式
+     * @param int $size 图片大小限制
+     */
+    function form_images($name, $id = '', $value = '', $mult = false, $size = 0) {
+        return Form::images($name, $id, $value, $mult, $size);
     }
 }
