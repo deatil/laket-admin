@@ -6,7 +6,7 @@
 *  `laket-admin` 是基于 `Thinkphp` 的 PHP 通用后台管理系统
 *  使用 `layui` 搭建的后台管理界面
 *  通过系统构建的插件系统完成对项目的开发
-*  插件说明文档 `docs/wiki/flash.md`
+*  插件说明文档 `[docs/wiki/flash.md](docs/wiki/flash.md)`
 
 
 ## 环境要求
@@ -18,10 +18,37 @@
 
 ## 截图预览
 
-![LaketAdmin](https://github.com/deatil/laket-admin/assets/24578855/fcc7187d-5f41-4f24-a0be-76083905902b)![LaketAdmin-admin](https://user-images.githubusercontent.com/24578855/118827273-cf06f900-b8ee-11eb-8cde-40c85d83ca94.png)
-![menus](https://github.com/deatil/laket-admin/assets/24578855/431cfba5-e1b7-459b-bba9-b7370375de18)
-![attach](https://github.com/deatil/laket-admin/assets/24578855/948ce7db-2ffa-4f9f-8b60-45b8606cac1b)
-![ext](https://github.com/deatil/laket-admin/assets/24578855/d8fa5b9e-1d1c-4e33-ade4-e834d04c4109)
+<table>
+    <tr>
+        <td width="50%">
+            <center>
+                <img alt="LaketAdmin" src="https://github.com/deatil/laket-admin/assets/24578855/fcc7187d-5f41-4f24-a0be-76083905902b" />
+            </center>
+        </td>
+        <td width="50%">
+            <center>
+                <img alt="menus" src="https://github.com/deatil/laket-admin/assets/24578855/431cfba5-e1b7-459b-bba9-b7370375de18" />
+            </center>
+        </td>
+    </tr>
+    
+    <tr>
+        <td width="50%">
+            <center>
+                <img alt="attach" src="https://github.com/deatil/laket-admin/assets/24578855/948ce7db-2ffa-4f9f-8b60-45b8606cac1b" />
+            </center>
+        </td>
+        <td width="50%">
+            <center>
+                <img alt="flash" src="https://github.com/deatil/laket-admin/assets/24578855/d8fa5b9e-1d1c-4e33-ade4-e834d04c4109" />
+            </center>
+        </td>
+    </tr>
+
+</table>
+
+更多截图 
+[Laket Admin 系统截图](https://github.com/deatil/laket-admin/issues/1)
 
 
 ## 安装步骤
@@ -75,9 +102,9 @@ php think laket-admin:install
 
  - topthink/framework
  
- - composer/semver
- 
  - layui
+
+ - composer/semver
 
 
 ## 开源协议

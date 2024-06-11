@@ -108,7 +108,7 @@ class Admin extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            return $this->error('参数错误！');
+            return $this->error('参数错误！', '');
         }
         
         $data = AdminModel::where([
@@ -116,7 +116,7 @@ class Admin extends Base
             ])
             ->find();
         if (empty($data)) {
-            return $this->error('管理员信息不存在！');
+            return $this->error('账号不存在！', '');
         }
         
         $this->assign("data", $data);
@@ -145,11 +145,11 @@ class Admin extends Base
             ])
             ->find();
         if (empty($adminInfo)) {
-            return $this->error('管理员信息不存在！');
+            return $this->error('账号不存在！');
         }
         
         if ($adminInfo['id'] == AdminData::getId()) {
-            return $this->error('你不能修改自己的管理员信息！');
+            return $this->error('你不能修改自己的账号！');
         }
         
         if (AdminData::isSuperAdmin($adminInfo['id'])) {
@@ -187,11 +187,11 @@ class Admin extends Base
             ])
             ->find();
         if (empty($adminInfo)) {
-            return $this->error('信息不存在！');
+            return $this->error('账号不存在！');
         }
         
         if ($adminInfo['id'] == AdminData::getId()) {
-            return $this->error('你不能删除自己的管理员信息！');
+            return $this->error('你不能删除自己的账号！');
         }
         
         if (AdminData::isSuperAdmin($adminInfo['id'])) {
@@ -221,14 +221,14 @@ class Admin extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            return $this->error('参数错误！');
+            return $this->error('参数错误！', '');
         }
         
         $data = AdminModel::where([
             "id" => $id,
         ])->find();
         if (empty($data)) {
-            return $this->error('管理员信息不存在！');
+            return $this->error('账号不存在！', '');
         }
         
         $gids = AuthGroupAccessModel::where([
@@ -257,12 +257,16 @@ class Admin extends Base
     public function password()
     {
         $id = $this->request->param('id/s');
+        if (empty($id)) {
+            return $this->error('参数错误！', '');
+        }
+
         $data = AdminModel::where([
                 "id" => $id,
             ])
             ->find();
         if (empty($data)) {
-            return $this->error('管理员信息不存在！');
+            return $this->error('账号不存在！', '');
         }
         
         $this->assign("data", $data);
@@ -278,7 +282,7 @@ class Admin extends Base
         $post = $this->request->post('');
         
         if (empty($post) || !isset($post['id'])) {
-            return $this->error('没有修改的数据！');
+            return $this->error('参数错误！');
         }
         
         if (empty($post['password'])) {
@@ -296,7 +300,7 @@ class Admin extends Base
             "id" => $post['id'],
         ])->find();
         if (empty($data)) {
-            return $this->error('管理员信息不存在！');
+            return $this->error('账号不存在！');
         }
         
         if ($post['id'] == AdminData::getId()) {
@@ -332,7 +336,7 @@ class Admin extends Base
     {
         $id = $this->request->param('id/s');
         if (empty($id)) {
-            return $this->error('参数错误！');
+            return $this->error('参数错误！', '');
         }
         
         $data = AdminModel::where([
@@ -340,7 +344,7 @@ class Admin extends Base
             ])
             ->find();
         if (empty($data)) {
-            return $this->error('该信息不存在！');
+            return $this->error('账号不存在！', '');
         }
         
         $data['gids'] = AuthGroupAccessModel::where([
@@ -385,11 +389,11 @@ class Admin extends Base
             ])
             ->find();
         if (empty($adminInfo)) {
-            return $this->error('管理员信息不存在！');
+            return $this->error('账号不存在！');
         }
         
         if ($adminInfo['id'] == AdminData::getId()) {
-            return $this->error('你不能修改自己的信息！');
+            return $this->error('你不能修改自己的账号！');
         }
         
         if (AdminData::isSuperAdmin($adminInfo['id'])) {
