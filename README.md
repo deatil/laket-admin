@@ -6,7 +6,7 @@
 *  `laket-admin` 是基于 `Thinkphp` 的 PHP 通用后台管理系统
 *  使用 `layui` 搭建的后台管理界面
 *  通过系统构建的插件系统完成对项目的开发
-*  插件说明文档 `[docs/wiki/flash.md](docs/wiki/flash.md)`
+*  插件说明文档 [`docs/wiki/flash.md`](docs/wiki/flash.md)
 
 
 ## 环境要求
