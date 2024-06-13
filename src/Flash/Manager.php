@@ -19,7 +19,7 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Flash\Service as FlashService;
 
 /**
- * 闪存管理
+ * 插件管理
  *
  * @create 2021-3-19
  * @author deatil
@@ -27,19 +27,32 @@ use Laket\Admin\Flash\Service as FlashService;
 class Manager
 {
     /**
+     * @var \Closure(string):void
+     */
+    private static $includeFile;
+    
+    /**
      * @var array
      */
     public $flashs = [];
     
     /**
-     * 本地闪存缓存id
+     * 本地插件缓存id
      * 
      * @var string 
      */
     public $flashsCacheId = 'laket-admin-local-flashs';
 
     /**
-     * 添加闪存
+     * 构造函数
+     */
+    public function __construct()
+    {
+        self::initializeIncludeClosure();
+    }
+    
+    /**
+     * 添加插件
      *
      * @param string $name 包名
      * @param string $class 绑定服务类
@@ -57,7 +70,7 @@ class Manager
     }
     
     /**
-     * 获取添加的闪存
+     * 获取添加的插件
      *
      * @param string $name
      * @return string
@@ -72,7 +85,7 @@ class Manager
     }
     
     /**
-     * 移除添加的闪存
+     * 移除添加的插件
      *
      * @param string $name
      * @return string|null
@@ -89,9 +102,9 @@ class Manager
     }
     
     /**
-     * 检测非compoer闪存是否存在
+     * 检测非compoer插件是否存在
      *
-     * @param string $name 闪存包名
+     * @param string $name 插件包名
      * @return bool
      */
     public function checkLocal($name)
@@ -106,7 +119,7 @@ class Manager
     }
     
     /**
-     * 设置闪存路由
+     * 设置插件路由
      *
      * @param $callback
      * @return self
@@ -235,7 +248,7 @@ class Manager
     }
     
     /**
-     * 加载闪存
+     * 加载插件
      *
      * @return void
      */
@@ -266,7 +279,7 @@ class Manager
                 return null;
             }
             
-            // 闪存绑定类
+            // 插件绑定类
             if (empty($data['bind_service'])) {
                 return null;
             }
@@ -276,7 +289,7 @@ class Manager
             if (! class_exists($data['bind_service']) 
                 && file_exists($directory)
             ) {
-                // 绑定非composer闪存
+                // 绑定非composer插件
                 $cacheId = md5(str_replace('\\', '/', $data['name']));
                 
                 $composerData = Cache::get($cacheId);
@@ -286,6 +299,7 @@ class Manager
                 }
                 
                 $this->registerPsr4(Arr::get($composerData, 'psr-4', []));
+                $this->loadFile(Arr::get($composerData, 'files', []));
                 $this->registerService(Arr::get($composerData, 'services', []));
             }
             
@@ -311,7 +325,7 @@ class Manager
     }
     
     /**
-     * 启动闪存服务
+     * 启动插件服务
      *
      * @return void
      */
@@ -349,8 +363,15 @@ class Manager
             $newPsr4[$key] = realpath(dirname($composer) . '/' . $value);
         }
         
+        $files = Arr::get($composerData, 'autoload.files', []);
+        $newFiles = [];
+        foreach ($files as $key => $value) {
+            $newFiles[] = realpath(dirname($composer) . '/' . $value);
+        }
+        
         $newData = [
             'psr-4' => $newPsr4,
+            'files' => $newFiles,
             'services' => Arr::get($composerData, 'extra.think.services', []),
         ];
         
@@ -387,7 +408,37 @@ class Manager
     }
     
     /**
-     * 加载本地闪存
+     * 加载文件
+     */
+    public function loadFile($files)
+    {
+        $files = is_array($files) ? $files : [$files];
+        
+        foreach ($files as $file) {
+            $this->includeFile($file);
+        }
+    }
+    
+    /**
+     * 引入文件
+     *
+     * @param  string    $class 文件
+     * @return true|null True if loaded, false otherwise
+     */
+    protected function includeFile($file)
+    {
+        if (file_exists($file)) {
+            $includeFile = self::$includeFile;
+            $includeFile($file);
+
+            return true;
+        }
+
+        return false;
+    }
+    
+    /**
+     * 加载本地插件
      *
      * @return self
      */
@@ -414,6 +465,7 @@ class Manager
             $services = Arr::get($flash, 'services', []);
             
             $this->registerPsr4(Arr::get($flash, 'psr-4', []));
+            $this->loadFile(Arr::get($flash, 'files', []));
             $this->registerService(Arr::get($flash, 'services', []), true);
         });
         
@@ -421,7 +473,7 @@ class Manager
     }
     
     /**
-     * 刷新本地加载闪存
+     * 刷新本地加载插件
      *
      * @return self
      */
@@ -433,7 +485,7 @@ class Manager
     }
     
     /**
-     * 移除闪存信息缓存
+     * 移除插件信息缓存
      *
      * @param string $name
      * @return self
@@ -451,7 +503,7 @@ class Manager
     }
     
     /**
-     * 闪存存放文件夹
+     * 插件存放文件夹
      *
      * @param string $path
      * @return string
@@ -462,7 +514,7 @@ class Manager
     }
     
     /**
-     * 闪存存放目录
+     * 插件存放目录
      *
      * @param string $path
      * @return string
@@ -474,7 +526,7 @@ class Manager
     }
     
     /**
-     * 闪存绑定类
+     * 插件绑定类
      *
      * @param string|null $name
      * @return string
@@ -539,7 +591,7 @@ class Manager
     }
     
     /**
-     * 闪存的实例化类
+     * 插件的实例化类
      *
      * @param string|null $name
      * @return mixed|object
@@ -552,7 +604,7 @@ class Manager
     }
     
     /**
-     * 闪存标识
+     * 插件标识
      *
      * @param object|null $newClass
      * @return string
@@ -579,7 +631,7 @@ class Manager
     }
     
     /**
-     * 闪存信息
+     * 插件信息
      *
      * @param string|null $name
      * @return array
@@ -654,7 +706,7 @@ class Manager
     }
     
     /**
-     * 全部添加的闪存
+     * 全部添加的插件
      *
      * @return array
      */
@@ -678,7 +730,7 @@ class Manager
     }
     
     /**
-     * 闪存标识图片
+     * 插件标识图片
      *
      * @param string|null $icon
      * @return string
@@ -698,7 +750,7 @@ class Manager
     }
     
     /**
-     * 验证闪存信息
+     * 验证插件信息
      *
      * @param array $info
      * @return boolen
@@ -727,7 +779,7 @@ class Manager
     }
     
     /**
-     * 获取满足条件的闪存文件夹
+     * 获取满足条件的插件文件夹
      *
      * @param string|null $dirPath
      * @return array
@@ -776,6 +828,28 @@ class Manager
         $filePath = dirname($reflection->getFileName());
 
         return $filePath;
+    }
+    
+    /**
+     * @return void
+     */
+    private static function initializeIncludeClosure()
+    {
+        if (self::$includeFile !== null) {
+            return;
+        }
+
+        /**
+         * Scope isolated include.
+         *
+         * Prevents access to $this/self from included files.
+         *
+         * @param  string $file
+         * @return void
+         */
+        self::$includeFile = \Closure::bind(static function($file) {
+            include $file;
+        }, null, null);
     }
 
 }

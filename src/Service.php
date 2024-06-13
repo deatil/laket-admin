@@ -275,7 +275,7 @@ class Service extends BaseService
         ]);
         
         // 注册视图标签
-        $taglibs = config('laket.view.taglib_build_in', '');
+        $taglibs = config('laket.view.taglib_build_in', []);
         $this->registerViewTaglib($taglibs);
     }
     

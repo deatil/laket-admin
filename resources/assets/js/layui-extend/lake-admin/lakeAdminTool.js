@@ -27,24 +27,21 @@ layui.define(['jquery', 'jqueryCookie', 'lakeAdminMenu'], function (exports) {
                     });
                 }
                 
-                var navItems = thiz
-                    .parents('#side_menus_bar .layui-nav-item');
-                
-                var navChildItems = thiz
-                    .parents('#side_menus_bar .layui-nav-item-active');
+                var navItems = thiz.parents('#side_menus_bar .layui-nav-item');
+                var navChildItems = thiz.parents('#side_menus_bar .layui-nav-item-active');
                 
                 $("#side_menus_bar")
                     .find(".layui-nav-item")
-                    .removeClass('layui-nav-itemed');
-                $(navItems).each(function() {
-                    $(this).addClass('layui-nav-itemed');
-                });
+                    .removeClass('layui-nav-itemed')
+                    .removeClass('layui-nav-item-active');
                 
-                $("#side_menus_bar")
-                    .find(".layui-nav-item-active")
-                    .removeClass('layui-nav-itemed');
+                $(navItems).each(function() {
+                    $(this).addClass('layui-nav-itemed')
+                        .addClass('layui-nav-item-active');
+                });
                 $(navChildItems).each(function() {
-                    $(this).addClass('layui-nav-itemed');
+                    $(this).addClass('layui-nav-itemed')
+                        .addClass('layui-nav-item-active');
                 });
             }
         },

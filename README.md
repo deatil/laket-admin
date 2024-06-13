@@ -90,6 +90,7 @@ php think laket-admin:install
 | [百度编辑器](https://github.com/deatil/laket-ueditor) | 设置添加百度编辑器使用 |
 | [插件禁用](https://github.com/deatil/laket-flash-disable) | 禁用后插件将不能进行相关的操作 |
 | [表单提交](https://github.com/deatil/laket-pushbook) | 简单的表单提交，包括 Admin 页面和用户端页面 |
+| [CMS](https://github.com/deatil/laket-cms) | CMS 内容管理系统 |
 
 注：插件目录默认为 `/flashs` 目录
 

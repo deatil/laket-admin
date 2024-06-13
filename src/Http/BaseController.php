@@ -5,8 +5,8 @@ declare (strict_types = 1);
 namespace Laket\Admin\Http;
 
 use think\App;
-use think\exception\ValidateException;
 use think\Validate;
+use think\exception\ValidateException;
 
 /**
  * 控制器基础类
