@@ -245,6 +245,8 @@ class Event
             $call = $event;
         } elseif (str_contains($event, '::')) {
             $call = $event;
+        } elseif (function_exists($event)) {
+            $call = $event;
         } else {
             $obj  = $this->app->make($event);
             $call = [$obj, 'handle'];
