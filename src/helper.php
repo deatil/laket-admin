@@ -42,8 +42,8 @@ if (! function_exists('route')) {
         $suffix = true, 
         $domain = false
     ) {
-        $newUrl = url($name, $vars, $suffix, $domain);
-        return (string) $newUrl;
+        $url = url($name, $vars, $suffix, $domain);
+        return (string) $url;
     }
 }
 
@@ -92,7 +92,7 @@ if (! function_exists('remove_action')) {
 
 if (! function_exists('add_filter')) {
     /**
-     * 注册动作
+     * 注册过滤器
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
@@ -226,8 +226,8 @@ if (! function_exists('laket_route')) {
         $suffix = true, 
         $domain = false
     ) {
-        $newUrl = url($name, $vars, $suffix, $domain);
-        return (string) $newUrl;
+        $url = url($name, $vars, $suffix, $domain);
+        return (string) $url;
     }
 }
 
@@ -345,8 +345,7 @@ if (! function_exists('laket_file_name')) {
                 'id' => $id
             ])
             ->find();
-        $name = $data['name'];
-        return $name ? $name : '没有找到文件';
+        return $data['name'] ?? '没有找到文件';
     }
 }
 
