@@ -279,7 +279,7 @@
 {block name="script"}
 <script>
 layui.config({
-    base: "admin/js/layui-extend/"
+    base: "{:laket_assets('js/layui-extend/')}"
 }).use(['table', 'notice'], function() {
     var notice = layui.notice,
         $ = layui.jquery;

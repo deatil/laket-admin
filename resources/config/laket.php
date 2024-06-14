@@ -4,8 +4,8 @@ return [
     'admin' => [
         "name"      => "LaketAdmin",
         "name_mini" => "Laket",
-        "version"   => "1.2.17",
-        "release"   => "1.2.17.20240613",
+        "version"   => "1.2.18",
+        "release"   => "1.2.18.20240613",
     ],
     
     // 登录
@@ -63,6 +63,12 @@ return [
         
         // 资源
         'assets' => env('laket.view_assets', "/static"),
+        
+        // 后台资源
+        'admin_assets' => env('laket.view_admin_assets', "/static/admin"),
+        
+        // 后台资源路径
+        'admin_assets_path' => public_path('static/admin'),
     ],
     
     // 响应

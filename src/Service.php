@@ -207,12 +207,6 @@ class Service extends BaseService
     protected function registerPublishes()
     {
         if ($this->app->runningInConsole()) {
-            // 静态文件 
-            // php think laket-admin:publish --tag=laket-admin-assets
-            $this->publishes([
-                __DIR__ . '/../resources/assets/' => public_path('static/admin'),
-            ], 'laket-admin-assets');
-            
             // 配置文件 
             // php think laket-admin:publish --tag=laket-admin-config
             $this->publishes([
@@ -224,6 +218,13 @@ class Service extends BaseService
             $this->publishes([
                 __DIR__ . '/../resources/views/' => root_path('view/vendor/laket-admin'),
             ], 'laket-admin-views');
+
+            // 静态文件 
+            // php think laket-admin:publish --tag=laket-admin-assets
+            $this->publishes([
+                __DIR__ . '/../resources/assets/' => config('laket.view.admin_assets_path'),
+            ], 'laket-admin-assets');
+            
         }
     }
 

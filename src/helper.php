@@ -69,6 +69,21 @@ if (! function_exists('runhook')) {
     }
 }
 
+if (! function_exists('assets')) {
+    /**
+     * 资源uri
+     *
+     * @param string $assets 资源路径
+     * @return string
+     *
+     * @throws \Exception
+     */
+    function assets($assets = '') 
+    {
+        return config('laket.view.assets').($assets ? '/' . ltrim($assets, '/') : '');
+    }
+}
+
 if (! function_exists('laket_url')) {
     /**
      * Url生成
@@ -184,7 +199,7 @@ if (! function_exists('laket_assets')) {
      */
     function laket_assets($assets = '') 
     {
-        return config('laket.view.assets').($assets ?: '');
+        return config('laket.view.admin_assets').($assets ? '/' . ltrim($assets, '/') : '');
     }
 }
 
@@ -194,6 +209,7 @@ if (! function_exists('laket_auth')) {
      *
      * 检测链接: 
      * laket_auth("GET:admin/auth-group/access", 'or', 'url')
+     * laket_auth("admin.auth-group.access", 'or')
      *
      * @param string $rule slug名称
      * @param string $relation

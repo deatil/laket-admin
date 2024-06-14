@@ -321,7 +321,7 @@
                     <div id="file_list_{$vo.name}" class="uploader-list">
                         {notempty name="$vo.value"}
                         <div class="file-item thumbnail">
-                            <img data-original="{$vo.value|laket_attachment_url|default='admin/img/none.png'}" src="{$vo.value|laket_attachment_url|default='admin/img/none.png'}" width="100" style="max-height: 100px;">
+                            <img data-original="{$vo.value|laket_attachment_url|default=laket_assets('img/none.png')}" src="{$vo.value|laket_attachment_url|default=laket_assets('img/none.png')}" width="100" style="max-height: 100px;">
                             <i class="iconfont icon-delete_fill remove-picture" data-id="{$vo.value}"></i>
                         </div>
                         {/notempty}
@@ -353,7 +353,7 @@
                         {notempty name="$vo.value"}
                         {volist name="$vo.value|explode=',',###" id="v"}
                         <div class="file-item thumbnail">
-                            <img data-original="{$v|laket_attachment_url}" src="{$v|laket_attachment_url|default='admin/img/none.png'}" width="100" style="max-height: 100px;">
+                            <img data-original="{$v|laket_attachment_url}" src="{$v|laket_attachment_url|default=laket_assets('img/none.png')}" width="100" style="max-height: 100px;">
                             <i class="iconfont icon-delete_fill remove-picture" data-id="{$v}"></i>
                             <i class="iconfont icon-yidong move-picture"></i>
                         </div>
@@ -392,7 +392,7 @@
         </div>
         <script type="text/javascript">
         layui.config({
-            base: 'admin/js/layui-extend/'
+            base: "{:laket_assets('js/layui-extend/')}"
         }).extend({
             tagsinput: 'tagsinput/tagsinput',
         }).use(["jquery", "tagsinput"], function() {
@@ -529,6 +529,6 @@
 
 {:laket_runhook('laket_admin_input_item_js_before')}
 
-<script type="text/javascript" src="admin/js/Sortable.js"></script>
+<script type="text/javascript" src="{:laket_assets('js/Sortable.js')}"></script>
 
 {:laket_runhook('laket_admin_input_item_js_after')}

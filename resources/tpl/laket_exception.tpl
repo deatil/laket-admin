@@ -5,7 +5,6 @@
     <title>系统发生错误</title>
     <meta name="robots" content="noindex,nofollow" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <base href="{:laket_assets('/')}" />
     <style>
         * {-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;}
         html,body,div,span,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,abbr,address,cite,code,del,dfn,em,img,ins,kbd,q,samp,small,strong,sub,sup,var,b,i,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,caption,article,aside,canvas,details,figcaption,figure,footer,header,hgroup,menu,nav,section,summary,time,mark,audio,video {margin:0;padding:0;border:0;outline:0;vertical-align:baseline;background:transparent;}
@@ -52,7 +51,7 @@
 <body class="error-page-wrapper">
 <div class="content-container">
     <div class="head-line">
-        <img src="admin/img/error.svg" alt="" width="120"/>
+        <img src="{:laket_assets('img/error.svg')}" alt="" width="120"/>
     </div>
     <div class="subheader">
         <?php echo nl2br(htmlentities($message)); ?>

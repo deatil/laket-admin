@@ -47,7 +47,7 @@
 {block name="script"}
 <script>
 layui.config({
-    base: "admin/js/layui-extend/"
+    base: "{:laket_assets('js/layui-extend/')}"
 }).use(['jquery', 'notice', 'tree', 'treeTool'], function() {
     var $ = layui.$,
         notice = layui.notice,
