@@ -66,8 +66,11 @@ class Event
 
         if (str_contains($event, '.')) {
             [$prefix, $event] = explode('.', $event, 2);
-            if (isset($this->listener[$prefix . '.*'])) {
-                $listeners = array_merge($listeners, $this->listener[$prefix . '.*']);
+            
+            foreach ($this->listener as $e => $listener) {
+                if ($event == '*' && str_starts_with($e, $prefix . '.')) {
+                    $listeners = array_merge($listeners, $listener);
+                }
             }
         }
 
@@ -117,8 +120,11 @@ class Event
 
         if (str_contains($event, '.')) {
             [$prefix, $event] = explode('.', $event, 2);
-            if (isset($this->listener[$prefix . '.*'])) {
-                $listeners = array_merge($listeners, $this->listener[$prefix . '.*']);
+            
+            foreach ($this->listener as $e => $listener) {
+                if ($event == '*' && str_starts_with($e, $prefix . '.')) {
+                    $listeners = array_merge($listeners, $listener);
+                }
             }
         }
 
@@ -134,6 +140,7 @@ class Event
             array_unshift($tmp, $result);
             
             $result = $this->dispatch($listener['listener'], $tmp);
+            $tmp = $var;
         }
 
         return $result;
