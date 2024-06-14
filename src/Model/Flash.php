@@ -167,9 +167,7 @@ class Flash extends ModelBase
         }
         
         // 事件
-        $eventData = new Event\Data\FlashModelGetConfigs($settinglist, $settingDatalist);
-        event(new Event\FlashModelGetConfigs($eventData));
-        $settingDatalist = $eventData->settingDatalist;
+        $settingDatalist = apply_filters('FlashModelGetConfigs', $settingDatalist, $settinglist);
         
         return $settingDatalist;
     }

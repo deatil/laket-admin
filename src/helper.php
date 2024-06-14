@@ -1,16 +1,16 @@
 <?php
 
-use think\facade\Event;
 use think\facade\View;
 use think\helper\Arr;
 
-use Laket\Admin\Support\Form;
-use Laket\Admin\Model\Flash as FlashModel;
-use Laket\Admin\Model\Attachment as AttachmentModel;
+use Laket\Admin\Facade\Event;
 use Laket\Admin\Facade\Admin as AuthAdmin;
 use Laket\Admin\Facade\Flash as FlashManager;
 use Laket\Admin\Facade\ViewFinder as ViewPathFinder;
 use Laket\Admin\Http\Traits\View as ViewTrait;
+use Laket\Admin\Support\Form;
+use Laket\Admin\Model\Flash as FlashModel;
+use Laket\Admin\Model\Attachment as AttachmentModel;
 
 if (! function_exists('make')) {
     /**
@@ -47,25 +47,130 @@ if (! function_exists('route')) {
     }
 }
 
-if (! function_exists('runhook')) {
+if (! function_exists('add_action')) {
     /**
-     * 行为
-     *
-     * @param  string $tag    标签名称
-     * @param  mixed  $params 传入参数
-     * @param  bool   $once   只获取一个有效返回值
+     * 注册动作
+     * 
+     * @param string $event    事件名称
+     * @param mixed  $listener 监听操作
+     * @param bool   $sort     排序
+     * @return $this
+     */
+    function add_action(string $event, $listener, int $sort = 1): void
+    {
+        Event::addAction($event, $listener, $sort);
+    }
+}
+
+if (! function_exists('do_action')) {
+    /**
+     * 触发动作
+     * 
+     * @param string|object $event 事件名称
+     * @param mixed         $var   更多参数
+     * @return void
+     */
+    function do_action($event, ...$var): void
+    {
+        Event::doAction($event, ...$var);
+    }
+}
+
+if (! function_exists('remove_action')) {
+    /**
+     * 移除动作
+     * 
+     * @param string $event    事件名称
+     * @param mixed  $listener 监听操作
+     * @return $this
+     */
+    function remove_action(string $event, $listener): bool
+    {
+        return Event::removeFilter($event, $listener);
+    }
+}
+
+if (! function_exists('add_filter')) {
+    /**
+     * 注册动作
+     * 
+     * @param string $event    事件名称
+     * @param mixed  $listener 监听操作
+     * @param bool   $sort     排序
+     * @return $this
+     */
+    function add_filter(string $event, $listener, int $sort = 1): void
+    {
+        Event::addFilter($event, $listener, $sort);
+    }
+}
+
+if (! function_exists('apply_filters')) {
+    /**
+     * 触发过滤器
+     * 
+     * @param string|object $event  事件名称
+     * @param mixed         $params 传入参数
+     * @param mixed         $var    更多参数
      * @return mixed
      */
-    function runhook($tag, $params = null, $once = false)
+    function apply_filters($event, $params = null, ...$var)
     {
-        $event = Event::trigger($tag, $params, $once);
-        if ($once) {
-            return $event;
-        } else {
-            $html = join("", $event);;
-            return $html;
-        }
-        
+        return Event::applyFilters($event, $params, ...$var);
+    }
+}
+
+if (! function_exists('remove_filter')) {
+    /**
+     * 移除过滤器
+     * 
+     * @param string $event    事件名称
+     * @param mixed  $listener 监听操作
+     * @return $this
+     */
+    function remove_filter(string $event, $listener): bool
+    {
+        return Event::removeFilter($event, $listener);
+    }
+}
+
+if (! function_exists('has_filter')) {
+    /**
+     * 是否有过滤器
+     * 
+     * @param string $event    事件名称
+     * @param mixed  $listener 监听操作
+     * @return $this
+     */
+    function has_filter(string $event, $listener): bool
+    {
+        return Event::hasFilter($event, $listener);
+    }
+}
+
+if (! function_exists('has_listener')) {
+    /**
+     * 是否存在事件监听
+     * 
+     * @param string $event 事件名称
+     * @return bool
+     */
+    function has_listener(string $event): bool
+    {
+        return Event::exists($event);
+    }
+}
+
+if (! function_exists('remove_listener')) {
+    /**
+     * 移除事件监听
+     * 
+     * @param string $event 事件名称
+     * @return void
+     */
+    function remove_listener(string $event): void
+    {
+        Event::remove($event);
     }
 }
 
@@ -224,21 +329,6 @@ if (! function_exists('laket_auth')) {
         $type     = null
     ) {
         return AuthAdmin::checkPermission($rule, $mode, $type, $relation);
-    }
-}
-
-if (! function_exists('laket_runhook')) {
-    /**
-     * 行为
-     *
-     * @param  string $tag    标签名称
-     * @param  mixed  $params 传入参数
-     * @param  bool   $once   只获取一个有效返回值
-     * @return mixed
-     */
-    function laket_runhook($tag, $params = null, $once = false)
-    {
-        return runhook($tag, $params, $once);
     }
 }
 

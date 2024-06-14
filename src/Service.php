@@ -4,6 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin;
 
+use Laket\Admin\Event\Event;
 use Laket\Admin\Flash\Manager;
 use Laket\Admin\Support\Form;
 use Laket\Admin\Support\Loader;
@@ -19,7 +20,6 @@ use Laket\Admin\Auth\Permission as AuthPermission;
 // 引用文件夹
 use Laket\Admin\Command;
 use Laket\Admin\Middleware;
-use Laket\Admin\Event as AdminEvent;
 use Laket\Admin\Listener as AdminListener;
 
 /**
@@ -135,6 +135,9 @@ class Service extends BaseService
      */
     protected function registerBind()
     {
+        // 事件
+        $this->app->bind('laket-admin.event', Event::class);
+
         // 视图
         $this->app->bind('laket-admin.view-finder', function() {
             $viewFinder = new ViewFinder();

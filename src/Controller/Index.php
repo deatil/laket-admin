@@ -38,10 +38,7 @@ class Index extends Base
         
         // 自定义后台首页
         $mainUrl = laket_route('admin.index.main');
-        $mainUrlData = new AdminEvent\Data\MainUrl($mainUrl);
-        event(new AdminEvent\MainUrl($mainUrlData));
-        $mainUrl = $mainUrlData->url;
-        
+        $mainUrl = apply_filters('MainUrl', $mainUrl);
         $this->assign("main_url", $mainUrl);
 
         return $this->fetch('laket-admin::index.index');
