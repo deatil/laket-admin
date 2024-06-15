@@ -8,9 +8,8 @@ use think\App;
 
 /**
  * 事件管理类
- * @package think
  */
-class Event
+abstract class Event
 {
     /**
      * 监听者
@@ -30,14 +29,14 @@ class Event
     }
 
     /**
-     * 注册动作
+     * 注册事件监听
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
      * @param bool   $sort     排序
      * @return $this
      */
-    public function addAction(string $event, $listener, int $sort = 1)
+    public function listen(string $event, $listener, int $sort = 1)
     {
         $this->listener[$event][] = [
             'listener' => $listener,
@@ -46,121 +45,24 @@ class Event
         ];
 
         return $this;
-    }
-
-    /**
-     * 触发动作
-     * 
-     * @param string|object $event 事件名称
-     * @param mixed         $var   更多参数
-     * @return void
-     */
-    public function doAction($event, ...$var): void
-    {
-        if (is_object($event)) {
-            $event = $event::class;
-        }
-
-        $result    = [];
-        $listeners = $this->listener[$event] ?? [];
-
-        if (str_contains($event, '.')) {
-            [$prefix, $event] = explode('.', $event, 2);
-            
-            foreach ($this->listener as $e => $listener) {
-                if ($event == '*' && str_starts_with($e, $prefix . '.')) {
-                    $listeners = array_merge($listeners, $listener);
-                }
-            }
-        }
-
-        $listeners = $this->arraySort($listeners, 'sort');
-
-        foreach ($listeners as $key => $listener) {
-            $this->dispatch($listener['listener'], $var);
-        }
-    }
-
-    /**
-     * 添加过滤器
-     * 
-     * @param string $event    事件名称
-     * @param mixed  $listener 监听操作
-     * @param bool   $sort     排序
-     * @return $this
-     */
-    public function addFilter(string $event, $listener, int $sort = 1)
-    {
-        $this->listener[$event][] = [
-            'listener' => $listener,
-            'sort'     => $sort,
-            'key'      => $this->filterBuildUniqueId($listener),
-        ];
-
-        return $this;
-    }
-
-    /**
-     * 触发过滤器
-     * 
-     * @param string|object $event  事件名称
-     * @param mixed         $params 传入参数
-     * @param mixed         $var    更多参数
-     * @return mixed
-     */
-    public function applyFilters($event, $params = null, ...$var)
-    {
-        if (is_object($event)) {
-            $params = $event;
-            $event  = $event::class;
-        }
-
-        $result    = [];
-        $listeners = $this->listener[$event] ?? [];
-
-        if (str_contains($event, '.')) {
-            [$prefix, $event] = explode('.', $event, 2);
-            
-            foreach ($this->listener as $e => $listener) {
-                if ($event == '*' && str_starts_with($e, $prefix . '.')) {
-                    $listeners = array_merge($listeners, $listener);
-                }
-            }
-        }
-
-        $listeners = $this->arraySort($listeners, 'sort');
-
-        if (count($var) == 0) {
-            $var = [];
-        }
-        
-        $tmp = $var;
-        $result = $params;
-        foreach ($listeners as $key => $listener) {
-            array_unshift($tmp, $result);
-            
-            $result = $this->dispatch($listener['listener'], $tmp);
-            $tmp = $var;
-        }
-
-        return $result;
     }
     
     /**
-     * 移除过滤器
+     * 移除监听事件
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
+     * @param bool   $sort     排序
      * @return bool
      */
-    public function removeFilter(string $event, $listener): bool
+    public function removeListener(string $event, $listener, int $sort = 1): bool
     {
         $key = $this->filterBuildUniqueId($listener);
 
         $exists = isset($this->listener[$event]);
         if ($exists) {
             foreach ($this->listener[$event] as $k => $v) {
-                if ($v['key'] == $key) {
+                if ($v['key'] == $key && $v['sort'] == $sort) {
                     unset($this->listener[$event][$k]);
                 }
             }
@@ -170,16 +72,16 @@ class Event
     }
     
     /**
-     * 是否有过滤器
+     * 事件是否在监听
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
      * @return bool
      */
-    public function hasFilter(string $event, $listener = false): bool
+    public function hasListener(string $event, $listener = false): bool
     {
         if (false === $listener) {
-            return $this->hasFilters();
+            return $this->hasListeners();
         }
 
         $key = $this->filterBuildUniqueId($listener);
@@ -206,7 +108,7 @@ class Event
      * 
      * @return bool
      */
-    public function hasFilters(): bool 
+    public function hasListeners(): bool 
     {
         foreach ($this->listener as $listener) {
             if ($listener) {
@@ -218,7 +120,17 @@ class Event
     }
     
     /**
-     * 是否存在事件监听
+     * 获取所有事件监听
+     * 
+     * @return array
+     */
+    public function getListeners()
+    {
+        return $this->listener;
+    }
+    
+    /**
+     * 是否存在事件监听点
      * 
      * @param string $event 事件名称
      * @return bool
@@ -229,7 +141,7 @@ class Event
     }
 
     /**
-     * 移除事件监听
+     * 移除事件监听点
      * 
      * @param string $event 事件名称
      * @return void
@@ -239,6 +151,16 @@ class Event
         unset($this->listener[$event]);
     }
 
+    /**
+     * 清空
+     * 
+     * @return void
+     */
+    public function clear(): void
+    {
+        $this->listener = [];
+    }
+    
     /**
      * 执行事件调度
      * 

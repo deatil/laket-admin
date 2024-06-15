@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin;
 
-use Laket\Admin\Event\Event;
+use Laket\Admin\Event\Events;
 use Laket\Admin\Flash\Manager;
 use Laket\Admin\Support\Form;
 use Laket\Admin\Support\Loader;
@@ -136,7 +136,7 @@ class Service extends BaseService
     protected function registerBind()
     {
         // 事件
-        $this->app->bind('laket-admin.event', Event::class);
+        $this->app->bind('laket-admin.event', Events::class);
 
         // 视图
         $this->app->bind('laket-admin.view-finder', function() {

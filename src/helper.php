@@ -49,7 +49,7 @@ if (! function_exists('route')) {
 
 if (! function_exists('add_action')) {
     /**
-     * 注册动作
+     * 注册操作
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
@@ -58,13 +58,13 @@ if (! function_exists('add_action')) {
      */
     function add_action(string $event, $listener, int $sort = 1): void
     {
-        Event::addAction($event, $listener, $sort);
+        Event::getAction()->listen($event, $listener, $sort);
     }
 }
 
 if (! function_exists('do_action')) {
     /**
-     * 触发动作
+     * 触发操作
      * 
      * @param string|object $event 事件名称
      * @param mixed         $var   更多参数
@@ -72,21 +72,35 @@ if (! function_exists('do_action')) {
      */
     function do_action($event, ...$var): void
     {
-        Event::doAction($event, ...$var);
+        Event::getAction()->trigger($event, ...$var);
     }
 }
 
 if (! function_exists('remove_action')) {
     /**
-     * 移除动作
+     * 移除操作
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
      * @return $this
      */
-    function remove_action(string $event, $listener): bool
+    function remove_action(string $event, $listener, int $sort = 1): bool
     {
-        return Event::removeFilter($event, $listener);
+        return Event::getAction()->removeListener($event, $listener, $sort);
+    }
+}
+
+if (! function_exists('has_action')) {
+    /**
+     * 是否有操作
+     * 
+     * @param string $event    事件名称
+     * @param mixed  $listener 监听操作
+     * @return $this
+     */
+    function has_action(string $event, $listener): bool
+    {
+        return Event::getAction()->hasListener($event, $listener);
     }
 }
 
@@ -101,7 +115,7 @@ if (! function_exists('add_filter')) {
      */
     function add_filter(string $event, $listener, int $sort = 1): void
     {
-        Event::addFilter($event, $listener, $sort);
+        Event::getFilter()->listen($event, $listener, $sort);
     }
 }
 
@@ -116,7 +130,7 @@ if (! function_exists('apply_filters')) {
      */
     function apply_filters($event, $params = null, ...$var)
     {
-        return Event::applyFilters($event, $params, ...$var);
+        return Event::getFilter()->trigger($event, $params, ...$var);
     }
 }
 
@@ -128,9 +142,9 @@ if (! function_exists('remove_filter')) {
      * @param mixed  $listener 监听操作
      * @return $this
      */
-    function remove_filter(string $event, $listener): bool
+    function remove_filter(string $event, $listener, int $sort = 1): bool
     {
-        return Event::removeFilter($event, $listener);
+        return Event::getFilter()->removeListener($event, $listener, $sort);
     }
 }
 
@@ -144,33 +158,7 @@ if (! function_exists('has_filter')) {
      */
     function has_filter(string $event, $listener): bool
     {
-        return Event::hasFilter($event, $listener);
-    }
-}
-
-if (! function_exists('has_listener')) {
-    /**
-     * 是否存在事件监听
-     * 
-     * @param string $event 事件名称
-     * @return bool
-     */
-    function has_listener(string $event): bool
-    {
-        return Event::exists($event);
-    }
-}
-
-if (! function_exists('remove_listener')) {
-    /**
-     * 移除事件监听
-     * 
-     * @param string $event 事件名称
-     * @return void
-     */
-    function remove_listener(string $event): void
-    {
-        Event::remove($event);
+        return Event::getFilter()->hasListener($event, $listener);
     }
 }
 

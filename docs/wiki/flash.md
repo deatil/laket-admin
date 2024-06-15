@@ -199,6 +199,14 @@ class Service extends BaseService
 * `publishes(array $paths, $groups = null)` 添加脚本推送
 
 
+### 插件设置支持的类型
+
+`hidden`, `password`, `text`, `number`, `switch`, 
+`array`, `checkbox`, `radio`, `select`, `color`, 
+`date`, `datetime`, `textarea`, `image`, `images`, 
+`tags`, `file`, `files`
+
+
 ### 其他文件
 
 *  其他文件可根据需要自行加载
