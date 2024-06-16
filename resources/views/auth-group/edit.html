@@ -26,7 +26,7 @@
                     <span class="text-danger">*</span>
                 </label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="用户组名称" class="layui-input" value="{$auth_group.title}">
+                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="用户组名称" class="layui-input" value="{$auth_group.title|default=''}">
                 </div>
                 <div class="layui-input-block">
                     <div class="layui-form-mid layui-word-aux">填写用户组的名称</div>
@@ -36,7 +36,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">描述</label>
                 <div class="layui-input-block w300">
-                    <textarea name="description" placeholder="用户组描述" class="layui-textarea">{$auth_group.description}</textarea>
+                    <textarea name="description" placeholder="用户组描述" class="layui-textarea">{$auth_group.description|default=''}</textarea>
                 </div>
                 <div class="layui-input-block">
                     <div class="layui-form-mid layui-word-aux">填写用户组的相关描述</div>

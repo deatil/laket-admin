@@ -29,7 +29,7 @@
                     <span class="text-danger">*</span>
                 </label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input" value="{$data.title}">
+                    <input type="text" name="title" lay-verify="required" autocomplete="off" placeholder="名称" class="layui-input" value="{$data.title|default=''}">
                 </div>
                 <div class="layui-input-block">
                     <div class="layui-form-mid layui-word-aux">
@@ -42,10 +42,10 @@
                 <label class="layui-form-label">图标</label>
                 <div class="layui-input-block">
                     <div class="layui-inline w200">
-                        <input type="text" name="icon" autocomplete="off" placeholder="图标" class="layui-input" value="{$data.icon}">
+                        <input type="text" name="icon" autocomplete="off" placeholder="图标" class="layui-input" value="{$data.icon|default=''}">
                     </div>
                     <div class="layui-inline w300">
-                        <input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" value="{$data.icon}">
+                        <input type="text" id="iconPicker" lay-filter="iconPicker" class="hide" value="{$data.icon|default=''}">
                     </div>
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     <span class="text-danger">*</span>
                 </label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="url" autocomplete="off" placeholder="链接" class="layui-input" value="{$data.url}">
+                    <input type="text" name="url" autocomplete="off" placeholder="链接" class="layui-input" value="{$data.url|default=''}">
                 </div>
                 <div class="layui-input-block">
                     <div class="layui-form-mid layui-word-aux">
@@ -96,7 +96,7 @@
                     <span class="text-danger">*</span>
                 </label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="slug" autocomplete="off" placeholder="链接名称" class="layui-input" value="{$data.slug}">
+                    <input type="text" name="slug" autocomplete="off" placeholder="链接名称" class="layui-input" value="{$data.slug|default=''}">
                 </div>
                 <div class="layui-input-block">
                     <div class="layui-form-mid layui-word-aux">
@@ -110,7 +110,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">提示信息</label>
                 <div class="layui-input-block w300">
-                    <textarea name="remark" placeholder="提示信息" class="layui-textarea">{$data.remark}</textarea>
+                    <textarea name="remark" placeholder="提示信息" class="layui-textarea">{$data.remark|default=''}</textarea>
                     <div class="layui-form-mid layui-word-aux">在权限列表滑动到标题上显示</div>
                 </div>
             </div>
@@ -125,7 +125,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">排序</label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="listorder" lay-verify="required" autocomplete="off" placeholder="权限排序" class="layui-input" value="{$data.listorder}">
+                    <input type="text" name="listorder" lay-verify="required" autocomplete="off" placeholder="权限排序" class="layui-input" value="{$data.listorder|default='10'}">
                 </div>
             </div>
             

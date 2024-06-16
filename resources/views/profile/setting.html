@@ -8,7 +8,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">邮箱</label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="email" value="{$data.email}" autocomplete="off" placeholder="E-mail" class="layui-input">
+                    <input type="text" name="email" value="{$data.email|default=''}" autocomplete="off" placeholder="E-mail" class="layui-input">
                 </div>
                 <div class="layui-input-block">
                     <div class="layui-form-mid layui-word-aux">填写完整邮箱，如 xxx@163.com</div>
@@ -18,7 +18,7 @@
             <div class="layui-form-item">
                 <label class="layui-form-label">昵称</label>
                 <div class="layui-input-block w300">
-                    <input type="text" name="nickname" value="{$data.nickname}" autocomplete="off" placeholder="真实姓名" class="layui-input">
+                    <input type="text" name="nickname" value="{$data.nickname|default=''}" autocomplete="off" placeholder="真实姓名" class="layui-input">
                 </div>
                 <div class="layui-input-block">
                     <div class="layui-form-mid layui-word-aux">填写账号的昵称，登录后会在右上角显示</div>
