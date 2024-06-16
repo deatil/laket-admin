@@ -41,10 +41,6 @@ class Filter extends Event
 
         $listeners = $this->arraySort($listeners, 'sort');
 
-        if (count($var) == 0) {
-            $var = [];
-        }
-        
         $tmp = $var;
         $result = $params;
         foreach ($listeners as $key => $listener) {

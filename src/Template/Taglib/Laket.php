@@ -32,6 +32,11 @@ class Laket extends Taglib
             'attr' => 'sql,return', 
             'close' => 0,
         ],
+        
+        'hook' => [
+            'attr' => 'name', 
+            'close' => 1,
+        ],
     ];
     
     /**
@@ -63,7 +68,7 @@ class Laket extends Taglib
     }
     
     /**
-     * 执行sql
+     * 执行 sql
      */
     public function tagExecute($tag, $content)
     {
@@ -84,5 +89,26 @@ class Laket extends Taglib
         
         return $parse;
     }
+    
+    /**
+     * 使用过滤事件
+     * 
+     * 使用：
+     * {hook name="hook_name"}...{/hook}
+     */
+    public function tagHook($tag, $content)
+    {
+        $name = $tag['name'];
 
+        $parseStr = '<?php ob_start(); ?>';
+        $parseStr .= $content;
+        $parseStr .= '<?php 
+                    $__hook_content = ob_get_clean();
+                    echo apply_filters("'.$name.'", $__hook_content);
+                    unset($__hook_content);
+                    ?>';
+
+        return $parseStr;
+    }
+    
 }
