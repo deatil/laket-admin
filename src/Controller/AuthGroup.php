@@ -34,7 +34,7 @@ class AuthGroup extends Base
     {
         $list = AuthGroupModel::order([
                 'listorder' => 'DESC',
-                'add_time' => 'ASC',
+                'title' => 'ASC',
             ])
             ->select()
             ->toArray();
@@ -79,7 +79,7 @@ class AuthGroup extends Base
             ->page($page, $limit)
             ->order([
                 'listorder' => 'DESC',
-                'add_time' => 'ASC',
+                'title' => 'ASC',
             ])
             ->select()
             ->toArray();
@@ -98,7 +98,8 @@ class AuthGroup extends Base
     {
         $Tree = make(Tree::class);
         $list = AuthGroupModel::order([
-                'id' => 'ASC',
+                'listorder' => 'DESC',
+                'title' => 'ASC',
             ])
             ->column('*', 'id');
         
@@ -155,7 +156,8 @@ class AuthGroup extends Base
         $Tree = make(Tree::class);
         
         $list = AuthGroupModel::order([
-                'id' => 'ASC',
+                'listorder' => 'DESC',
+                'title' => 'ASC',
             ])
             ->column('*', 'id');
             

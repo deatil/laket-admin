@@ -53,6 +53,25 @@
                 </li>
             </ul>
             <div class="layui-tab-content">
+                <blockquote class="layui-elem-quote">
+                    <form class="layui-form lake-admin-search-form" method="get" action="">
+                        <div class="layui-inline">
+                            <select name="search_field" class="laket-admin-search-field">
+                                <option value="">请选择搜索类型</option>
+                                <option value="name" {if $searchField == 'name'}selected{/if}>插件包名</option>
+                                <option value="title" {if $searchField == 'title'}selected{/if}>名称</option>
+                            </select>
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <input type="text" name="keywords" value="{$keywords|default=''}" class="layui-input laket-admin-search-val" placeholder="请输入关键字">
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn laket-admin-search-btn">搜索</button>
+                        </div>
+                    </form>
+                </blockquote>
             
                 <div class="layui-table-responsive">
                     <table class="layui-table" lay-skin="line">

@@ -181,6 +181,7 @@ class Flash extends Command
             'require'      => json_encode(Arr::get($info, 'require')),
             'bind_service' => Arr::get($info, 'bind_service'),
             'setting'      => json_encode(Arr::get($info, 'setting', [])),
+            'listorder'    => Arr::get($info, 'sort'),
         ]);
         if ($flash === false) {
             $this->output->error('Install error.');
@@ -302,6 +303,7 @@ class Flash extends Command
                 'require'      => json_encode(Arr::get($info, 'require')),
                 'bind_service' => Arr::get($info, 'bind_service'),
                 'setting'      => json_encode(Arr::get($info, 'setting', [])),
+                'listorder'    => Arr::get($info, 'sort'),
                 'upgrade_time' => time(),
             ], [
                 'name' => $name

@@ -92,7 +92,7 @@ class Admin extends ModelBase
         
         // 用户组列表
         $authGroupList = AuthGroup::order([
-                'id' => 'ASC',
+                'add_time' => 'ASC',
             ])
             ->select()
             ->toArray();

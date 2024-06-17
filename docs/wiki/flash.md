@@ -59,7 +59,8 @@ flashs 目录
         "require": {           # 依赖插件，选填
             "laket/laket-settings":"1.2.*",
             "laket/laket-operation-log":"1.3.*"
-        }
+        },
+        "sort": 200 # 排序，选填
     },
     "extra": {
         "think":{

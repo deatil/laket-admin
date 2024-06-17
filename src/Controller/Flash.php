@@ -49,7 +49,10 @@ class Flash extends Base
 
         $list = FlashModel::where($map)
             ->page($page, $limit)
-            ->order('listorder ASC, name ASC')
+            ->order([
+                'listorder' => 'DESC',
+                'name' => 'ASC',
+            ])
             ->select()
             ->toArray();
         $total = FlashModel::where($map)->count();
@@ -82,11 +85,20 @@ class Flash extends Base
      */
     public function local()
     {
+        $searchField = $this->request->param('search_field/s', '', 'trim');
+        $keywords = $this->request->param('keywords/s', '', 'trim');
+        
         Flasher::loadFlash();
         $flashs = Flasher::getFlashs();
         
         $installFlashs = FlashModel::getFlashs();
-        $flashs = collect($flashs)
+        
+        $flashs = collect($flashs);
+        if (!empty($searchField) && !empty($keywords)) {
+            $flashs = $flashs->whereLike($searchField, $keywords);
+        }
+        
+        $flashs = $flashs
             ->each(function($data, $key) use($installFlashs) {
                 if (isset($installFlashs[$data['name']])) {
                     $data['install'] = $installInfo = $installFlashs[$data['name']];
@@ -109,6 +121,8 @@ class Flash extends Base
                 return $data;
             });
         
+        $this->assign('searchField', $searchField);
+        $this->assign('keywords', $keywords);
         $this->assign('list', $flashs);
         
         return $this->fetch('laket-admin::flash.local');
@@ -191,6 +205,7 @@ class Flash extends Base
             'require'      => json_encode(Arr::get($info, 'require')),
             'bind_service' => Arr::get($info, 'bind_service'),
             'setting'      => json_encode(Arr::get($info, 'setting', [])),
+            'listorder'    => Arr::get($info, 'sort'),
         ]);
         if ($flash === false) {
             return $this->error('安装失败！');
@@ -313,6 +328,7 @@ class Flash extends Base
                 'require'      => json_encode(Arr::get($info, 'require')),
                 'bind_service' => Arr::get($info, 'bind_service'),
                 'setting'      => json_encode(Arr::get($info, 'setting', [])),
+                'listorder'    => Arr::get($info, 'sort'),
                 'upgrade_time' => time(),
             ], [
                 'name' => $name

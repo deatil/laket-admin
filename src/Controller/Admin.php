@@ -50,6 +50,7 @@ class Admin extends Base
             ->page($page, $limit)
             ->order([
                 'add_time' => 'ASC',
+                'name' => 'ASC',
             ])
             ->select()
             ->visible([

@@ -29,8 +29,10 @@ class AuthRule extends Base
     public function indexData()
     {
         $result = AuthRuleModel::order([
-                'listorder' => 'ASC', 
-                'id' => 'ASC',
+                'listorder' => 'DESC', 
+                'slug' => 'ASC', 
+                'url' => 'DESC', 
+                'add_time' => 'ASC',
             ])
             ->select()
             ->toArray();
@@ -72,7 +74,12 @@ class AuthRule extends Base
         
         $list = AuthRuleModel::where($map)
             ->page($page, $limit)
-            ->order('slug ASC, url ASC, id ASC')
+            ->order([
+                'listorder' => 'DESC', 
+                'slug' => 'ASC', 
+                'url' => 'DESC', 
+                'add_time' => 'ASC',
+            ])
             ->select()
             ->toArray();
         $total = AuthRuleModel::where($map)->count();
@@ -154,7 +161,7 @@ class AuthRule extends Base
         }
         
         $ruleList = AuthRuleModel::order([
-            'listorder' => 'ASC', 
+            'listorder' => 'DESC', 
             'id' => 'DESC',
         ])->select()->toArray();
         

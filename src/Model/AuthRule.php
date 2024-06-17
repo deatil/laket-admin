@@ -138,7 +138,12 @@ class AuthRule extends ModelBase
                 'menu_show' => 1,
                 'status' => 1,
             ])
-            ->order('listorder ASC')
+            ->order([
+                'listorder' => 'DESC', 
+                'slug' => 'ASC', 
+                'url' => 'DESC', 
+                'add_time' => 'ASC',
+            ])
             ->select()
             ->toArray();
         if (empty($result)) {
@@ -217,11 +222,19 @@ class AuthRule extends ModelBase
         }
         
         if ((int) $tree) {
-            $list = static::order('listorder ASC,id ASC')->select()->toArray();
+            $list = static::order([
+                    'listorder' => 'DESC', 
+                    'slug' => 'ASC', 
+                    'url' => 'DESC', 
+                    'add_time' => 'ASC',
+                ])
+                ->select()
+                ->toArray();
             foreach ($list as $key => $value) {
                 $list[$key]['url'] = $value['url'];
             }
-            $nodes = Arr::listToTree($list, $pk = 'id', $pid = 'parentid', $child = 'operator', $root = 0);
+            
+            $nodes = Arr::listToTree($list, 'id', 'parentid', 'operator', 0);
             foreach ($nodes as $key => $value) {
                 if (!empty($value['operator'])) {
                     $nodes[$key]['child'] = $value['operator'];
@@ -229,11 +242,19 @@ class AuthRule extends ModelBase
                 }
             }
         } else {
-            $nodes = static::order('listorder ASC,id ASC')->select()->toArray();
+            $nodes = static::order([
+                    'listorder' => 'DESC', 
+                    'slug' => 'ASC', 
+                    'url' => 'DESC', 
+                    'add_time' => 'ASC',
+                ])
+                ->select()
+                ->toArray();
             foreach ($nodes as $key => $value) {
                 $nodes[$key]['url'] = $value['url'];
             }
         }
+        
         $tree_nodes[(int) $tree] = $nodes;
         return $nodes;
     }

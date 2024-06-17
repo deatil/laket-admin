@@ -155,7 +155,7 @@ class Menu
             ->find();
 
         if ($rule) {
-            $ruleList = AuthRuleModel::order('listorder', 'ASC')
+            $ruleList = AuthRuleModel::order('listorder', 'DESC')
                 ->where([
                     ['id', 'in', $ids]
                 ])
@@ -189,7 +189,7 @@ class Menu
         $ids = [];
         foreach ($rules as $rule) {
             if ($rule) {
-                $ruleList = AuthRuleModel::order('listorder', 'ASC')
+                $ruleList = AuthRuleModel::order('listorder', 'DESC')
                     ->select()
                     ->toArray();
                 

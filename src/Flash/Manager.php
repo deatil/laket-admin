@@ -702,6 +702,7 @@ class Manager
             'require'      => Arr::get($info, 'laket.require', []),
             'bind_service' => Arr::get($this->flashs, $name, ''),
             'setting'      => (array) $setting,
+            'sort'         => Arr::get($info, 'laket.sort', 100),
         ];
     }
     
