@@ -84,16 +84,15 @@ abstract class Event
             return $this->hasListeners();
         }
 
-        $key = $this->filterBuildUniqueId($listener);
-
-        if (! $key) {
-            return false;
-        }
-        
         if (! isset($this->listener[$event])) {
             return false;
         }
 
+        $key = $this->filterBuildUniqueId($listener);
+        if (! $key) {
+            return false;
+        }
+        
         foreach ($this->listener[$event] as $listen) {
             if ($listen['key'] == $key) {
                 return true;
