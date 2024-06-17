@@ -34,6 +34,9 @@ class Flash extends ModelBase
         'setting_datalist',
     ];
     
+    // 缓存 ID
+    protected static $cacheId = 'laket.model.flashs';
+    
     public function getKeywordlistAttr() 
     {
         $value = $this->keywords;
@@ -102,11 +105,68 @@ class Flash extends ModelBase
     }
     
     /**
+     * 获取数据
+     *
+     * @return array
+     */
+    public static function getInfo(string $name)
+    {
+        $data = static::where('name', $name)->find();
+        if ($data) {
+            return $data->toArray();
+        }
+        
+        return [];
+    }
+    
+    /**
+     * 检测是否安装
+     *
+     * @return bool
+     */
+    public static function isInstall(string $name)
+    {
+        $data = static::where('name', $name)->find();
+        if ($data) {
+            return true;
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 判断是否启用
+     *
+     * @return bool
+     */
+    public static function enabled(string $name)
+    {
+        $data = static::where('name', $name)
+            ->where('status', 1)
+            ->find();
+        if ($data) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    /**
+     * 判断是否禁用
+     *
+     * @return bool
+     */
+    public static function disabled(string $name)
+    {
+        return ! static::enabled($name);
+    }
+
+    /**
      * 获取配置
      *
      * @return array
      */
-    public static function getConfigs($name)
+    public static function getConfigs(string $name)
     {
         $info = Flash::where([
                 "name" => $name,
@@ -171,27 +231,7 @@ class Flash extends ModelBase
         
         return $settingDatalist;
     }
-    
-    /**
-     * 版本检测
-     *
-     * @return void
-     */
-    public static function versionSatisfies(string $name, string $constraints = null)
-    {
-        $data = static::where('name', $name)
-            ->find();
-        $version = $data['version'];
-        
-        try {
-            $versionCheck = Semver::satisfies($version, $constraints);
-        } catch(\Exception $e) {
-            return false;
-        }
-        
-        return $versionCheck;
-    }
-    
+
     /**
      * 缓存闪存
      *
@@ -199,7 +239,7 @@ class Flash extends ModelBase
      */
     public static function getFlashs()
     {
-        $data = Cache::remember(md5('laket.model.flashs'), function() {
+        $data = Cache::remember(md5(static::$cacheId), function() {
             $installData = static::order([
                     'listorder' => 'DESC',
                     'install_time' => 'ASC',
@@ -225,39 +265,27 @@ class Flash extends ModelBase
      */
     public static function clearCahce()
     {
-        Cache::delete(md5('laket.model.flashs'));
+        Cache::delete(md5(static::$cacheId));
     }
     
     /**
-     * 检测是否安装
+     * 版本检测
      *
      * @return void
      */
-    public static function isInstall(string $name)
+    public static function versionSatisfies(string $name, string $constraints = null)
     {
-        return static::where('name', $name)->find();
-    }
-    
-    /**
-     * 判断是否启用
-     *
-     * @return bool
-     */
-    public static function enabled($name)
-    {
-        return static::where('name', $name)
-            ->where('status', 1)
+        $data = static::where('name', $name)
             ->find();
-    }
-
-    /**
-     * 判断是否禁用
-     *
-     * @return bool
-     */
-    public static function disabled($name)
-    {
-        return ! $this->enabled($name);
+        $version = $data['version'];
+        
+        try {
+            $versionCheck = Semver::satisfies($version, $constraints);
+        } catch(\Exception $e) {
+            return false;
+        }
+        
+        return $versionCheck;
     }
     
     /**
