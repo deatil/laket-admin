@@ -4,6 +4,9 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Event;
 
+use ReflectionClass;
+use ReflectionMethod;
+
 use think\App;
 
 /**
@@ -43,6 +46,72 @@ abstract class Event
             'sort'     => $sort,
             'key'      => $this->filterBuildUniqueId($listener),
         ];
+
+        return $this;
+    }
+
+    /**
+     * 注册事件订阅者
+     * 
+     * @param mixed $subscriber 订阅者
+     * @return $this
+     */
+    public function subscribe($subscriber)
+    {
+        $subscribers = (array) $subscriber;
+
+        foreach ($subscribers as $subscriber) {
+            if (is_string($subscriber)) {
+                $subscriber = $this->app->make($subscriber);
+            }
+
+            if (method_exists($subscriber, 'subscribe')) {
+                // 手动订阅
+                $subscriber->subscribe($this);
+            } else {
+                // 自动订阅
+                $this->observe($subscriber);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * 自动注册事件观察者
+     * 
+     * @param string|object $observer 观察者
+     * @param null|string   $prefix   事件名前缀
+     * @param bool          $sort     排序
+     * @return $this
+     */
+    public function observe($observer, string $prefix = '', int $sort = 1)
+    {
+        if (is_string($observer)) {
+            $observer = $this->app->make($observer);
+        }
+
+        $reflect = new ReflectionClass($observer);
+        $methods = $reflect->getMethods(ReflectionMethod::IS_PUBLIC);
+
+        if ($reflect->hasProperty('eventPrefix')) {
+            $propertyPrefix = $reflect->getProperty('eventPrefix');
+            $propertyPrefix->setAccessible(true);
+            $prefix = $propertyPrefix->getValue($observer);
+        }
+
+        if ($reflect->hasProperty('eventSort')) {
+            $propertySort = $reflect->getProperty('eventSort');
+            $propertySort->setAccessible(true);
+            $sort = $propertySort->getValue($observer);
+        }
+
+        foreach ($methods as $method) {
+            $name = $method->getName();
+            if (str_starts_with($name, 'on')) {
+                $this->listen($prefix . substr($name, 2), [$observer, $name], $sort);
+            }
+        }
 
         return $this;
     }
