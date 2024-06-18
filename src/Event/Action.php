@@ -4,8 +4,6 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Event;
 
-use think\App;
-
 /**
  * 操作事件
  */
