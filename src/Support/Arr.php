@@ -58,12 +58,16 @@ class Arr
      */
     public static function varExport($arr = [], $blankspace = '')
     {
+        $filter = function($str) {
+            return str_replace("'", "\'", $str);
+        };
+        
         $blank = '    ';
         $ret = "[\n";
         if (!empty($arr)) {
             foreach ($arr as $k => $v) {
                 $ret .= $blankspace . $blank;
-                $ret .= (is_numeric($k) ? '' : "'".$k."' => ");
+                $ret .= (is_numeric($k) ? '' : "'".$filter($k)."' => ");
                 $_type = strtolower(gettype($v));
                 switch($_type){
                     case 'integer':
@@ -76,7 +80,7 @@ class Arr
                         $ret .= "NULL,";
                         break;
                     default:
-                        $ret  .= "'".$v."',";
+                        $ret  .= "'".$filter($v)."',";
                         break;
                 }
                 $ret .= "\n";
