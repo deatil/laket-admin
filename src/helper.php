@@ -268,7 +268,7 @@ if (! function_exists('laket_view')) {
      *
      * @throws \Exception
      */
-    function laket_view($template, $vars = []) 
+    function laket_view($template = '', $vars = []) 
     {
         return (new class {
             use ViewTrait;
