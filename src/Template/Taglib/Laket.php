@@ -34,7 +34,7 @@ class Laket extends Taglib
         ],
         
         'hook' => [
-            'attr' => 'name', 
+            'attr' => 'name,vars', 
             'close' => 1,
         ],
     ];
@@ -94,17 +94,22 @@ class Laket extends Taglib
      * 使用过滤事件
      * 
      * 使用：
-     * {hook name="hook_name"}...{/hook}
+     * {hook name="hook_name" vars="$data"}...{/hook}
      */
     public function tagHook($tag, $content)
     {
         $name = $tag['name'];
+        $vars = $tag['vars'] ?? '';
+        
+        if (! empty($vars)) {
+            $vars = ', ' . preg_replace('/^[,\r\n ]+/', '', $vars);
+        }
 
         $parseStr = '<?php ob_start(); ?>';
         $parseStr .= $content;
         $parseStr .= '<?php 
                     $__hook_content = ob_get_clean();
-                    echo apply_filters("'.$name.'", $__hook_content);
+                    echo apply_filters("'.$name.'", $__hook_content'.$vars.');
                     unset($__hook_content);
                     ?>';
 
