@@ -22,7 +22,7 @@ class ViewTaglib
     /**
      * 注册视图标签
      *
-     * @param  string  $taglib
+     * @param  string $taglib
      * @return void
      */
     public function addTaglib($taglib)
@@ -37,7 +37,7 @@ class ViewTaglib
     /**
      * 注册视图标签到最前面
      *
-     * @param  string  $location
+     * @param  string $taglib
      * @return void
      */
     public function prependTaglib($taglib)
@@ -52,7 +52,7 @@ class ViewTaglib
     /**
      * 移除视图标签
      *
-     * @param  string  $taglib
+     * @param  string $taglib
      * @return void
      */
     public function forgetTaglib($taglib)

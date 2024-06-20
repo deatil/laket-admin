@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Http\Traits;
 
-use think\facade\View as ThinkView;
+use Laket\Admin\Facade\View as LaketView;
 
 /**
  * 页面视图
@@ -34,7 +34,7 @@ trait View
      */
     protected function engine($type = null)
     {
-        return ThinkView::engine($type);
+        return LaketView::engine($type);
     }
 
     /**
@@ -48,7 +48,7 @@ trait View
      */
     protected function assign($name, $value = null)
     {
-        ThinkView::assign($name, $value);
+        LaketView::assign($name, $value);
         return $this;
     }
 
@@ -62,7 +62,7 @@ trait View
      */
     protected function filter($filter = null)
     {
-        ThinkView::filter($filter);
+        LaketView::filter($filter);
         return $this;
     }
 
@@ -82,18 +82,7 @@ trait View
             $template = app('laket-admin.view-finder')->find($template);
         }
         
-        // 配置视图标签
-        $viewTaglib = ThinkView::getConfig('taglib_build_in');
-
-        $viewTaglibs = explode(',', $viewTaglib);
-        $taglibs = (array) app('laket-admin.view-taglib')->getTaglibs();
-        
-        $newTaglibs = array_filter(array_merge($viewTaglibs, $taglibs));
-        ThinkView::config([
-            'taglib_build_in' => implode(',', $newTaglibs),
-        ]);
-        
-        return ThinkView::fetch($template, $vars);
+        return LaketView::fetch($template, $vars);
     }
 
     /**
@@ -107,7 +96,7 @@ trait View
      */
     protected function display($content, $vars = [])
     {
-        return ThinkView::display($content, $vars);
+        return LaketView::display($content, $vars);
     }
 
     /**

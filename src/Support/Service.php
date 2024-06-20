@@ -7,6 +7,7 @@ namespace Laket\Admin\Support;
 use think\Service as BaseService;
 
 use Laket\Admin\Traits\Macroable;
+use Laket\Admin\Facade\View as LaketView;
 
 /**
  * 服务
@@ -66,17 +67,32 @@ class Service extends BaseService
      * 注册视图标签
      *
      * @param string|array $path
+     * @param bool         $prepend
      * @return void
      */
-    protected function registerViewTaglib($taglib)
+    protected function registerViewTaglib($taglib, bool $prepend = false)
     {
         $taglibs = is_array($taglib) ? $taglib : func_get_args();
         
         $viewTaglib = app('laket-admin.view-taglib');
-        
         foreach ((array) $taglibs as $taglib) {
-            $viewTaglib->addTaglib($taglib);
+            if ($prepend) {
+                $viewTaglib->prependTaglib($taglib);
+            } else {
+                $viewTaglib->addTaglib($taglib);
+            }
         }
+        
+        // 配置视图标签
+        $viewTaglibStr = LaketView::getConfig('taglib_build_in');
+
+        $viewTaglibs = explode(',', $viewTaglibStr);
+        $taglibs = (array) $viewTaglib->getTaglibs();
+        
+        $newTaglibs = array_filter(array_merge($viewTaglibs, $taglibs));
+        LaketView::config([
+            'taglib_build_in' => implode(',', $newTaglibs),
+        ]);
     }
     
     /**

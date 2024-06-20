@@ -4,6 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin;
 
+use Laket\Admin\View\View;
 use Laket\Admin\Event\Events;
 use Laket\Admin\Flash\Manager;
 use Laket\Admin\Support\Form;
@@ -158,12 +159,15 @@ class Service extends BaseService
         // 视图标签
         $this->app->bind('laket-admin.view-taglib', ViewTaglib::class);
         
+        // 视图
+        $this->app->bind('laket-admin.view', View::class);
+        
         // 导入器
         $this->app->bind('laket-admin.loader', Loader::class);
         
         // 推送
         $this->app->bind('laket-admin.publish', Publish::class);
-        
+
         // json响应
         $this->app->bind('laket-admin.response', function() {
             $httpResponse = new HttpResponse();
@@ -274,7 +278,7 @@ class Service extends BaseService
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laket-admin');
         
         // 设置公用参数
-        $this->app->view->assign([
+        app('laket-admin.view')->assign([
             'laket_admin_layout' => app('laket-admin.view-finder')->find('laket-admin::common.layout'),
         ]);
         
