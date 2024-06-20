@@ -4,7 +4,7 @@ declare (strict_types = 1);
 
 namespace Laket\Admin\Template\Taglib;
 
-use think\template\TagLib;
+use Laket\Admin\View\Laket\TagLib;
 
 /**
  * 模版标签

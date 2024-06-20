@@ -84,14 +84,12 @@ class Service extends BaseService
         }
         
         // 配置视图标签
-        $viewTaglibStr = LaketView::getConfig('taglib_build_in');
-
-        $viewTaglibs = explode(',', $viewTaglibStr);
+        $viewTaglibs = (array) LaketView::getConfig('taglib_build_in');
         $taglibs = (array) $viewTaglib->getTaglibs();
         
         $newTaglibs = array_filter(array_merge($viewTaglibs, $taglibs));
         LaketView::config([
-            'taglib_build_in' => implode(',', $newTaglibs),
+            'taglib_build_in' => $newTaglibs,
         ]);
     }
     

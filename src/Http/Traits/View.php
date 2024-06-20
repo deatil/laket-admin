@@ -76,12 +76,8 @@ trait View
      * @return string
      * @throws \Exception
      */
-    protected function fetch($template, $vars = [])
+    protected function fetch($template = '', $vars = [])
     {
-        if (! file_exists($template)) {
-            $template = app('laket-admin.view-finder')->find($template);
-        }
-        
         return LaketView::fetch($template, $vars);
     }
 

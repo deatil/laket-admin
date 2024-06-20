@@ -4,8 +4,8 @@ return [
     'admin' => [
         "name"      => "LaketAdmin",
         "name_mini" => "Laket",
-        "version"   => "1.2.28",
-        "release"   => "1.2.28.20240620",
+        "version"   => "1.3.0",
+        "release"   => "1.3.0.20240620",
     ],
     
     // 登录
@@ -73,8 +73,8 @@ return [
 
     // 视图配置
     'views' => [
-        // 模板引擎类型使用 Think
-        'type'          => 'Think',
+        // 模板引擎类型使用 Laket
+        'type'          => '\\Laket\\Admin\\View\\Laket\\Laket',
         // 默认模板渲染规则 1 解析为小写+下划线 2 全部转换小写 3 保持操作方法
         'auto_rule'     => 1,
         // 模板目录名

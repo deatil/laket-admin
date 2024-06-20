@@ -4,6 +4,7 @@
 .layui-nav .layui-nav-child dd.layui-this a, 
 .layui-nav-child dd.layui-this {
     background-color: #3A3D49;
+    color: #fff;
 }
 
 /** 透明侧边栏导航 */

@@ -277,11 +277,6 @@ class Service extends BaseService
     {
         $this->loadViewsFrom(__DIR__ . '/../resources/views', 'laket-admin');
         
-        // 设置公用参数
-        app('laket-admin.view')->assign([
-            'laket_admin_layout' => app('laket-admin.view-finder')->find('laket-admin::common.layout'),
-        ]);
-        
         // 注册视图标签
         $taglibs = config('laket.view.taglib_build_in', []);
         $this->registerViewTaglib($taglibs);
