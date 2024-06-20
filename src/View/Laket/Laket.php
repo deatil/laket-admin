@@ -108,7 +108,7 @@ class Laket
             $this->template->view_path = $path;
         }
 
-        if ('' == pathinfo($template, PATHINFO_EXTENSION)) {
+        if (!str_contains($template, '::') && '' == pathinfo($template, PATHINFO_EXTENSION)) {
             // 获取模板文件名
             $template = $this->parseTemplate($template);
         }
