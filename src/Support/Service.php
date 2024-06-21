@@ -30,7 +30,7 @@ class Service extends BaseService
     {
         $config = $this->app->config;
 
-        $config->set(array_merge(
+        $config->set(Arr::merge(
             require $path, 
             $config->get($key, [])
         ), $key);
