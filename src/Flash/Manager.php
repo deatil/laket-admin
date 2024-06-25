@@ -341,7 +341,7 @@ class Manager
     }
     
     /**
-     * 解析composer
+     * 解析 composer
      *
      * @return array
      */
@@ -370,8 +370,9 @@ class Manager
         }
         
         $newData = [
-            'psr-4' => $newPsr4,
-            'files' => $newFiles,
+            'name'     => Arr::get($composerData, 'name', ''),
+            'psr-4'    => $newPsr4,
+            'files'    => $newFiles,
             'services' => Arr::get($composerData, 'extra.think.services', []),
         ];
         
@@ -452,12 +453,25 @@ class Manager
             $flashs = collect($directories)
                 ->map(function($path) {
                     $composerData = $this->parseComposer($path . '/composer.json');
+                    
+                    $name = $composerData['name'];
+                    
+                    $package = basename($path);
+                    $vendor = basename(dirname($path));
+                    
+                    if ($vendor . '/' . $package != $name) {
+                        return [];
+                    }
+                    
                     return $composerData;
+                })
+                ->filter(function ($data) {
+                    return !empty($data);
                 })
                 ->order('name')
                 ->values()
                 ->toArray();
-            
+
             Cache::set($this->flashsCacheId, $flashs, 10080);
         }
         
@@ -716,16 +730,20 @@ class Manager
         $thiz = $this;
         
         $flashs = $this->flashs;
-        $list = collect($flashs)->each(function($className, $name) use($thiz) {
-            $info = $thiz->getFlash($name);
-            if (! empty($info)) {
-                return $info;
-            }
-            
-            return [];
-        })->filter(function($data) {
-            return !empty($data);
-        })->toArray();
+        $list = collect($flashs)
+            ->each(function($className, $name) use($thiz) {
+                $info = $thiz->getFlash($name);
+                if (! empty($info)) {
+                    return $info;
+                }
+                
+                return [];
+            })
+            ->filter(function($data) {
+                return !empty($data);
+            })
+            ->order('name')
+            ->toArray();
         
         return $list;
     }
