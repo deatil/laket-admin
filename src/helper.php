@@ -13,8 +13,8 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 // 版本号
-define("LAKET_VERSION", "1.3.5");
-define("LAKET_RELEASE", "1.3.5.20240626");
+define("LAKET_VERSION", "1.3.6");
+define("LAKET_RELEASE", "1.3.6.20240626");
 
 if (! function_exists('make')) {
     /**
@@ -36,9 +36,9 @@ if (! function_exists('route')) {
      *
      * @param string      $name   路由名称
      * @param array       $vars   变量
-     * @param bool|string $suffix 生成的URL后缀
+     * @param bool|string $suffix 生成的 URL 后缀
      * @param bool|string $domain 域名
-     * @return UrlBuild
+     * @return string
      */
     function route(
         string $name = '', 
@@ -57,8 +57,8 @@ if (! function_exists('add_action')) {
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @param bool   $sort     排序
-     * @return $this
+     * @param int    $sort     排序
+     * @return void
      */
     function add_action(string $event, $listener, int $sort = 1): void
     {
@@ -71,7 +71,7 @@ if (! function_exists('do_action')) {
      * 触发操作
      * 
      * @param string|object $event 事件名称
-     * @param mixed         $var   更多参数
+     * @param mixed         $var   额外数据
      * @return void
      */
     function do_action($event, ...$var): void
@@ -86,7 +86,8 @@ if (! function_exists('remove_action')) {
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @return $this
+     * @param int    $sort     排序
+     * @return bool
      */
     function remove_action(string $event, $listener, int $sort = 1): bool
     {
@@ -100,7 +101,7 @@ if (! function_exists('has_action')) {
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @return $this
+     * @return bool
      */
     function has_action(string $event, $listener): bool
     {
@@ -114,8 +115,8 @@ if (! function_exists('add_filter')) {
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @param bool   $sort     排序
-     * @return $this
+     * @param int    $sort     排序
+     * @return void
      */
     function add_filter(string $event, $listener, int $sort = 1): void
     {
@@ -127,14 +128,14 @@ if (! function_exists('apply_filters')) {
     /**
      * 触发过滤器
      * 
-     * @param string|object $event  事件名称
-     * @param mixed         $params 传入参数
-     * @param mixed         $var    更多参数
+     * @param string|object $event 事件名称
+     * @param mixed         $value 需要过滤的数据
+     * @param mixed         $var   额外数据
      * @return mixed
      */
-    function apply_filters($event, $params = null, ...$var)
+    function apply_filters($event, $value = null, ...$var)
     {
-        return Event::getFilter()->trigger($event, $params, ...$var);
+        return Event::getFilter()->trigger($event, $value, ...$var);
     }
 }
 
@@ -144,7 +145,8 @@ if (! function_exists('remove_filter')) {
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @return $this
+     * @param int    $sort     排序
+     * @return bool
      */
     function remove_filter(string $event, $listener, int $sort = 1): bool
     {
@@ -158,7 +160,7 @@ if (! function_exists('has_filter')) {
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @return $this
+     * @return bool
      */
     function has_filter(string $event, $listener): bool
     {
@@ -168,16 +170,15 @@ if (! function_exists('has_filter')) {
 
 if (! function_exists('assets')) {
     /**
-     * 资源uri
+     * 资源 uri
      *
-     * @param string $assets 资源路径
+     * @param string $path 资源路径
      * @return string
-     *
-     * @throws \Exception
      */
-    function assets($assets = '') 
+    function assets($path = '') 
     {
-        return config('laket.view.assets').($assets ? '/' . ltrim($assets, '/') : '');
+        $root = config('laket.view.assets');
+        return rtrim($root, '/') . ($path ? '/' . ltrim($path, '/') : '');
     }
 }
 
@@ -189,7 +190,7 @@ if (! function_exists('laket_url')) {
      * @param array       $vars   变量
      * @param bool|string $suffix 生成的URL后缀
      * @param bool|string $domain 域名
-     * @return UrlBuild
+     * @return string
      */
     function laket_url(
         string $url = '', 
@@ -210,7 +211,7 @@ if (! function_exists('laket_route')) {
      * @param array       $vars   变量
      * @param bool|string $suffix 生成的URL后缀
      * @param bool|string $domain 域名
-     * @return UrlBuild
+     * @return string
      */
     function laket_route(
         string $name = '', 
@@ -231,7 +232,7 @@ if (! function_exists('laket_admin_url')) {
      * @param array       $vars   变量
      * @param bool|string $suffix 生成的URL后缀
      * @param bool|string $domain 域名
-     * @return UrlBuild
+     * @return string
      */
     function laket_admin_url(
         string $url = '', 
@@ -253,8 +254,6 @@ if (! function_exists('laket_view_path')) {
      *
      * @param string $template 模板路径
      * @return string
-     *
-     * @throws \Exception
      */
     function laket_view_path($template) 
     {
@@ -269,8 +268,6 @@ if (! function_exists('laket_view')) {
      * @param string $template 模板文件名或者内容
      * @param array  $vars     模板变量
      * @return string
-     *
-     * @throws \Exception
      */
     function laket_view($template = '', $vars = []) 
     {
@@ -289,14 +286,12 @@ if (! function_exists('laket_assets')) {
     /**
      * 资源uri
      *
-     * @param string $assets 资源路径
+     * @param string $path 资源路径
      * @return string
-     *
-     * @throws \Exception
      */
-    function laket_assets($assets = '') 
+    function laket_assets($path = '') 
     {
-        return config('laket.view.admin_assets').($assets ? '/' . ltrim($assets, '/') : '');
+        return config('laket.view.admin_assets').($path ? '/' . ltrim($path, '/') : '');
     }
 }
 
@@ -373,8 +368,10 @@ if (! function_exists('laket_attachment_urls')) {
             $ids = explode(',', $ids);
         }
         
+        $ids = array_unique($ids);
+        
         foreach ($ids as $id) {
-            $list[] = laket_attachment_url($id, $domain);
+            $list[$id] = laket_attachment_url($id, $domain);
         }
         
         return $list;
@@ -388,7 +385,7 @@ if (! function_exists('laket_flash_setting')) {
      * @param string      $name     闪存插件包名
      * @param string|null $key     取值
      * @param mix|null    $default 默认值
-     * @return mix 闪存插件设置值
+     * @return mixed
      */
     function laket_flash_setting($name, $key = null, $default = null)
     {
@@ -410,7 +407,7 @@ if (! function_exists('laket_authenticate_excepts')) {
      * 登录过滤
      *
      * @param array $excepts 过滤规则
-     * @return mix
+     * @return mixed
      */
     function laket_authenticate_excepts(array $excepts)
     {
@@ -423,7 +420,7 @@ if (! function_exists('laket_permission_excepts')) {
      * 权限过滤
      *
      * @param array $excepts 过滤规则
-     * @return mix
+     * @return mixed
      */
     function laket_permission_excepts(array $excepts)
     {
@@ -436,7 +433,7 @@ if (! function_exists('laket_screenlock_excepts')) {
      * 锁屏过滤
      *
      * @param array $excepts 过滤规则
-     * @return mix
+     * @return mixed
      */
     function laket_screenlock_excepts(array $excepts)
     {
@@ -451,12 +448,12 @@ if (! function_exists('form_select')) {
      * @param type $array 数据
      * @param type $id 默认选择
      * @param type $str 属性
-     * @param type $default_option 默认选项
+     * @param type $defaultOption 默认选项
      * @return string
      */
-    function form_select($array = [], $id = 0, $str = '', $default_option = '')
+    function form_select($array = [], $id = 0, $str = '', $defaultOption = '')
     {
-        return Form::select($array, $id, $str, $default_option);
+        return Form::select($array, $id, $str, $defaultOption);
     }
 }
 
@@ -464,10 +461,12 @@ if (! function_exists('form_checkbox')) {
     /**
      * 复选框
      *
-     * @param $array 选项 二维数组
-     * @param $id    默认选中值，多个用 '逗号'分割
-     * @param $str   属性
+     * @param $array        选项 二维数组
+     * @param $id           默认选中值，多个用 '逗号'分割
+     * @param $str          属性
      * @param $defaultvalue 是否增加默认值 默认值为 -99
+     * @param $field 
+     * @return string
      */
     function form_checkbox($array = [], $id = '', $str = '', $defaultvalue = '', $field = '')
     {
@@ -484,7 +483,8 @@ if (! function_exists('form_images')) {
      * @param string $value    表单默认值
      * @param bool   $mult     是否多图片
      * @param string $alowexts 允许图片格式
-     * @param int $size 图片大小限制
+     * @param int    $size     图片大小限制
+     * @return string
      */
     function form_images($name, $id = '', $value = '', $mult = false, $size = 0) {
         return Form::images($name, $id, $value, $mult, $size);

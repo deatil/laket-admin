@@ -36,7 +36,7 @@ abstract class Event
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @param bool   $sort     排序
+     * @param int    $sort     排序
      * @return $this
      */
     public function listen(string $event, $listener, int $sort = 1)
@@ -82,7 +82,7 @@ abstract class Event
      * 
      * @param string|object $observer 观察者
      * @param null|string   $prefix   事件名前缀
-     * @param bool          $sort     排序
+     * @param int           $sort     排序
      * @return $this
      */
     public function observe($observer, string $prefix = '', int $sort = 1)
@@ -121,7 +121,7 @@ abstract class Event
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @param bool   $sort     排序
+     * @param int    $sort     排序
      * @return bool
      */
     public function removeListener(string $event, $listener, int $sort = 1): bool

@@ -12,16 +12,16 @@ class Filter extends Event
     /**
      * 触发事件
      * 
-     * @param string|object $event  事件名称
-     * @param mixed         $params 需要过滤的数据
-     * @param mixed         $var    更多参数
+     * @param string|object $event 事件名称
+     * @param mixed         $value 需要过滤的数据
+     * @param mixed         $var   额外数据
      * @return mixed
      */
-    public function trigger($event, $params = null, ...$var)
+    public function trigger($event, $value = null, ...$var)
     {
         if (is_object($event)) {
-            $params = $event;
-            $event  = $event::class;
+            $value = $event;
+            $event = $event::class;
         }
 
         $result    = [];
@@ -40,7 +40,7 @@ class Filter extends Event
         $listeners = $this->arraySort($listeners, 'sort');
 
         $tmp = $var;
-        $result = $params;
+        $result = $value;
         foreach ($listeners as $key => $listener) {
             array_unshift($tmp, $result);
             
