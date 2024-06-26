@@ -284,14 +284,15 @@ if (! function_exists('laket_view')) {
 
 if (! function_exists('laket_assets')) {
     /**
-     * 资源uri
+     * 后台资源 uri
      *
      * @param string $path 资源路径
      * @return string
      */
     function laket_assets($path = '') 
     {
-        return config('laket.view.admin_assets').($path ? '/' . ltrim($path, '/') : '');
+        $root = config('laket.view.admin_assets');
+        return rtrim($root, '/') . ($path ? '/' . ltrim($path, '/') : '');
     }
 }
 
