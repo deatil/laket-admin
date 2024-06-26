@@ -459,7 +459,7 @@ class Manager
                     $package = basename($path);
                     $vendor = basename(dirname($path));
                     
-                    if ($vendor . '/' . $package != $name) {
+                    if (empty($name) || $vendor . '/' . $package != $name) {
                         return [];
                     }
                     
