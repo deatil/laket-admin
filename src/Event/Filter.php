@@ -14,7 +14,7 @@ class Filter extends Event
      * 
      * @param string|object $event 事件名称
      * @param mixed         $value 需要过滤的数据
-     * @param mixed         $var   额外数据
+     * @param mixed         $var   更多数据
      * @return mixed
      */
     public function trigger($event, $value = null, ...$var)

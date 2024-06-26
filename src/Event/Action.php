@@ -13,7 +13,7 @@ class Action extends Event
      * 触发操作
      * 
      * @param string|object $event 事件名称
-     * @param mixed         $var   额外数据
+     * @param mixed         $var   更多数据
      * @return void
      */
     public function trigger($event, ...$var): void

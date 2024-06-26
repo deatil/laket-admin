@@ -71,7 +71,7 @@ if (! function_exists('do_action')) {
      * 触发操作
      * 
      * @param string|object $event 事件名称
-     * @param mixed         $var   额外数据
+     * @param mixed         $var   更多数据
      * @return void
      */
     function do_action($event, ...$var): void
@@ -130,7 +130,7 @@ if (! function_exists('apply_filters')) {
      * 
      * @param string|object $event 事件名称
      * @param mixed         $value 需要过滤的数据
-     * @param mixed         $var   额外数据
+     * @param mixed         $var   更多数据
      * @return mixed
      */
     function apply_filters($event, $value = null, ...$var)
