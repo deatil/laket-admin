@@ -227,7 +227,7 @@ class Flash extends ModelBase
         }
         
         // 事件
-        $settingDatalist = apply_filters('FlashModelGetConfigs', $settingDatalist, $settinglist);
+        $settingDatalist = apply_filters('flash_model_get_configs', $settingDatalist, $settinglist);
         
         return $settingDatalist;
     }

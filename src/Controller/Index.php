@@ -37,8 +37,7 @@ class Index extends Base
         $this->assign("menus", $menus);
         
         // 自定义后台首页
-        $mainUrl = laket_route('admin.index.main');
-        $mainUrl = apply_filters('MainUrl', $mainUrl);
+        $mainUrl = apply_filters('main_url', laket_route('admin.index.main'));
         $this->assign("main_url", $mainUrl);
 
         return $this->fetch('laket-admin::index.index');
