@@ -13,8 +13,8 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 // 版本号
-define("LAKET_VERSION", "1.3.8");
-define("LAKET_RELEASE", "1.3.8.20240707");
+define("LAKET_VERSION", "1.3.9");
+define("LAKET_RELEASE", "1.3.9.20240708");
 
 if (! function_exists('make')) {
     /**
@@ -381,14 +381,14 @@ if (! function_exists('laket_attachment_urls')) {
 
 if (! function_exists('laket_flash_setting')) {
     /**
-     * 闪存插件配置信息
+     * 插件配置信息
      *
-     * @param string      $name     闪存插件包名
+     * @param string      $name     插件包名
      * @param string|null $key     取值
      * @param mix|null    $default 默认值
      * @return mixed
      */
-    function laket_flash_setting($name, $key = null, $default = null)
+    function laket_flash_setting(string $name, $key = null, $default = null)
     {
         $flashs = FlashModel::getFlashs();
         
@@ -403,6 +403,51 @@ if (! function_exists('laket_flash_setting')) {
     }
 }
 
+if (! function_exists('laket_flash_installed')) {
+    /**
+     * 插件是否安装
+     *
+     * @param string $name 插件包名
+     * @return bool
+     */
+    function laket_flash_installed(string $name)
+    {
+        $flashs = FlashModel::getFlashs();
+        
+        $info = Arr::get($flashs, $name, []);
+        if (empty($info)) {
+            return false;
+        }
+        
+        return true;
+    }
+}
+
+if (! function_exists('laket_flash_enabled')) {
+    /**
+     * 插件是否启用
+     *
+     * @param string $name 插件包名
+     * @return bool
+     */
+    function laket_flash_enabled(string $name)
+    {
+        $flashs = FlashModel::getFlashs();
+        
+        $info = Arr::get($flashs, $name, []);
+        if (empty($info)) {
+            return false;
+        }
+        
+        $status = Arr::get($info, 'status', 0);
+        if ($status != 1) {
+            return false;
+        }
+        
+        return true;
+    }
+}
+
 if (! function_exists('laket_authenticate_excepts')) {
     /**
      * 登录过滤
@@ -412,7 +457,7 @@ if (! function_exists('laket_authenticate_excepts')) {
      */
     function laket_authenticate_excepts(array $excepts)
     {
-        return FlashManager::authenticateExcepts($excepts);
+        FlashManager::authenticateExcepts($excepts);
     }
 }
 
@@ -425,7 +470,7 @@ if (! function_exists('laket_permission_excepts')) {
      */
     function laket_permission_excepts(array $excepts)
     {
-        return FlashManager::permissionExcepts($excepts);
+        FlashManager::permissionExcepts($excepts);
     }
 }
 
@@ -438,7 +483,7 @@ if (! function_exists('laket_screenlock_excepts')) {
      */
     function laket_screenlock_excepts(array $excepts)
     {
-        return FlashManager::screenlockExcepts($excepts);
+        FlashManager::screenlockExcepts($excepts);
     }
 }
 
