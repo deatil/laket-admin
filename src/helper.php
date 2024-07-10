@@ -13,8 +13,8 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 // 版本号
-define("LAKET_VERSION", "1.3.9");
-define("LAKET_RELEASE", "1.3.9.20240708");
+define("LAKET_VERSION", "1.3.10");
+define("LAKET_RELEASE", "1.3.10.20240710");
 
 if (! function_exists('make')) {
     /**
@@ -376,6 +376,24 @@ if (! function_exists('laket_attachment_urls')) {
         }
         
         return $list;
+    }
+}
+
+if (! function_exists('laket_flash_static')) {
+    /**
+     * 插件静态文件
+     *
+     * @param string $name 插件包名
+     * @param string $name 文件路径
+     * @return string
+     */
+    function laket_flash_static(string $name, string $path) {
+        $url = url('flash.assets', [
+            'flash' => $name, 
+            'path'  => ltrim($path, '/'),
+        ]);
+        
+        return (string) $url;
     }
 }
 

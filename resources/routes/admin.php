@@ -91,3 +91,10 @@ Route::group(config('laket.route.group'), function() {
     Route::post('flash/upload', Controller\Flash::class . '@upload')->name('admin.flash.upload');
 })
 ->middleware(config('laket.route.middleware'));
+
+// 静态文件
+Route::get('assets/:flash/:path', Controller\Assets::class . '@show')
+    ->name('flash.assets')
+    ->pattern([
+        'path' => '(.*)', 
+    ]);

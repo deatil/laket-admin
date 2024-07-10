@@ -6,6 +6,7 @@ namespace Laket\Admin;
 
 use Laket\Admin\View\View;
 use Laket\Admin\Event\Events;
+use Laket\Admin\Flash\Asset;
 use Laket\Admin\Flash\Manager;
 use Laket\Admin\Support\Form;
 use Laket\Admin\Support\Loader;
@@ -196,6 +197,9 @@ class Service extends BaseService
         
         // 闪存
         $this->app->bind('laket-admin.flash', Manager::class);
+        
+        // 插件静态文件
+        $this->app->bind('laket-admin.flash-asset', Asset::class);
     }
     
     /**

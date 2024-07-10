@@ -135,6 +135,18 @@ class Service extends BaseService
     }
     
     /**
+     * 注册静态文件路径
+     *
+     * @param  string $path
+     * @param  string $namespace
+     * @return void
+     */
+    protected function loadAssetsFrom(string $path, string $namespace)
+    {
+        app('laket-admin.flash-asset')->addNamespace($namespace, $path);
+    }
+    
+    /**
      * 设置推送
      *
      * @param  array  $paths
