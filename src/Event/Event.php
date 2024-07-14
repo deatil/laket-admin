@@ -41,6 +41,10 @@ abstract class Event
      */
     public function listen(string $event, $listener, int $sort = 1)
     {
+        if (! isset($this->listener[$event])) {
+            $this->listener[$event] = [];
+        }
+        
         $this->listener[$event][] = [
             'listener' => $listener,
             'sort'     => $sort,
