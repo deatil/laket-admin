@@ -2,6 +2,7 @@
 
 use think\facade\View;
 use think\helper\Arr;
+use think\helper\Str;
 
 use Laket\Admin\Facade\Event;
 use Laket\Admin\Facade\Admin as AuthAdmin;
@@ -165,6 +166,30 @@ if (! function_exists('has_filter')) {
     function has_filter(string $event, $listener): bool
     {
         return Event::getFilter()->hasListener($event, $listener);
+    }
+}
+
+if (! function_exists('is_admin_url')) {
+    /**
+     * 是否为后台 uri
+     *
+     * @param string $url 
+     * @return bool
+     */
+    function is_admin_url(string $url = '') 
+    {
+        if (empty($url)) {
+            $url = request()->pathinfo();
+        }
+        
+        $url = ltrim($url, '/');
+        
+        $routeGroup = config('laket.route.group');
+        if (Str::startsWith($url, ltrim($routeGroup, '/') . '/')) {
+            return true;
+        }
+        
+        return false;
     }
 }
 
