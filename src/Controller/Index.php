@@ -33,7 +33,7 @@ class Index extends Base
         $this->assign('user_info', Admin::getData());
 
         // 左侧菜单
-        $menus = AuthRuleModel::getMenuList();
+        $menus = apply_filters('admin_main_menus', AuthRuleModel::getMenuList());
         $this->assign("menus", $menus);
         
         // 后台首页
@@ -62,7 +62,10 @@ class Index extends Base
         $adminCount = AdminModel::count();
         $this->assign('admin_count', $adminCount);
         
+        // 服务器信息
         $this->assign('sys_info', $this->getSysInfo());
+        
+        do_action('admin_index_main_after');
         
         return $this->fetch('laket-admin::index.main');
     }

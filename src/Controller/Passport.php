@@ -76,6 +76,8 @@ class Passport extends Base
             return $this->error('你已经登录！');
         }
         
+        do_action('admin_passport_login_before');
+        
         $verify = request()->post('verify');
         
         // 验证码
@@ -124,6 +126,8 @@ class Passport extends Base
 
         $adminInfo = Admin::login($data['name'], $password);
         if (empty($adminInfo)) {
+            do_action('admin_passport_login_password_error');
+            
             return $this->error('用户名或者密码错误！');
         }
         
@@ -134,6 +138,8 @@ class Passport extends Base
         
         // 清除数据
         Session::delete($prikeyCacheKey);
+        
+        do_action('admin_passport_login_after', $adminInfo);
         
         return $this->success('登录成功！', laket_route('admin.index.index'));
     }
@@ -147,9 +153,14 @@ class Passport extends Base
             return $this->error("你还没有登录", laket_route("admin.passport.login"));
         }
         
+        // 登录账号信息
+        $adminInfo = Admin::getData();
+        
         if (Admin::logout()) {
             return $this->success('退出成功', laket_route("admin.passport.login"));
         }
+        
+        do_action('admin_passport_logout_after', $adminInfo);
         
         return $this->error("退出失败", laket_route("admin.passport.login"));
     }

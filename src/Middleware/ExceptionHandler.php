@@ -36,7 +36,9 @@ class ExceptionHandler
         $pathinfo = $request->pathinfo();
         $routeGroup = config('laket.route.group');
         if (Str::startsWith($pathinfo, $routeGroup.'/')) {
-            $this->app->bind(Handle::class, Handler::class);
+            $handler = apply_filters('admin_middleware_exception_handler', Handler::class);
+            
+            $this->app->bind(Handle::class, $handler);
         }
         
         return $next($request);

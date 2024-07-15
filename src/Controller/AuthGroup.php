@@ -260,7 +260,31 @@ class AuthGroup extends Base
         
         return $this->success("删除成功！");
     }
-    
+
+    /**
+     * 用户组排序
+     */
+    public function listorder()
+    {
+        $id = $this->request->param('id/s', 0);
+        if (empty($id)) {
+            return $this->error('参数不能为空！');
+        }
+        
+        $listorder = $this->request->param('value/d', 100);
+        
+        $rs = AuthGroupModel::where([
+            'id' => $id,
+        ])->update([
+            'listorder' => $listorder,
+        ]);
+        if ($rs === false) {
+            return $this->error("排序失败！");
+        }
+        
+        return $this->success("排序成功！");
+    }
+
     /**
      * 访问授权页面
      */
@@ -316,39 +340,22 @@ class AuthGroup extends Base
             ->withData($json)
             ->buildArray(0);
         
+        // 权限数据
+        $json = apply_filters('admin_authgroup_access_rules', $json);
+        
         $this->assign('group_id', $groupId);
         $this->assign('json', $json);
         
         $authGroup = AuthGroupModel::where([
-            'id' => $groupId,
-        ])->find();
+                'id' => $groupId,
+            ])
+            ->find();
         $this->assign('auth_group', $authGroup);
         
+        // 数据设置之后
+        do_action('admin_authgroup_access_after', $rules);
+        
         return $this->fetch('laket-admin::auth-group.access');
-    }
-
-    /**
-     * 用户组排序
-     */
-    public function listorder()
-    {
-        $id = $this->request->param('id/s', 0);
-        if (empty($id)) {
-            return $this->error('参数不能为空！');
-        }
-        
-        $listorder = $this->request->param('value/d', 100);
-        
-        $rs = AuthGroupModel::where([
-            'id' => $id,
-        ])->update([
-            'listorder' => $listorder,
-        ]);
-        if ($rs === false) {
-            return $this->error("排序失败！");
-        }
-        
-        return $this->success("排序成功！");
     }
 
     /**
@@ -398,6 +405,9 @@ class AuthGroup extends Base
                 ]);
             }
         }
+        
+        // 保存后
+        do_action('admin_authgroup_access_save_after', $rules);
         
         return $this->success('授权成功！');
     }
