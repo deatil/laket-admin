@@ -13,8 +13,8 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 // 版本号
-define("LAKET_VERSION", "1.3.12");
-define("LAKET_RELEASE", "1.3.12.20240715");
+define("LAKET_VERSION", "1.3.13");
+define("LAKET_RELEASE", "1.3.13.20240715");
 
 if (! function_exists('make')) {
     /**
@@ -57,7 +57,7 @@ if (! function_exists('add_action')) {
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @param int    $sort     排序
+     * @param int    $sort     排序, 值越大越靠前
      * @return void
      */
     function add_action(string $event, $listener, int $sort = 1): void
@@ -115,7 +115,7 @@ if (! function_exists('add_filter')) {
      * 
      * @param string $event    事件名称
      * @param mixed  $listener 监听操作
-     * @param int    $sort     排序
+     * @param int    $sort     排序, 值越大越靠前
      * @return void
      */
     function add_filter(string $event, $listener, int $sort = 1): void

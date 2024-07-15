@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{:laket_assets('js/layui/css/layui.css')}">
     <link rel="stylesheet" href="{:laket_assets('js/iconfont/iconfont.css')}">
     <link rel="stylesheet" href="{:laket_assets('css/index.css')}">
+    {:do_action('admin_index_link_after')}
 </head>
 
 <body class="layui-layout-body lake-admin lake-admin-skin">
@@ -31,7 +32,7 @@
                 <a href="javascript:;" class="admin-menu-toggle icon iconfont icon-other lake-admin-winner-hide" title="隐藏侧边"></a>
             </div>
             <ul class="layui-nav layui-layout-right lake-admin-right">
-                {:do_action('laket_admin_top_left_nav_start')}
+                {:do_action('admin_index_top_left_nav_start')}
                 
                 <li class="layui-nav-item lake-admin-top-tip" lay-title="站点主页">
                     <a href="/" target="_blank">
@@ -39,7 +40,7 @@
                     </a>
                 </li>
                 
-                {:do_action('laket_admin_top_left_nav_homepage_after')}
+                {:do_action('admin_index_top_left_nav_homepage_after')}
                 
                 <li class="layui-nav-item layui-hide-xs lake-admin-top-tip" lay-title="锁屏">
                     <a class="lake-admin-lock js-lake-admin-lock" 
@@ -52,7 +53,7 @@
                     </a>
                 </li>
                 
-                {:do_action('laket_admin_top_left_nav_lockscreen_after')}
+                {:do_action('admin_index_top_left_nav_lockscreen_after')}
                 
                 <li class="layui-nav-item">
                     <a href="javascript:;" class="admin-side-full lake-admin-winner-hide lake-admin-top-tip" lay-title="全屏显示">
@@ -60,7 +61,7 @@
                     </a>
                 </li>
                 
-                {:do_action('laket_admin_top_left_nav_skin_after')}
+                {:do_action('admin_index_top_left_nav_fullscreen_after')}
                 
                 <li class="layui-nav-item">
                     <a href="javascript:;" title="清理缓存">
@@ -87,7 +88,7 @@
                     </dl>
                 </li>
                 
-                {:do_action('laket_admin_top_left_nav_clearcache_after')}
+                {:do_action('admin_index_top_left_nav_clearcache_after')}
                 
                 <li class="layui-nav-item laket-admin-select-skin lake-admin-winner-hide">
                     <a class="lake-admin-skin" data-skin href="javascript:;">
@@ -95,7 +96,7 @@
                     </a>
                 </li>
                 
-                {:do_action('laket_admin_top_left_nav_skin_after')}
+                {:do_action('admin_index_top_left_nav_skin_after')}
                 
                 <li class="layui-nav-item">
                     <a href="javascript:;">
@@ -130,7 +131,7 @@
                     </dl>
                 </li>
                 
-                {:do_action('laket_admin_top_left_nav_profile_after')}
+                {:do_action('admin_index_top_left_nav_profile_after')}
                 
             </ul>
         </div>
@@ -217,7 +218,9 @@
             Copyright © {:config('laket.admin.name')} v{:config('laket.admin.version')}
         </div>
     </div>
+    
     <script src="{:laket_assets('js/layui/layui.js')}"></script>
+    {:do_action('admin_index_script_before')}
     <script type="text/javascript">
     var lake_menus = <?php echo json_encode($menus); ?>;
     
@@ -242,7 +245,7 @@
     }).use(['lakeAdmin']);
     </script>
     
-    {:do_action('laket_admin_index_script_after')}
+    {:do_action('admin_index_script_after')}
 </body>
 
 </html>

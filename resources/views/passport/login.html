@@ -7,11 +7,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>系统登录 - {:config('laket.admin.name')}</title>
-    {:do_action('login_link_before')}
+    {:do_action('admin_login_link_before')}
     <link rel="stylesheet" type="text/css" href="{:laket_assets('js/layui/css/layui.css')}" />
     <link rel="stylesheet" href="{:laket_assets('js/iconfont/iconfont.css')}">
     <link rel="stylesheet" type="text/css" href="{:laket_assets('css/login.css')}" />
-    {:do_action('login_link_after')}
+    {:do_action('admin_login_link_after')}
 </head>
 
 <body class="login-bg">
@@ -56,7 +56,7 @@
     <script type="text/javascript" src="{:laket_assets('js/md5.js')}"></script>
     <script type="text/javascript" src="{:laket_assets('js/jsencrypt.js')}"></script>
     <script type="text/javascript" src="{:laket_assets('js/layui/layui.js')}"></script>
-    {:do_action('login_script_before')}
+    {:do_action('admin_login_script_before')}
     <script type="text/javascript">
     ;(function(){
         if (self != top) {
@@ -148,7 +148,7 @@
         })
     })
     </script>
-    {:do_action('login_script_after')}
+    {:do_action('admin_login_script_after')}
 </body>
 
 </html>

@@ -36,8 +36,8 @@ class Index extends Base
         $menus = AuthRuleModel::getMenuList();
         $this->assign("menus", $menus);
         
-        // 自定义后台首页
-        $mainUrl = apply_filters('main_url', laket_route('admin.index.main'));
+        // 后台首页
+        $mainUrl = apply_filters('admin_main_url', laket_route('admin.index.main'));
         $this->assign("main_url", $mainUrl);
 
         return $this->fetch('laket-admin::index.index');
