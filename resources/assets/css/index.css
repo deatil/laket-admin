@@ -449,3 +449,59 @@
 @media screen and (max-width:1080px){
     .lake-admin .lake-admin-top-level-menus{display: none !important; }
 }
+
+/** 选择主题方案 */
+.laket-admin-color .color-title {
+    padding: 10px 0 10px 20px;
+    border-bottom: 1px solid #d9dada;
+    margin-bottom: 8px;
+}
+
+.laket-admin-color .color-content {
+    padding: 10px 20px 0 20px;
+}
+
+.laket-admin-color .color-content ul {
+    list-style: none;
+    text-align: left;
+}
+
+.laket-admin-color .color-content ul li {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 80px;
+    height: 50px;
+    margin: 0 15px 15px 0;
+    padding: 2px 2px 4px 2px;
+    background-color: #f2f2f2;
+    cursor: pointer;
+    font-size: 12px;
+    color: #666;
+}
+
+.laket-admin-color .color-content li.layui-this:after, 
+.laket-admin-color .color-content li:hover:after {
+    width: 100%;
+    height: 100%;
+    padding: 4px;
+    top: -5px;
+    left: -5px;
+    border-color: #d8d8d8;
+    opacity: 1;
+}
+
+.laket-admin-color .color-content li:after {
+    content: '';
+    position: absolute;
+    z-index: 20;
+    top: 50%;
+    left: 50%;
+    width: 1px;
+    height: 0;
+    border: 1px solid #f2f2f2;
+    transition: all .3s;
+    -webkit-transition: all .3s;
+    opacity: 0;
+}
+
