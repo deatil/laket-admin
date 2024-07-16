@@ -14,8 +14,8 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 // 版本号
-define("LAKET_VERSION", "1.3.15");
-define("LAKET_RELEASE", "1.3.15.20240715");
+define("LAKET_VERSION", "1.3.16");
+define("LAKET_RELEASE", "1.3.16.20240716");
 
 if (! function_exists('make')) {
     /**

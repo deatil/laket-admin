@@ -66,10 +66,19 @@ class AuthRule extends Base
         
         $searchField = $this->request->param('search_field/s', '', 'trim');
         $keyword = $this->request->param('keyword/s', '', 'trim');
+        $menu_show = $this->request->param('menu_show/d', '');
+        $status = $this->request->param('status/d', '');
         
         $map = [];
         if (!empty($searchField) && !empty($keyword)) {
             $map[] = [$searchField, 'like', "%$keyword%"];
+        }
+        
+        if (in_array($menu_show, [0, 1])) {
+            $map[] = ['menu_show', '=', $menu_show];
+        }
+        if (in_array($status, [0, 1])) {
+            $map[] = ['status', '=', $status];
         }
         
         $list = AuthRuleModel::where($map)

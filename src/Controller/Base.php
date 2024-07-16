@@ -57,6 +57,8 @@ abstract class Base extends BaseController
             !empty($arr[1]) ? $arr[1] : date('Y-m-d', time());
             $map[] = [$filter_time, 'between time', [$arr[0] . ' 00:00:00', $arr[1] . ' 23:59:59']];
         }
+
+        $map = apply_filters('admin_base_buildparams', $map);
         
         return $map;
     }

@@ -129,6 +129,9 @@ class Index extends Base
                 break;
         }
         
+        // 清理缓存之后
+        do_action('admin_index_clear_after', $type);
+        
         return $this->success('清理缓存成功');
     }
 

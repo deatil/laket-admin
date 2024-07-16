@@ -7,14 +7,21 @@
         <blockquote class="layui-elem-quote">
             <form class="layui-form lake-admin-search-form" method="get">
                 <div class="layui-inline">
-                    <input type="text" class="layui-input" id="laydate" placeholder="搜索时间范围">
+                    <input type="text" class="layui-input laket-admin-search-date" placeholder="搜索时间范围">
                 </div>
+                
                 <div class="layui-inline">
-                    <input type="text" name="keyword" class="layui-input searchVal" placeholder="请输入附件名称">
+                    <input type="text" name="keyword" class="layui-input laket-admin-search-val" placeholder="请输入附件名称">
                 </div>
+                
                 <div class="layui-inline">
                     <a class="layui-btn search_btn" data-type="reload">搜索</a>
                 </div>
+                
+                <div class="layui-inline">
+                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
+                </div>
+
             </form>
         </blockquote>
         
@@ -71,10 +78,12 @@ layui.use(['table', 'laydate'], function() {
     var table = layui.table,
         $ = layui.$,
         laydate = layui.laydate;
+    
     laydate.render({
-        elem: '#laydate',
+        elem: '.laket-admin-search-date',
         range: true,
     });
+    
     table.render({
         elem: '#dataTable',
         toolbar: '#toolbarTop',
@@ -109,13 +118,31 @@ layui.use(['table', 'laydate'], function() {
                 curr: 1 //重新从第 1 页开始
             },
             where: {
-                search_field: 'name',
-                keyword: $(".searchVal").val(),
                 filter_time: 'create_time',
-                filter_time_range: $("#laydate").val()
+                filter_time_range: $(".laket-admin-search-date").val(),
+                search_field: 'name',
+                keyword: $(".laket-admin-search-val").val(),
             }
         })
     });
+    
+    $(".all-btn").on("click", function() {
+        $(".laket-admin-search-date").val(''),
+        $(".laket-admin-search-val").val(''),
+        
+        table.reload("dataTable", {
+            page: {
+                curr: 1
+            },
+            where: {
+                filter_time: 'create_time',
+                filter_time_range: '',
+                search_field: 'name',
+                keyword: '',
+            }
+        })
+    });
+
 });
 </script>
 {/block}

@@ -13,11 +13,17 @@
                             <option value="description">描述</option>
                         </select>
                 </div>
+                
                 <div class="layui-inline">
                     <input type="text" name="keyword" class="layui-input lake-admin-search-val" placeholder="请输入关键字">
                 </div>
+                
                 <div class="layui-inline">
                     <a class="layui-btn lake-admin-search-btn" data-type="search">搜索</a>
+                </div>
+                
+                <div class="layui-inline">
+                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
                 </div>
             </form>
         </blockquote>
@@ -87,7 +93,8 @@ layui.config({
 }).use(['table', 'notice'], function() {
     var table = layui.table,
         notice = layui.notice,
-        $ = layui.$;
+        $ = layui.$,
+        form = layui.form;
     
     table.render({
         elem: '#table',
@@ -150,6 +157,24 @@ layui.config({
         })
     });
     
+    $(".all-btn").on("click", function() {
+        $(".lake-admin-search-val").val(''),
+        
+        form.val('lake-admin-search-from', {
+            'field': '',
+        });
+
+        table.reload("table", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: '',
+                keyword: '',
+            }
+        })
+    });
+
 });
 </script>
 {/block}

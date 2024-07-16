@@ -37,6 +37,8 @@ class Passport extends Base
         if (Admin::isLogin()) {
             return $this->error("你已经登录", laket_route("admin.index.index"));
         }
+
+        do_action('admin_passport_login_before');
         
         // 使用 RSA 方法
         $private = RSA::createKey(1024)
@@ -63,7 +65,9 @@ class Passport extends Base
         ], "", $publicKey);
         
         $this->assign("publicKey", $publicKey);
-        
+
+        do_action('admin_passport_login_after', $publicKey);
+
         return $this->fetch('laket-admin::passport.login');
     }
     
@@ -76,7 +80,7 @@ class Passport extends Base
             return $this->error('你已经登录！');
         }
         
-        do_action('admin_passport_login_before');
+        do_action('admin_passport_login_check_before');
         
         $verify = request()->post('verify');
         
@@ -121,12 +125,14 @@ class Passport extends Base
             $password = $rsakey->withPadding(RSA::ENCRYPTION_PKCS1)
                 ->decrypt($password);
         } catch(\Exception $e) {
+            do_action('admin_passport_login_check_password_decrypt_fail', $e->getMessage());
+            
             return $this->error('用户名或者密码错误！');
         }
 
         $adminInfo = Admin::login($data['name'], $password);
         if (empty($adminInfo)) {
-            do_action('admin_passport_login_password_error');
+            do_action('admin_passport_login_check_password_error');
             
             return $this->error('用户名或者密码错误！');
         }
@@ -139,7 +145,7 @@ class Passport extends Base
         // 清除数据
         Session::delete($prikeyCacheKey);
         
-        do_action('admin_passport_login_after', $adminInfo);
+        do_action('admin_passport_login_check_after', $adminInfo);
         
         return $this->success('登录成功！', laket_route('admin.index.index'));
     }

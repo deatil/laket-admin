@@ -30,6 +30,7 @@ class Profile extends Base
             return $this->error('该信息不存在！');
         }
         
+        $data = apply_filters('admin_profile_setting', $data);
         $this->assign("data", $data);
         
         return $this->fetch('laket-admin::profile.setting');
@@ -41,6 +42,7 @@ class Profile extends Base
     public function settingSave()
     {
         $post = $this->request->post();
+        $post = apply_filters('admin_profile_setting_save_before', $post);
         
         $data = [];
         $data['email'] = $post['email'];
@@ -58,6 +60,8 @@ class Profile extends Base
         if ($status === false) {
             return $this->error('修改失败！');
         }
+        
+        do_action('admin_profile_setting_save_after');
         
         return $this->success("修改成功！");
     }
@@ -77,6 +81,7 @@ class Profile extends Base
             return $this->error('信息不存在！');
         }
         
+        $data = apply_filters('admin_profile_password', $data);
         $this->assign("data", $data);
         
         return $this->fetch('laket-admin::profile.password');
@@ -88,6 +93,7 @@ class Profile extends Base
     public function passwordSave()
     {
         $post = $this->request->post();
+        $post = apply_filters('admin_profile_password_save_before', $post);
         
         // 验证数据
         $rule = [
@@ -140,6 +146,8 @@ class Profile extends Base
         }
         
         Admin::logout();
+
+        do_action('admin_profile_password_save_after');
         
         return $this->success("修改密码成功！");
     }
