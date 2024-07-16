@@ -163,10 +163,9 @@ layui.use(['table', 'notice'], function() {
     });
     
     $(".all-btn").on("click", function() {
-        $(".lake-admin-search-val").val(''),
-        
         form.val('lake-admin-search-from', {
             'field': '',
+            'keyword': '',
             'menu_show': '',
             'status': '',
         });

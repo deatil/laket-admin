@@ -26,6 +26,7 @@
                     <a href="{:laket_route('admin.flash.index')}">已安装</a>
                 </li>
             </ul>
+            
             <div class="layui-tab-content">
                 <blockquote class="layui-elem-quote">
                     <form class="layui-form lake-admin-search-form" method="get" lay-filter="laket-admin-search-from">
@@ -39,12 +40,19 @@
                                 <option value="keywords">关键字</option>
                             </select>
                         </div>
+                        
                         <div class="layui-inline">
                             <input type="text" name="keyword" class="layui-input laket-admin-search-val" placeholder="请输入关键字">
                         </div>
+                        
                         <div class="layui-inline">
                             <a class="layui-btn laket-admin-search-btn" data-type="search">搜索</a>
                         </div>
+                        
+                        <div class="layui-inline">
+                            <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
+                        </div>
+
                     </form>
                 </blockquote>
             
@@ -185,7 +193,8 @@ layui.config({
     var table = layui.table,
         $ = layui.$,
         notice = layui.notice,
-        upload = layui.upload;
+        upload = layui.upload,
+        form = layui.form;
         
     table.render({
         elem: '#table',
@@ -286,6 +295,23 @@ layui.config({
         });
     });
     
+    $(".all-btn").on("click", function() {
+        form.val('laket-admin-search-from', {
+            'field': '',
+            'keyword': '',
+        });
+        
+        table.reload("table", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: '',
+                keyword: '',
+            }
+        })
+    });
+
     // 监听单元格编辑
     table.on('edit(table)', function(obj) {
         var value = obj.value,

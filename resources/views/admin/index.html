@@ -147,10 +147,9 @@ layui.use('table', function() {
     });
     
     $(".all-btn").on("click", function() {
-        $(".lake-admin-search-val").val(''),
-        
         form.val('lake-admin-search-from', {
             'field': '',
+            'keyword': '',
         });
         
         table.reload("table", {
