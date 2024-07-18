@@ -562,7 +562,7 @@ class Manager
      * @param string|null $className
      * @return object
      */
-    public function getNewClass(?string $className = null)
+    public function newClass(?string $className = null)
     {
         if (! class_exists($className)) {
             return false;
@@ -586,13 +586,13 @@ class Manager
      * @param array  $param 
      * @return mixed
      */
-    public function getNewClassMethod(string $className, string $method, array $param = [])
+    public function callClassMethod(string $className, string $method, array $param = [])
     {
         if (empty($className) || empty($method)) {
             return false;
         }
         
-        $newClass = $this->getNewClass($className);
+        $newClass = $this->newClass($className);
         if (! $newClass) {
             return false;
         }
@@ -610,11 +610,11 @@ class Manager
      * @param string|null $name
      * @return mixed|object
      */
-    public function getFlashNewClass(?string $name = null)
+    public function newFlashClass(?string $name = null)
     {
         $className = $this->getFlashClass($name);
         
-        return $this->getNewClass($className);
+        return $this->newClass($className);
     }
     
     /**
@@ -652,7 +652,7 @@ class Manager
      */
     public function getFlash(?string $name = null)
     {
-        $newClass = $this->getFlashNewClass($name);
+        $newClass = $this->newFlashClass($name);
         if ($newClass === false) {
             return [];
         }

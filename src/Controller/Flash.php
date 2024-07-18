@@ -193,6 +193,14 @@ class Flash extends Base
             }
         }
         
+        Flasher::callClassMethod($info['bind_service'], 'action');
+        
+        // 安装前
+        do_action('admin_install_flash', $name);
+        
+        // 安装当前插件时
+        do_action('admin_install_' . $name);
+        
         $flash = FlashModel::create([
             'name'         => Arr::get($info, 'name'),
             'title'        => Arr::get($info, 'title'),
@@ -211,7 +219,8 @@ class Flash extends Base
             return $this->error('安装失败！');
         }
         
-        Flasher::getNewClassMethod($flash['bind_service'], 'install');
+        // 安装后
+        do_action('admin_installed_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -238,14 +247,23 @@ class Flash extends Base
         if ($installInfo['status'] == 1) {
             return $this->error('请禁用插件后再卸载！');
         }
+        
+        Flasher::loadFlash();
+        Flasher::callClassMethod($installInfo['bind_service'], 'action');
+        
+        // 卸载前
+        do_action('admin_uninstall_flash', $name);
 
         $status = FlashModel::where(['name' => $name])->delete();
         if ($status === false) {
             return $this->error("卸载失败！");
         }
         
-        Flasher::loadFlash();
-        Flasher::getNewClassMethod($installInfo['bind_service'], 'uninstall');
+        // 卸载当前插件时
+        do_action('admin_uninstall_' . $name);
+        
+        // 卸载后
+        do_action('admin_uninstalled_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -316,6 +334,14 @@ class Flash extends Base
                 }
             }
         }
+        
+        Flasher::callClassMethod($info['bind_service'], 'action');
+        
+        // 更新前
+        do_action('admin_upgrade_flash', $name);
+        
+        // 更新当前插件时
+        do_action('admin_upgrade_' . $name);
 
         $status = FlashModel::update([
                 'title'        => Arr::get($info, 'title'),
@@ -337,7 +363,8 @@ class Flash extends Base
             return $this->error('更新失败！');
         }
         
-        Flasher::getNewClassMethod(Arr::get($info, 'bind_service'), 'upgrade');
+        // 更新后
+        do_action('admin_upgraded_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -508,6 +535,12 @@ class Flash extends Base
             return $this->error('插件还没有安装！');
         }
         
+        Flasher::loadFlash();
+        Flasher::callClassMethod($installInfo['bind_service'], 'action');
+        
+        // 启用前
+        do_action('admin_enable_flash', $name);
+        
         $status = FlashModel::where([
             'name' => $name,
         ])->update([
@@ -517,8 +550,11 @@ class Flash extends Base
             return $this->error('启用失败！');
         }
         
-        Flasher::loadFlash();
-        Flasher::getNewClassMethod($installInfo['bind_service'], 'enable');
+        // 启用当前插件时
+        do_action('admin_enable_' . $name);
+        
+        // 启用后
+        do_action('admin_enabled_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -543,6 +579,11 @@ class Flash extends Base
             return $this->error('插件还没有安装！');
         }
         
+        Flasher::callClassMethod($installInfo['bind_service'], 'action');
+        
+        // 禁用前
+        do_action('admin_disable_flash', $name);
+        
         $status = FlashModel::where([
             'name' => $name,
         ])->update([
@@ -553,7 +594,11 @@ class Flash extends Base
             return $this->error('禁用失败！');
         }
         
-        Flasher::getNewClassMethod($installInfo['bind_service'], 'disable');
+        // 禁用当前插件时
+        do_action('admin_disable_' . $name);
+        
+        // 禁用后
+        do_action('admin_disabled_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);

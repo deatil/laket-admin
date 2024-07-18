@@ -14,8 +14,8 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 // 版本号
-define("LAKET_VERSION", "1.3.16");
-define("LAKET_RELEASE", "1.3.16.20240716");
+define("LAKET_VERSION", "1.5.0");
+define("LAKET_RELEASE", "1.5.0.20240718");
 
 if (! function_exists('make')) {
     /**
@@ -169,14 +169,84 @@ if (! function_exists('has_filter')) {
     }
 }
 
-if (! function_exists('is_admin_url')) {
+if (! function_exists('register_install_hook')) {
+    /**
+     * 注册安装操作
+     * 
+     * @param string $name     插件包名
+     * @param mixed  $callback 回调函数
+     * @return void
+     */
+    function register_install_hook(string $name, $callback): void
+    {
+        add_action('admin_install_' . $name, $callback);
+    }
+}
+
+if (! function_exists('register_uninstall_hook')) {
+    /**
+     * 注册卸载操作
+     * 
+     * @param string $name     插件包名
+     * @param mixed  $callback 回调函数
+     * @return void
+     */
+    function register_uninstall_hook(string $name, $callback): void
+    {
+        add_action('admin_uninstall_' . $name, $callback);
+    }
+}
+
+if (! function_exists('register_upgrade_hook')) {
+    /**
+     * 注册更新操作
+     * 
+     * @param string $name     插件包名
+     * @param mixed  $callback 回调函数
+     * @return void
+     */
+    function register_upgrade_hook(string $name, $callback): void
+    {
+        add_action('admin_upgrade_' . $name, $callback);
+    }
+}
+
+if (! function_exists('register_enable_hook')) {
+    /**
+     * 注册启用操作
+     * 
+     * @param string $name     插件包名
+     * @param mixed  $callback 回调函数
+     * @return void
+     */
+    function register_enable_hook(string $name, $callback): void
+    {
+        add_action('admin_enable_' . $name, $callback);
+    }
+}
+
+if (! function_exists('register_disable_hook')) {
+    /**
+     * 注册禁用操作
+     * 
+     * @param string $name     插件包名
+     * @param mixed  $callback 回调函数
+     * @return void
+     */
+    function register_disable_hook(string $name, $callback): void
+    {
+        add_action('admin_disable_' . $name, $callback);
+    }
+}
+
+if (! function_exists('is_admin')) {
     /**
      * 是否为后台 uri
      *
      * @param string $url 
      * @return bool
      */
-    function is_admin_url(string $url = '') 
+    function is_admin(string $url = '') 
     {
         if (empty($url)) {
             $url = request()->pathinfo();

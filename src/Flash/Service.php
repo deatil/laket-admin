@@ -33,38 +33,15 @@ class Service extends BaseService
     public $setting = '';
     
     /**
+     * 在插件安装、插件卸载等操作时有效
+     */
+    public function action()
+    {}
+    
+    /**
      * 启动，只有启用后加载
      */
     public function start()
     {}
-    
-    /**
-     * 安装后
-     */
-    public function install()
-    {}
-    
-    /**
-     * 卸载后
-     */
-    public function uninstall()
-    {}
-    
-    /**
-     * 更新后
-     */
-    public function upgrade()
-    {}
-    
-    /**
-     * 启用后
-     */
-    public function enable()
-    {}
-    
-    /**
-     * 禁用后
-     */
-    public function disable()
-    {}
+
 }

@@ -22,7 +22,7 @@ use Laket\Admin\Facade\Flash as Flasher;
 use Laket\Admin\Model\Flash as FlashModel;
 
 /**
- * 闪存
+ * 插件管理脚本
  *
  * > php think laket-admin:flash [--package=package_name] [--action=install]
  *
@@ -168,6 +168,14 @@ class Flash extends Command
                 }
             }
         }
+        
+        Flasher::callClassMethod($info['bind_service'], 'action');
+        
+        // 安装前
+        do_action('admin_install_flash', $name);
+        
+        // 安装当前插件时
+        do_action('admin_install_' . $name);
 
         $flash = FlashModel::create([
             'name'         => Arr::get($info, 'name'),
@@ -188,7 +196,8 @@ class Flash extends Command
             return false;
         }
         
-        Flasher::getNewClassMethod($flash['bind_service'], 'install');
+        // 安装后
+        do_action('admin_installed_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -210,6 +219,12 @@ class Flash extends Command
             $this->output->error('Please enable flash and uninstall.');
             return false;
         }
+        
+        Flasher::loadFlash();
+        Flasher::callClassMethod($installInfo['bind_service'], 'action');
+        
+        // 卸载前
+        do_action('admin_uninstall_flash', $name);
 
         $status = FlashModel::where(['name' => $name])->delete();
         if ($status === false) {
@@ -217,8 +232,11 @@ class Flash extends Command
             return false;
         }
         
-        Flasher::loadFlash();
-        Flasher::getNewClassMethod($installInfo['bind_service'], 'uninstall');
+        // 卸载当前插件时
+        do_action('admin_uninstall_' . $name);
+        
+        // 卸载后
+        do_action('admin_uninstalled_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -291,6 +309,14 @@ class Flash extends Command
                 }
             }
         }
+        
+        Flasher::callClassMethod($info['bind_service'], 'action');
+        
+        // 更新前
+        do_action('admin_upgrade_flash', $name);
+        
+        // 更新当前插件时
+        do_action('admin_upgrade_' . $name);
 
         $status = FlashModel::update([
                 'title'        => Arr::get($info, 'title'),
@@ -313,7 +339,8 @@ class Flash extends Command
             return false;
         }
         
-        Flasher::getNewClassMethod(Arr::get($info, 'bind_service'), 'upgrade');
+        // 更新后
+        do_action('admin_upgraded_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -332,6 +359,12 @@ class Flash extends Command
             return false;
         }
         
+        Flasher::loadFlash();
+        Flasher::callClassMethod($installInfo['bind_service'], 'action');
+        
+        // 启用前
+        do_action('admin_enable_flash', $name);
+        
         $status = FlashModel::where([
             'name' => $name,
         ])->update([
@@ -342,8 +375,11 @@ class Flash extends Command
             return false;
         }
         
-        Flasher::loadFlash();
-        Flasher::getNewClassMethod($installInfo['bind_service'], 'enable');
+        // 启用当前插件时
+        do_action('admin_enable_' . $name);
+        
+        // 启用后
+        do_action('admin_enabled_flash', $name);
         
         // 清除缓存
         Flasher::forgetFlashCache($name);
@@ -362,6 +398,11 @@ class Flash extends Command
             return false;
         }
         
+        Flasher::callClassMethod($installInfo['bind_service'], 'action');
+        
+        // 禁用前
+        do_action('admin_disable_flash', $name);
+        
         $status = FlashModel::where([
             'name' => $name,
         ])->update([
@@ -373,8 +414,12 @@ class Flash extends Command
             return false;
         }
         
-        Flasher::getNewClassMethod($installInfo['bind_service'], 'disable');
+        // 禁用当前插件时
+        do_action('admin_disable_' . $name);
         
+        // 禁用后
+        do_action('admin_disabled_flash', $name);
+
         // 清除缓存
         Flasher::forgetFlashCache($name);
     }
