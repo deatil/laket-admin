@@ -3,6 +3,30 @@
 ::selection{color:#fff !important;background-color:#009688 !important}
 ::-moz-selection{color:#fff !important;background-color:#009688 !important}
 
+/** 自定义滚动条样式 */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background-color: transparent;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #9c9da0;
+    -webkit-border-radius: 2em;
+    -moz-border-radius: 2em;
+    border-radius: 2em
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(0,0,0,.15);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(128,135,139,.8);
+}
+
 .layui-layout-admin .layui-body {
     margin-bottom: 44px;
 }
@@ -458,7 +482,7 @@
 }
 
 .laket-admin-color .color-content {
-    padding: 10px 20px 0 20px;
+    padding: 10px;
 }
 
 .laket-admin-color .color-content ul {
@@ -472,7 +496,7 @@
     vertical-align: top;
     width: 80px;
     height: 50px;
-    margin: 0 15px 15px 0;
+    margin: 9px;
     padding: 2px 2px 4px 2px;
     background-color: #f2f2f2;
     cursor: pointer;
