@@ -472,6 +472,9 @@ class Flash extends Base
         
         $data = $this->request->post('item/a');
         
+        // 过滤配置
+        $data = apply_filters("admin_flash_setting_save_before", $data, $name);
+
         $settinglist = $info['settinglist'];
         
         foreach ($settinglist as $setting) {
@@ -512,6 +515,8 @@ class Flash extends Base
             return $this->error('保存设置失败！');
         }
         
+        do_action("admin_flash_setting_save_after", $name);
+
         // 清除缓存
         Flasher::forgetFlashCache($name);
         
@@ -654,7 +659,7 @@ class Flash extends Base
             define('PCLZIP_TEMPORARY_DIR', runtime_path('cache'));
         }
         
-        // 解析composer.json
+        // 解析 composer.json
         $filename = $requestFile->getPathname();
         $zip = new PclZip($filename);
         
