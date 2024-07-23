@@ -84,6 +84,7 @@ php think laket-admin:install
 
 | 名称 | 描述 |
 | --- | --- |
+| [系统通用配置](https://github.com/deatil/laket-config) | 自定义数据配置，将配置信息统一到一个表 |
 | [系统设置](https://github.com/deatil/laket-settings) | 添加系统的设置功能 |
 | [操作日志](https://github.com/deatil/laket-operation-log) | 记录管理员在后台的操作日志 |
 | [数据库管理](https://github.com/deatil/laket-admin-database) | 数据库备份、优化、修复及还原 |
