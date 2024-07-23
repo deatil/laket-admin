@@ -14,8 +14,8 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 // 版本号
-define("LAKET_VERSION", "1.5.2");
-define("LAKET_RELEASE", "1.5.2.20240723");
+define("LAKET_VERSION", "1.5.3");
+define("LAKET_RELEASE", "1.5.3.20240723");
 
 if (! function_exists('make')) {
     /**
@@ -63,7 +63,7 @@ if (! function_exists('add_action')) {
      */
     function add_action(string $event, $listener, int $sort = 1): void
     {
-        Event::getAction()->listen($event, $listener, $sort);
+        Event::action()->listen($event, $listener, $sort);
     }
 }
 
@@ -77,7 +77,7 @@ if (! function_exists('do_action')) {
      */
     function do_action($event, ...$var): void
     {
-        Event::getAction()->trigger($event, ...$var);
+        Event::action()->trigger($event, ...$var);
     }
 }
 
@@ -92,7 +92,7 @@ if (! function_exists('remove_action')) {
      */
     function remove_action(string $event, $listener, int $sort = 1): bool
     {
-        return Event::getAction()->removeListener($event, $listener, $sort);
+        return Event::action()->removeListener($event, $listener, $sort);
     }
 }
 
@@ -106,7 +106,7 @@ if (! function_exists('has_action')) {
      */
     function has_action(string $event, $listener): bool
     {
-        return Event::getAction()->hasListener($event, $listener);
+        return Event::action()->hasListener($event, $listener);
     }
 }
 
@@ -121,7 +121,7 @@ if (! function_exists('add_filter')) {
      */
     function add_filter(string $event, $listener, int $sort = 1): void
     {
-        Event::getFilter()->listen($event, $listener, $sort);
+        Event::filter()->listen($event, $listener, $sort);
     }
 }
 
@@ -136,7 +136,7 @@ if (! function_exists('apply_filters')) {
      */
     function apply_filters($event, $value = null, ...$var)
     {
-        return Event::getFilter()->trigger($event, $value, ...$var);
+        return Event::filter()->trigger($event, $value, ...$var);
     }
 }
 
@@ -151,7 +151,7 @@ if (! function_exists('remove_filter')) {
      */
     function remove_filter(string $event, $listener, int $sort = 1): bool
     {
-        return Event::getFilter()->removeListener($event, $listener, $sort);
+        return Event::filter()->removeListener($event, $listener, $sort);
     }
 }
 
@@ -165,7 +165,7 @@ if (! function_exists('has_filter')) {
      */
     function has_filter(string $event, $listener): bool
     {
-        return Event::getFilter()->hasListener($event, $listener);
+        return Event::filter()->hasListener($event, $listener);
     }
 }
 
