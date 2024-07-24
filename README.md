@@ -57,25 +57,25 @@
 composer create-project topthink/think laket-admin 8.* && cd laket-admin
 ```
 
-2. 配置数据库的连接信息，并确认能够正常连接数据库
+2. 配置数据库信息，并确认能够正常连接数据库
 
 ```
 config/database.php
 ```
 
-3. 执行以下命令下载系统
+3. 运行以下脚本下载系统
 
 ```php
 composer require laket/laket-admin
 ```
 
-4. 然后运行下面的命令安装系统
+4. 运行脚本安装系统
 
 ```php
 php think laket-admin:install
 ```
 
-运行完命令后，你可以找到 `config/laket.php` 配置文件
+运行完脚本后，你可以找到 `config/laket_conf.php` 配置文件，重命名为 `config/laket.php`
 
 5. 后台地址 `http://yourdomain.com/admin/index`, 登录账号：`admin` 及密码 `123456`
 

@@ -221,7 +221,7 @@ class Service extends BaseService
             // 配置文件 
             // php think laket-admin:publish --tag=laket-admin-config
             $this->publishes([
-                __DIR__ . '/../resources/config/laket.php' => config_path() . 'laket.php',
+                __DIR__ . '/../resources/config/laket.php' => config_path() . 'laket_conf.php',
             ], 'laket-admin-config');
             
             // 视图文件
