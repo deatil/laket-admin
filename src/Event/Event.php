@@ -51,8 +51,6 @@ abstract class Event
             'key'      => $this->filterBuildUniqueId($listener),
         ];
 
-        $this->listener[$event] = $this->arraySort($this->listener[$event], 'sort');
-
         return $this;
     }
 
