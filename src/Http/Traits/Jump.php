@@ -31,11 +31,11 @@ trait Jump
     /**
      * 操作成功跳转的快捷方法
      * 
-     * @param  mixed     $msg 提示信息
-     * @param  string    $url 跳转的URL地址
-     * @param  mixed     $data 返回的数据
-     * @param  integer   $wait 跳转等待时间
-     * @param  array     $header 发送的Header信息
+     * @param  mixed   $msg 提示信息
+     * @param  string  $url 跳转的URL地址
+     * @param  mixed   $data 返回的数据
+     * @param  integer $wait 跳转等待时间
+     * @param  array   $header 发送的Header信息
      * @return void
      */
     protected function success(
@@ -61,7 +61,7 @@ trait Jump
 
         $type = $this->getResponseType();
         if ($type == 'html'){
-            $response = view(app('config')->get('laket_exception.dispatch_success_tmpl'), $result);
+            $response = laket_view(app('config')->get('laket_exception.dispatch_success_tmpl'), $result);
         } else if ($type == 'json') {
             $response = json($result);
         }
@@ -72,11 +72,11 @@ trait Jump
     /**
      * 操作错误跳转的快捷方法
      * 
-     * @param  mixed     $msg 提示信息
-     * @param  string    $url 跳转的URL地址
-     * @param  mixed     $data 返回的数据
-     * @param  integer   $wait 跳转等待时间
-     * @param  array     $header 发送的Header信息
+     * @param  mixed   $msg 提示信息
+     * @param  string  $url 跳转的URL地址
+     * @param  mixed   $data 返回的数据
+     * @param  integer $wait 跳转等待时间
+     * @param  array   $header 发送的Header信息
      * @return void
      */
     protected function error(
@@ -103,7 +103,7 @@ trait Jump
 
         $type = $this->getResponseType();
         if ($type == 'html'){
-            $response = view(app('config')->get('laket_exception.dispatch_error_tmpl'), $result);
+            $response = laket_view(app('config')->get('laket_exception.dispatch_error_tmpl'), $result);
         } else if ($type == 'json') {
             $response = json($result);
         }
@@ -114,11 +114,11 @@ trait Jump
     /**
      * 返回封装后的API数据到客户端
      * 
-     * @param  mixed     $data 要返回的数据
-     * @param  integer   $code 返回的code
-     * @param  mixed     $msg 提示信息
-     * @param  string    $type 返回数据格式
-     * @param  array     $header 发送的Header信息
+     * @param  mixed   $data 要返回的数据
+     * @param  integer $code 返回的code
+     * @param  mixed   $msg 提示信息
+     * @param  string  $type 返回数据格式
+     * @param  array   $header 发送的Header信息
      * @return void
      */
     protected function result(

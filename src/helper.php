@@ -1,6 +1,5 @@
 <?php
 
-use think\facade\View;
 use think\helper\Arr;
 use think\helper\Str;
 
@@ -14,8 +13,8 @@ use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
 // 版本号
-define("LAKET_VERSION", "1.5.8");
-define("LAKET_RELEASE", "1.5.8.20240729");
+define("LAKET_VERSION", "1.5.9");
+define("LAKET_RELEASE", "1.5.9.20240731");
 
 if (! function_exists('make')) {
     /**
@@ -362,18 +361,20 @@ if (! function_exists('laket_view')) {
      *
      * @param string $template 模板文件名或者内容
      * @param array  $vars     模板变量
+     * @param int    $code     状态码
      * @return string
      */
-    function laket_view($template = '', $vars = []) 
+    function laket_view($template = '', $vars = [], $code = 200) 
     {
         return (new class {
             use ViewTrait;
             
-            public function view($template, $vars)
+            public function view($template, $vars, $code = 200)
             {
-                return $this->fetch($template, $vars);
+                $data = $this->fetch($template, $vars);
+                return response($data, $code);
             }
-        })->view($template, $vars);
+        })->view($template, $vars, $code);
     }
 }
 
