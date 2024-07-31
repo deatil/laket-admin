@@ -4,8 +4,6 @@ return [
     'admin' => [
         "name"      => "LaketAdmin",
         "name_mini" => "Laket",
-        "version"   => LAKET_VERSION,
-        "release"   => LAKET_RELEASE,
     ],
     
     // 登录
@@ -58,7 +56,7 @@ return [
         
         // 标签
         'taglib_build_in' => [
-            "\\Laket\\Admin\\Template\\Taglib\\Laket",
+            "\\Laket\\Admin\\Template\\TagLib\\Laket",
         ],
         
         // 资源

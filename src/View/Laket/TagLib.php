@@ -9,7 +9,6 @@ use Exception;
  */
 class TagLib
 {
-
     /**
      * 标签库定义XML文件
      * @var string
@@ -17,6 +16,7 @@ class TagLib
      */
     protected $xml  = '';
     protected $tags = []; // 标签定义
+    
     /**
      * 标签库名称
      * @var string

@@ -128,6 +128,15 @@ class Service extends BaseService
         
         // 验证码配置
         $this->mergeConfigFrom(__DIR__ . '/../resources/config/captcha.php', 'captcha');
+        
+        // 动态设置版本号
+        $cfg = array_merge(config('laket.admin'), [
+                'version' => Admin::VERSION,
+                'release' => Admin::RELEASE,
+            ]);
+        config([
+            'admin' => $cfg,
+        ], 'laket');
     }
     
     /**
@@ -195,7 +204,7 @@ class Service extends BaseService
         // 登录信息
         $this->app->bind('laket-admin.auth-admin', AuthAdmin::class);
         
-        // 闪存
+        // 插件
         $this->app->bind('laket-admin.flash', Manager::class);
         
         // 插件静态文件

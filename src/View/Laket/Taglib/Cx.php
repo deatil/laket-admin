@@ -7,7 +7,7 @@ use Laket\Admin\View\Laket\TagLib;
 /**
  * CX标签库解析类
  */
-class Cx extends Taglib
+class Cx extends TagLib
 {
     // 标签定义
     protected $tags = [

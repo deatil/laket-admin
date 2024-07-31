@@ -18,6 +18,7 @@ use think\console\input\Option;
 use think\console\Output;
 use think\console\Table;
 
+use Laket\Admin\Admin;
 use Laket\Admin\Facade\Flash as Flasher;
 use Laket\Admin\Model\Flash as FlashModel;
 
@@ -145,7 +146,7 @@ class Flash extends Command
             return false;
         }
         
-        $adminVersion = config('laket.admin.version');
+        $adminVersion = Admin::VERSION;
         
         try {
             $versionCheck = Semver::satisfies($adminVersion, $info['adaptation']);
@@ -272,7 +273,7 @@ class Flash extends Command
             return false;
         }
         
-        $adminVersion = config('laket.admin.version');
+        $adminVersion = Admin::VERSION;
         
         try {
             $versionCheck = Semver::satisfies($adminVersion, $info['adaptation']);

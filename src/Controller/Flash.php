@@ -11,9 +11,10 @@ use Composer\Semver\VersionParser;
 use think\helper\Arr;
 use think\helper\Str;
 
+use Laket\Admin\Admin;
+use Laket\Admin\Support\PclZip;
 use Laket\Admin\Facade\Flash as Flasher;
 use Laket\Admin\Model\Flash as FlashModel;
-use Laket\Admin\Support\PclZip;
 
 /**
  * 插件管理
@@ -172,7 +173,7 @@ class Flash extends Base
             return $this->error('插件版本信息错误！');
         }
         
-        $adminVersion = config('laket.admin.version');
+        $adminVersion = Admin::VERSION;
         
         try {
             $versionCheck = Semver::satisfies($adminVersion, $info['adaptation']);
@@ -302,7 +303,7 @@ class Flash extends Base
             return $this->error('插件信息错误！');
         }
         
-        $adminVersion = config('laket.admin.version');
+        $adminVersion = Admin::VERSION;
         
         try {
             $versionCheck = Semver::satisfies($adminVersion, $info['adaptation']);

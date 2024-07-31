@@ -14,6 +14,7 @@ use think\console\Output;
 use think\console\Table;
 use think\facade\Console;
 
+use Laket\Admin\Admin;
 use Laket\Admin\Support\File;
 use Laket\Admin\Support\Sql;
 
@@ -43,7 +44,7 @@ class Install extends Command
     protected function execute(Input $input, Output $output)
     {
         $output->newLine();
-        $output->highlight('Laket-admin version v' . config('laket.admin.version') . "\n");
+        $output->highlight('Laket-admin version v' . Admin::VERSION . "\n");
         
         $isCheckFunc = $output->ask($input, '> Before install, you need check system\'fuctions (Y/n)?', 'y');
         if ($isCheckFunc != 'y') {
@@ -86,7 +87,8 @@ class Install extends Command
             }
         }
         $table->setRows($rows, Table::ALIGN_LEFT);
-        $table->setStyle('default'); // default,compact,markdown,borderless,box,box-double
+        // default, compact, markdown, borderless, box, box-double
+        $table->setStyle('default'); 
         
         $this->table($table);
     }

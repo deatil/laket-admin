@@ -12,10 +12,6 @@ use Laket\Admin\Support\Form;
 use Laket\Admin\Model\Flash as FlashModel;
 use Laket\Admin\Model\Attachment as AttachmentModel;
 
-// 版本号
-define("LAKET_VERSION", "1.5.9");
-define("LAKET_RELEASE", "1.5.9.20240731");
-
 if (! function_exists('make')) {
     /**
      * 实例化一个类

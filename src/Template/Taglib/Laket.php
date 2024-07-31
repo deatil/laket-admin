@@ -2,7 +2,7 @@
 
 declare (strict_types = 1);
 
-namespace Laket\Admin\Template\Taglib;
+namespace Laket\Admin\Template\TagLib;
 
 use Laket\Admin\View\Laket\TagLib;
 
@@ -12,7 +12,7 @@ use Laket\Admin\View\Laket\TagLib;
  * @create 2021-3-23
  * @author deatil
  */
-class Laket extends Taglib
+class Laket extends TagLib
 {
     // 标签定义
     protected $tags = [
