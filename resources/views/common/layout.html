@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>{:config('laket.admin.name')}</title>
+    <meta name="author" content="deatil">
+    <link rel="stylesheet" href="{:laket_assets('js/layui/css/layui.css')}">
+    <link rel="stylesheet" href="{:laket_assets('js/iconfont/iconfont.css')}">
+    <link rel="stylesheet" href="{:laket_assets('css/style.css')}">
+    {:do_action('admin_layout_link_after')}
+    <script src="{:laket_assets('js/layui/layui.js')}"></script>
+    <script src="{:laket_assets('js/jquery/jquery.min.js')}"></script>
+    <script type="text/javascript">
+    // 全局变量
+    var laket = {
+        url: {
+            'image_upload_url': '{$image_upload_url ?: laket_route("admin.upload.file")}',
+            'file_upload_url': '{$file_upload_url ?: laket_route("admin.upload.file")}',
+            'webuploader_swf': "{:laket_assets('webuploader/Uploader.swf')}",
+        }
+    };
+    </script>
+</head>
+
+<body class="lake-admin-container">
+    {block name="main"}lake-admin{/block}
+    
+    {block name="topcheck"}
+    <script type="text/javascript">
+    ;(function(){
+        if (self == top) {
+            window.location.replace('{:laket_route("admin.index.index")}');
+        }
+    })();
+    </script>
+    {/block}
+    {block name="layui"}
+    <link rel="stylesheet" href="{:laket_assets('js/viewer/viewer.min.css')}">
+    <script type="text/javascript" src="{:laket_assets('js/viewer/viewer.min.js')}"></script>
+    <link rel="stylesheet" href="{:laket_assets('js/webuploader/webuploader.css')}">
+    <script type="text/javascript" src="{:laket_assets('js/webuploader/webuploader.min.js')}"></script>
+    <link rel="stylesheet" href="{:laket_assets('js/layui-extend/jquery.jsonview/jquery.jsonview.min.css')}">
+    
+    <script type="text/javascript">
+    layui.config({
+        version: "{:config('laket.admin.release')}",
+        base: "{:laket_assets('js/layui-extend/')}"
+    }).extend({
+        lakeTool: 'lake-admin/lakeTool',
+        lakeBind: 'lake-admin/lakeBind',
+        lakeAdminSkin: 'lake-admin/lakeAdminSkin',
+        lakeAdminLayout: 'lake-admin/lakeAdminLayout',
+        tagsinput: 'tagsinput/tagsinput',
+        jqueryJSONView: 'jquery.jsonview/jquery.jsonview.min',
+    }).use(['lakeAdminLayout']);
+    </script>
+    {/block}
+    {block name="script"}{/block}
+    
+    {:do_action('admin_layout_script_after')}
+</body>
+
+</html>

@@ -1,0 +1,371 @@
+{extend name="laket-admin::common.layout"/}
+
+{block name="main"}
+<style>
+.name-icon {
+    height: 90%;
+    padding: 1px;
+    background-color: #eff1f7;
+    border: 1px solid #dae1e7;
+    border-radius: 3px;
+}
+.layui-tab-content {
+    padding: 15px;
+}
+</style>
+
+<div class="layui-card">
+    <div class="layui-card-header layui-bg-cyan">闪存插件</div>
+    <div class="layui-card-body">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li>
+                    <a href="{:laket_route('admin.flash.local')}">本地</a>
+                </li>
+                <li class="layui-this">
+                    <a href="{:laket_route('admin.flash.index')}">已安装</a>
+                </li>
+            </ul>
+            
+            <div class="layui-tab-content">
+                <blockquote class="layui-elem-quote">
+                    <form class="layui-form lake-admin-search-form" method="get" lay-filter="laket-admin-search-from">
+                        <div class="layui-inline">
+                            <select name="field" class="laket-admin-search-field">
+                                <option value="">请选择搜索类型</option>
+                                <option value="id">ID</option>
+                                <option value="name">包名</option>
+                                <option value="title">名称</option>
+                                <option value="authors">开发者</option>
+                                <option value="keywords">关键字</option>
+                            </select>
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <input type="text" name="keyword" class="layui-input laket-admin-search-val" placeholder="请输入关键字">
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <a class="layui-btn laket-admin-search-btn" data-type="search">搜索</a>
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
+                        </div>
+
+                    </form>
+                </blockquote>
+            
+                <table class="layui-hide" id="table" lay-filter="table"></table>
+            </div>
+        </div>    
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        {if laket_auth(['admin.flash.upload'])}
+            <a class="layui-btn layui-btn-sm layui-btn-normal" id="local-install">本地上传</a>
+        {else}
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">本地上传</a>
+        {/if}
+
+        {if laket_auth(['admin.flash.refresh'])}
+            <a class="layui-btn layui-btn-sm js-name-action-btn" 
+                data-url='{:laket_route("admin.flash.refresh")}'
+                data-name='{{ d.name }}'
+                data-confirm='你确认要刷新插件缓存吗？'
+                >刷新缓存</a>
+        {else}
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">刷新缓存</a>
+        {/if}
+
+    </div>
+</script>
+
+<script type="text/html" id="nameTpl">
+    {{# if(d.homepage){ }} 
+        <a href="{{ d.homepage }}" target="_blank" title="点击查看主页">
+            <i class="iconfont icon-lianjie"></i>
+        </a>
+    {{#  } }}
+    
+    <span>{{ d.name }}</span>
+</script>
+
+<script type="text/html" id="titleTpl">
+    {{# if (d.icon) { }} 
+        <span class="flash-icon">
+            <a href="javascript:void(0);" title="{{ d.name }}">
+                <img src="{{ d.icon }}" class="name-icon js-name-icon" />
+            </a>
+        </span>
+    {{#  } }}
+    
+    <span class="flash-title">
+        <a class="layui-iframe" href="javascript:;" data-href="{:laket_route('admin.flash.view')}?name={{ d.name }}" title="插件详情">
+            {{ d.title }}
+        </a>
+    </span>
+</script>
+
+<script type="text/html" id="authorTpl">
+    {{#  if (d.authorlist.length > 0) { }} 
+        <span>
+            {{ d.authorlist[0].name}}
+        </span>
+    {{#  } }}
+</script>
+
+<script type="text/html" id="versionTpl">
+    <div>
+        {{#  if(d.upgrade){ }} 
+            {{ d.upgrade.old }} 
+            <span class="text-danger">({{ d.upgrade.new }} )</span>
+        {{#  } else { }} 
+            {{ d.version }} 
+        {{#  } }}
+    </div>
+</script>
+
+<script type="text/html" id="installtimeTpl">
+    <div>
+        {{# if(d.install_time){ }} 
+            {{ layui.util.toDateString(d.install_time * 1000) }}
+        {{#  } else { }} 
+            --
+        {{#  } }}
+    </div>
+</script>
+
+<script type="text/html" id="actionTpl">
+    {{# if (d.settinglist.length > 0) { }}
+        {if laket_auth(['admin.flash.setting'])}
+            <a class="layui-btn layui-btn-xs layui-iframe" 
+                href="javascript:;" data-href='{:laket_route("admin.flash.setting")}?name={{ d.name }}'
+                title="插件设置"
+                >设置</a>
+        {else}
+            <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">设置</a>
+        {/if}
+    {{# } }}
+
+    {{# if(d.status == 0){ }}
+        {if laket_auth(['admin.flash.enable'])}
+            <a class="layui-btn layui-btn-xs layui-btn-normal js-name-action-btn" 
+                data-url='{:laket_route("admin.flash.enable")}'
+                data-name='{{ d.name }}'
+                data-confirm='你确认要启用该插件吗？'
+                >启用</a>
+        {else}
+            <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">启用</a>
+        {/if}
+    {{# } else { }}
+        {if laket_auth(['admin.flash.disable'])}
+            <a class="layui-btn layui-btn-xs layui-btn-warm js-name-action-btn" 
+                data-url='{:laket_route("admin.flash.disable")}'
+                data-name='{{ d.name }}'
+                data-confirm='你确认要禁用该插件吗？'
+                >禁用</a>
+        {else}
+            <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">禁用</a>
+        {/if}
+    {{# } }}
+    
+    {if laket_auth(['admin.flash.uninstall'])}
+        <a class="layui-btn layui-btn-xs layui-btn-danger js-name-action-btn" 
+            data-url='{:laket_route("admin.flash.uninstall")}'
+            data-name='{{ d.name }}'
+            data-confirm='你确认要卸载该插件吗？'
+            >卸载</a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">卸载</a>
+    {/if}
+</script>
+
+
+<script>
+layui.config({
+    base: "{:laket_assets('js/layui-extend/')}"
+}).use(['table', 'upload', 'notice'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        notice = layui.notice,
+        upload = layui.upload,
+        form = layui.form;
+        
+    table.render({
+        elem: '#table',
+        toolbar: '#toolbar',
+        url: '{:laket_route("admin.flash.index-data")}',
+        method: 'get',
+        page: 10,
+        parseData: function(res) {
+            return {
+                "code": res.code == 1 ? 0 : 1,
+                "count": res.data.count,
+                "data": res.data.list,
+            };
+        },
+        cols: [
+            [
+                { field: 'name', width: 200, title: '包名', templet: '#nameTpl' },
+                { field: 'title', minWidth: 150, title: '名称', templet: '#titleTpl'  },
+                { field: 'version', width: 100, title: '版本', templet: '#versionTpl' },
+                { field: 'author', width: 100, title: '作者', templet: '#authorTpl' },
+                { field: 'listorder', align: 'center', width: 80, title: '排序', edit: 'text' },
+                { field: 'install_time', width: 160, title: '安装时间', templet: '#installtimeTpl' },
+                { width: 180, title: '操作', templet: '#actionTpl' }
+            ]
+        ],
+        done: function() {
+            $("td[data-field=name]").each(function() {
+                $(this).find(".layui-table-cell").addClass("break-all");
+            });
+        },
+    });
+
+    $("body").on('click', ".js-name-icon", function() {
+        var icon = $(this).attr('src');
+        layer.open({
+            type: 1,
+            skin: 'layui-layer-rim',
+            area: ['auto', '85%'],
+            title: false,
+            shadeClose: true,
+            end: function(index, layero) {
+                return false;
+            },
+            content: '<div style="display: flex;align-items: center;justify-content: center;text-align: justify;height: 100%;"><img src="' + icon + '" style="height: 100%;" /></div>',
+        });
+    });
+    
+    $("body").on('click', ".js-name-action-btn", function() {
+        var url = $(this).attr("data-url");
+        var name = $(this).attr("data-name");
+        var confirm = $(this).attr("data-confirm");
+        
+        layer.confirm(confirm, {
+            title: '提示', 
+            btn: ['确认', '取消']
+        }, function(index){
+            var loading = layer.load(1, {shade: [0.1, '#fff']});
+            
+            $.post(url, {
+                name: name
+            },function(res){
+                layer.close(loading);
+                
+                if (res.code === 1) {
+                    notice.success(res.msg);
+                    
+                    setTimeout(function() {
+                        table.reload("table", {
+                            page: {},
+                            where: {
+                                search_field: $(".laket-admin-search-field").val(),
+                                keyword: $(".laket-admin-search-val").val(),
+                            }
+                        });
+                    }, 1800);
+                } else {
+                    notice.error(res.msg);
+                }
+            }).error(function() {
+                layer.close(loading);
+                notice.error('请求失败！');
+            });
+            
+            layer.close(index);
+        });
+    });
+    
+    // 搜索
+    $(".laket-admin-search-btn").on("click", function() {
+        table.reload("table", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: $(".laket-admin-search-field").val(),
+                keyword: $(".laket-admin-search-val").val(),
+            }
+        });
+    });
+    
+    $(".all-btn").on("click", function() {
+        form.val('laket-admin-search-from', {
+            'field': '',
+            'keyword': '',
+        });
+        
+        table.reload("table", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: '',
+                keyword: '',
+            }
+        })
+    });
+
+    // 监听单元格编辑
+    table.on('edit(table)', function(obj) {
+        var value = obj.value,
+            data = obj.data;
+        
+        var url = '{:laket_route("admin.flash.listorder")}';
+        $.post(url, {
+            'name': data.name,
+            'value': value 
+        }, function(data) {
+            if (data.code == 1) {
+                notice.success(data.msg);
+            } else {
+                notice.error(data.msg);
+            }
+        }).error(function() {
+            notice.error('请求失败！');
+        });
+    });
+    
+    // 上传
+    var uploadInst = upload.render({
+        elem: '#local-install',
+        url: '{:laket_route("admin.flash.upload")}',
+        accept: 'file',
+        exts: 'zip',
+        done: function(res, index, upload) {
+            if (res.code == 1) {
+                // 上传完毕回调
+                layer.alert(res.msg, {}, function() {
+                    location.reload();
+                });
+            } else {
+                layer.confirm(res.msg, {
+                    btn: ['确认覆盖', '取消']
+                }, function() {
+                    // 覆盖上传
+                    uploadInst.reload({
+                        data: {
+                            force: 1
+                        }
+                    });
+                    
+                    uploadInst.upload();
+                }, function(){
+                    notice.error('上传已取消');
+                });
+            }
+        },
+        error: function() {
+            // 请求异常回调
+            notice.error('上传请求异常');
+        }
+    });
+});
+</script>
+{/block}

@@ -1,0 +1,218 @@
+{extend name="laket-admin::common.layout"/}
+
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header layui-bg-cyan">全部权限菜单</div>
+    <div class="layui-card-body">
+        <div class="layui-tab layui-tab-card">
+            <div class="layui-tab-content">
+                <blockquote class="layui-elem-quote">
+                    <form class="layui-form lake-admin-search-form" method="get" lay-filter="lake-admin-search-from">
+                        <div class="layui-inline">
+                            <select name="field" class="lake-admin-search-field">
+                                <option value="">全部类型</option>
+                                <option value="title">权限名称</option>
+                                <option value="slug">标识</option>
+                                <option value="method">请求方式</option>
+                            </select>
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <input type="text" name="keyword" class="layui-input lake-admin-search-val" placeholder="请输入关键字">
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <select name="menu_show" class="lake-admin-search-menu_show">
+                                <option value="">菜单显示</option>
+                                <option value="1">显示</option>
+                                <option value="0">隐藏</option>
+                            </select>
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <select name="status" class="lake-admin-search-status">
+                                <option value="">状态</option>
+                                <option value="1">启用</option>
+                                <option value="0">禁用</option>
+                            </select>
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <a class="layui-btn lake-admin-search-btn" data-type="search">搜索</a>
+                        </div>
+                        
+                        <div class="layui-inline">
+                            <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
+                        </div>
+
+                    </form>
+                </blockquote>
+            
+                <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        {if laket_auth(['admin.auth-rule.add'])}
+            <a class="layui-btn layui-btn-sm layui-iframe" title="添加权限" href="javascript:;" data-href="{:laket_route('admin.auth-rule.add')}">添加权限</a>
+        {else}
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加权限</a>
+        {/if}
+        
+        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-rule.index')}">权限结构</a>
+    </div>
+</script>
+
+<script type="text/html" id="barTool">
+    {if laket_auth(['admin.auth-rule.edit'])}
+        <a href="javascript:;" data-href='{:laket_route("admin.auth-rule.edit")}?id={{ d.id }}' class="layui-btn layui-btn-xs layui-iframe" title="编辑权限">编辑</a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">编辑</a>
+    {/if}
+
+    {if laket_auth(['admin.auth-rule.add'])}
+        <a href="javascript:;" data-href='{:laket_route("admin.auth-rule.add")}?parentid={{ d.id }}' class="layui-btn layui-btn-xs layui-btn-normal layui-iframe" title="添加权限">添加</a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">添加</a>
+    {/if}
+
+    {if laket_auth(['admin.auth-rule.delete'])}
+        <a href="javascript:;" data-href='{:laket_route("admin.auth-rule.delete")}?id={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">删除</a>
+    {/if}
+</script>
+
+<script type="text/html" id="iconTpl">
+    <div><i class='iconfont {{d.icon}}'></i></div>
+</script>
+
+<script type="text/html" id="titleTpl">
+    <span data-lake-tip="" lay-title="{{ d.remark }}">{{ d.title }}</span>
+</script>
+
+<script type="text/html" id="menuTpl">
+    {if laket_auth(['admin.auth-rule.setmenu'])}
+        <input type="checkbox" name="menu_show" data-href="{:laket_route('admin.auth-rule.setmenu')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="显示|隐藏" lay-filter="switchStatus" {{ d.menu_show==1 ? 'checked' : '' }}>
+    {else}
+        <input type="checkbox" name="menu_show" disabled lay-skin="switch" lay-text="显示|隐藏" {{ d.menu_show==1 ? 'checked' : '' }}>
+    {/if}
+</script>
+
+<script type="text/html" id="switchTpl">
+    {if laket_auth(['admin.auth-rule.setmenu'])}
+        <input type="checkbox" name="status" data-href="{:laket_route('admin.auth-rule.setstate')}?id={{d.id}}" value="{{d.id}}" lay-skin="switch" lay-text="启用|关闭" lay-filter="switchStatus" {{ d.status==1 ? 'checked' : '' }}>
+    {else}
+        <input type="checkbox" name="status" disabled lay-skin="switch" lay-text="启用|关闭" {{ d.status==1 ? 'checked' : '' }}>
+    {/if}
+</script>
+
+<script>
+layui.use(['table', 'notice'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        notice = layui.notice,
+        form = layui.form;
+        
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbar',
+        url: '{:laket_route("admin.auth-rule.all-data")}',
+        method: 'get',
+        parseData: function(res) {
+            return {
+                "code": res.code == 1 ? 0 : 1,
+                "count": res.data.count,
+                "data": res.data.list,
+            };
+        },
+        cols: [
+            [
+                { field: 'listorder', align: 'center', width: 80, title: '排序', edit: 'text' },
+                { width: 80,title: '图标',align: 'center', event: 'view',templet:"#iconTpl" },
+                { field: 'title', minWidth: 120, title: '权限名称', templet: '#titleTpl' },
+                { minWidth: 180, field: 'slug', title: '标识' },
+                { field: 'method', align: 'center', width: 100, title: '请求方式' },
+                { field: 'menu_show', align: 'center', width: 95, title: '菜单', templet: '#menuTpl', unresize: true },
+                { field: 'status', align: 'center', width: 95, title: '状态', templet: '#switchTpl', unresize: true },
+                { align: 'center', width: 180, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {},
+        limit: 20,
+    });
+    
+    // 搜索
+    $(".lake-admin-search-btn").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: $(".lake-admin-search-field").val(),
+                keyword: $(".lake-admin-search-val").val(),
+                menu_show: $(".lake-admin-search-menu_show").val(),
+                status: $(".lake-admin-search-status").val(),
+            }
+        })
+    });
+    
+    $(".all-btn").on("click", function() {
+        form.val('lake-admin-search-from', {
+            'field': '',
+            'keyword': '',
+            'menu_show': '',
+            'status': '',
+        });
+        
+        table.reload("dataTable", {
+            page: {
+                curr: 1
+            },
+            where: {
+                search_field: '',
+                keyword: '',
+                menu_show: '',
+                status: '',
+            }
+        })
+    });
+
+    // 监听单元格编辑
+    table.on('edit(dataTable)', function(obj) {
+        var value = obj.value,
+            data = obj.data;
+            
+        var url = '{:laket_route("admin.auth-rule.listorder")}';
+        $.post(url, {
+            'id': data.id,
+            'value':value 
+        }, function(data) {
+            if (data.code == 1) {
+                notice.success(data.msg);
+            } else {
+                notice.error(data.msg);
+            }
+
+        }).error(function() {
+            notice.error('请求失败！');
+        });
+    });
+
+    table.on('tool(dataTable)', function(obj) {
+        var data = obj.data;
+        if (obj.event === 'view') {
+            layer.alert(data.id, {
+                title: '权限ID【' + data.title + "】",
+                closeBtn: 0
+            });
+        }
+    });
+});
+</script>
+{/block}

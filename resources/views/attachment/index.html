@@ -1,0 +1,151 @@
+{extend name="laket-admin::common.layout"/}
+
+{block name="main"}
+<div class="layui-card">
+    <div class="layui-card-header layui-bg-cyan">附件管理</div>
+    <div class="layui-card-body">
+        <blockquote class="layui-elem-quote">
+            <form class="layui-form lake-admin-search-form" method="get" lay-filter="lake-admin-search-from">
+                <div class="layui-inline">
+                    <input type="text" name="date" class="layui-input laket-admin-search-date" placeholder="搜索时间范围">
+                </div>
+                
+                <div class="layui-inline">
+                    <input type="text" name="keyword" class="layui-input laket-admin-search-val" placeholder="请输入附件名称">
+                </div>
+                
+                <div class="layui-inline">
+                    <a class="layui-btn search_btn" data-type="reload">搜索</a>
+                </div>
+                
+                <div class="layui-inline">
+                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
+                </div>
+
+            </form>
+        </blockquote>
+        
+        <table class="layui-hide" id="dataTable" lay-filter="dataTable"></table>
+    </div>
+</div>
+{/block}
+
+{block name="script"}
+<script type="text/html" id="toolbarTop">
+    <div class="layui-btn-container">
+        {if laket_auth(['admin.attachment.delete'])}
+            <button class="layui-btn layui-btn-sm confirm layui-batch-all" data-href='{:laket_route("admin.attachment.delete")}'>批量删除</button>
+        {else}
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">批量删除</a>
+        {/if}
+    </div>
+</script>
+
+<script type="text/html" id="createTimeTpl">
+    {{ layui.util.toDateString(d.create_time * 1000, 'yyyy-MM-dd HH:mm:ss') }}
+</script>
+
+<script type="text/html" id="statusTpl">
+    <div>
+        {{#  if(d.status) { }} 
+            <span class='layui-badge-dot layui-bg-green'></span>
+            <span class='text-green'>启用</span>
+        {{#  } else { }}
+            <span class='layui-badge-dot layui-bg-orange'></span>
+            <span class='text-orange'>禁用</span>
+        {{#  } }} 
+    </div>
+</script>
+
+<script type="text/html" id="barTool">
+    {if laket_auth(['admin.attachment.view'])}
+        <a class="layui-btn layui-btn layui-btn-xs layui-iframe" href="javascript:;" data-href="{:laket_route('admin.attachment.view')}?id={{ d.id }}" title="附件详情">
+            详情
+        </a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">详情</a>
+    {/if}
+
+    {if laket_auth(['admin.attachment.delete'])}
+        <a href="javascript:;" data-href='{:laket_route("admin.attachment.delete")}?ids={{ d.id }}' class="layui-btn layui-btn-danger layui-btn-xs layui-tr-del">删除</a>
+    {else}
+        <a href='javascript:;' class="layui-btn layui-btn-xs layui-btn-disabled">删除</a>
+    {/if}
+</script>
+
+<script>
+layui.use(['table', 'laydate'], function() {
+    var table = layui.table,
+        $ = layui.$,
+        laydate = layui.laydate,
+        form = layui.form;
+    
+    laydate.render({
+        elem: '.laket-admin-search-date',
+        range: true,
+    });
+    
+    table.render({
+        elem: '#dataTable',
+        toolbar: '#toolbarTop',
+        url: '{:laket_route("admin.attachment.index-data")}',
+        method: 'get',
+        parseData: function(res) {
+            return {
+                "code": res.code == 1 ? 0 : 1,
+                "count": res.data.count,
+                "data": res.data.list,
+            };
+        },
+        cols: [
+            [
+                { type: 'checkbox', fixed: 'left' },
+                { field: 'name', title: '名称'},
+                { field: 'size',width: 100, title: '大小', sort: true },
+                { field: 'ext',width: 80, title: '类型', sort: true},
+                { field: 'mime',width: 120, title: 'Mime类型'},
+                { field: 'driver',width: 100, title: '存储引擎', sort: true},
+                { field: 'create_time', width: 180, title: '上传时间', sort: true, templet: '#createTimeTpl' },
+                { field: 'status', width: 80, title: '状态',align: "center", templet: '#statusTpl' },
+                { fixed: 'right', width: 120, title: '操作', toolbar: '#barTool' }
+            ]
+        ],
+        page: {}
+    });
+
+    $(".search_btn").on("click", function() {
+        table.reload("dataTable", {
+            page: {
+                curr: 1 //重新从第 1 页开始
+            },
+            where: {
+                filter_time: 'create_time',
+                filter_time_range: $(".laket-admin-search-date").val(),
+                search_field: 'name',
+                keyword: $(".laket-admin-search-val").val(),
+            }
+        })
+    });
+    
+    $(".all-btn").on("click", function() {
+        form.val('lake-admin-search-from', {
+            'date': '',
+            'keyword': '',
+        });
+        
+        table.reload("dataTable", {
+            page: {
+                curr: 1
+            },
+            where: {
+                filter_time: 'create_time',
+                filter_time_range: '',
+                search_field: 'name',
+                keyword: '',
+            }
+        })
+    });
+
+});
+</script>
+{/block}
