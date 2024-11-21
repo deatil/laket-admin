@@ -17,7 +17,7 @@
 <body class="login-bg">
     <div class="lake-admin-login">
         <div class="login-main">
-            <div class="layui-elip">{:config('laket.admin.name')}</div>
+            <div class="layui-elip lake-admin-login-title">{:config('laket.admin.name')}</div>
             
             <form class="layui-form lake-admin-login-form" action="{:laket_route('admin.passport.login-check')}" method="post">
                 <div class="layui-form-item">
@@ -48,7 +48,7 @@
         
             <!-- laket-admin 是开源程序，建议在您的网站底部保留一个 laket-admin 的链接 -->
             <p class="lake-admin-copyright">
-                Powered by <a href="https://github.com/deatil/laket-admin" target="_blank">laket-admin</a>
+                powered by <a href="https://github.com/deatil/laket-admin" target="_blank">laket-admin</a>
             </p>
         </div>
     </div>
