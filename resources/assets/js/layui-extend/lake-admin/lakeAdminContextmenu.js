@@ -1,5 +1,5 @@
 /*!
- * lakeAdminContextmenu.js v1.0.2
+ * lakeAdminContextmenu.js v1.0.5
  * https://github.com/deatil/lake-admin
  * 
  * Apache License 2.0 © Deatil
@@ -36,7 +36,7 @@
                 e.stopPropagation();
 
                 var $target = e.target.nodeName === 'LI' ? e.target : e.target.parentElement;
-                // 判断，如果存在右键菜单的div，则移除，保存页面上只存在一个
+                //判断，如果存在右键菜单的div，则移除，保存页面上只存在一个
                 if ($(document).find('div.lake-admin-contextmenu').length > 0) {
                     $(document).find('div.lake-admin-contextmenu').remove();
                 }
