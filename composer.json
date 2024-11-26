@@ -1,0 +1,46 @@
+{
+    "name": "laket/laket-admin",
+    "description": "An admin library base Thinkphp.",
+    "keywords": [
+        "thinkphp",
+        "laket",
+        "admin",
+        "laket-admin"
+    ],
+    "homepage": "https://github.com/deatil/laket-admin",
+    "type": "library",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "deatil",
+            "email": "deatil@github.com",
+            "homepage": "https://github.com/deatil",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0",
+        "composer/semver": "^3.2",
+        "topthink/framework": "^8.1",
+        "topthink/think-orm": "^3.0",
+        "topthink/think-filesystem": "^2.0",
+        "topthink/think-captcha": "^3.0",
+        "phpseclib/phpseclib": "^3.0",
+        "laket/laket-pclzip": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Laket\\Admin\\": "src"
+        },
+        "files": [
+            "src/helper.php"
+        ]
+    },
+    "extra": {
+        "think":{
+            "services":[
+                "Laket\\Admin\\Service"
+            ]
+        }
+    }
+}
