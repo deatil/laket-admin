@@ -1,5 +1,5 @@
 /*!
- * lakeAdmin.js v1.0.2
+ * lakeAdmin.js v1.0.3
  * https://github.com/deatil/lake-admin
  * 
  * Apache License 2.0 © Deatil
@@ -329,6 +329,15 @@ layui.define([
                 $('li[lay-id="default"]').trigger('click');
 
                 $(document).find('div.lake-admin-contextmenu').remove();
+            });
+
+            // 全屏显示
+            $(document).on("click", ".lake-admin-page-fullscreen", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                var el = document.getElementById('body_frame');
+                screenfull.toggle(el);
             });
             
             // 顶部鼠标移上显示
