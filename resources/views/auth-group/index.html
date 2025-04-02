@@ -15,12 +15,18 @@
 <script type="text/html" id="toolbarTop">
     <div class="layui-btn-container">
         {if laket_auth(['admin.auth-group.add'])}
-            <a class="layui-btn layui-btn-sm layui-iframe" href="javascript:;" data-href="{:laket_route('admin.auth-group.add')}" title="添加用户组">添加用户组</a>
+            <a class="layui-btn layui-btn-sm layui-iframe" href="javascript:;" data-href="{:laket_route('admin.auth-group.add')}" title="添加用户组">
+                <i class="iconfont icon-add"></i> 添加用户组
+            </a>
         {else}
-            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加用户组</a>
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">
+                <i class="iconfont icon-add"></i> 添加用户组
+            </a>
         {/if}
         
-        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-group.all')}">全部用户组</a>
+        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-group.all')}">
+            <i class="iconfont icon-createtask"></i> 全部用户组
+        </a>
     </div>
 </script>
 

@@ -33,11 +33,11 @@ class Index extends Base
         $this->assign('user_info', Admin::getData());
 
         // 左侧菜单
-        $menus = apply_filters('admin_main_menus', AuthRuleModel::getMenuList());
+        $menus = apply_filters('admin.main.menus', AuthRuleModel::getMenuList());
         $this->assign("menus", $menus);
         
         // 后台首页
-        $mainUrl = apply_filters('admin_main_url', laket_route('admin.index.main'));
+        $mainUrl = apply_filters('admin.main.url', laket_route('admin.index.main'));
         $this->assign("main_url", $mainUrl);
 
         return $this->fetch('laket-admin::index.index');
@@ -65,7 +65,7 @@ class Index extends Base
         // 服务器信息
         $this->assign('sys_info', $this->getSysInfo());
         
-        do_action('admin_index_main_after');
+        do_action('admin.index.main_after');
         
         return $this->fetch('laket-admin::index.main');
     }
@@ -130,7 +130,7 @@ class Index extends Base
         }
         
         // 清理缓存之后
-        do_action('admin_index_clear_after', $type);
+        do_action('admin.index.clear_after', $type);
         
         return $this->success('清理缓存成功');
     }

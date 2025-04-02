@@ -474,7 +474,7 @@ class Flash extends Base
         $data = $this->request->post('item/a');
         
         // 过滤配置
-        $data = apply_filters("admin_flash_setting_save_before", $data, $name);
+        $data = apply_filters("admin.flash.setting_save_before", $data, $name);
 
         $settinglist = $info['settinglist'];
         

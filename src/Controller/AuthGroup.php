@@ -341,7 +341,7 @@ class AuthGroup extends Base
             ->buildArray(0);
         
         // 权限数据
-        $json = apply_filters('admin_authgroup_access_rules', $json);
+        $json = apply_filters('admin.authgroup.access_rules', $json);
         
         $this->assign('group_id', $groupId);
         $this->assign('json', $json);
@@ -353,7 +353,7 @@ class AuthGroup extends Base
         $this->assign('auth_group', $authGroup);
         
         // 数据设置之后
-        do_action('admin_authgroup_access_after', $rules);
+        do_action('admin.authgroup.access_after', $rules);
         
         return $this->fetch('laket-admin::auth-group.access');
     }
@@ -407,7 +407,7 @@ class AuthGroup extends Base
         }
         
         // 保存后
-        do_action('admin_authgroup_access_save_after', $rules);
+        do_action('admin.authgroup.access_save_after', $rules);
         
         return $this->success('授权成功！');
     }

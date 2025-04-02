@@ -15,13 +15,21 @@
 <script type="text/html" id="toolbar">
     <div class="layui-btn-container">
         {if laket_auth(['admin.auth-rule.add'])}
-            <a class="layui-btn layui-btn-sm layui-iframe" title="添加权限" href="javascript:;" data-href="{:laket_route('admin.auth-rule.add')}">添加权限</a>
+            <a class="layui-btn layui-btn-sm layui-iframe" title="添加权限" href="javascript:;" data-href="{:laket_route('admin.auth-rule.add')}">
+                <i class="iconfont icon-add"></i> 添加权限
+            </a>
         {else}
-            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加权限</a>
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">
+                <i class="iconfont icon-add"></i> 添加权限
+            </a>
         {/if}
         
-        <a class="layui-btn layui-btn-sm layui-btn-normal" id="openAll">展开或折叠全部</a>
-        <a class="layui-btn layui-btn-sm" href="{:laket_route('admin.auth-rule.all')}">全部权限</a>
+        <a class="layui-btn layui-btn-sm layui-btn-normal" id="openAll">
+            <i class="iconfont icon-rizhi"></i> 展开或折叠全部
+        </a>
+        <a class="layui-btn layui-btn-sm" href="{:laket_route('admin.auth-rule.all')}">
+            <i class="iconfont icon-createtask"></i> 全部权限
+        </a>
     </div>
 </script>
 

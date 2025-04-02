@@ -35,15 +35,15 @@ class Permission
      */
     public function handle($request, Closure $next)
     {
-        do_action('admin_middleware_permission_before');
+        do_action('admin.middleware.permission_before');
         
         if (! $this->checkPermission($request)) {
-            do_action('admin_middleware_permission_fail');
+            do_action('admin.middleware.permission_fail');
             
             return $this->error('未授权访问!');
         }
         
-        do_action('admin_middleware_permission_after');
+        do_action('admin.middleware.permission_after');
         
         return $next($request);
     }

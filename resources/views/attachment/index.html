@@ -15,11 +15,15 @@
                 </div>
                 
                 <div class="layui-inline">
-                    <a class="layui-btn search_btn" data-type="reload">搜索</a>
+                    <a class="layui-btn search_btn" data-type="reload">
+                        <i class="iconfont icon-search"></i> 搜索
+                    </a>
                 </div>
                 
                 <div class="layui-inline">
-                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
+                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">
+                        <i class="iconfont icon-createtask"></i> 全部
+                    </a>
                 </div>
 
             </form>
@@ -34,9 +38,13 @@
 <script type="text/html" id="toolbarTop">
     <div class="layui-btn-container">
         {if laket_auth(['admin.attachment.delete'])}
-            <button class="layui-btn layui-btn-sm confirm layui-batch-all" data-href='{:laket_route("admin.attachment.delete")}'>批量删除</button>
+            <button class="layui-btn layui-btn-danger layui-btn-sm confirm layui-batch-all" data-href='{:laket_route("admin.attachment.delete")}'>
+                <i class="iconfont icon-richangqingli"></i> 批量删除
+            </button>
         {else}
-            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">批量删除</a>
+            <a href='javascript:;' class="layui-btn layui-btn-danger layui-btn-sm layui-btn-disabled">
+                <i class="iconfont icon-richangqingli"></i> 批量删除
+            </a>
         {/if}
     </div>
 </script>

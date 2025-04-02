@@ -38,7 +38,7 @@ class Passport extends Base
             return $this->error("你已经登录", laket_route("admin.index.index"));
         }
 
-        do_action('admin_passport_login_before');
+        do_action('admin.passport.login_before');
         
         // 使用 RSA 方法
         $private = RSA::createKey(1024)->withPadding(RSA::ENCRYPTION_PKCS1);
@@ -65,7 +65,7 @@ class Passport extends Base
         
         $this->assign("publicKey", $publicKeyBase64);
 
-        do_action('admin_passport_login_after', $privateKey, $publicKey);
+        do_action('admin.passport.login_after', $privateKey, $publicKey);
 
         return $this->fetch('laket-admin::passport.login');
     }
@@ -79,7 +79,7 @@ class Passport extends Base
             return $this->error('你已经登录！');
         }
         
-        do_action('admin_passport_login_check_before');
+        do_action('admin.passport.login_check_before');
         
         $verify = request()->post('verify');
         
@@ -124,14 +124,14 @@ class Passport extends Base
             $password = $rsakey->withPadding(RSA::ENCRYPTION_PKCS1)
                 ->decrypt($password);
         } catch(\Exception $e) {
-            do_action('admin_passport_login_check_password_decrypt_fail', $e->getMessage());
+            do_action('admin.passport.login_check_password_decrypt_fail', $e->getMessage());
             
             return $this->error('用户名或者密码错误！');
         }
 
         $adminInfo = Admin::login($data['name'], $password);
         if (empty($adminInfo)) {
-            do_action('admin_passport_login_check_password_error');
+            do_action('admin.passport.login_check_password_error');
             
             return $this->error('用户名或者密码错误！');
         }
@@ -144,7 +144,7 @@ class Passport extends Base
         // 清除数据
         Session::delete($prikeyCacheKey);
         
-        do_action('admin_passport_login_check_after', $adminInfo);
+        do_action('admin.passport.login_check_after', $adminInfo);
         
         return $this->success('登录成功！', laket_route('admin.index.index'));
     }
@@ -165,7 +165,7 @@ class Passport extends Base
             return $this->success('退出成功', laket_route("admin.passport.login"));
         }
         
-        do_action('admin_passport_logout_after', $adminInfo);
+        do_action('admin.passport.logout_after', $adminInfo);
         
         return $this->error("退出失败", laket_route("admin.passport.login"));
     }
@@ -179,7 +179,7 @@ class Passport extends Base
         
         make(Screen::class)->lock($url);
 
-        do_action('admin_passport_lockscreen_after', $url);
+        do_action('admin.passport.lockscreen_after', $url);
         
         return $this->success('屏幕锁定成功');
     }
@@ -198,7 +198,7 @@ class Passport extends Base
         
         make(Screen::class)->unlock();
 
-        do_action('admin_passport_unlockscreen_after', $password);
+        do_action('admin.passport.unlockscreen_after', $password);
         
         return $this->success('屏幕解除锁定成功');
     }

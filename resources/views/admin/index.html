@@ -20,11 +20,15 @@
                 </div>
                 
                 <div class="layui-inline">
-                    <a class="layui-btn lake-admin-search-btn" data-type="search">搜索</a>
+                    <a class="layui-btn lake-admin-search-btn" data-type="search">
+                        <i class="iconfont icon-search"></i> 搜索
+                    </a>
                 </div>
                 
                 <div class="layui-inline">
-                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
+                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">
+                        <i class="iconfont icon-createtask"></i> 全部
+                    </a>
                 </div>
 
             </form>
@@ -41,9 +45,13 @@
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         {if laket_auth(['admin.admin.add'])}
-            <a class="layui-btn layui-btn-sm layui-iframe" title="添加管理员" href="javascript:;" data-href="{:laket_route('admin.admin.add')}">添加管理员</a>
+            <a class="layui-btn layui-btn-sm layui-iframe" title="添加管理员" href="javascript:;" data-href="{:laket_route('admin.admin.add')}">
+                <i class="iconfont icon-add"></i> 添加管理员
+            </a>
         {else}
-            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加管理员</a>
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">
+                <i class="iconfont icon-add"></i> 添加管理员
+            </a>
         {/if}
     </div>
 </script>

@@ -19,11 +19,15 @@
                 </div>
                 
                 <div class="layui-inline">
-                    <a class="layui-btn lake-admin-search-btn" data-type="search">搜索</a>
+                    <a class="layui-btn lake-admin-search-btn" data-type="search">
+                        <i class="iconfont icon-search"></i> 搜索
+                    </a>
                 </div>
                 
                 <div class="layui-inline">
-                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">全部</a>
+                    <a href="javascript:;" class="layui-btn layui-btn-normal all-btn">
+                        <i class="iconfont icon-createtask"></i> 全部
+                    </a>
                 </div>
             </form>
         </blockquote>
@@ -39,11 +43,18 @@
 <script type="text/html" id="toolbarTop">
     <div class="layui-btn-container">
         {if laket_auth(['admin.auth-group.add'])}
-            <a class="layui-btn layui-btn-sm layui-iframe" href="javascript:;" data-href="{:laket_route('admin.auth-group.add')}" title="添加用户组">添加用户组</a>
+            <a class="layui-btn layui-btn-sm layui-iframe" href="javascript:;" data-href="{:laket_route('admin.auth-group.add')}" title="添加用户组">
+                <i class="iconfont icon-add"></i> 添加用户组
+            </a>
         {else}
-            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">添加用户组</a>
+            <a href='javascript:;' class="layui-btn layui-btn-sm layui-btn-disabled">
+                <i class="iconfont icon-add"></i> 添加用户组
+            </a>
         {/if}
-        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-group.index')}">用户组结构</a>
+        
+        <a class="layui-btn layui-btn-sm layui-btn-normal" href="{:laket_route('admin.auth-group.index')}">
+            <i class="iconfont icon-createtask"></i> 用户组结构
+        </a>
     </div>
 </script>
 

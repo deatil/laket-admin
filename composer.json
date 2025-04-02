@@ -19,7 +19,7 @@
         }
     ],
     "require": {
-        "php": ">=8.0.0",
+        "php": ">=8.0",
         "composer/semver": "^3.2",
         "topthink/framework": "^8.1",
         "topthink/think-orm": "^3.0",
